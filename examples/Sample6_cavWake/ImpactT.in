@@ -1,0 +1,150 @@
+!Welcome to IMPACT-T input file.
+!All comment lines start with "!" as the first character of the line.
+! processor layout
+! col row
+1 1
+!
+! information needed by the integrator:
+! step-size, number of steps, and number of bunches/bins (??)
+!
+!   dt    Ntstep  Nbunch
+4.0e-12 2000000 1
+!  The ABOVE SHOULD BE 4 PS.
+! more information needed by the integrator:
+! phase-space dimension, number of particles, a series of flags
+! that set the type of integrator, error study, diagnostics, and
+! image charge, and the cutoff distance for the image charge
+!
+! PSdim/seed  Nptcl   integF  errF  diagF  imchgF  imgCutOff (m)
+6 25000 1 0 2 1 0.02
+!6 1 1 0 2 0 0.02
+!
+!
+! information about mesh: number of points in x, y, and z, type
+! of boundary conditions, transverse aperture size (m),
+! and longitudinal domain size (m), which should be larger than the total
+! beamline element length
+!
+!  Nx  Ny  Nz  bcF   Rx    Ry    Lz
+32 32 32 1 0.15 0.15 1.0e5
+!
+!
+! distribution type number, restart flag, space-charge substep
+! flag, number of emission steps, and max emission time
+!
+! distType  restartF  substepF  Nemission  Temission
+112 0 0 100 50.d-12
+!
+! the distribution type codes have the following correspondence
+!   #  dist type    nparam  parameters (1..21)
+!   1  Uniform        21    sigx, sigpx, muxpx, xscale, pxscale, xmu1, xmu2,
+!                           sigy, sigpy, muypy, yscale, pyscale, xmu3, xmu4,
+!                           sigz, sigpz, muzpz, zscale, pzscale, xmu5, xmu6
+!   2  Gauss3         21    as in Uniform
+!   3  Waterbag       21    as in Uniform
+!   4  Semigauss      21    as in Uniform
+!   5  KV3d           21    as in Uniform
+!  15  GaussDouble    21    as in Uniform
+!  16  read           21    none
+!  25  readin Parmela 21 
+!  26  readin Elegant 21 
+!  27  Cylcold        21    as in Uniform
+!  other(ijk) Combine 21
+!
+! following three lines contain a total of 21 parameters (seven
+! per degree of freedom) particular to the particle distribution
+!
+! in most cases, the columns are given by
+!  sig*   sigp*  mu*p*  *scale  p*scale  xmu*      xmu*
+!
+0.000384562 0.001 0.0  1. 1. 0.0 0.
+0.000384562 0.001 0.0  1. 1. 0.0 0.
+1.95176155022985e-05 0.0014 0.0 1.18618914506146d-06 1.0 0.0 0.00197835743844223
+!0.0 0.0 0.0  1. 1. 0.0 0.
+!0.0 0.0 0.0  1. 1. 0.0 0.
+!0.0 0.0 0.0  1. 1. -1.52e-05 0.00197835743844223
+!
+!
+! information about the beam: current, kinetic energy, particle
+! rest energy, particle charge, scale frequency, and initial
+! cavity phase
+!
+! I/A   Ek/eV     Mc2/eV      Q/e  freq/Hz  phs/rad
+!0.39 1.0 0.511005e+06  -1.0 1.3e9 0.0d0    !300 pC
+0.13 1.0 0.511005e+06  -1.0 1.3e9 0.0d0   !100 pC
+!0.0d0 1.0 0.511005e+06  -1.0 1.3e9 0.0d0
+!
+!
+! ======= machine description starts here =======
+! the following lines, which must each be terminated with a '/',
+! describe one beam-line element per line; the basic structure is
+! element length, ???, ???, element type, and then a sequence of
+! at most 24 numbers describing the element properties
+!
+! the numeric type codes have the following correspondence
+!  #    element    nparams  parameters (v0..v23)
+! < 0  bpm           8
+!   0  drift tube    2      zedge radius
+!   1  quadrupole    9      zedge, quad grad, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+!   2  constFocus    5      zedge, foc grads kx0^2, ky0^2, kz0^2, radius
+!   3  solenoid      9      zedge, Bz0, fileID
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+!   4  dipole       10      zedge, field strength x, y, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+!   5  multipole    10      zedge, typeID (2=sex,3=oct,4=dec),
+!                             field strength, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+! 101  DTL          15      zedge, ...
+! 102  CCDTL        11      zedge, ...
+! 103  CCL          11      zedge, ...
+! 104  SC cavity    11      zedge, scale, RF frequency, theta0, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+! 105  SolRF        12      zedge, scale, RF frequency, theta0, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z,
+!                             Bz0
+! 110  EMfld        13      zedge, scale, RF frequency, theta0, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z,
+!                             field flag (=discrete,=analytic),
+!                             coordinate system flag (=cart,=cyl)
+! 111  EMfld cart   11 (complex field) zedge, scale, RF frequency, theta0, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+! 112  EMfld cyl    11      zedge, scale, RF frequency, theta0, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+! 113  EMfld anal   11      zedge, scale, RF frequency, theta0, fileID,
+!                             radius, alignment error x, y
+!                             rotation error x, y, z
+!
+! L/m  N/A N/A  type  location of starting edge     v1              v23 /
+!start 3D SC
+!0.0 1 20 -5 -2.0 -2.0 -2.0 /
+!focusing coil1, rfdata5
+0.8 105 20 105 -0.094d0 0.0 0.0 0.0 5.0 0.1 0.0 0.0 0.0 0.0 0.0 0.0421661 /
+!output slice infor.
+!0.0 1024 7 -9 0.1 0.1 0.1 /
+!187MHz VHF gun, rfdata30 !6.94039 degree w.s.p peak phase
+0.199 105 20 105 0.0 -21.34d6 0.187d9 356.854356313 30.0 0.1 0.0 0.0 0.0 0.0 0.0 0.0 /
+!output particle distribution
+!0.0 50 14 -2 0.22 0.22 0.22 /
+!1.3GHz buncher, -90 degree w.r.p peak
+0.2 105 20 105 0.795 -3.99908d6 1.3d9 157.10365206 2.0 0.1 0.0 0.0 0.0 0.0 0.0 0.0 /
+!focusing coil2, rfdata5
+0.8 105 20 105 1.301 0.0 0.0 0.0 5.0 0.1 0.0 0.0 0.0 0.0 0.0 0.0288823 /
+!post-buncher diagnostic output
+0.0 1 218 -2 1.7 1.7 1.7 /
+0.0 128 9 -9 1.7 1.7 1.7 / 
+!set restart at 2.11 m
+!0.0 1 201 -3 2.11 2.11 2.11 /
+!incude cavity wakefield from 2.19m to 3.5m region
+0.0 0 212 -6 2.19 2.19 2.19 3.5 -1.0 1.0 /
+!pre-booster module: 1300 MHz 9 cell cavities. 0 w.r.p peak
+1.318798d0 10 20 105 2.1925989d0 -21.3943d6 1.3d9 226.41225769 3.0 0.1 0.0 0.0 0.0 0.0 0.0 0.0 /

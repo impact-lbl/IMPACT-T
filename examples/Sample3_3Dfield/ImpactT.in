@@ -1,0 +1,34 @@
+! col row
+  1  1 
+! dt      Ntstep  Nbunch
+0.25e-12   1000000   1
+! PSdim  Nptcl   integF  errF  diagF  imchgF  imgCutOff (m)
+   6     10000      1      0     2     1        0.02
+!
+! Nx  Ny  Nz  bcF   Rx    Ry    Lz
+  32  32  32   1  0.002  0.002  5
+!
+! distType  restartF  substepF  Nemission  Temission
+  112           0         0         100      12.e-12
+!
+!  6d initial phase spaces
+! transverse uniform and longitudinal flat top (10 ps) with linear ramping (1 ps)
+  0.0005        0.0009  0.0     1.0     1.0      0.000           0.0
+  0.0005        0.0009  0.0     1.0     1.0      0.0000          0.0
+  5.934e-06        0.000  0.0     5.934e-07     1.0    0.0   0.001978
+! curent=charge/frequency 
+2.856  1.0 0.511005e+06 -1.0 11424.0e6 0.0
+!
+!3d tracking and step size
+0.0 1 1 -5 0.0 1 -0.1 /
+!steering
+!0.0 1 1 -1 0.10 1.0 0.10 0.000 0.0 0.000 0.0 /
+!3D rf field
+0.0866528   10 20 111 0.0 -111.11 11424.0e6 292.0 1.0 0.002 0.0 0.0 0.0 0.0 0.0 /
+!solenoid field
+0.20   10 20 105 0.0  0.000 00000.000 000.0 102.0  0.01  0.0000 0.0000  0.000 0.000 0.0 0.5658/  
+!change time step size
+0.0 1 1 -4 0.20 1.0 0.20 0.5e-12 /
+0.34 10 20 0 0.20  0.150 /
+!terminate the simulation
+!0.0 1 1 -99 0.55 1.0 0.55 /

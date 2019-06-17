@@ -1,0 +1,28 @@
+1 1 
+2.0e-12 20000 1
+6 16000 1 0 2 1 0.02
+32 32 32 1 0.015 0.015 10.01
+112 0 0 100 1.1e-11
+!initial beer-can distribution
+0.0012 0.00 0.0  1. 1. 0.0 0.
+0.0012 0.00 0.0  1. 1. 0.0 0.
+5.934e-06 0.0 0.0  1.0d-9 1.0 0 0.001978
+2.856 1.0 0.511005e+06  -1.0 2856.0e6 0.0
+0.125985 10 20 105 0.0 57.1946046422954 2856.0e6 115.0 1.0 0.15 0.0 0.0 0.0 0.0 0.0 0.0 /
+!solnoid
+1.0 10 20 105 0.0 0.0 2856.0e6 34.86 2.0 0.15 0.0 0.0 0.0 0.0 0.0 0.0001 /
+!The following 4 lines define a 3-cell s-band traveling wave structure
+!using the supperposition of two standing wave strutures.
+!G. A. Loew et al., SLAC-PUB-2295, 1979.
+!Here, the phase of line 2 is the phase of line 1 + 30 degrees;
+!the phase of line 3 is the phase of line 1 + 90 degrees.
+!the phase of line 4 is the same as the line 1;
+!the field scale of line 2 is the scale of the line 1/sin(beta d) 
+!the field scale of line 3 is the scale of the line 1/sin(beta d) 
+!the scale of line 4 is the same as the line 1;
+!See the sample03 to see the generating those rfdata4-7 input files.
+0.052464 10 20 105 1.42 25.5e6 2856.0e6 119.0 4.0 0.15 0.0 0.0 0.0 0.0 0.0 0.0 /
+2.937928 10 20 105 1.472464 29430178.7820912 2856.0e6 149.0 5.0 0.15 0.0 0.0 0.0 0.0 0.0 0.0 /
+2.937928 10 20 105 1.472464 29430178.7820912 2856.0e6 209.0 6.0 0.15 0.0 0.0 0.0 0.0 0.0 0.0 /
+0.05246 10 20 105 4.410392 25.5e6 2856.0e6 119.0 7.0 0.15 0.0 0.0 0.0 0.0 0.0 0.0 /
+0.537148 10 20 0 4.462852 0.15 /
