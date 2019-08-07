@@ -1,0 +1,712 @@
+\hypertarget{namespaceaccsimulatorclass}{}\section{accsimulatorclass Module Reference}
+\label{namespaceaccsimulatorclass}\index{accsimulatorclass@{accsimulatorclass}}
+
+
+This class defines functions to set up the initial beam particle distribution, field information, computational domain, beam line element lattice and run the dynamics simulation through the system.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+interface \mbox{\hyperlink{interfaceaccsimulatorclass_1_1construct__accsimulator}{construct\+\_\+accsimulator}}
+\begin{DoxyCompactList}\small\item\em beam line element period. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceaccsimulatorclass_a6a90186281758191cfa3ef4fc9c54078}{init\+\_\+accsimulator}} (time)
+\begin{DoxyCompactList}\small\item\em set up objects and parameters. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceaccsimulatorclass_acbe26eeaf1cb4076384b90e1016785f0}{run\+\_\+accsimulator}} ()
+\begin{DoxyCompactList}\small\item\em Run beam dynamics simulation through accelerator. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceaccsimulatorclass_af2b7d5e3857ef686e1fb07f1d6abc800}{rebin\+\_\+utility}} (this, Nbunch, ibunch, d\+Gspread)
+\item 
+subroutine \mbox{\hyperlink{namespaceaccsimulatorclass_a7bcc6275f447513b2ea5d85d46aade2a}{destruct\+\_\+accsimulator}} (time)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_ae195202b2f2b61cf84479c9303847e9d}{nbunch}}
+\begin{DoxyCompactList}\small\item\em initial \# of bunches/bins \end{DoxyCompactList}\item 
+type(pgrid2d) \mbox{\hyperlink{namespaceaccsimulatorclass_a7482c27516337dfcffc2711f52ed4063}{grid2d}}
+\begin{DoxyCompactList}\small\item\em 2d logical processor array \end{DoxyCompactList}\item 
+type(beambunch), dimension(nbunchmax) \mbox{\hyperlink{namespaceaccsimulatorclass_a8da4a6c0ffe4700d0d0882e7d612d78c}{ebunch}}
+\begin{DoxyCompactList}\small\item\em beam particle object and array. \end{DoxyCompactList}\item 
+type(fieldquant) \mbox{\hyperlink{namespaceaccsimulatorclass_a1cc972750a5e9da439930d5ce96bd399}{potential}}
+\begin{DoxyCompactList}\small\item\em beam charge density and field potential arrays. \end{DoxyCompactList}\item 
+type(compdom) \mbox{\hyperlink{namespaceaccsimulatorclass_a7731609bfc9a7f895ee523fc43b42e6f}{ageom}}
+\begin{DoxyCompactList}\small\item\em geometry object. \end{DoxyCompactList}\item 
+type(fielddata), dimension(maxoverlap) \mbox{\hyperlink{namespaceaccsimulatorclass_a32382286ea3f39a41f213e651b77deba}{fldmp}}
+\begin{DoxyCompactList}\small\item\em overlaped external field data array \end{DoxyCompactList}\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a28fd069f7896f70d589d4c2cfbba638c}{temission}}
+\begin{DoxyCompactList}\small\item\em maximum e-\/ emission time \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_ac85830b9ae1f5fcb8b361a0289a3642c}{nemission}}
+\begin{DoxyCompactList}\small\item\em number of steps for emission \end{DoxyCompactList}\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_ad3a023e393184d37840a4df908394121}{zimage}}
+\begin{DoxyCompactList}\small\item\em distance after that to turn off image space-\/charge \end{DoxyCompactList}\item 
+double precision, dimension(2, nblemtmax) \mbox{\hyperlink{namespaceaccsimulatorclass_a948cfd87a75472c1a7dd8033d8240cb8}{zblnelem}}
+\begin{DoxyCompactList}\small\item\em longitudinal position of each element (min and max). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\textbf{ }\par
+{\em \# of phase dim., num. total and local particles, int. dist. and restart switch, error study switch, substep for space-\/charge switch, \# of time step }\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a1bb17d60d29b17243f030da4fdff1da0}{dim}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a341b7d5bedde986513f3acce4e6241c1}{flagdist}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a8f9d158cfc4cf78532f6c4260c64e40b}{rstartflg}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a93593dcb7424a2998a1a96e9b174f886}{flagerr}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a686d2f05ae5ba90a11746493b7344b07}{flagsubstep}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_ad17bd82c1342d540df6b01e26bb6a6c5}{ntstep}}
+\item 
+integer, dimension(nbunchmax) \mbox{\hyperlink{namespaceaccsimulatorclass_a9b5412b4e15fa5ef3285339a39130a08}{np}}
+\item 
+integer, dimension(nbunchmax) \mbox{\hyperlink{namespaceaccsimulatorclass_a8256e3807dbd57a588c3f79c400a9c04}{nplocal}}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+{\em \# of num. total x, total and local y mesh pts., type of BC, \# of beam elems, type of integrator. Flag\+Image\+: switch flag for image space-\/charge force calculation\+: \char`\"{}1\char`\"{} for yes, otherwise for no. }\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_af171a5a02a33455149f10b7d37b8bb05}{nx}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a613bfb8a3a6c3b3c9b27ffb5e3212dc4}{ny}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a04ca8b747bd54d4a8505a69955862aa0}{nz}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a5dc8a50cfd7cf88480c61957bd2d3cf5}{nxlocal}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a9c87c4ee52e3d4016c11d91c112a7c9d}{nylocal}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_ae3de189d9f5d65ff6f9b9ff2b9e05772}{nzlocal}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a70f0ebae12dbcf56dec3c7ae6f8886c2}{flagbc}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a37780aaa58fe89db4f7a2e3c42103e00}{nblem}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a65cb81fb31ef5060caa131ca8c257191}{flagmap}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a7521d1a707056c51ad6944c43d87ee60}{flagdiag}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a0d66f013e8f3cf857e0e569219214394}{flagimage}}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+{\em \# of processors in column and row direction. }\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a77fcd367f3c92fef3f1262ddad064210}{npcol}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a49bf0e9e019ba55c31f615832b52fad5}{nprow}}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+{\em beam current, kin. energy, part. mass, charge, ref. freq., period length, time step size }\begin{DoxyCompactItemize}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a6fc5d39764a136b9e0748e3f7f130a45}{bcurr}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a7ef66bd559d23461f9309d1b6b68af7d}{bkenergy}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a01b613622328ba96dda4713ebd322485}{bmass}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a010a96d950e24cf02277e621d90da69d}{bcharge}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_acc764ececa5e033fc6e23a807dec286c}{bfreq}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a6b0f4b414cc1d61ea6ff0b558a116404}{perdlen}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a75bc9f035300456d55f46abe5272e8c2}{dt}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a0ac072649cfeb3a33d639154d38dea2b}{xrad}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a9dbe475946e3dcfce115620500c6a0b4}{yrad}}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+{\em conts. in init. dist. }\begin{DoxyCompactItemize}
+\item 
+integer, parameter \mbox{\hyperlink{namespaceaccsimulatorclass_a47c42ba384198193c23d4149fea01e14}{ndistparam}} = 21
+\item 
+double precision, dimension(\mbox{\hyperlink{namespaceaccsimulatorclass_a47c42ba384198193c23d4149fea01e14}{ndistparam}}) \mbox{\hyperlink{namespaceaccsimulatorclass_a93766a3c8ca80b873798adda649aec53}{distparam}}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+{\em restart time and step }\begin{DoxyCompactItemize}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a3621f5f3a672e424e33a20cc48e81c2c}{tend}}
+\item 
+double precision \mbox{\hyperlink{namespaceaccsimulatorclass_a4717e8c2e59b129e66cf73a4fddbba50}{dtlessend}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_aa5a33a2f7563789fd061ef4e28d010a5}{iend}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_afbdd0b90129947de05fe38d3350ee006}{nfileout}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_acf982b8b087c1b467ce8e8fc1f99d0a4}{ioutend}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a081922751fd50e67a7965e0fed6b56fb}{itszend}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a6fd9b5ae8cca8fa04bb8ba824b4a82f0}{isteerend}}
+\item 
+integer \mbox{\hyperlink{namespaceaccsimulatorclass_a87e5ee2cf1ed3fb396f43f6996517831}{isloutend}}
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+{\em beam line element array. }\begin{DoxyCompactItemize}
+\item 
+type(bpm), dimension(nbpmmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a3c3a1b96070f5f9b755af7dc8502b457}{beamln0}}
+\item 
+type(drifttube), dimension(ndriftmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a4afbfe5b21f1ef4f6ed80b26919a5b65}{beamln1}}
+\item 
+type(quadrupole), dimension(nquadmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a84f0e00a948fce129634ef213a1e6146}{beamln2}}
+\item 
+type(dtl), dimension(ndtlmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a676f0e0a8d52bb85779983a23300d307}{beamln3}}
+\item 
+type(ccdtl), dimension(nccdtlmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_aecdd8f634a42325f08705c6733739f5e}{beamln4}}
+\item 
+type(ccl), dimension(ncclmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a1fe5a7819dc79e966a915ac7109a5921}{beamln5}}
+\item 
+type(sc), dimension(nscmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_aecb8568d8a048be9dd3f8ebf18c48e72}{beamln6}}
+\item 
+type(constfoc), dimension(ncfmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_aee9caad06453a0e66c229bf239519041}{beamln7}}
+\item 
+type(solrf), dimension(nslrfmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a85003b545c7adc9e597e5fd6be9828c5}{beamln8}}
+\item 
+type(sol), dimension(nslmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a7685c672080dfc1af30f91257a832844}{beamln9}}
+\item 
+type(dipole), dimension(ndipolemax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a62ff8549366c26dee5a585c8d900ebac}{beamln10}}
+\item 
+type(emfld), dimension(ncclmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a016c645050aaca47150651536833a42d}{beamln11}}
+\item 
+type(emfldcart), dimension(ncclmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_aa02361c7e64269cdd2f65f92c7a44724}{beamln12}}
+\item 
+type(emfldcyl), dimension(ncclmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a92ae9c79c3447b1e1d8b78eb631ab3bd}{beamln13}}
+\item 
+type(emfldana), dimension(ncclmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_a5633142ff697d3bca2adc68d9a78aedf}{beamln14}}
+\item 
+type(multipole), dimension(nquadmax), target \mbox{\hyperlink{namespaceaccsimulatorclass_aa020b23d82bc9d6cf8dfa7bc24b3e691}{beamln15}}
+\item 
+type(beamlineelem), dimension(nblemtmax) \mbox{\hyperlink{namespaceaccsimulatorclass_ab6961a98774a4f5d3d6b78342ed63e56}{blnelem}}
+\end{DoxyCompactItemize}
+
+
+
+\subsection{Detailed Description}
+This class defines functions to set up the initial beam particle distribution, field information, computational domain, beam line element lattice and run the dynamics simulation through the system. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a7bcc6275f447513b2ea5d85d46aade2a}\label{namespaceaccsimulatorclass_a7bcc6275f447513b2ea5d85d46aade2a}} 
+\index{accsimulatorclass@{accsimulatorclass}!destruct\_accsimulator@{destruct\_accsimulator}}
+\index{destruct\_accsimulator@{destruct\_accsimulator}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{destruct\_accsimulator()}{destruct\_accsimulator()}}
+{\footnotesize\ttfamily subroutine accsimulatorclass\+::destruct\+\_\+accsimulator (\begin{DoxyParamCaption}\item[{double precision}]{time }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceaccsimulatorclass_a7bcc6275f447513b2ea5d85d46aade2a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{namespaceaccsimulatorclass_a7bcc6275f447513b2ea5d85d46aade2a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a6a90186281758191cfa3ef4fc9c54078}\label{namespaceaccsimulatorclass_a6a90186281758191cfa3ef4fc9c54078}} 
+\index{accsimulatorclass@{accsimulatorclass}!init\_accsimulator@{init\_accsimulator}}
+\index{init\_accsimulator@{init\_accsimulator}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{init\_accsimulator()}{init\_accsimulator()}}
+{\footnotesize\ttfamily subroutine accsimulatorclass\+::init\+\_\+accsimulator (\begin{DoxyParamCaption}\item[{double precision}]{time }\end{DoxyParamCaption})}
+
+
+
+set up objects and parameters. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceaccsimulatorclass_a6a90186281758191cfa3ef4fc9c54078_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceaccsimulatorclass_af2b7d5e3857ef686e1fb07f1d6abc800}\label{namespaceaccsimulatorclass_af2b7d5e3857ef686e1fb07f1d6abc800}} 
+\index{accsimulatorclass@{accsimulatorclass}!rebin\_utility@{rebin\_utility}}
+\index{rebin\_utility@{rebin\_utility}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{rebin\_utility()}{rebin\_utility()}}
+{\footnotesize\ttfamily subroutine accsimulatorclass\+::rebin\+\_\+utility (\begin{DoxyParamCaption}\item[{type (beambunch), dimension(\+:), intent(inout)}]{this,  }\item[{integer, intent(in)}]{Nbunch,  }\item[{integer, intent(out)}]{ibunch,  }\item[{double precision, intent(in)}]{d\+Gspread }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_acbe26eeaf1cb4076384b90e1016785f0}\label{namespaceaccsimulatorclass_acbe26eeaf1cb4076384b90e1016785f0}} 
+\index{accsimulatorclass@{accsimulatorclass}!run\_accsimulator@{run\_accsimulator}}
+\index{run\_accsimulator@{run\_accsimulator}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{run\_accsimulator()}{run\_accsimulator()}}
+{\footnotesize\ttfamily subroutine accsimulatorclass\+::run\+\_\+accsimulator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run beam dynamics simulation through accelerator. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{namespaceaccsimulatorclass_acbe26eeaf1cb4076384b90e1016785f0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{namespaceaccsimulatorclass_acbe26eeaf1cb4076384b90e1016785f0_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a7731609bfc9a7f895ee523fc43b42e6f}\label{namespaceaccsimulatorclass_a7731609bfc9a7f895ee523fc43b42e6f}} 
+\index{accsimulatorclass@{accsimulatorclass}!ageom@{ageom}}
+\index{ageom@{ageom}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{ageom}{ageom}}
+{\footnotesize\ttfamily type (compdom) accsimulatorclass\+::ageom}
+
+
+
+geometry object. 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a010a96d950e24cf02277e621d90da69d}\label{namespaceaccsimulatorclass_a010a96d950e24cf02277e621d90da69d}} 
+\index{accsimulatorclass@{accsimulatorclass}!bcharge@{bcharge}}
+\index{bcharge@{bcharge}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{bcharge}{bcharge}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::bcharge}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a6fc5d39764a136b9e0748e3f7f130a45}\label{namespaceaccsimulatorclass_a6fc5d39764a136b9e0748e3f7f130a45}} 
+\index{accsimulatorclass@{accsimulatorclass}!bcurr@{bcurr}}
+\index{bcurr@{bcurr}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{bcurr}{bcurr}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::bcurr}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a3c3a1b96070f5f9b755af7dc8502b457}\label{namespaceaccsimulatorclass_a3c3a1b96070f5f9b755af7dc8502b457}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln0@{beamln0}}
+\index{beamln0@{beamln0}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln0}{beamln0}}
+{\footnotesize\ttfamily type (bpm), dimension(nbpmmax), target accsimulatorclass\+::beamln0}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a4afbfe5b21f1ef4f6ed80b26919a5b65}\label{namespaceaccsimulatorclass_a4afbfe5b21f1ef4f6ed80b26919a5b65}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln1@{beamln1}}
+\index{beamln1@{beamln1}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln1}{beamln1}}
+{\footnotesize\ttfamily type (drifttube), dimension(ndriftmax), target accsimulatorclass\+::beamln1}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a62ff8549366c26dee5a585c8d900ebac}\label{namespaceaccsimulatorclass_a62ff8549366c26dee5a585c8d900ebac}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln10@{beamln10}}
+\index{beamln10@{beamln10}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln10}{beamln10}}
+{\footnotesize\ttfamily type (dipole), dimension(ndipolemax), target accsimulatorclass\+::beamln10}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a016c645050aaca47150651536833a42d}\label{namespaceaccsimulatorclass_a016c645050aaca47150651536833a42d}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln11@{beamln11}}
+\index{beamln11@{beamln11}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln11}{beamln11}}
+{\footnotesize\ttfamily type (emfld), dimension(ncclmax), target accsimulatorclass\+::beamln11}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_aa02361c7e64269cdd2f65f92c7a44724}\label{namespaceaccsimulatorclass_aa02361c7e64269cdd2f65f92c7a44724}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln12@{beamln12}}
+\index{beamln12@{beamln12}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln12}{beamln12}}
+{\footnotesize\ttfamily type (emfldcart), dimension(ncclmax), target accsimulatorclass\+::beamln12}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a92ae9c79c3447b1e1d8b78eb631ab3bd}\label{namespaceaccsimulatorclass_a92ae9c79c3447b1e1d8b78eb631ab3bd}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln13@{beamln13}}
+\index{beamln13@{beamln13}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln13}{beamln13}}
+{\footnotesize\ttfamily type (emfldcyl), dimension(ncclmax), target accsimulatorclass\+::beamln13}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a5633142ff697d3bca2adc68d9a78aedf}\label{namespaceaccsimulatorclass_a5633142ff697d3bca2adc68d9a78aedf}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln14@{beamln14}}
+\index{beamln14@{beamln14}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln14}{beamln14}}
+{\footnotesize\ttfamily type (emfldana), dimension(ncclmax), target accsimulatorclass\+::beamln14}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_aa020b23d82bc9d6cf8dfa7bc24b3e691}\label{namespaceaccsimulatorclass_aa020b23d82bc9d6cf8dfa7bc24b3e691}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln15@{beamln15}}
+\index{beamln15@{beamln15}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln15}{beamln15}}
+{\footnotesize\ttfamily type (multipole), dimension(nquadmax), target accsimulatorclass\+::beamln15}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a84f0e00a948fce129634ef213a1e6146}\label{namespaceaccsimulatorclass_a84f0e00a948fce129634ef213a1e6146}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln2@{beamln2}}
+\index{beamln2@{beamln2}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln2}{beamln2}}
+{\footnotesize\ttfamily type (quadrupole), dimension(nquadmax), target accsimulatorclass\+::beamln2}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a676f0e0a8d52bb85779983a23300d307}\label{namespaceaccsimulatorclass_a676f0e0a8d52bb85779983a23300d307}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln3@{beamln3}}
+\index{beamln3@{beamln3}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln3}{beamln3}}
+{\footnotesize\ttfamily type (dtl), dimension(ndtlmax), target accsimulatorclass\+::beamln3}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_aecdd8f634a42325f08705c6733739f5e}\label{namespaceaccsimulatorclass_aecdd8f634a42325f08705c6733739f5e}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln4@{beamln4}}
+\index{beamln4@{beamln4}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln4}{beamln4}}
+{\footnotesize\ttfamily type (ccdtl), dimension(nccdtlmax), target accsimulatorclass\+::beamln4}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a1fe5a7819dc79e966a915ac7109a5921}\label{namespaceaccsimulatorclass_a1fe5a7819dc79e966a915ac7109a5921}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln5@{beamln5}}
+\index{beamln5@{beamln5}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln5}{beamln5}}
+{\footnotesize\ttfamily type (ccl), dimension(ncclmax), target accsimulatorclass\+::beamln5}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_aecb8568d8a048be9dd3f8ebf18c48e72}\label{namespaceaccsimulatorclass_aecb8568d8a048be9dd3f8ebf18c48e72}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln6@{beamln6}}
+\index{beamln6@{beamln6}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln6}{beamln6}}
+{\footnotesize\ttfamily type (sc), dimension(nscmax), target accsimulatorclass\+::beamln6}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_aee9caad06453a0e66c229bf239519041}\label{namespaceaccsimulatorclass_aee9caad06453a0e66c229bf239519041}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln7@{beamln7}}
+\index{beamln7@{beamln7}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln7}{beamln7}}
+{\footnotesize\ttfamily type (constfoc), dimension(ncfmax), target accsimulatorclass\+::beamln7}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a85003b545c7adc9e597e5fd6be9828c5}\label{namespaceaccsimulatorclass_a85003b545c7adc9e597e5fd6be9828c5}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln8@{beamln8}}
+\index{beamln8@{beamln8}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln8}{beamln8}}
+{\footnotesize\ttfamily type (solrf), dimension(nslrfmax), target accsimulatorclass\+::beamln8}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a7685c672080dfc1af30f91257a832844}\label{namespaceaccsimulatorclass_a7685c672080dfc1af30f91257a832844}} 
+\index{accsimulatorclass@{accsimulatorclass}!beamln9@{beamln9}}
+\index{beamln9@{beamln9}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{beamln9}{beamln9}}
+{\footnotesize\ttfamily type (sol), dimension(nslmax), target accsimulatorclass\+::beamln9}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_acc764ececa5e033fc6e23a807dec286c}\label{namespaceaccsimulatorclass_acc764ececa5e033fc6e23a807dec286c}} 
+\index{accsimulatorclass@{accsimulatorclass}!bfreq@{bfreq}}
+\index{bfreq@{bfreq}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{bfreq}{bfreq}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::bfreq}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a7ef66bd559d23461f9309d1b6b68af7d}\label{namespaceaccsimulatorclass_a7ef66bd559d23461f9309d1b6b68af7d}} 
+\index{accsimulatorclass@{accsimulatorclass}!bkenergy@{bkenergy}}
+\index{bkenergy@{bkenergy}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{bkenergy}{bkenergy}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::bkenergy}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_ab6961a98774a4f5d3d6b78342ed63e56}\label{namespaceaccsimulatorclass_ab6961a98774a4f5d3d6b78342ed63e56}} 
+\index{accsimulatorclass@{accsimulatorclass}!blnelem@{blnelem}}
+\index{blnelem@{blnelem}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{blnelem}{blnelem}}
+{\footnotesize\ttfamily type (beamlineelem), dimension(nblemtmax) accsimulatorclass\+::blnelem}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a01b613622328ba96dda4713ebd322485}\label{namespaceaccsimulatorclass_a01b613622328ba96dda4713ebd322485}} 
+\index{accsimulatorclass@{accsimulatorclass}!bmass@{bmass}}
+\index{bmass@{bmass}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{bmass}{bmass}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::bmass}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a1bb17d60d29b17243f030da4fdff1da0}\label{namespaceaccsimulatorclass_a1bb17d60d29b17243f030da4fdff1da0}} 
+\index{accsimulatorclass@{accsimulatorclass}!dim@{dim}}
+\index{dim@{dim}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{dim}{dim}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::dim}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a93766a3c8ca80b873798adda649aec53}\label{namespaceaccsimulatorclass_a93766a3c8ca80b873798adda649aec53}} 
+\index{accsimulatorclass@{accsimulatorclass}!distparam@{distparam}}
+\index{distparam@{distparam}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{distparam}{distparam}}
+{\footnotesize\ttfamily double precision, dimension(\mbox{\hyperlink{namespaceaccsimulatorclass_a47c42ba384198193c23d4149fea01e14}{ndistparam}}) accsimulatorclass\+::distparam}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a75bc9f035300456d55f46abe5272e8c2}\label{namespaceaccsimulatorclass_a75bc9f035300456d55f46abe5272e8c2}} 
+\index{accsimulatorclass@{accsimulatorclass}!dt@{dt}}
+\index{dt@{dt}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{dt}{dt}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::dt}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a4717e8c2e59b129e66cf73a4fddbba50}\label{namespaceaccsimulatorclass_a4717e8c2e59b129e66cf73a4fddbba50}} 
+\index{accsimulatorclass@{accsimulatorclass}!dtlessend@{dtlessend}}
+\index{dtlessend@{dtlessend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{dtlessend}{dtlessend}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::dtlessend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a8da4a6c0ffe4700d0d0882e7d612d78c}\label{namespaceaccsimulatorclass_a8da4a6c0ffe4700d0d0882e7d612d78c}} 
+\index{accsimulatorclass@{accsimulatorclass}!ebunch@{ebunch}}
+\index{ebunch@{ebunch}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{ebunch}{ebunch}}
+{\footnotesize\ttfamily type (beambunch), dimension(nbunchmax) accsimulatorclass\+::ebunch}
+
+
+
+beam particle object and array. 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a70f0ebae12dbcf56dec3c7ae6f8886c2}\label{namespaceaccsimulatorclass_a70f0ebae12dbcf56dec3c7ae6f8886c2}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagbc@{flagbc}}
+\index{flagbc@{flagbc}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagbc}{flagbc}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagbc}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a7521d1a707056c51ad6944c43d87ee60}\label{namespaceaccsimulatorclass_a7521d1a707056c51ad6944c43d87ee60}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagdiag@{flagdiag}}
+\index{flagdiag@{flagdiag}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagdiag}{flagdiag}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagdiag}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a341b7d5bedde986513f3acce4e6241c1}\label{namespaceaccsimulatorclass_a341b7d5bedde986513f3acce4e6241c1}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagdist@{flagdist}}
+\index{flagdist@{flagdist}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagdist}{flagdist}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagdist}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a93593dcb7424a2998a1a96e9b174f886}\label{namespaceaccsimulatorclass_a93593dcb7424a2998a1a96e9b174f886}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagerr@{flagerr}}
+\index{flagerr@{flagerr}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagerr}{flagerr}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagerr}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a0d66f013e8f3cf857e0e569219214394}\label{namespaceaccsimulatorclass_a0d66f013e8f3cf857e0e569219214394}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagimage@{flagimage}}
+\index{flagimage@{flagimage}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagimage}{flagimage}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagimage}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a65cb81fb31ef5060caa131ca8c257191}\label{namespaceaccsimulatorclass_a65cb81fb31ef5060caa131ca8c257191}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagmap@{flagmap}}
+\index{flagmap@{flagmap}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagmap}{flagmap}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagmap}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a686d2f05ae5ba90a11746493b7344b07}\label{namespaceaccsimulatorclass_a686d2f05ae5ba90a11746493b7344b07}} 
+\index{accsimulatorclass@{accsimulatorclass}!flagsubstep@{flagsubstep}}
+\index{flagsubstep@{flagsubstep}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{flagsubstep}{flagsubstep}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::flagsubstep}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a32382286ea3f39a41f213e651b77deba}\label{namespaceaccsimulatorclass_a32382286ea3f39a41f213e651b77deba}} 
+\index{accsimulatorclass@{accsimulatorclass}!fldmp@{fldmp}}
+\index{fldmp@{fldmp}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{fldmp}{fldmp}}
+{\footnotesize\ttfamily type (fielddata), dimension(maxoverlap) accsimulatorclass\+::fldmp}
+
+
+
+overlaped external field data array 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a7482c27516337dfcffc2711f52ed4063}\label{namespaceaccsimulatorclass_a7482c27516337dfcffc2711f52ed4063}} 
+\index{accsimulatorclass@{accsimulatorclass}!grid2d@{grid2d}}
+\index{grid2d@{grid2d}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{grid2d}{grid2d}}
+{\footnotesize\ttfamily type (pgrid2d) accsimulatorclass\+::grid2d}
+
+
+
+2d logical processor array 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_aa5a33a2f7563789fd061ef4e28d010a5}\label{namespaceaccsimulatorclass_aa5a33a2f7563789fd061ef4e28d010a5}} 
+\index{accsimulatorclass@{accsimulatorclass}!iend@{iend}}
+\index{iend@{iend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{iend}{iend}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::iend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_acf982b8b087c1b467ce8e8fc1f99d0a4}\label{namespaceaccsimulatorclass_acf982b8b087c1b467ce8e8fc1f99d0a4}} 
+\index{accsimulatorclass@{accsimulatorclass}!ioutend@{ioutend}}
+\index{ioutend@{ioutend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{ioutend}{ioutend}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::ioutend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a87e5ee2cf1ed3fb396f43f6996517831}\label{namespaceaccsimulatorclass_a87e5ee2cf1ed3fb396f43f6996517831}} 
+\index{accsimulatorclass@{accsimulatorclass}!isloutend@{isloutend}}
+\index{isloutend@{isloutend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{isloutend}{isloutend}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::isloutend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a6fd9b5ae8cca8fa04bb8ba824b4a82f0}\label{namespaceaccsimulatorclass_a6fd9b5ae8cca8fa04bb8ba824b4a82f0}} 
+\index{accsimulatorclass@{accsimulatorclass}!isteerend@{isteerend}}
+\index{isteerend@{isteerend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{isteerend}{isteerend}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::isteerend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a081922751fd50e67a7965e0fed6b56fb}\label{namespaceaccsimulatorclass_a081922751fd50e67a7965e0fed6b56fb}} 
+\index{accsimulatorclass@{accsimulatorclass}!itszend@{itszend}}
+\index{itszend@{itszend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{itszend}{itszend}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::itszend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a37780aaa58fe89db4f7a2e3c42103e00}\label{namespaceaccsimulatorclass_a37780aaa58fe89db4f7a2e3c42103e00}} 
+\index{accsimulatorclass@{accsimulatorclass}!nblem@{nblem}}
+\index{nblem@{nblem}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nblem}{nblem}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nblem}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_ae195202b2f2b61cf84479c9303847e9d}\label{namespaceaccsimulatorclass_ae195202b2f2b61cf84479c9303847e9d}} 
+\index{accsimulatorclass@{accsimulatorclass}!nbunch@{nbunch}}
+\index{nbunch@{nbunch}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nbunch}{nbunch}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nbunch}
+
+
+
+initial \# of bunches/bins 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a47c42ba384198193c23d4149fea01e14}\label{namespaceaccsimulatorclass_a47c42ba384198193c23d4149fea01e14}} 
+\index{accsimulatorclass@{accsimulatorclass}!ndistparam@{ndistparam}}
+\index{ndistparam@{ndistparam}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{ndistparam}{ndistparam}}
+{\footnotesize\ttfamily integer, parameter accsimulatorclass\+::ndistparam = 21}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_ac85830b9ae1f5fcb8b361a0289a3642c}\label{namespaceaccsimulatorclass_ac85830b9ae1f5fcb8b361a0289a3642c}} 
+\index{accsimulatorclass@{accsimulatorclass}!nemission@{nemission}}
+\index{nemission@{nemission}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nemission}{nemission}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nemission}
+
+
+
+number of steps for emission 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_afbdd0b90129947de05fe38d3350ee006}\label{namespaceaccsimulatorclass_afbdd0b90129947de05fe38d3350ee006}} 
+\index{accsimulatorclass@{accsimulatorclass}!nfileout@{nfileout}}
+\index{nfileout@{nfileout}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nfileout}{nfileout}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nfileout}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a9b5412b4e15fa5ef3285339a39130a08}\label{namespaceaccsimulatorclass_a9b5412b4e15fa5ef3285339a39130a08}} 
+\index{accsimulatorclass@{accsimulatorclass}!np@{np}}
+\index{np@{np}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{np}{np}}
+{\footnotesize\ttfamily integer, dimension(nbunchmax) accsimulatorclass\+::np}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a77fcd367f3c92fef3f1262ddad064210}\label{namespaceaccsimulatorclass_a77fcd367f3c92fef3f1262ddad064210}} 
+\index{accsimulatorclass@{accsimulatorclass}!npcol@{npcol}}
+\index{npcol@{npcol}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{npcol}{npcol}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::npcol}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a8256e3807dbd57a588c3f79c400a9c04}\label{namespaceaccsimulatorclass_a8256e3807dbd57a588c3f79c400a9c04}} 
+\index{accsimulatorclass@{accsimulatorclass}!nplocal@{nplocal}}
+\index{nplocal@{nplocal}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nplocal}{nplocal}}
+{\footnotesize\ttfamily integer, dimension(nbunchmax) accsimulatorclass\+::nplocal}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a49bf0e9e019ba55c31f615832b52fad5}\label{namespaceaccsimulatorclass_a49bf0e9e019ba55c31f615832b52fad5}} 
+\index{accsimulatorclass@{accsimulatorclass}!nprow@{nprow}}
+\index{nprow@{nprow}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nprow}{nprow}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nprow}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_ad17bd82c1342d540df6b01e26bb6a6c5}\label{namespaceaccsimulatorclass_ad17bd82c1342d540df6b01e26bb6a6c5}} 
+\index{accsimulatorclass@{accsimulatorclass}!ntstep@{ntstep}}
+\index{ntstep@{ntstep}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{ntstep}{ntstep}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::ntstep}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_af171a5a02a33455149f10b7d37b8bb05}\label{namespaceaccsimulatorclass_af171a5a02a33455149f10b7d37b8bb05}} 
+\index{accsimulatorclass@{accsimulatorclass}!nx@{nx}}
+\index{nx@{nx}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nx}{nx}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nx}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a5dc8a50cfd7cf88480c61957bd2d3cf5}\label{namespaceaccsimulatorclass_a5dc8a50cfd7cf88480c61957bd2d3cf5}} 
+\index{accsimulatorclass@{accsimulatorclass}!nxlocal@{nxlocal}}
+\index{nxlocal@{nxlocal}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nxlocal}{nxlocal}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nxlocal}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a613bfb8a3a6c3b3c9b27ffb5e3212dc4}\label{namespaceaccsimulatorclass_a613bfb8a3a6c3b3c9b27ffb5e3212dc4}} 
+\index{accsimulatorclass@{accsimulatorclass}!ny@{ny}}
+\index{ny@{ny}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{ny}{ny}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::ny}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a9c87c4ee52e3d4016c11d91c112a7c9d}\label{namespaceaccsimulatorclass_a9c87c4ee52e3d4016c11d91c112a7c9d}} 
+\index{accsimulatorclass@{accsimulatorclass}!nylocal@{nylocal}}
+\index{nylocal@{nylocal}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nylocal}{nylocal}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nylocal}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a04ca8b747bd54d4a8505a69955862aa0}\label{namespaceaccsimulatorclass_a04ca8b747bd54d4a8505a69955862aa0}} 
+\index{accsimulatorclass@{accsimulatorclass}!nz@{nz}}
+\index{nz@{nz}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nz}{nz}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nz}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_ae3de189d9f5d65ff6f9b9ff2b9e05772}\label{namespaceaccsimulatorclass_ae3de189d9f5d65ff6f9b9ff2b9e05772}} 
+\index{accsimulatorclass@{accsimulatorclass}!nzlocal@{nzlocal}}
+\index{nzlocal@{nzlocal}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{nzlocal}{nzlocal}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::nzlocal}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a6b0f4b414cc1d61ea6ff0b558a116404}\label{namespaceaccsimulatorclass_a6b0f4b414cc1d61ea6ff0b558a116404}} 
+\index{accsimulatorclass@{accsimulatorclass}!perdlen@{perdlen}}
+\index{perdlen@{perdlen}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{perdlen}{perdlen}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::perdlen}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a1cc972750a5e9da439930d5ce96bd399}\label{namespaceaccsimulatorclass_a1cc972750a5e9da439930d5ce96bd399}} 
+\index{accsimulatorclass@{accsimulatorclass}!potential@{potential}}
+\index{potential@{potential}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{potential}{potential}}
+{\footnotesize\ttfamily type (fieldquant) accsimulatorclass\+::potential}
+
+
+
+beam charge density and field potential arrays. 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a8f9d158cfc4cf78532f6c4260c64e40b}\label{namespaceaccsimulatorclass_a8f9d158cfc4cf78532f6c4260c64e40b}} 
+\index{accsimulatorclass@{accsimulatorclass}!rstartflg@{rstartflg}}
+\index{rstartflg@{rstartflg}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{rstartflg}{rstartflg}}
+{\footnotesize\ttfamily integer accsimulatorclass\+::rstartflg}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a28fd069f7896f70d589d4c2cfbba638c}\label{namespaceaccsimulatorclass_a28fd069f7896f70d589d4c2cfbba638c}} 
+\index{accsimulatorclass@{accsimulatorclass}!temission@{temission}}
+\index{temission@{temission}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{temission}{temission}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::temission}
+
+
+
+maximum e-\/ emission time 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a3621f5f3a672e424e33a20cc48e81c2c}\label{namespaceaccsimulatorclass_a3621f5f3a672e424e33a20cc48e81c2c}} 
+\index{accsimulatorclass@{accsimulatorclass}!tend@{tend}}
+\index{tend@{tend}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{tend}{tend}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::tend}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a0ac072649cfeb3a33d639154d38dea2b}\label{namespaceaccsimulatorclass_a0ac072649cfeb3a33d639154d38dea2b}} 
+\index{accsimulatorclass@{accsimulatorclass}!xrad@{xrad}}
+\index{xrad@{xrad}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{xrad}{xrad}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::xrad}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a9dbe475946e3dcfce115620500c6a0b4}\label{namespaceaccsimulatorclass_a9dbe475946e3dcfce115620500c6a0b4}} 
+\index{accsimulatorclass@{accsimulatorclass}!yrad@{yrad}}
+\index{yrad@{yrad}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{yrad}{yrad}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::yrad}
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_a948cfd87a75472c1a7dd8033d8240cb8}\label{namespaceaccsimulatorclass_a948cfd87a75472c1a7dd8033d8240cb8}} 
+\index{accsimulatorclass@{accsimulatorclass}!zblnelem@{zblnelem}}
+\index{zblnelem@{zblnelem}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{zblnelem}{zblnelem}}
+{\footnotesize\ttfamily double precision, dimension(2,nblemtmax) accsimulatorclass\+::zblnelem}
+
+
+
+longitudinal position of each element (min and max). 
+
+\mbox{\Hypertarget{namespaceaccsimulatorclass_ad3a023e393184d37840a4df908394121}\label{namespaceaccsimulatorclass_ad3a023e393184d37840a4df908394121}} 
+\index{accsimulatorclass@{accsimulatorclass}!zimage@{zimage}}
+\index{zimage@{zimage}!accsimulatorclass@{accsimulatorclass}}
+\subsubsection{\texorpdfstring{zimage}{zimage}}
+{\footnotesize\ttfamily double precision accsimulatorclass\+::zimage}
+
+
+
+distance after that to turn off image space-\/charge 
+

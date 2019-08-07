@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Dipoleclass: Dipole beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the linear transfer map and field
-!              for the Dipole beam line elment.
+! MODULE  : ... Dipoleclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class defines the linear transfer map and field for the Dipole beam line elment.
+!              
 ! Comments:
 !----------------------------------------------------------------
       module Dipoleclass
@@ -118,8 +121,10 @@
 
         end subroutine getparam3_Dipole
        
-!------------------------------------------------------------------------
-!The linear map calculation for the dipole is not correct
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> The linear map calculation for the dipole is not correct
+        !--------------------------------------------------------------------------------------
         subroutine maplinear_Dipole(t,tau,xm,this,refpt,Bchg,Bmass)
         implicit none
         include 'mpif.h'
@@ -301,9 +306,11 @@
         f(18)=-s55*y(17)
 
         end subroutine intfunc1_Dipole
-!------------------------------------------------------------------------
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_Dipole(pos,extfld,this,dx,dy,anglex,angley,&
                                      anglez)
         implicit none
@@ -374,7 +381,10 @@
 
         end subroutine getfld_Dipole
 
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getfldtlinear_Dipole(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
@@ -475,9 +485,11 @@
  
         end subroutine getfldtold_Dipole
 
-        !get external dipole field without displacement and rotation errors.
-        !here the fringe field of dipole is approximated using an Enge
-        !function.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external dipole field without displacement and rotation errors.
+        !> here the fringe field of dipole is approximated using an Enge function.
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_Dipole(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

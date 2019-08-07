@@ -1,0 +1,93 @@
+\hypertarget{namespacerangerclass}{}\section{rangerclass Module Reference}
+\label{namespacerangerclass}\index{rangerclass@{rangerclass}}
+
+
+find the global range of computation domain class implementation.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+interface \mbox{\hyperlink{interfacerangerclass_1_1globalrange}{globalrange}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacerangerclass_a5e8eb23d6d5bf16cd2d36cd10ecf6f70}{singlerange}} (partcls, nplc, nptot, range, center)
+\begin{DoxyCompactList}\small\item\em find the range (minimum and maxium of a single bunch) and the centroid of a single beam bunch. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacerangerclass_a888ad4da7ecf705d91306f3922f210af}{globalrange1}} (Brange, perdlen, grange, gammaz, zcent, nptot, n
+\begin{DoxyCompactList}\small\item\em find the global range of \char`\"{}nbunch\char`\"{} of beam bunch with global periodic length \char`\"{}perdlen\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacerangerclass_ad13f3def5e46e11250600f362cf040a6}{globalrange2}} (Brange, grange, gammaz, zcent, nptot, nbunch)
+\begin{DoxyCompactList}\small\item\em find the global range of \char`\"{}nbunch\char`\"{} of beam bunch. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacerangerclass_ad0b08fe4b8a1e2cbd7de8106b038e262}{globalrange3}} (Brange, grange, gammaz, nptot, nbunch, nx, ny, pe
+\begin{DoxyCompactList}\small\item\em find the global range of \char`\"{}nbunch\char`\"{} of beam bunch. find the global range of \char`\"{}nbunch\char`\"{} of beam bunch with global periodic length \char`\"{}perdlen\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacerangerclass_aa1f850f78b90482f120d7104efc7bcdf}{globalrange4}} (Brange, grange, gammaz, nptot, nbunch, nx, ny, nz
+\begin{DoxyCompactList}\small\item\em find the global range of \char`\"{}nbunch\char`\"{} of beam bunch. find the global range of \char`\"{}nbunch\char`\"{} of beam bunch with global periodic length \char`\"{}perdlen\char`\"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+find the global range of computation domain class implementation. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacerangerclass_a888ad4da7ecf705d91306f3922f210af}\label{namespacerangerclass_a888ad4da7ecf705d91306f3922f210af}} 
+\index{rangerclass@{rangerclass}!globalrange1@{globalrange1}}
+\index{globalrange1@{globalrange1}!rangerclass@{rangerclass}}
+\subsubsection{\texorpdfstring{globalrange1()}{globalrange1()}}
+{\footnotesize\ttfamily subroutine rangerclass\+::globalrange1 (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:)}]{Brange,  }\item[{double precision, intent(in)}]{perdlen,  }\item[{double precision, dimension(6), intent(out)}]{grange,  }\item[{double precision, intent(out)}]{gammaz,  }\item[{double precision, intent(out)}]{zcent,  }\item[{integer, dimension(\+:)}]{nptot,  }\item[{}]{n }\end{DoxyParamCaption})}
+
+
+
+find the global range of \char`\"{}nbunch\char`\"{} of beam bunch with global periodic length \char`\"{}perdlen\char`\"{}. 
+
+\mbox{\Hypertarget{namespacerangerclass_ad13f3def5e46e11250600f362cf040a6}\label{namespacerangerclass_ad13f3def5e46e11250600f362cf040a6}} 
+\index{rangerclass@{rangerclass}!globalrange2@{globalrange2}}
+\index{globalrange2@{globalrange2}!rangerclass@{rangerclass}}
+\subsubsection{\texorpdfstring{globalrange2()}{globalrange2()}}
+{\footnotesize\ttfamily subroutine rangerclass\+::globalrange2 (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:)}]{Brange,  }\item[{double precision, dimension(6), intent(out)}]{grange,  }\item[{double precision, intent(out)}]{gammaz,  }\item[{double precision, intent(out)}]{zcent,  }\item[{integer, dimension(\+:)}]{nptot,  }\item[{integer, intent(in)}]{nbunch }\end{DoxyParamCaption})}
+
+
+
+find the global range of \char`\"{}nbunch\char`\"{} of beam bunch. 
+
+\mbox{\Hypertarget{namespacerangerclass_ad0b08fe4b8a1e2cbd7de8106b038e262}\label{namespacerangerclass_ad0b08fe4b8a1e2cbd7de8106b038e262}} 
+\index{rangerclass@{rangerclass}!globalrange3@{globalrange3}}
+\index{globalrange3@{globalrange3}!rangerclass@{rangerclass}}
+\subsubsection{\texorpdfstring{globalrange3()}{globalrange3()}}
+{\footnotesize\ttfamily subroutine rangerclass\+::globalrange3 (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:)}]{Brange,  }\item[{double precision, dimension(6), intent(out)}]{grange,  }\item[{double precision, intent(out)}]{gammaz,  }\item[{integer, dimension(\+:)}]{nptot,  }\item[{integer, intent(in)}]{nbunch,  }\item[{integer, intent(in)}]{nx,  }\item[{integer, intent(in)}]{ny,  }\item[{}]{pe }\end{DoxyParamCaption})}
+
+
+
+find the global range of \char`\"{}nbunch\char`\"{} of beam bunch. find the global range of \char`\"{}nbunch\char`\"{} of beam bunch with global periodic length \char`\"{}perdlen\char`\"{}. 
+
+\mbox{\Hypertarget{namespacerangerclass_aa1f850f78b90482f120d7104efc7bcdf}\label{namespacerangerclass_aa1f850f78b90482f120d7104efc7bcdf}} 
+\index{rangerclass@{rangerclass}!globalrange4@{globalrange4}}
+\index{globalrange4@{globalrange4}!rangerclass@{rangerclass}}
+\subsubsection{\texorpdfstring{globalrange4()}{globalrange4()}}
+{\footnotesize\ttfamily subroutine rangerclass\+::globalrange4 (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:)}]{Brange,  }\item[{double precision, dimension(6), intent(out)}]{grange,  }\item[{double precision, intent(out)}]{gammaz,  }\item[{integer, dimension(\+:)}]{nptot,  }\item[{integer, intent(in)}]{nbunch,  }\item[{integer, intent(in)}]{nx,  }\item[{integer, intent(in)}]{ny,  }\item[{integer, intent(in)}]{nz }\end{DoxyParamCaption})}
+
+
+
+find the global range of \char`\"{}nbunch\char`\"{} of beam bunch. find the global range of \char`\"{}nbunch\char`\"{} of beam bunch with global periodic length \char`\"{}perdlen\char`\"{}. 
+
+\mbox{\Hypertarget{namespacerangerclass_a5e8eb23d6d5bf16cd2d36cd10ecf6f70}\label{namespacerangerclass_a5e8eb23d6d5bf16cd2d36cd10ecf6f70}} 
+\index{rangerclass@{rangerclass}!singlerange@{singlerange}}
+\index{singlerange@{singlerange}!rangerclass@{rangerclass}}
+\subsubsection{\texorpdfstring{singlerange()}{singlerange()}}
+{\footnotesize\ttfamily subroutine rangerclass\+::singlerange (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:)}]{partcls,  }\item[{integer, intent(in)}]{nplc,  }\item[{integer, intent(in)}]{nptot,  }\item[{double precision, dimension(6), intent(out)}]{range,  }\item[{double precision, dimension(6), intent(out)}]{center }\end{DoxyParamCaption})}
+
+
+
+find the range (minimum and maxium of a single bunch) and the centroid of a single beam bunch. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacerangerclass_a5e8eb23d6d5bf16cd2d36cd10ecf6f70_icgraph}
+\end{center}
+\end{figure}

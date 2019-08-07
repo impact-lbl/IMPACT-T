@@ -1,0 +1,337 @@
+\hypertarget{namespaceemfldcartclass}{}\section{emfldcartclass Module Reference}
+\label{namespaceemfldcartclass}\index{emfldcartclass@{emfldcartclass}}
+
+
+This class contains discrete EM field data (as a function of x,y,z) or (r,z) and analytical representation of EM field data (user can supply the function form). The linear transfer map is also computed base on the field on the axis.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}
+\item 
+interface \mbox{\hyperlink{interfaceemfldcartclass_1_1getparam__emfldcart}{getparam\+\_\+emfldcart}}
+\item 
+interface \mbox{\hyperlink{interfaceemfldcartclass_1_1setparam__emfldcart}{setparam\+\_\+emfldcart}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a22c8117844df69d19834c91595060930}{construct\+\_\+emfldcart}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a667f3b95239a56c59438d7645e902471}{setparam1\+\_\+emfldcart}} (this, i, value)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a49c36692c057476c17ea403564e4f057}{setparam2\+\_\+emfldcart}} (this, values)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a1091548d2fbca6e19b3861f96b834bfc}{setparam3\+\_\+emfldcart}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_ab81f3e948555a34e9f3e6dd08fb8d7c8}{getparam1\+\_\+emfldcart}} (this, i, blparam)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a0e3252de98b5d0c5318b5cdccb878b21}{getparam2\+\_\+emfldcart}} (this, blparams)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_af5ef093e045d499ae731aad8612e6333}{getparam3\+\_\+emfldcart}} (this, blength, bnseg, bmapstp, btype)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a4be4286a2e0f37f64d5fd1973fe73f39}{maplinear\+\_\+emfldcart}} (t, tau, xm, this, refpt, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a2d6f42bcd880ec225920c8179e292af6}{rk6i\+\_\+emfldcart}} (h, ns, t, y, nvar, this, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a2a33c1d59a306651080d563b98b844e7}{intfunc1\+\_\+emfldcart}} (t, y, f, this, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a98959709716076ee10dea98be7a2243c}{getaxflde\+\_\+emfldcart}} (z, this, ez1, ezp1, ezpp1)
+\begin{DoxyCompactList}\small\item\em interpolate the field from the E\+Mfld\+Cart rf cavity onto bunch location. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_abe4d0916e2997f8145abad1eb026ea9d}{getaxfldefc\+\_\+emfldcart}} (z, this, ez1, ezp1, ezpp1)
+\begin{DoxyCompactList}\small\item\em get external RF field on axis from analytical function Here, we have used a Fouier expansion representation of external field. Users should supply the field function as they want. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a77a88279f5b3f9878199cf20d7e4c5a5}{getfld\+\_\+emfldcart}} (pos, extfld, this)
+\begin{DoxyCompactList}\small\item\em get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from analytical function. Here we have used Fourier expansion of function. The user should supply his own analytical function if needed. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a8ab65fe6671e5e09361a2d44930aa93a}{getflderrold\+\_\+emfldcart}} (pos, extfld, this)
+\begin{DoxyCompactList}\small\item\em get external field with displacement and rotation errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a4c48df0aca1d75a2301a87c5b1c0304d}{getflderr\+\_\+emfldcart}} (pos, extfld, this, dx, dy, anglex, ang
+\begin{DoxyCompactList}\small\item\em get external field with displacement and rotation errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a099681f57177c62b1715bde0b0fe93bb}{getfld6\+\_\+emfldcart}} (this, z, extfld6)
+\begin{DoxyCompactList}\small\item\em get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or \char`\"{}r\char`\"{} at given \char`\"{}z\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a1b849dab96a221608dde6ea08028e459}{getfld6err\+\_\+emfldcart}} (this, pos, extfld, dx, dy, anglex, ang
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a524c612ff816f308845b0171733a95a5}{getfld6xyz\+\_\+emfldcart}} (this, z, extfld6xyz)
+\begin{DoxyCompactList}\small\item\em get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given \char`\"{}z\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_af92b0973e83fa817606951d4155f51b9}{getfld6xyzerr\+\_\+emfldcart}} (this, pos, extfld, dx, dy, anglex,
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a63a14e90f4526aa45d3d28a9611d3908}{getfldt\+\_\+emfldcart}} (pos, extfld, this, fldata)
+\begin{DoxyCompactList}\small\item\em get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, parameter, private \mbox{\hyperlink{namespaceemfldcartclass_a72ee7da1adbf56a707b72607da000549}{nparam}} = 11
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class contains discrete EM field data (as a function of x,y,z) or (r,z) and analytical representation of EM field data (user can supply the function form). The linear transfer map is also computed base on the field on the axis. 
+
+\begin{DoxyAuthor}{Author}
+
+\end{DoxyAuthor}
+Ji Qiang 
+
+\subsection{Data Type Documentation}
+\index{emfldcartclass::emfldcart@{emfldcartclass::emfldcart}}\label{structemfldcartclass_1_1emfldcart}
+\Hypertarget{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}
+\subsubsection{type emfldcartclass\+::emfldcart}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespaceemfldcartclass_a9ea1ffbf61d29a3520ad743300cfce15}\label{namespaceemfldcartclass_a9ea1ffbf61d29a3520ad743300cfce15}} 
+integer&
+itype&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_aa2c152d23138df1a44c6ff50407ac04d}\label{namespaceemfldcartclass_aa2c152d23138df1a44c6ff50407ac04d}} 
+double precision&
+length&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_af80bf92550bb63b5f809ab3be6bbfe8d}\label{namespaceemfldcartclass_af80bf92550bb63b5f809ab3be6bbfe8d}} 
+integer&
+mapstp&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_acf5b75cb340cfc6f837318ed47038f25}\label{namespaceemfldcartclass_acf5b75cb340cfc6f837318ed47038f25}} 
+integer&
+nseg&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a72ab84a2cacd1906ab51cb7a6637956e}\label{namespaceemfldcartclass_a72ab84a2cacd1906ab51cb7a6637956e}} 
+double precision, dimension(\mbox{\hyperlink{namespaceemfldcartclass_a72ee7da1adbf56a707b72607da000549}{nparam}})&
+param&
+\\
+\hline
+
+\end{DoxyFields}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceemfldcartclass_a22c8117844df69d19834c91595060930}\label{namespaceemfldcartclass_a22c8117844df69d19834c91595060930}} 
+\index{emfldcartclass@{emfldcartclass}!construct\_emfldcart@{construct\_emfldcart}}
+\index{construct\_emfldcart@{construct\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{construct\_emfldcart()}{construct\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::construct\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(out)}]{this,  }\item[{integer, intent(in)}]{numseg,  }\item[{integer, intent(in)}]{nmpstp,  }\item[{integer, intent(in)}]{type,  }\item[{double precision, intent(in)}]{blength }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a98959709716076ee10dea98be7a2243c}\label{namespaceemfldcartclass_a98959709716076ee10dea98be7a2243c}} 
+\index{emfldcartclass@{emfldcartclass}!getaxflde\_emfldcart@{getaxflde\_emfldcart}}
+\index{getaxflde\_emfldcart@{getaxflde\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getaxflde\_emfldcart()}{getaxflde\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getaxflde\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{z,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(out)}]{ez1,  }\item[{double precision, intent(out)}]{ezp1,  }\item[{double precision, intent(out)}]{ezpp1 }\end{DoxyParamCaption})}
+
+
+
+interpolate the field from the E\+Mfld\+Cart rf cavity onto bunch location. 
+
+\mbox{\Hypertarget{namespaceemfldcartclass_abe4d0916e2997f8145abad1eb026ea9d}\label{namespaceemfldcartclass_abe4d0916e2997f8145abad1eb026ea9d}} 
+\index{emfldcartclass@{emfldcartclass}!getaxfldefc\_emfldcart@{getaxfldefc\_emfldcart}}
+\index{getaxfldefc\_emfldcart@{getaxfldefc\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getaxfldefc\_emfldcart()}{getaxfldefc\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getaxfldefc\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{z,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(out)}]{ez1,  }\item[{double precision, intent(out)}]{ezp1,  }\item[{double precision, intent(out)}]{ezpp1 }\end{DoxyParamCaption})}
+
+
+
+get external RF field on axis from analytical function Here, we have used a Fouier expansion representation of external field. Users should supply the field function as they want. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_abe4d0916e2997f8145abad1eb026ea9d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_a099681f57177c62b1715bde0b0fe93bb}\label{namespaceemfldcartclass_a099681f57177c62b1715bde0b0fe93bb}} 
+\index{emfldcartclass@{emfldcartclass}!getfld6\_emfldcart@{getfld6\_emfldcart}}
+\index{getfld6\_emfldcart@{getfld6\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getfld6\_emfldcart()}{getfld6\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getfld6\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{z,  }\item[{}]{extfld6 }\end{DoxyParamCaption})}
+
+
+
+get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or \char`\"{}r\char`\"{} at given \char`\"{}z\char`\"{}. 
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a1b849dab96a221608dde6ea08028e459}\label{namespaceemfldcartclass_a1b849dab96a221608dde6ea08028e459}} 
+\index{emfldcartclass@{emfldcartclass}!getfld6err\_emfldcart@{getfld6err\_emfldcart}}
+\index{getfld6err\_emfldcart@{getfld6err\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getfld6err\_emfldcart()}{getfld6err\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getfld6err\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{double precision, intent(in)}]{dx,  }\item[{double precision, intent(in)}]{dy,  }\item[{double precision, intent(in)}]{anglex,  }\item[{}]{ang }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a524c612ff816f308845b0171733a95a5}\label{namespaceemfldcartclass_a524c612ff816f308845b0171733a95a5}} 
+\index{emfldcartclass@{emfldcartclass}!getfld6xyz\_emfldcart@{getfld6xyz\_emfldcart}}
+\index{getfld6xyz\_emfldcart@{getfld6xyz\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getfld6xyz\_emfldcart()}{getfld6xyz\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getfld6xyz\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{z,  }\item[{double precision, dimension(6,nxintvrfg+1,nyintvrfg+1), intent(out)}]{extfld6xyz }\end{DoxyParamCaption})}
+
+
+
+get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given \char`\"{}z\char`\"{}. 
+
+\mbox{\Hypertarget{namespaceemfldcartclass_af92b0973e83fa817606951d4155f51b9}\label{namespaceemfldcartclass_af92b0973e83fa817606951d4155f51b9}} 
+\index{emfldcartclass@{emfldcartclass}!getfld6xyzerr\_emfldcart@{getfld6xyzerr\_emfldcart}}
+\index{getfld6xyzerr\_emfldcart@{getfld6xyzerr\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getfld6xyzerr\_emfldcart()}{getfld6xyzerr\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getfld6xyzerr\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{double precision, intent(in)}]{dx,  }\item[{double precision, intent(in)}]{dy,  }\item[{double precision, intent(in)}]{anglex }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a77a88279f5b3f9878199cf20d7e4c5a5}\label{namespaceemfldcartclass_a77a88279f5b3f9878199cf20d7e4c5a5}} 
+\index{emfldcartclass@{emfldcartclass}!getfld\_emfldcart@{getfld\_emfldcart}}
+\index{getfld\_emfldcart@{getfld\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getfld\_emfldcart()}{getfld\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getfld\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this }\end{DoxyParamCaption})}
+
+
+
+get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from analytical function. Here we have used Fourier expansion of function. The user should supply his own analytical function if needed. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{namespaceemfldcartclass_a77a88279f5b3f9878199cf20d7e4c5a5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_a4c48df0aca1d75a2301a87c5b1c0304d}\label{namespaceemfldcartclass_a4c48df0aca1d75a2301a87c5b1c0304d}} 
+\index{emfldcartclass@{emfldcartclass}!getflderr\_emfldcart@{getflderr\_emfldcart}}
+\index{getflderr\_emfldcart@{getflderr\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getflderr\_emfldcart()}{getflderr\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getflderr\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{dx,  }\item[{double precision, intent(in)}]{dy,  }\item[{double precision, intent(in)}]{anglex,  }\item[{}]{ang }\end{DoxyParamCaption})}
+
+
+
+get external field with displacement and rotation errors. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_a4c48df0aca1d75a2301a87c5b1c0304d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_a8ab65fe6671e5e09361a2d44930aa93a}\label{namespaceemfldcartclass_a8ab65fe6671e5e09361a2d44930aa93a}} 
+\index{emfldcartclass@{emfldcartclass}!getflderrold\_emfldcart@{getflderrold\_emfldcart}}
+\index{getflderrold\_emfldcart@{getflderrold\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getflderrold\_emfldcart()}{getflderrold\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getflderrold\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this }\end{DoxyParamCaption})}
+
+
+
+get external field with displacement and rotation errors. 
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a63a14e90f4526aa45d3d28a9611d3908}\label{namespaceemfldcartclass_a63a14e90f4526aa45d3d28a9611d3908}} 
+\index{emfldcartclass@{emfldcartclass}!getfldt\_emfldcart@{getfldt\_emfldcart}}
+\index{getfldt\_emfldcart@{getfldt\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getfldt\_emfldcart()}{getfldt\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getfldt\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{type (fielddata), intent(in)}]{fldata }\end{DoxyParamCaption})}
+
+
+
+get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_a63a14e90f4526aa45d3d28a9611d3908_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_ab81f3e948555a34e9f3e6dd08fb8d7c8}\label{namespaceemfldcartclass_ab81f3e948555a34e9f3e6dd08fb8d7c8}} 
+\index{emfldcartclass@{emfldcartclass}!getparam1\_emfldcart@{getparam1\_emfldcart}}
+\index{getparam1\_emfldcart@{getparam1\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getparam1\_emfldcart()}{getparam1\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getparam1\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{integer, intent(in)}]{i,  }\item[{double precision, intent(out)}]{blparam }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a0e3252de98b5d0c5318b5cdccb878b21}\label{namespaceemfldcartclass_a0e3252de98b5d0c5318b5cdccb878b21}} 
+\index{emfldcartclass@{emfldcartclass}!getparam2\_emfldcart@{getparam2\_emfldcart}}
+\index{getparam2\_emfldcart@{getparam2\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getparam2\_emfldcart()}{getparam2\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getparam2\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, dimension(\+:), intent(out)}]{blparams }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_af5ef093e045d499ae731aad8612e6333}\label{namespaceemfldcartclass_af5ef093e045d499ae731aad8612e6333}} 
+\index{emfldcartclass@{emfldcartclass}!getparam3\_emfldcart@{getparam3\_emfldcart}}
+\index{getparam3\_emfldcart@{getparam3\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{getparam3\_emfldcart()}{getparam3\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::getparam3\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(out)}]{blength,  }\item[{integer, intent(out)}]{bnseg,  }\item[{integer, intent(out)}]{bmapstp,  }\item[{integer, intent(out)}]{btype }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a2a33c1d59a306651080d563b98b844e7}\label{namespaceemfldcartclass_a2a33c1d59a306651080d563b98b844e7}} 
+\index{emfldcartclass@{emfldcartclass}!intfunc1\_emfldcart@{intfunc1\_emfldcart}}
+\index{intfunc1\_emfldcart@{intfunc1\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{intfunc1\_emfldcart()}{intfunc1\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::intfunc1\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{t,  }\item[{double precision, dimension(\+:), intent(in)}]{y,  }\item[{double precision, dimension(\+:), intent(out)}]{f,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{Bchg,  }\item[{double precision, intent(in)}]{Bmass }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_a2a33c1d59a306651080d563b98b844e7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_a2a33c1d59a306651080d563b98b844e7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_a4be4286a2e0f37f64d5fd1973fe73f39}\label{namespaceemfldcartclass_a4be4286a2e0f37f64d5fd1973fe73f39}} 
+\index{emfldcartclass@{emfldcartclass}!maplinear\_emfldcart@{maplinear\_emfldcart}}
+\index{maplinear\_emfldcart@{maplinear\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{maplinear\_emfldcart()}{maplinear\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::maplinear\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{t,  }\item[{double precision, intent(in)}]{tau,  }\item[{double precision, dimension(6,6), intent(out)}]{xm,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, dimension(6), intent(inout)}]{refpt,  }\item[{double precision, intent(in)}]{Bchg,  }\item[{double precision, intent(in)}]{Bmass }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_a4be4286a2e0f37f64d5fd1973fe73f39_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_a2d6f42bcd880ec225920c8179e292af6}\label{namespaceemfldcartclass_a2d6f42bcd880ec225920c8179e292af6}} 
+\index{emfldcartclass@{emfldcartclass}!rk6i\_emfldcart@{rk6i\_emfldcart}}
+\index{rk6i\_emfldcart@{rk6i\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{rk6i\_emfldcart()}{rk6i\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::rk6i\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{h,  }\item[{integer, intent(in)}]{ns,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, dimension(nvar), intent(inout)}]{y,  }\item[{integer, intent(in)}]{nvar,  }\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{Bchg,  }\item[{double precision, intent(in)}]{Bmass }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldcartclass_a2d6f42bcd880ec225920c8179e292af6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{namespaceemfldcartclass_a2d6f42bcd880ec225920c8179e292af6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldcartclass_a667f3b95239a56c59438d7645e902471}\label{namespaceemfldcartclass_a667f3b95239a56c59438d7645e902471}} 
+\index{emfldcartclass@{emfldcartclass}!setparam1\_emfldcart@{setparam1\_emfldcart}}
+\index{setparam1\_emfldcart@{setparam1\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{setparam1\_emfldcart()}{setparam1\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::setparam1\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{i,  }\item[{double precision, intent(in)}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a49c36692c057476c17ea403564e4f057}\label{namespaceemfldcartclass_a49c36692c057476c17ea403564e4f057}} 
+\index{emfldcartclass@{emfldcartclass}!setparam2\_emfldcart@{setparam2\_emfldcart}}
+\index{setparam2\_emfldcart@{setparam2\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{setparam2\_emfldcart()}{setparam2\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::setparam2\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(inout)}]{this,  }\item[{double precision, dimension(\+:), intent(in)}]{values }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a1091548d2fbca6e19b3861f96b834bfc}\label{namespaceemfldcartclass_a1091548d2fbca6e19b3861f96b834bfc}} 
+\index{emfldcartclass@{emfldcartclass}!setparam3\_emfldcart@{setparam3\_emfldcart}}
+\index{setparam3\_emfldcart@{setparam3\_emfldcart}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{setparam3\_emfldcart()}{setparam3\_emfldcart()}}
+{\footnotesize\ttfamily subroutine emfldcartclass\+::setparam3\+\_\+emfldcart (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcart}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{numseg,  }\item[{integer, intent(in)}]{nmpstp,  }\item[{integer, intent(in)}]{type,  }\item[{double precision, intent(in)}]{blength }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceemfldcartclass_a72ee7da1adbf56a707b72607da000549}\label{namespaceemfldcartclass_a72ee7da1adbf56a707b72607da000549}} 
+\index{emfldcartclass@{emfldcartclass}!nparam@{nparam}}
+\index{nparam@{nparam}!emfldcartclass@{emfldcartclass}}
+\subsubsection{\texorpdfstring{nparam}{nparam}}
+{\footnotesize\ttfamily integer, parameter, private emfldcartclass\+::nparam = 11\hspace{0.3cm}{\ttfamily [private]}}
+

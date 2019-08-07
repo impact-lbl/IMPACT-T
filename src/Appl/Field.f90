@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! FieldQuantclass: 3D field quantity class in Field module of APPLICATION
 !                 layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines a 3-D field quantity in the accelerator.
-!              The field quantity can be updated at each step. 
+! MODULE  : ... FieldQuantclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION:
+!> This class defines a 3-D field quantity in the accelerator.
+!> The field quantity can be updated at each step. 
 ! Comments:
 !----------------------------------------------------------------
       module FieldQuantclass
@@ -18,13 +21,16 @@
         use Fldmgerclass
         type FieldQuant
 !          private
-          !# of mesh points in x and y directions.
+          !> num of mesh points in x and y directions.
           integer :: Nx,Ny,Nz,Nxlocal,Nylocal,Nzlocal
-          !# field quantity array.
+          !> num field quantity array.
           double precision, pointer, dimension(:,:,:) :: FieldQ
         end type FieldQuant
       contains
-        !Initialize field class.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> Initialize field class.
+        !--------------------------------------------------------------------------------------
         subroutine construct_FieldQuant(this,innx,inny,innz,geom,grid) 
         implicit none
         include 'mpif.h'
@@ -63,7 +69,10 @@
 
         end subroutine construct_FieldQuant
    
-        ! set field quantity.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> set field quantity.
+        !--------------------------------------------------------------------------------------
         subroutine set_FieldQuant(this,innx,inny,innz,geom,grid,&
                                   nprx,npry) 
         implicit none
@@ -101,8 +110,11 @@
 
         end subroutine set_FieldQuant
 
-        !find the E and B fields in the lab frame 
-        !from the potential on the grid of beam frame.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> find the E and B fields in the lab frame
+        !> from the potential on the grid of beam frame.
+        !--------------------------------------------------------------------------------------
         subroutine gradEB_FieldQuant(innx,inny,innz,temppotent,ptsgeom,&
               grid,Flagbc,gammaz,FlagImage,egxout,egyout,egzout,bgxout,&
               bgyout,bgzout)
@@ -459,10 +471,11 @@
 
         end subroutine gradEB_FieldQuant
 
-!----------------------------------------------------------------------
-! update potential (solving Possion's equation) with 3D isolated 
-! boundary conditions. Here, image charge potential along z also calculated
-!
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> update potential (solving Possion's equation) with 3D isolated 
+        !> boundary conditions. Here, image charge potential along z also calculated
+        !--------------------------------------------------------------------------------------
         subroutine update3Otnew_FieldQuant(this,source,fldgeom,grid,nxlc,&
           nylc,nzlc,nprocrow,nproccol,nylcr,nzlcr,gammaz,tmppot,flagImage,&
           zshift)
@@ -589,8 +602,11 @@
         t_field = t_field + elapsedtime_Timer(t0)
 
         end subroutine update3Otnew_FieldQuant
-
-        ! Solving Poisson's equation with open BCs.
+ 
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> Solving Poisson's equation with open BCs.
+        !--------------------------------------------------------------------------------------
         subroutine openBC3Dnew(innx,inny,innz,rho,hx,hy,hz,&
            nxpylc2,nypzlc2,myidz,myidy,npz,npy,commrow,commcol,comm2d, &
            pztable,pytable,ypzstable,xpystable,inxglb,&
@@ -720,8 +736,11 @@
         deallocate(rho2out)
 
         end subroutine openBC3Dnew
-
-        ! green function for extended array.
+ 
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> green function for extended array.
+        !--------------------------------------------------------------------------------------
         subroutine greenf1tIntnew2(nx,ny,nz,nsizez,nsizey,nsizexy,nsizeyz,&
                   hx,hy,hz,myidx,npx,commrow,myidy,npy,commcol,comm2d,&
                    xstable,xrtable,ystable,yrtable,grnout)
@@ -975,7 +994,10 @@
 
         end subroutine greenf1tIntnew2
 
-        ! green function for extended array.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> green function for extended array.
+        !--------------------------------------------------------------------------------------
         subroutine greenf1tIntshift2(nx,ny,nz,nsizez,nsizey,nsizexy,nsizeyz,&
                   hx,hy,hz,myidx,npx,commrow,myidy,npy,commcol,comm2d,&
                    xstable,xrtable,ystable,yrtable,grnout,zshift)
@@ -1282,7 +1304,10 @@
 
         end subroutine greenf1tIntshift2
 
-       !longitudinal and transverse wakefield
+       !--------------------------------------------------------------------------------------
+       !> @brief
+       !> longitudinal and transverse wakefield
+       !--------------------------------------------------------------------------------------
        subroutine wakefield_FieldQuant(Nz,xwakez,ywakez,recvdensz,exwake,eywake,ezwake,&
                                        hz,aa,gg,leng,flagbtw)
        implicit none
@@ -1625,8 +1650,11 @@
 
        end subroutine wakefield_FieldQuant
 
-       !longitudinal and transverse wakefield on a beam using the 
-       !readin longitudinal and transverse wake functions
+       !--------------------------------------------------------------------------------------
+       !> @brief
+       !> longitudinal and transverse wakefield on a beam using the
+       !> readin longitudinal and transverse wake functions
+       !--------------------------------------------------------------------------------------
        subroutine wakereadin_FieldQuant(Nz,xwakez,ywakez,recvdensz,exwake,eywake,ezwake,&
                           hz,leng,ndatawk,wklong,wktran)
        implicit none
@@ -1799,11 +1827,14 @@
 
        end subroutine wakereadin_FieldQuant
 
-        !J. Q. 11/3/08
-        !new version of the csrwake calculation. 
-        !this subroutine calculate the 1d csr wakefield including
-        !entrance, stead-state, and transitions effects
-        !here, hx, rho,...are in real unit. the return ezwake is V/m
+        !--------------------------------------------------------------------------------------
+        !> @author J. Q. 11/3/08
+        !> @brief
+        !> new version of the csrwake calculation. 
+        !> this subroutine calculate the 1d csr wakefield including
+        !> entrance, stead-state, and transitions effects
+        !> here, hx, rho,...are in real unit. the return ezwake is V/m
+        !--------------------------------------------------------------------------------------
         subroutine csrwakeTr_FieldQuant(Nx,r0,ptmin,hx,blength,rhonew,rhonewp,&
                              rhonewpp,ezwake)
         implicit none
@@ -2142,7 +2173,10 @@
 
         end subroutine getlcgrid_FieldQuant
 
-      !find the psi in equation 12 of Stupakov and Emma's paper
+      !--------------------------------------------------------------------------------------
+      !> @brief
+      !> find the psi in equation 12 of Stupakov and Emma's paper
+      !--------------------------------------------------------------------------------------
       subroutine psiroot(r0,xx,deltas,psi,eps,Nmax)
       implicit none
       integer :: Nmax
@@ -2179,10 +2213,13 @@
 
         end subroutine destruct_FieldQuant
 
-        !This subroutine calculates the 1d csr wakefield including
-        !entrance, stead-state, and transitions effects.
-        !Here, hx, rho,...are in real units. The return ezwake is in V/m.
-        !The current version uses IGF corresponding to the four cases of Saldin et al.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> This subroutine calculates the 1d csr wakefield including
+        !> entrance, stead-state, and transitions effects.
+        !> Here, hx, rho,...are in real units. The return ezwake is in V/m.
+        !> The current version uses IGF corresponding to the four cases of Saldin et al.
+        !--------------------------------------------------------------------------------------
         subroutine csrwakeTrIGF_FieldQuant(Nx,r0,ptmin,hx,blength,rhonew,rhonewp,&
                              rhonewpp,gam,ezwake)
         implicit none
@@ -2481,17 +2518,18 @@
                     (psipxa**2+psipxb**2)+1.0d0/ssh)
            end function IcsrCaseD
 
+    !--------------------------------------------------------------------------------------
+    !> @brief
+    !> This routine computes the root of the function that is evaluated in 
+    !> the subroutine 'funcd'. It is based on the subroutine 'root' of 
+    !> Numerical Recipes 9.4, which makes use of a Newton-Raphson method 
+    !> with root bracketing.  It has been modified to handle the two bracket 
+    !> endpoints carefully. The routine searches for a root in the interval
+    !> [x1,x2] with a tolerance given by 'xacc', and returns this value
+    !> as 'rtsafe'.  The maximum number of iterations allowed is 'maxit'.
+    !> C.E.M.
+    !--------------------------------------------------------------------------------------
      subroutine root(x1,x2,xacc,maxit,zeta,xxh,rtsafe)
-!************************************************************************
-!  This routine computes the root of the function that is evaluated in 
-!  the subroutine 'funcd'. It is based on the subroutine 'root' of 
-!  Numerical Recipes 9.4, which makes use of a Newton-Raphson method 
-!  with root bracketing.  It has been modified to handle the two bracket 
-!  endpoints carefully. The routine searches for a root in the interval
-!  [x1,x2] with a tolerance given by 'xacc', and returns this value
-!  as 'rtsafe'.  The maximum number of iterations allowed is 'maxit'.
-!  C.E.M.
-!***********************************************************************
      implicit none
      double precision:: rtsafe,x1,x2,xacc
      double precision:: xxh,zeta
@@ -2546,14 +2584,15 @@
      return
      end subroutine
 
+    !--------------------------------------------------------------------------------------
+    !> @brief
+    !> This routine evaluates the function whose root produces
+    !> the retarded angle psi that is required for evaluating
+    !> the CSR kernel in Case D of Saldin et al.  The value
+    !> of the function is output as 'f', and its derivative
+    !> is output as 'derivf'.  C.E.M.
+    !--------------------------------------------------------------------------------------
      subroutine funcd(psi,xxh,deltas,f,derivf)
-!**********************************************************
-!  This routine evaluates the function whose root produces
-!  the retarded angle psi that is required for evaluating
-!  the CSR kernel in Case D of Saldin et al.  The value
-!  of the function is output as 'f', and its derivative
-!  is output as 'derivf'.  C.E.M.
-!*********************************************************
      implicit none
      double precision:: deltas,psi,term1,xxh,gamma,f,derivf
      double precision:: alpha,kappa,tau,theta

@@ -18,12 +18,17 @@
 !****************************
 !
 ! AccSimulatorclass: Linear accelerator simulator class in CONTROL layer.
-! Version: 2.0
-! Author: Ji Qiang
-! Description: This class defines functions to set up the initial beam 
-!              particle distribution, field information, computational
-!              domain, beam line element lattice and run the dynamics
-!              simulation through the system.
+! 
+! MODULE  : ... AccSimulatorclass
+! VERSION : ... 2.0
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines functions to set up the initial beam 
+!> particle distribution, field information, computational
+!> domain, beam line element lattice and run the dynamics
+!> simulation through the system.
 ! Comments:
 !----------------------------------------------------------------
       module AccSimulatorclass
@@ -43,62 +48,83 @@
         use Rangerclass
         use Depositorclass
         implicit none
-        !# of phase dim., num. total and local particles, int. dist. 
-        !and restart switch, error study switch, substep for space-charge
-        !switch,# of time step
+        !> @name
+        !! \# of phase dim., num. total and local particles, int. dist. 
+        !! and restart switch, error study switch, substep for space-charge
+        !! switch, \# of time step
+        !> @{
         integer :: Dim, Flagdist,Rstartflg,Flagerr,&
                             Flagsubstep,ntstep 
         integer, dimension(Nbunchmax) :: Np, Nplocal
-        !# of num. total x, total and local y mesh pts., type of BC, 
-        !# of beam elems, type of integrator.
-        !FlagImage: switch flag for image space-charge force calculation: "1" for yes, 
-        !otherwise for no. 
+        !> @}
+
+        !> @name
+        !! \# of num. total x, total and local y mesh pts., type of BC, 
+        !! \# of beam elems, type of integrator.
+        !! FlagImage: switch flag for image space-charge force calculation: "1" for yes, 
+        !! otherwise for no. 
+        !> @{
         integer :: Nx,Ny,Nz,Nxlocal,Nylocal,Nzlocal,Flagbc,&
                             Nblem,Flagmap,Flagdiag,FlagImage
+        !> @}
 
-        !# of processors in column and row direction.
+        !> @name                    
+        !! \# of processors in column and row direction.
+        !> @{
         integer :: npcol, nprow
+        !> @}
 
-        !initial # of bunches/bins
-        integer :: Nbunch
+        !> initial \# of bunches/bins
+        integer :: Nbunch 
 
-        !beam current, kin. energy, part. mass, charge, ref. freq., period length, 
-        !time step size 
+        !> @name
+        !! beam current, kin. energy, part. mass, charge, ref. freq., period length, 
+        !! time step size 
+        !> @{
         double precision :: Bcurr,Bkenergy,Bmass,Bcharge,Bfreq,&
                                      Perdlen,dt,xrad,yrad
+        !> @}
 
-        !conts. in init. dist.
+        !> @name
+        !! conts. in init. dist.
+        !> @{
         integer, parameter :: Ndistparam = 21
         double precision, dimension(Ndistparam) :: distparam
+        !> @}
 
-        !2d logical processor array.
-        type (Pgrid2d) :: grid2d
+        !> 2d logical processor array
+        type (Pgrid2d) :: grid2d 
 
-        !beam particle object and array.
+        !> beam particle object and array.
         type (BeamBunch), dimension(Nbunchmax) :: Ebunch
 
-        !beam charge density and field potential arrays.
+        !> beam charge density and field potential arrays.
         type (FieldQuant) :: Potential
 
-        !geometry object.
+        !> geometry object.
         type (CompDom) :: Ageom
 
-        !overlaped external field data array
+        !> overlaped external field data array
         type (fielddata), dimension(Maxoverlap) :: fldmp
 
-        !maximum e- emission time
+        !> maximum e- emission time
         double precision :: temission
-        !number of steps for emission
+        !> number of steps for emission
         integer :: Nemission
 
-        !distance after that to turn off image space-charge
+        !> distance after that to turn off image space-charge
         double precision :: zimage
 
-        !restart time and step
+        !> @name
+        !! restart time and step
+        !> @{
         double precision :: tend,dtlessend
         integer :: iend,nfileout,ioutend,itszend,isteerend,isloutend
+        !> @}
 
-        !beam line element array.
+        !> @name 
+        !! beam line element array.
+        !> @{
         type (BPM),target,dimension(Nbpmmax) :: beamln0
         type (DriftTube),target,dimension(Ndriftmax) :: beamln1
         type (Quadrupole),target,dimension(Nquadmax) :: beamln2
@@ -116,14 +142,16 @@
         type (EMfldAna),target,dimension(Ncclmax) :: beamln14
         type (Multipole),target,dimension(Nquadmax) :: beamln15
         type (BeamLineElem),dimension(Nblemtmax)::Blnelem
-        !longitudinal position of each element (min and max).
+        !> @}
+
+        !> longitudinal position of each element (min and max).
         double precision, dimension(2,Nblemtmax)::zBlnelem
-        !beam line element period.
+        !> beam line element period.
         interface construct_AccSimulator
           module procedure init_AccSimulator
         end interface
       contains
-        !set up objects and parameters.
+        !> set up objects and parameters.
         subroutine init_AccSimulator(time)
         implicit none
         include 'mpif.h'
@@ -151,7 +179,7 @@
         real*8 rancheck
         integer :: seedsize
 
-        !start up MPI.
+        ! start up MPI.
         call init_Input(time)
 
         ! initialize Timer.
@@ -613,7 +641,7 @@
 
         end subroutine init_AccSimulator
 
-        !Run beam dynamics simulation through accelerator.
+        !> Run beam dynamics simulation through accelerator.
         subroutine run_AccSimulator()
         implicit none
         include 'mpif.h'

@@ -2,12 +2,15 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! EMfldCartclass: ElectroMagnetic field data container class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class contains discrete EM field data (as a function of
-!              x,y,z) or (r,z) and analytical representation of EM field data (user can
-!              supply the function form). The linear transfer map is also
-!              computed base on the field on the axis. 
+! MODULE  : ... EMfldCartclass
+! VERSION : ... 1.0
+!> @author  
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class contains discrete EM field data (as a function of
+!> x,y,z) or (r,z) and analytical representation of EM field data (user can
+!> supply the function form). The linear transfer map is also
+!> computed base on the field on the axis. 
 ! Comments:
 !----------------------------------------------------------------
       module EMfldCartclass
@@ -332,7 +335,10 @@
 
         end subroutine intfunc1_EMfldCart
 
-        !interpolate the field from the EMfldCart rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the EMfldCart rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getaxfldE_EMfldCart(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -379,10 +385,12 @@
 
         end subroutine getaxfldE_EMfldCart
 
-!-----------------------------------------------------------------
-! get external RF field on axis from analytical function
-! Here, we have used a Fouier expansion representation of external field.
-! Users should supply the field function as they want.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external RF field on axis from analytical function
+        !> Here, we have used a Fouier expansion representation of external field.
+        !> Users should supply the field function as they want.
+        !--------------------------------------------------------------------------------------
         subroutine  getaxfldEfc_EMfldCart(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -419,10 +427,12 @@
 
         end subroutine getaxfldEfc_EMfldCart
         
-!-----------------------------------------------------------------
-! get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from
-! analytical function. Here we have used Fourier expansion of function. The
-! user should supply his own analytical function if needed.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from
+        !> analytical function. Here we have used Fourier expansion of function. The
+        !> user should supply his own analytical function if needed.
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_EMfldCart(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -497,7 +507,10 @@
 
         end subroutine getfld_EMfldCart
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrold_EMfldCart(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -608,7 +621,10 @@
 
         end subroutine getflderrold_EMfldCart
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_EMfldCart(pos,extfld,this,dx,dy,anglex,angley,anglez)
         implicit none
         include 'mpif.h'
@@ -714,9 +730,10 @@
 
         end subroutine getflderr_EMfldCart
 
-!-----------------------------------------------------------------
-! get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or 
-! "r" at given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or "r" at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine getfld6_EMfldCart(this,z,extfld6)
         type (EMfldCart), intent(in) :: this
         double precision, intent(in) :: z
@@ -845,9 +862,10 @@
 
         end subroutine getfld6err_EMfldCart
 
-!-----------------------------------------------------------------
-! get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at 
-! given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine getfld6xyz_EMfldCart(this,z,extfld6xyz)
         type (EMfldCart), intent(in) :: this
         double precision, intent(in) :: z
@@ -1033,9 +1051,10 @@
 
         end subroutine getfld6xyzerr_EMfldCart
 
-!-----------------------------------------------------------------
-! get the discrete Ex,Ey,Ez, Bx, By, Bz at 
-! given x, y, z, t.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t.
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_EMfldCart(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

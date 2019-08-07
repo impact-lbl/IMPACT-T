@@ -2,12 +2,15 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! EMfldCylclass: ElectroMagnetic field data container class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class contains discrete EM field data (as a function of
-!              x,y,z) or (r,z) and analytical representation of EM field data (user can
-!              supply the function form). The linear transfer map is also
-!              computed base on the field on the axis. 
+! MODULE  : ... EMfldCylclass
+! VERSION : ... 1.0
+!> @author 
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class contains discrete EM field data (as a function of
+!> x,y,z) or (r,z) and analytical representation of EM field data (user can
+!> supply the function form). The linear transfer map is also
+!> computed base on the field on the axis. 
 ! Comments:
 !----------------------------------------------------------------
       module EMfldCylclass
@@ -332,7 +335,10 @@
 
         end subroutine intfunc1_EMfldCyl
 
-        !interpolate the field from the EMfldCyl rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the EMfldCyl rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getaxfldE_EMfldCyl(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -379,10 +385,12 @@
 
         end subroutine getaxfldE_EMfldCyl
 
-!-----------------------------------------------------------------
-! get external RF field on axis from analytical function
-! Here, we have used a Fouier expansion representation of external field.
-! Users should supply the field function as they want.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external RF field on axis from analytical function
+        !> Here, we have used a Fouier expansion representation of external field.
+        !> Users should supply the field function as they want.
+        !--------------------------------------------------------------------------------------
         subroutine  getaxfldEfc_EMfldCyl(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -418,11 +426,13 @@
         ezpp1=ezpp1*escale
 
         end subroutine getaxfldEfc_EMfldCyl
-        
-!-----------------------------------------------------------------
-! get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from
-! analytical function. Here we have used Fourier expansion of function. The
-! user should supply his own analytical function if needed.
+
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from
+        !> analytical function. Here we have used Fourier expansion of function. The
+        !> user should supply his own analytical function if needed.
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_EMfldCyl(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -497,7 +507,10 @@
 
         end subroutine getfld_EMfldCyl
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrold_EMfldCyl(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -608,7 +621,10 @@
 
         end subroutine getflderrold_EMfldCyl
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_EMfldCyl(pos,extfld,this,dx,dy,anglex,angley,anglez)
         implicit none
         include 'mpif.h'
@@ -714,9 +730,10 @@
 
         end subroutine getflderr_EMfldCyl
 
-!-----------------------------------------------------------------
-! get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or 
-! "r" at given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or "r" at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine getfld6_EMfldCyl(this,z,extfld6)
         type (EMfldCyl), intent(in) :: this
         double precision, intent(in) :: z
@@ -845,9 +862,10 @@
 
         end subroutine getfld6err_EMfldCyl
 
-!-----------------------------------------------------------------
-! get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at 
-! given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine getfld6xyz_EMfldCyl(this,z,extfld6xyz)
         type (EMfldCyl), intent(in) :: this
         double precision, intent(in) :: z
@@ -1033,9 +1051,10 @@
 
         end subroutine getfld6xyzerr_EMfldCyl
 
-!-----------------------------------------------------------------
-! get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or 
-! "r" at given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or "r" at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_EMfldCyl(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

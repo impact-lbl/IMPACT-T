@@ -1,0 +1,5 @@
+<map id="dataclass::read2tsol_data" name="dataclass::read2tsol_data">
+<area shape="rect" id="node1" title="read in discrete Bz(r,z), Br(r,z) data from files &quot;1Tx.T7 or 1Txx.T7 or 1Txxx.T7 for solenoid...." alt="" coords="5,31,179,56"/>
+<area shape="rect" id="node2" href="$namespacempistub.html#a3085e38e0e5d38df633afc7b2d92cebb" title="processor ID" alt="" coords="227,5,401,31"/>
+<area shape="rect" id="node3" href="$namespacempistub.html#a0d84064615f696d4877ad9f912d4cbef" title="synchronize communication" alt="" coords="242,55,385,80"/>
+</map>

@@ -2,11 +2,14 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Multipoleclass: Multipole beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the linear transfer map and field
-!              for the multipole (sextupole, octupole, decapole)
-!              beam line elment.
+! MODULE  : ... Multipoleclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class defines the linear transfer map and field
+!> for the multipole (sextupole, octupole, decapole)
+!> beam line elment.
 ! Comments:
 !----------------------------------------------------------------
       module Multipoleclass
@@ -308,9 +311,11 @@
         f(18)=-s55*y(17)
 
         end subroutine intfunc1_Multipole
-!------------------------------------------------------------------------
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_Multipole(pos,extfld,this,dx,dy,anglex,&
                                          angley,anglez)
         implicit none
@@ -375,7 +380,10 @@
 
         end subroutine getflderr_Multipole
         
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrt_Multipole(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -445,7 +453,10 @@
 
         end subroutine getflderrt_Multipole
 
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_Multipole(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -486,7 +497,10 @@
 
         end subroutine getfld_Multipole
 
-        !interpolate the field from the SC rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the SC rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getfldfrg_Multipole(zz,this,bgrad)
         implicit none
         include 'mpif.h'

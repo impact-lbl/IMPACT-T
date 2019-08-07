@@ -1,10 +1,15 @@
 !----------------------------------------------------------------
 ! (c) Copyright, 2017 by the Regents of the University of California.
-! Outputclass: Output class in I/O module of CONTROL layer. 
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines functions to print out the charged
-!              particle beam information in the accelerator.
+! Outputclass: Output class in I/O module of CONTROL layer.
+!
+! MODULE  : ... Outputclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines functions to print out the charged
+!> particle beam information in the accelerator.
 ! Comments:
 !----------------------------------------------------------------
       module Outputclass
@@ -13,8 +18,8 @@
         use PhysConstclass
 
       contains
-        ! calculate <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
-        ! <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance.
+        !> calculate <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
+        !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance.
         subroutine diagnostic1_Output(z,this)
         implicit none
         include 'mpif.h'
@@ -302,9 +307,9 @@
 
         end subroutine diagnostic1_Output
 
-        ! calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
-        ! <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
-        ! multiple bunch/bin.
+        !> calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
+        !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
+        !> multiple bunch/bin.
         subroutine diagnostic1avg_Output(z,this,Nbunch)
         implicit none
         include 'mpif.h'
@@ -638,9 +643,9 @@
 
         end subroutine diagnostic1avg_Output
 
-        ! calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
-        ! <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
-        ! multiple bunch/bin.
+        !> calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
+        !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
+        !> multiple bunch/bin.
         subroutine diagnostic1avgB_Output(z,this,Nbunch)
         implicit none
         include 'mpif.h'
@@ -976,9 +981,9 @@
 
         end subroutine diagnostic1avgB_Output
 
-        ! calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
-        ! <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
-        ! multiple bunch/bin at fixed z (i.e. bunch center).
+        !> calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
+        !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
+        !> multiple bunch/bin at fixed z (i.e. bunch center).
         subroutine diagnostic1avgZ_Output(z,this,Nbunch)
         implicit none
         include 'mpif.h'
@@ -1313,7 +1318,7 @@
 
         end subroutine diagnostic1avgZ_Output
 
-        !the 6D phase space output has (x(m), px/mc, y(m), py/mc, z(m), pz/mc).
+        !> the 6D phase space output has (x(m), px/mc, y(m), py/mc, z(m), pz/mc).
         subroutine phase_Output(nfile,this,samplePeriod)
         implicit none
         include 'mpif.h'
@@ -1382,7 +1387,7 @@
 
         end subroutine phase_Output
 
-        !//output 2D particle number density.
+        !> output 2D particle number density.
         subroutine dens2d_Output(nstep,nfile,this,totnptcls,xmnin,xmxin,&
         pxmnin,pxmxin,ymnin,ymxin,pymnin,pymxin,zmnin,zmxin,pzmnin,pzmxin)
         implicit none
@@ -2096,9 +2101,13 @@
 
         end subroutine outpoint_Output
 
-!This program calculate the current profile, slice emittance
-! and uncorrelated energy spread using linear deposition.
-!J. Q. 11/06/08
+      !--------------------------------------------------------------------------------------
+      !> @author Ji Qiang
+      !> @date November 6, 2008
+      !> @brief
+      !> This program calculate the current profile, slice emittance
+      !> and uncorrelated energy spread using linear deposition.
+      !--------------------------------------------------------------------------------------
       subroutine sliceprocdep_Output(pts,innp,npt,nslice,qchg,pmass,nfile)
       implicit none
       include 'mpif.h'
@@ -2287,10 +2296,10 @@
 
       end subroutine sliceprocdep_Output
 
-        !for 2 bunch diagnostic, only work on 1 PE.
-        ! calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
-        ! <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
-        ! multiple bunch/bin at fixed z (i.e. bunch center).
+        !> for 2 bunch diagnostic, only work on 1 PE.
+        !> calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
+        !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
+        !> multiple bunch/bin at fixed z (i.e. bunch center).
         subroutine diagnostic1avgZtest_Output(z,this,Nbunch)
         implicit none
         include 'mpif.h'

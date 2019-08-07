@@ -2,12 +2,15 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! EMfldAnaclass: ElectroMagnetic field data container class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class contains discrete EM field data (as a function of
-!              x,y,z) or (r,z) and analytical representation of EM field data (user can
-!              supply the function form). The linear transfer map is also
-!              computed base on the field on the axis. 
+! MODULE  : ... EMfldAnaclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION:
+!> This class contains discrete EM field data (as a function of
+!> x,y,z) or (r,z) and analytical representation of EM field data (user can
+!> supply the function form). The linear transfer map is also
+!> computed base on the field on the axis. 
 ! Comments:
 !----------------------------------------------------------------
       module EMfldAnaclass
@@ -332,7 +335,10 @@
 
         end subroutine intfunc1_EMfldAna
 
-        !interpolate the field from the EMfldAna rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the EMfldAna rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getaxfldE_EMfldAna(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -379,10 +385,12 @@
 
         end subroutine getaxfldE_EMfldAna
 
-!-----------------------------------------------------------------
-! get external RF field on axis from analytical function
-! Here, we have used a Fouier expansion representation of external field.
-! Users should supply the field function as they want.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external RF field on axis from analytical function
+        !> Here, we have used a Fouier expansion representation of external field.
+        !> Users should supply the field function as they want.
+        !--------------------------------------------------------------------------------------
         subroutine  getaxfldEfc_EMfldAna(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -418,11 +426,13 @@
         ezpp1=ezpp1*escale
 
         end subroutine getaxfldEfc_EMfldAna
-        
-!-----------------------------------------------------------------
-! get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from
-! analytical function. Here we have used Fourier expansion of function. The
-! user should supply his own analytical function if needed.
+
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from
+        !> analytical function. Here we have used Fourier expansion of function. The
+        !> user should supply his own analytical function if needed.
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_EMfldAna(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -497,7 +507,10 @@
 
         end subroutine getfld_EMfldAna
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrold_EMfldAna(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -608,7 +621,10 @@
 
         end subroutine getflderrold_EMfldAna
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_EMfldAna(pos,extfld,this,dx,dy,anglex,angley,anglez)
         implicit none
         include 'mpif.h'
@@ -714,9 +730,10 @@
 
         end subroutine getflderr_EMfldAna
 
-!-----------------------------------------------------------------
-! get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or 
-! "r" at given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or "r" at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine getfld6_EMfldAna(this,z,extfld6)
         type (EMfldAna), intent(in) :: this
         double precision, intent(in) :: z
@@ -845,9 +862,10 @@
 
         end subroutine getfld6err_EMfldAna
 
-!-----------------------------------------------------------------
-! get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at 
-! given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine getfld6xyz_EMfldAna(this,z,extfld6xyz)
         type (EMfldAna), intent(in) :: this
         double precision, intent(in) :: z
@@ -1037,7 +1055,10 @@
 ! analytical function. Here we have used Fourier expansion of function. The
 ! user should supply his own analytical function if needed.
 
-        !get analytical field.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get analytical field.
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_EMfldAna(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
@@ -1068,7 +1089,10 @@
 
         end subroutine getfldt_EMfldAna
 
-        !get DC surface roughness fields
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get DC surface roughness fields
+        !--------------------------------------------------------------------------------------
         subroutine  getfldtsurfrough_EMfldTAna(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
@@ -1125,8 +1149,11 @@
         !        pos(3),pos(4)
 
         end subroutine getfldtsurfrough_EMfldTAna
-
-        !get analytical field from an alpha magnet
+        
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get analytical field from an alpha magnet
+        !--------------------------------------------------------------------------------------
         subroutine  getfldtalpha_EMfldAna(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
@@ -1177,7 +1204,10 @@
 
         end subroutine getfldtalpha_EMfldAna
 
-        !get analytical field from a traveling wave meander plate
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get analytical field from a traveling wave meander plate
+        !--------------------------------------------------------------------------------------
         subroutine  getfldtTW_EMfldAna(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

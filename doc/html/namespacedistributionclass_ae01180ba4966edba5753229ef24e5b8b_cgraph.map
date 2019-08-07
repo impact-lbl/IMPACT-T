@@ -1,0 +1,20 @@
+<map id="distributionclass::combine_dist" name="distributionclass::combine_dist">
+<area shape="rect" id="node1" title="generating initial particle distribution based on the combination of transverse spatial distribution ..." alt="" coords="5,381,129,420"/>
+<area shape="rect" id="node2" href="$namespacetimerclass.html#afb272bcdcff72d225c2df5862630025c" title=" " alt="" coords="187,319,327,357"/>
+<area shape="rect" id="node4" href="$namespacepgrid2dclass.html#ac088657db5b1deb05bb1ec732579ba53" title="get the total number of PEs, PEs in column and row communicators." alt="" coords="184,68,330,107"/>
+<area shape="rect" id="node5" href="$namespacepgrid2dclass.html#a559d4550356f88440ae55fceda480de2" title="get my rank position in 2d, column, and row communicators." alt="" coords="184,131,331,169"/>
+<area shape="rect" id="node6" href="$namespacedistributionclass.html#a00926191e33371dc32c2fdbaca1ee2a5" title="longitudinal spatial flat&#45;top distribution with linear ramp (id=1)." alt="" coords="192,193,323,232"/>
+<area shape="rect" id="node7" href="$namespacedistributionclass.html#a635c045c52b04bd03c076b8b8454b278" title="longitudinal spatial flat&#45;top distribution with 2sigma Gaussian ramp. (id=2)" alt="" coords="188,256,327,295"/>
+<area shape="rect" id="node8" href="$namespacedistributionclass.html#ab34be02e18a0166b3b2c945e0f68b9ca" title="longitudinal spatial Gaussian distribution with cut&#45;off. (id=3)" alt="" coords="195,444,319,483"/>
+<area shape="rect" id="node10" href="$namespacedistributionclass.html#aec8b879df17219ee41f1855623176867" title="transverse spatial uniform elleptical distribution. (id=1)" alt="" coords="195,381,319,420"/>
+<area shape="rect" id="node11" href="$namespacedistributionclass.html#a42ccdb5100e3e35c9424c89dcac131c1" title="transverse spatial Gaussian distribution with cut&#45;off. (id=2)" alt="" coords="195,507,319,545"/>
+<area shape="rect" id="node12" href="$namespacedistributionclass.html#a93a16b51a7754d6ec2c99d0a8c4f5ced" title="3D Momentum Gaussian distribution. (id=1)" alt="" coords="186,569,328,608"/>
+<area shape="rect" id="node14" href="$namespacedistributionclass.html#ab6dde242aa247f41d9581455e84607fb" title="Momentum Gaussian distribution in transverse while longitudinal xexp(&#45;x^2/sigz^2)...." alt="" coords="187,757,328,796"/>
+<area shape="rect" id="node16" href="$namespacedistributionclass.html#a323470431d5dda05b3dd2ba27cf8565c" title="Momentum distribution following the streak camera model. (id=3) both emax and wkf are in the units of..." alt="" coords="181,632,334,671"/>
+<area shape="rect" id="node17" href="$namespacedistributionclass.html#aaeb585c7c5a8664f047fb95fc7721059" title="Momentum distribution following the streak camera model. (id=4) momentum: following the 3 step model ..." alt="" coords="195,695,319,733"/>
+<area shape="rect" id="node18" href="$namespacetimerclass.html#a3378d323d442f85aff95ab73cd13376d" title=" " alt="" coords="177,5,338,44"/>
+<area shape="rect" id="node3" href="$namespacempistub.html#a2456432a60801629e19273ebe4114bc9" title="mpi timing" alt="" coords="386,169,525,195"/>
+<area shape="rect" id="node9" href="$namespacedistributionclass.html#ae604d1dc6d7f92f0c37e00fb504d38fa" title=" " alt="" coords="393,475,517,513"/>
+<area shape="rect" id="node13" href="$namespacedistributionclass.html#a020961b4717af242fc3c82090a17ce12" title=" " alt="" coords="393,569,517,608"/>
+<area shape="rect" id="node15" href="$namespacedistributionclass.html#acfc04ca0c8be3e0f3e73779c5e88693b" title=" " alt="" coords="393,757,517,796"/>
+</map>

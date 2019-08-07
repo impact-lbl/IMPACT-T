@@ -1,0 +1,6 @@
+<map id="distributionclass::trangaussxy_dist" name="distributionclass::trangaussxy_dist">
+<area shape="rect" id="node1" title="transverse spatial Gaussian distribution with cut&#45;off. (id=2)" alt="" coords="530,5,654,44"/>
+<area shape="rect" id="node2" href="$namespacedistributionclass.html#ae01180ba4966edba5753229ef24e5b8b" title="generating initial particle distribution based on the combination of transverse spatial distribution ..." alt="" coords="359,5,482,44"/>
+<area shape="rect" id="node3" href="$namespacedistributionclass.html#aee8dd99a29887ed3860bcce7adb87ce8" title="sample the particles with intial distribution." alt="" coords="187,5,311,44"/>
+<area shape="rect" id="node4" href="$namespaceaccsimulatorclass.html#a6a90186281758191cfa3ef4fc9c54078" title="set up objects and parameters." alt="" coords="5,5,139,44"/>
+</map>

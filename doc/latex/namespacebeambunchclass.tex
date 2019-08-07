@@ -1,0 +1,593 @@
+\hypertarget{namespacebeambunchclass}{}\section{beambunchclass Module Reference}
+\label{namespacebeambunchclass}\index{beambunchclass@{beambunchclass}}
+
+
+This class defines the charged particle beam bunch information in the accelerator.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a1605e527eb41043dc5962da1e3bb5159}{construct\+\_\+beambunch}} (this, incurr, inkin, inmass, incharge
+\begin{DoxyCompactList}\small\item\em Initialize Beambunch class. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_af1b14b706bd1283ff6c5a7cec4b06c48}{setnpt\+\_\+beambunch}} (this, innpt)
+\begin{DoxyCompactList}\small\item\em Set local \# of particles. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_aec332b229b76111b68db82b20ab2846e}{getnpt\+\_\+beambunch}} (this, outnpt)
+\begin{DoxyCompactList}\small\item\em Get local \# of particles. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a269bbe3913214953b92f55253daa5b16}{drifthalf\+\_\+beambunch}} (this, t, tau, betazini)
+\begin{DoxyCompactList}\small\item\em Drift half step in positions. Here, x, y, z are normalized by C $\ast$ Dt tau -\/ normalized step size (by Dt). Only particle with z $>$ 0 is drifted. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a2c80320f40c450b5384dfd16c76bcc6a}{driftemission\+\_\+beambunch}} (this, t, tau, betazini)
+\begin{DoxyCompactList}\small\item\em Particle emission For particle with z $<$ 0, they are just shifted long z This is used to simulate the process of emission from photocathod. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a1a12151be16b0be8122e01c579035ddd}{drifthalforg\+\_\+beambunch}} (this, t, tau)
+\begin{DoxyCompactList}\small\item\em Drift half step in positions. Here, x, y, z are normalized by C $\ast$ Dt tau -\/ normalized step size (by Dt). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a653727137cda46af62ebf20a0bcb9ab8}{driftz\+\_\+beambunch}} (this, dz)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_ac4e7c6a08c052c9bbc3c2bb1703adea6}{kick1t\+\_\+beambunch}} (this, beamelem, zbeamelem, idrfile, nbea
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a4353d7ca4b2e80df2e71209df5b0e36c}{scatter2t\+\_\+beambunch}} (innp, innx, inny, innz, rays, exg, eyg, ezg, ptsgeom, npx, npy, myidx, myidy, tg, gammaz, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a950cb67b3fefb93f3d3a492fdef5b998}{scatter20t\+\_\+beambunch}} (innp, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, flagerr)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a13904891d2d14b332c4178871e861363}{kick2t\+\_\+beambunch}} (innp, innx, inny, innz, rays, exg, eyg, ezg, bxg, byg, bzg, ptsgeom, npx, npy, myidx, myidy, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, flagerr)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a7cccd378d69c7b51808b6d96d3151e50}{lost\+\_\+beambunch}} (this, xrad, yrad, zleng, zcent, nplc, nptot)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a68be93e06f8b6c65ee45af2e08610396}{lostxy\+\_\+beambunch}} (this, xradmin, xradmax, yradmin, yradmax
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a8a635f6138c645606329c5c4b81bdf51}{kickpt2pt\+\_\+beambunch}} (nptlc, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, totchrg, r0, npttot, nptrue)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a01fdab4efb6d28b0604dfadfdbf302c1}{kickpt2ptimg\+\_\+beambunch}} (nptlc, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, totchrg, r0, npttot, nptrue)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a6708b67cc6ed6cbdbba8340d6512ab4f}{rottot\+\_\+beambunch}} (this, ptref, ptrange, poscent)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a26facece08e7014e20db987d5df33c42}{rotbackt\+\_\+beambunch}} (this, ptref)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a875b1de387c0e2e667bfa7a33bb70311}{conventr\+\_\+beambunch}} (this, zorgin, gamin)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a4126361c8be17915e9c6c24697801f47}{convexit\+\_\+beambunch}} (this, zorgin)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a53657fc9705a5a612bc5775c121c314e}{convexitold\+\_\+beambunch}} (this)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_ae62dcc6dbc6d31b22daefa701822d49d}{driftbackhalf\+\_\+beambunch}} (this, t, tau)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a45079536068a233e490ed282b4225c93}{drifthalfbd\+\_\+beambunch}} (this, t, tau)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a513182caa95677071325abf64bba8279}{kick2tbd\+\_\+beambunch}} (innp, innx, inny, innz, rays, exg, eyg, ezg, bxg, byg, bzg, ptsgeom, npx, npy, myidx, myidy, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, idbd, fldmap, refpt)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a38583f97e581a51940801aeb0f8398a0}{kick2tbd0\+\_\+beambunch}} (innp, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, idbd, fldmap, refpt)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a0fe1e4d236f209b18f75b272bf07782d}{destruct\+\_\+beambunch}} (this)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class defines the charged particle beam bunch information in the accelerator. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+
+\subsection{Data Type Documentation}
+\index{beambunchclass::beambunch@{beambunchclass::beambunch}}\label{structbeambunchclass_1_1beambunch}
+\Hypertarget{namespacebeambunchclass_structbeambunchclass_1_1beambunch}
+\subsubsection{type beambunchclass\+::beambunch}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespacebeambunchclass_a555bb0dc53871a3f69755125598c8938}\label{namespacebeambunchclass_a555bb0dc53871a3f69755125598c8938}} 
+double precision&
+charge&
+charge \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a0611d8fb67f60eb1ea7a3df79c5de915}\label{namespacebeambunchclass_a0611d8fb67f60eb1ea7a3df79c5de915}} 
+double precision&
+current&
+beam current \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_abeaad3b1ce823a9c49cab5a8b96f5ff0}\label{namespacebeambunchclass_abeaad3b1ce823a9c49cab5a8b96f5ff0}} 
+double precision&
+mass&
+part. mass \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a20f5303645e1b7fa0cbfa88f81cda947}\label{namespacebeambunchclass_a20f5303645e1b7fa0cbfa88f81cda947}} 
+integer&
+npt&
+num of total global macroparticles \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a71a8687235fdc19d862fb13092b714a3}\label{namespacebeambunchclass_a71a8687235fdc19d862fb13092b714a3}} 
+integer&
+nptlocal&
+num of total local particles \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_af0d19c1e3e537ade010af8554783c8d7}\label{namespacebeambunchclass_af0d19c1e3e537ade010af8554783c8d7}} 
+double precision, dimension(:,:), pointer&
+pts1&
+particles type one \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a973e0e4ee1b24185bac1d727d2c074f5}\label{namespacebeambunchclass_a973e0e4ee1b24185bac1d727d2c074f5}} 
+double precision, dimension(6)&
+refptcl&
+reference particle \\
+\hline
+
+\end{DoxyFields}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacebeambunchclass_a1605e527eb41043dc5962da1e3bb5159}\label{namespacebeambunchclass_a1605e527eb41043dc5962da1e3bb5159}} 
+\index{beambunchclass@{beambunchclass}!construct\_beambunch@{construct\_beambunch}}
+\index{construct\_beambunch@{construct\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{construct\_beambunch()}{construct\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::construct\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(in)}]{incurr,  }\item[{double precision, intent(in)}]{inkin,  }\item[{double precision, intent(in)}]{inmass,  }\item[{double precision, intent(in)}]{incharge }\end{DoxyParamCaption})}
+
+
+
+Initialize Beambunch class. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em incurr,inkin,inmass,incharge,innp,phasini} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a1605e527eb41043dc5962da1e3bb5159_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a875b1de387c0e2e667bfa7a33bb70311}\label{namespacebeambunchclass_a875b1de387c0e2e667bfa7a33bb70311}} 
+\index{beambunchclass@{beambunchclass}!conventr\_beambunch@{conventr\_beambunch}}
+\index{conventr\_beambunch@{conventr\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{conventr\_beambunch()}{conventr\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::conventr\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(in)}]{zorgin,  }\item[{double precision, intent(in)}]{gamin }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a875b1de387c0e2e667bfa7a33bb70311_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a4126361c8be17915e9c6c24697801f47}\label{namespacebeambunchclass_a4126361c8be17915e9c6c24697801f47}} 
+\index{beambunchclass@{beambunchclass}!convexit\_beambunch@{convexit\_beambunch}}
+\index{convexit\_beambunch@{convexit\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{convexit\_beambunch()}{convexit\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::convexit\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{real$\ast$8}]{zorgin }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a4126361c8be17915e9c6c24697801f47_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a53657fc9705a5a612bc5775c121c314e}\label{namespacebeambunchclass_a53657fc9705a5a612bc5775c121c314e}} 
+\index{beambunchclass@{beambunchclass}!convexitold\_beambunch@{convexitold\_beambunch}}
+\index{convexitold\_beambunch@{convexitold\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{convexitold\_beambunch()}{convexitold\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::convexitold\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacebeambunchclass_a0fe1e4d236f209b18f75b272bf07782d}\label{namespacebeambunchclass_a0fe1e4d236f209b18f75b272bf07782d}} 
+\index{beambunchclass@{beambunchclass}!destruct\_beambunch@{destruct\_beambunch}}
+\index{destruct\_beambunch@{destruct\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{destruct\_beambunch()}{destruct\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::destruct\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(out)}]{this }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a0fe1e4d236f209b18f75b272bf07782d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_ae62dcc6dbc6d31b22daefa701822d49d}\label{namespacebeambunchclass_ae62dcc6dbc6d31b22daefa701822d49d}} 
+\index{beambunchclass@{beambunchclass}!driftbackhalf\_beambunch@{driftbackhalf\_beambunch}}
+\index{driftbackhalf\_beambunch@{driftbackhalf\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{driftbackhalf\_beambunch()}{driftbackhalf\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::driftbackhalf\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, intent(in)}]{tau }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_ae62dcc6dbc6d31b22daefa701822d49d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_ae62dcc6dbc6d31b22daefa701822d49d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a2c80320f40c450b5384dfd16c76bcc6a}\label{namespacebeambunchclass_a2c80320f40c450b5384dfd16c76bcc6a}} 
+\index{beambunchclass@{beambunchclass}!driftemission\_beambunch@{driftemission\_beambunch}}
+\index{driftemission\_beambunch@{driftemission\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{driftemission\_beambunch()}{driftemission\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::driftemission\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, intent(in)}]{tau,  }\item[{double precision, intent(in)}]{betazini }\end{DoxyParamCaption})}
+
+
+
+Particle emission For particle with z $<$ 0, they are just shifted long z This is used to simulate the process of emission from photocathod. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em t} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em tau,betazini} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a2c80320f40c450b5384dfd16c76bcc6a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a2c80320f40c450b5384dfd16c76bcc6a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a269bbe3913214953b92f55253daa5b16}\label{namespacebeambunchclass_a269bbe3913214953b92f55253daa5b16}} 
+\index{beambunchclass@{beambunchclass}!drifthalf\_beambunch@{drifthalf\_beambunch}}
+\index{drifthalf\_beambunch@{drifthalf\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{drifthalf\_beambunch()}{drifthalf\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::drifthalf\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, intent(in)}]{tau,  }\item[{double precision, intent(in)}]{betazini }\end{DoxyParamCaption})}
+
+
+
+Drift half step in positions. Here, x, y, z are normalized by C $\ast$ Dt tau -\/ normalized step size (by Dt). Only particle with z $>$ 0 is drifted. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em tau,betazini} & \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em t} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a269bbe3913214953b92f55253daa5b16_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a269bbe3913214953b92f55253daa5b16_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a45079536068a233e490ed282b4225c93}\label{namespacebeambunchclass_a45079536068a233e490ed282b4225c93}} 
+\index{beambunchclass@{beambunchclass}!drifthalfbd\_beambunch@{drifthalfbd\_beambunch}}
+\index{drifthalfbd\_beambunch@{drifthalfbd\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{drifthalfbd\_beambunch()}{drifthalfbd\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::drifthalfbd\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, intent(in)}]{tau }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a45079536068a233e490ed282b4225c93_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a45079536068a233e490ed282b4225c93_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a1a12151be16b0be8122e01c579035ddd}\label{namespacebeambunchclass_a1a12151be16b0be8122e01c579035ddd}} 
+\index{beambunchclass@{beambunchclass}!drifthalforg\_beambunch@{drifthalforg\_beambunch}}
+\index{drifthalforg\_beambunch@{drifthalforg\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{drifthalforg\_beambunch()}{drifthalforg\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::drifthalforg\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, intent(in)}]{tau }\end{DoxyParamCaption})}
+
+
+
+Drift half step in positions. Here, x, y, z are normalized by C $\ast$ Dt tau -\/ normalized step size (by Dt). 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em t} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em tau} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a1a12151be16b0be8122e01c579035ddd_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a1a12151be16b0be8122e01c579035ddd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a653727137cda46af62ebf20a0bcb9ab8}\label{namespacebeambunchclass_a653727137cda46af62ebf20a0bcb9ab8}} 
+\index{beambunchclass@{beambunchclass}!driftz\_beambunch@{driftz\_beambunch}}
+\index{driftz\_beambunch@{driftz\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{driftz\_beambunch()}{driftz\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::driftz\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(in)}]{dz }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacebeambunchclass_aec332b229b76111b68db82b20ab2846e}\label{namespacebeambunchclass_aec332b229b76111b68db82b20ab2846e}} 
+\index{beambunchclass@{beambunchclass}!getnpt\_beambunch@{getnpt\_beambunch}}
+\index{getnpt\_beambunch@{getnpt\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{getnpt\_beambunch()}{getnpt\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::getnpt\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(in)}]{this,  }\item[{integer, intent(out)}]{outnpt }\end{DoxyParamCaption})}
+
+
+
+Get local \# of particles. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em outnpt} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{namespacebeambunchclass_aec332b229b76111b68db82b20ab2846e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_ac4e7c6a08c052c9bbc3c2bb1703adea6}\label{namespacebeambunchclass_ac4e7c6a08c052c9bbc3c2bb1703adea6}} 
+\index{beambunchclass@{beambunchclass}!kick1t\_beambunch@{kick1t\_beambunch}}
+\index{kick1t\_beambunch@{kick1t\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{kick1t\_beambunch()}{kick1t\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::kick1t\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{}]{nbea }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_ac4e7c6a08c052c9bbc3c2bb1703adea6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a13904891d2d14b332c4178871e861363}\label{namespacebeambunchclass_a13904891d2d14b332c4178871e861363}} 
+\index{beambunchclass@{beambunchclass}!kick2t\_beambunch@{kick2t\_beambunch}}
+\index{kick2t\_beambunch@{kick2t\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{kick2t\_beambunch()}{kick2t\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::kick2t\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{double precision, dimension(6,innp), intent(inout)}]{rays,  }\item[{double precision, dimension(innx,inny,innz), intent(in)}]{exg,  }\item[{}]{eyg,  }\item[{}]{ezg,  }\item[{double precision, dimension(innx,inny,innz), intent(in)}]{bxg,  }\item[{}]{byg,  }\item[{}]{bzg,  }\item[{type (compdom)}]{ptsgeom,  }\item[{integer, intent(in)}]{npx,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{myidx,  }\item[{integer, intent(in)}]{myidy,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{integer, intent(in)}]{nbeamln,  }\item[{integer}]{ibinit,  }\item[{integer}]{ibend,  }\item[{type (fielddata), dimension(\+:), intent(in)}]{fldmap,  }\item[{integer, intent(in)}]{flagerr }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a13904891d2d14b332c4178871e861363_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a13904891d2d14b332c4178871e861363_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a38583f97e581a51940801aeb0f8398a0}\label{namespacebeambunchclass_a38583f97e581a51940801aeb0f8398a0}} 
+\index{beambunchclass@{beambunchclass}!kick2tbd0\_beambunch@{kick2tbd0\_beambunch}}
+\index{kick2tbd0\_beambunch@{kick2tbd0\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{kick2tbd0\_beambunch()}{kick2tbd0\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::kick2tbd0\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{double precision, dimension(6,innp), intent(inout)}]{rays,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{integer, intent(in)}]{nbeamln,  }\item[{integer, intent(in)}]{idbd,  }\item[{type (fielddata), dimension(\+:), intent(in)}]{fldmap,  }\item[{double precision, dimension(6)}]{refpt }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a38583f97e581a51940801aeb0f8398a0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a38583f97e581a51940801aeb0f8398a0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a513182caa95677071325abf64bba8279}\label{namespacebeambunchclass_a513182caa95677071325abf64bba8279}} 
+\index{beambunchclass@{beambunchclass}!kick2tbd\_beambunch@{kick2tbd\_beambunch}}
+\index{kick2tbd\_beambunch@{kick2tbd\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{kick2tbd\_beambunch()}{kick2tbd\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::kick2tbd\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{double precision, dimension(6,innp), intent(inout)}]{rays,  }\item[{double precision, dimension(innx,inny,innz), intent(in)}]{exg,  }\item[{}]{eyg,  }\item[{}]{ezg,  }\item[{double precision, dimension(innx,inny,innz), intent(in)}]{bxg,  }\item[{}]{byg,  }\item[{}]{bzg,  }\item[{type (compdom)}]{ptsgeom,  }\item[{integer, intent(in)}]{npx,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{myidx,  }\item[{integer, intent(in)}]{myidy,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{integer, intent(in)}]{nbeamln,  }\item[{integer, intent(in)}]{idbd,  }\item[{type (fielddata), dimension(\+:), intent(in)}]{fldmap,  }\item[{double precision, dimension(6)}]{refpt }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a513182caa95677071325abf64bba8279_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a513182caa95677071325abf64bba8279_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a8a635f6138c645606329c5c4b81bdf51}\label{namespacebeambunchclass_a8a635f6138c645606329c5c4b81bdf51}} 
+\index{beambunchclass@{beambunchclass}!kickpt2pt\_beambunch@{kickpt2pt\_beambunch}}
+\index{kickpt2pt\_beambunch@{kickpt2pt\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{kickpt2pt\_beambunch()}{kickpt2pt\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::kickpt2pt\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{nptlc,  }\item[{double precision, dimension(6,nptlc), intent(inout)}]{rays,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{integer, intent(in)}]{nbeamln,  }\item[{integer, intent(in)}]{ibinit,  }\item[{integer, intent(in)}]{ibend,  }\item[{type (fielddata), dimension(\+:), intent(in)}]{fldmap,  }\item[{double precision, intent(in)}]{totchrg,  }\item[{double precision, intent(in)}]{r0,  }\item[{integer, intent(in)}]{npttot,  }\item[{integer, intent(in)}]{nptrue }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a8a635f6138c645606329c5c4b81bdf51_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a01fdab4efb6d28b0604dfadfdbf302c1}\label{namespacebeambunchclass_a01fdab4efb6d28b0604dfadfdbf302c1}} 
+\index{beambunchclass@{beambunchclass}!kickpt2ptimg\_beambunch@{kickpt2ptimg\_beambunch}}
+\index{kickpt2ptimg\_beambunch@{kickpt2ptimg\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{kickpt2ptimg\_beambunch()}{kickpt2ptimg\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::kickpt2ptimg\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{nptlc,  }\item[{double precision, dimension(6,nptlc), intent(inout)}]{rays,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{integer, intent(in)}]{nbeamln,  }\item[{integer, intent(in)}]{ibinit,  }\item[{integer, intent(in)}]{ibend,  }\item[{type (fielddata), dimension(\+:), intent(in)}]{fldmap,  }\item[{double precision, intent(in)}]{totchrg,  }\item[{double precision, intent(in)}]{r0,  }\item[{integer, intent(in)}]{npttot,  }\item[{integer, intent(in)}]{nptrue }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a01fdab4efb6d28b0604dfadfdbf302c1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a01fdab4efb6d28b0604dfadfdbf302c1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a7cccd378d69c7b51808b6d96d3151e50}\label{namespacebeambunchclass_a7cccd378d69c7b51808b6d96d3151e50}} 
+\index{beambunchclass@{beambunchclass}!lost\_beambunch@{lost\_beambunch}}
+\index{lost\_beambunch@{lost\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{lost\_beambunch()}{lost\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::lost\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(in)}]{xrad,  }\item[{double precision, intent(in)}]{yrad,  }\item[{double precision, intent(in)}]{zleng,  }\item[{double precision, intent(in)}]{zcent,  }\item[{integer, intent(out)}]{nplc,  }\item[{integer, intent(out)}]{nptot }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a7cccd378d69c7b51808b6d96d3151e50_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a68be93e06f8b6c65ee45af2e08610396}\label{namespacebeambunchclass_a68be93e06f8b6c65ee45af2e08610396}} 
+\index{beambunchclass@{beambunchclass}!lostxy\_beambunch@{lostxy\_beambunch}}
+\index{lostxy\_beambunch@{lostxy\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{lostxy\_beambunch()}{lostxy\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::lostxy\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, intent(in)}]{xradmin,  }\item[{double precision, intent(in)}]{xradmax,  }\item[{double precision, intent(in)}]{yradmin,  }\item[{double precision, intent(in)}]{yradmax }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a68be93e06f8b6c65ee45af2e08610396_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a26facece08e7014e20db987d5df33c42}\label{namespacebeambunchclass_a26facece08e7014e20db987d5df33c42}} 
+\index{beambunchclass@{beambunchclass}!rotbackt\_beambunch@{rotbackt\_beambunch}}
+\index{rotbackt\_beambunch@{rotbackt\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{rotbackt\_beambunch()}{rotbackt\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::rotbackt\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, dimension(6)}]{ptref }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a26facece08e7014e20db987d5df33c42_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a6708b67cc6ed6cbdbba8340d6512ab4f}\label{namespacebeambunchclass_a6708b67cc6ed6cbdbba8340d6512ab4f}} 
+\index{beambunchclass@{beambunchclass}!rottot\_beambunch@{rottot\_beambunch}}
+\index{rottot\_beambunch@{rottot\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{rottot\_beambunch()}{rottot\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::rottot\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{double precision, dimension(6)}]{ptref,  }\item[{double precision, dimension(6), intent(out)}]{ptrange,  }\item[{double precision}]{poscent }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a6708b67cc6ed6cbdbba8340d6512ab4f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a950cb67b3fefb93f3d3a492fdef5b998}\label{namespacebeambunchclass_a950cb67b3fefb93f3d3a492fdef5b998}} 
+\index{beambunchclass@{beambunchclass}!scatter20t\_beambunch@{scatter20t\_beambunch}}
+\index{scatter20t\_beambunch@{scatter20t\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{scatter20t\_beambunch()}{scatter20t\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::scatter20t\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{double precision, dimension(6,innp), intent(inout)}]{rays,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{integer, intent(in)}]{nbeamln,  }\item[{integer, intent(in)}]{ibinit,  }\item[{integer, intent(in)}]{ibend,  }\item[{type (fielddata), dimension(\+:), intent(in)}]{fldmap,  }\item[{integer, intent(in)}]{flagerr }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a950cb67b3fefb93f3d3a492fdef5b998_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a950cb67b3fefb93f3d3a492fdef5b998_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_a4353d7ca4b2e80df2e71209df5b0e36c}\label{namespacebeambunchclass_a4353d7ca4b2e80df2e71209df5b0e36c}} 
+\index{beambunchclass@{beambunchclass}!scatter2t\_beambunch@{scatter2t\_beambunch}}
+\index{scatter2t\_beambunch@{scatter2t\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{scatter2t\_beambunch()}{scatter2t\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::scatter2t\+\_\+beambunch (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{double precision, dimension(6,innp), intent(inout)}]{rays,  }\item[{double precision, dimension(innx,inny,innz), intent(in)}]{exg,  }\item[{}]{eyg,  }\item[{}]{ezg,  }\item[{type (compdom)}]{ptsgeom,  }\item[{integer, intent(in)}]{npx,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{myidx,  }\item[{integer, intent(in)}]{myidy,  }\item[{double precision, intent(in)}]{tg,  }\item[{double precision, intent(in)}]{gammaz,  }\item[{double precision, intent(in)}]{chge,  }\item[{double precision, intent(in)}]{mass,  }\item[{double precision, intent(in)}]{dt,  }\item[{type (beamlineelem), dimension(\+:), intent(in)}]{beamelem,  }\item[{double precision, dimension(\+:,\+:), intent(in)}]{zbeamelem,  }\item[{integer, dimension(\+:,\+:), intent(in)}]{idrfile,  }\item[{}]{nbeamln,  }\item[{integer}]{ibinit,  }\item[{integer}]{ibend }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a4353d7ca4b2e80df2e71209df5b0e36c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_a4353d7ca4b2e80df2e71209df5b0e36c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacebeambunchclass_af1b14b706bd1283ff6c5a7cec4b06c48}\label{namespacebeambunchclass_af1b14b706bd1283ff6c5a7cec4b06c48}} 
+\index{beambunchclass@{beambunchclass}!setnpt\_beambunch@{setnpt\_beambunch}}
+\index{setnpt\_beambunch@{setnpt\_beambunch}!beambunchclass@{beambunchclass}}
+\subsubsection{\texorpdfstring{setnpt\_beambunch()}{setnpt\_beambunch()}}
+{\footnotesize\ttfamily subroutine beambunchclass\+::setnpt\+\_\+beambunch (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunch}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{innpt }\end{DoxyParamCaption})}
+
+
+
+Set local \# of particles. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em innpt} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacebeambunchclass_af1b14b706bd1283ff6c5a7cec4b06c48_icgraph}
+\end{center}
+\end{figure}

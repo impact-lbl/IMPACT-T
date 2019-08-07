@@ -2,10 +2,14 @@
 ! (c) Copyright, 2013 by the Regents of the University of California.
 ! Distributionclass: Initial distribution of charged beam bunch class in 
 !                    Beam module of APPLICATION layer.
-! Version: 1.7
-! Author: Ji Qiang,  01/07/2013
-! Description: This class defines initial distributions for the charged 
-!              particle beam bunch information in the accelerator.
+! MODULE  : ... Distributionclass
+! VERSION : ... 1.7
+! DATE  : ... 01/07/2013
+!> @author 
+!> Ji Qiang  
+! DESCRIPTION:
+!> This class defines initial distributions for the charged particle beam bunch information in the accelerator.
+!        
 ! Comments:
 !----------------------------------------------------------------
       module Distributionclass
@@ -16,7 +20,11 @@
         use PhysConstclass
         use BeamBunchclass
       contains
-        ! sample the particles with intial distribution.
+        
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> sample the particles with intial distribution.
+        !--------------------------------------------------------------------------------------
         subroutine sample_Dist(this,distparam,nparam,flagdist,geom,grid,Flagbc,ib,Nb)
         implicit none
         include 'mpif.h'
@@ -98,8 +106,11 @@
 !        deallocate(seedarray)
 
         end subroutine sample_Dist
-       
-        !6d uniform distribution
+        
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> 6d uniform distribution
+        !--------------------------------------------------------------------------------------
         subroutine Uniform_Dist(this,nparam,distparam,grid)
         implicit none
         include 'mpif.h'
@@ -197,7 +208,10 @@
 
         end subroutine Uniform_Dist
 
-        !6d Gaussian distribution
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> 6d Gaussian distribution
+        !--------------------------------------------------------------------------------------
         subroutine Gauss3_Dist(this,nparam,distparam,grid,flagalloc)
         implicit none
         include 'mpif.h'
@@ -364,9 +378,11 @@
 
         end subroutine normVec
 
-        !6d Waterbag distribution
-        ! sample the particles with intial distribution 
-        ! using rejection method. 
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> 6d Waterbag distribution.
+        !> sample the particles with intial distribution using rejection method. 
+        !--------------------------------------------------------------------------------------
         subroutine Waterbag_Dist(this,nparam,distparam,grid,flagalloc)
         implicit none
         include 'mpif.h'
@@ -511,7 +527,10 @@
 
         end subroutine Waterbag_Dist
 
-        !transverse KV distribution and longitudinal uniform distribution
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> transverse KV distribution and longitudinal uniform distribution
+        !--------------------------------------------------------------------------------------
         subroutine KV3d_Dist(this,nparam,distparam,grid)
         implicit none
         include 'mpif.h'
@@ -627,8 +646,11 @@
 
         end subroutine KV3d_Dist
 
-        !3d Waterbag distribution in spatial and 3d Gaussian distribution in
-        !momentum space
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> 3d Waterbag distribution in spatial and 3d Gaussian distribution in
+        !> momentum space
+        !--------------------------------------------------------------------------------------
         subroutine Semigauss_Dist(this,nparam,distparam,grid)
         implicit none
         include 'mpif.h'
@@ -776,7 +798,10 @@
 
         end subroutine normdv2
 
-        !read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...)
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...)
+        !--------------------------------------------------------------------------------------
         subroutine read_Dist(this,nparam,distparam,ib)
         implicit none
         include 'mpif.h'
@@ -1342,19 +1367,22 @@
       return
       END subroutine sobseq
 
-!generating initial particle distribution based on the combination of
-!transverse spatial distribution (2 types), longitudinal spatial distribution (3 types)
-!and 3D momentum distribution (4 types). For example, flagdist = 111 denotes
-!type 1 from transverse spatial distribution, type 1 from longitudinal spatial distribution,
-!and type 1 from 3D momentum distribution. In this case, it denotes a transverse uniform
-!elliptical, longitudinal flat-top with linear ramping in spatial, and 3d full Gaussian 
-!distribution in momentum space.
-!flagdist = ijk, where 
-!i = 1 (transverse uniform ellipse) and 2 (Gaussian with cut-off);
-!j = 1 (flat-top with linear ramping), 2 (flat-top with 2sigma Gaussain ramping), and
-!    3 (Gaussian with cut-off); 
-!k = 1, (3D Gaussian momentum), 2 (transverse Gaussian momentum, longitudinal semi-Gaussian),
-!    3 (streak camera model), and 4 (3 step model).
+      !-----------------------------------------------------------------------------------------------
+      !> @brief
+      !> generating initial particle distribution based on the combination of
+      !> transverse spatial distribution (2 types), longitudinal spatial distribution (3 types)
+      !> and 3D momentum distribution (4 types). For example, flagdist = 111 denotes
+      !> type 1 from transverse spatial distribution, type 1 from longitudinal spatial distribution,
+      !> and type 1 from 3D momentum distribution. In this case, it denotes a transverse uniform
+      !> elliptical, longitudinal flat-top with linear ramping in spatial, and 3d full Gaussian 
+      !> distribution in momentum space.
+      !> flagdist = ijk, where 
+      !> i = 1 (transverse uniform ellipse) and 2 (Gaussian with cut-off);
+      !> j = 1 (flat-top with linear ramping), 2 (flat-top with 2sigma Gaussain ramping), and
+      !>     3 (Gaussian with cut-off);
+      !> k = 1, (3D Gaussian momentum), 2 (transverse Gaussian momentum, longitudinal semi-Gaussian), 
+      !>     3 (streak camera model), and 4 (3 step model).
+      !------------------------------------------------------------------------------------------------
         subroutine Combine_Dist(this,nparam,distparam,grid,ib,Nb,flagdist)
         implicit none
         include 'mpif.h'
@@ -1506,7 +1534,10 @@
 
         end subroutine Combine_Dist
 
-        !transverse spatial uniform elleptical distribution. (id=1)
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> transverse spatial uniform elleptical distribution. (id=1)
+        !------------------------------------------------------------------------------------------------
         subroutine TranUnifxy_Dist(ptxy,avgpts,sigx,sigy,xmu1,xmu3)
         implicit none
         include 'mpif.h'
@@ -1532,7 +1563,10 @@
 
         end subroutine TranUnifxy_Dist
 
-        !transverse spatial Gaussian distribution with cut-off. (id=2)
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> transverse spatial Gaussian distribution with cut-off. (id=2)
+        !------------------------------------------------------------------------------------------------
         subroutine TranGaussxy_Dist(ptxy,avgpts,sigx,sigy,xmu1,xmu3,cutx,cuty)
         implicit none
         include 'mpif.h'
@@ -1550,7 +1584,10 @@
 
         end subroutine TranGaussxy_Dist
 
-        !longitudinal spatial flat-top distribution with linear ramp (id=1).
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> longitudinal spatial flat-top distribution with linear ramp (id=1).
+        !------------------------------------------------------------------------------------------------
         subroutine LongFlattoplinz_Dist(ptz,avgpts,avgpts0,zscale,pzscale,xmu5,ib,Nb)
         implicit none
         include 'mpif.h'
@@ -1607,7 +1644,10 @@
 
         end subroutine LongFlattoplinz_Dist
 
-        !longitudinal spatial flat-top distribution with 2sigma Gaussian ramp. (id=2)
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> longitudinal spatial flat-top distribution with 2sigma Gaussian ramp. (id=2)
+        !------------------------------------------------------------------------------------------------
         subroutine LongFlattopGasz_Dist(ptz,avgpts,avgpts0,zscale,pzscale,xmu5,ib,Nb)
         implicit none
         include 'mpif.h'
@@ -1665,7 +1705,10 @@
 
         end subroutine LongFlattopGasz_Dist
 
-        !longitudinal spatial Gaussian distribution with cut-off. (id=3)
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> longitudinal spatial Gaussian distribution with cut-off. (id=3)
+        !------------------------------------------------------------------------------------------------
         subroutine LongGaussz_Dist(ptz,avgpts,sigz,xmu5,cutz)
         implicit none
         include 'mpif.h'
@@ -1684,7 +1727,10 @@
 
         end subroutine LongGaussz_Dist
 
-        !3D spatial Waterbag distribution. (id=34)
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> 3D spatial Waterbag distribution. (id=34)
+        !------------------------------------------------------------------------------------------------
         subroutine Waterxyz_Dist(ptxyz,avgpts,sigx,sigy,sigz,xmu1,xmu3,xmu5)
         implicit none
         include 'mpif.h'
@@ -1710,7 +1756,10 @@
 
         end subroutine Waterxyz_Dist
 
-        !3D Momentum Gaussian distribution. (id=1)
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> 3D Momentum Gaussian distribution. (id=1)
+        !------------------------------------------------------------------------------------------------
         subroutine PxPyPzGauss3d_Dist(pmxyz,avgpts,sigpx,sigpy,sigpz,xmu2,xmu4,xmu6)
         implicit none
         include 'mpif.h'
@@ -1730,8 +1779,11 @@
  
         end subroutine PxPyPzGauss3d_Dist
 
-        !Momentum Gaussian distribution in transverse while longitudinal xexp(-x^2/sigz^2). (id=2)
-        !The longitudinal distribution follows Bird's book, p.129.
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> Momentum Gaussian distribution in transverse while longitudinal xexp(-x^2/sigz^2). (id=2)
+        !> The longitudinal distribution follows Bird's book, p.129.
+        !------------------------------------------------------------------------------------------------
         subroutine PxPyGaussPzSg_Dist(pmxyz,avgpts,sigpx,sigpy,sigpz,xmu2,xmu4,xmu6)
         implicit none
         include 'mpif.h'
@@ -1757,9 +1809,12 @@
  
         end subroutine PxPyGaussPzSg_Dist
 
-        !Momentum distribution following the streak camera model. (id=3)
-        !both emax and wkf are in the units of eV.
-        !emass is also in eV.
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> Momentum distribution following the streak camera model. (id=3)
+        !> both emax and wkf are in the units of eV.
+        !> emass is also in eV.
+        !------------------------------------------------------------------------------------------------
         subroutine PxPyPzStreakCam_Dist(pmxyz,avgpts,emax,wkf,emass,xmu2,xmu4,xmu6)
         implicit none
         include 'mpif.h'
@@ -1801,13 +1856,16 @@
 
         end subroutine PxPyPzStreakCam_Dist
 
-        !Momentum distribution following the streak camera model. (id=4)
-        !momentum: following the 3 step model in David Dowell's PRSTAB paper
-        !v.12, 074201, 2009.
-        !momentum input parameters are:
-        !laser photon energy (eV), cathode temperature (eV),
-        !cathode effective work function (eV) (work function - surface field),
-        !Fermi energy of cathode material, emass (eV).
+        !-----------------------------------------------------------------------------------------------
+        !> @brief
+        !> Momentum distribution following the streak camera model. (id=4)
+        !> momentum: following the 3 step model in David Dowell's PRSTAB paper
+        !> v.12, 074201, 2009.
+        !> momentum input parameters are:
+        !> laser photon energy (eV), cathode temperature (eV),
+        !> cathode effective work function (eV) (work function - surface field),
+        !> Fermi energy of cathode material, emass (eV).
+        !------------------------------------------------------------------------------------------------
         subroutine PxPyPz3step_Dist(pmxyz,avgpts,Ef,Eph,Tem,Ewk,emass,xmu2,xmu4,xmu6)
         implicit none
         include 'mpif.h'

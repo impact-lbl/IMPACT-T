@@ -2,10 +2,14 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! PhysConstclass: physical constants class in CONSTANTS module of 
 !                 DATA STRUCTURE layer.
-! Version: 1.0
-! Author: Ji Qiang 
-! Description: This class defines the physical constant parameters used
-!              in the simulation.
+! MODULE  : ... PhysConstclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang 
+!
+! DESCRIPTION: 
+!> This class defines the physical constant parameters used
+!> in the simulation.
 ! Comments:
 !----------------------------------------------------------------
       module PhysConstclass
@@ -14,19 +18,19 @@
       
         !physical parameters and constants ---------------------
         double precision :: Pi
-        double precision :: Clight !speed of light in vaccum
-        double precision :: Scxl !length scale in z domain code
-        double precision :: Rad2deg !conversion factor from radian to degree
-        double precision :: Epsilon0 !permittivity of vacuum
-        double precision :: Scfreq !time scale
-        double precision :: Scxlt !length scale in time domain code
-        double precision :: Scq0 ! elementary charge
-        double precision :: Scphi0 ! electical potential
-        double precision :: Sct0  ! time scale
-        double precision :: Scm0 ! mass scale
-        double precision :: Sce0 ! electrical field scale
-        double precision :: Scb0 ! magnetic field scale
-        double precision :: Scrho0 ! charge density scale
+        double precision :: Clight !< speed of light in vaccum
+        double precision :: Scxl !< length scale in z domain code
+        double precision :: Rad2deg !< conversion factor from radian to degree
+        double precision :: Epsilon0 !< permittivity of vacuum
+        double precision :: Scfreq !< time scale
+        double precision :: Scxlt !< length scale in time domain code
+        double precision :: Scq0 !< elementary charge
+        double precision :: Scphi0 !< electical potential
+        double precision :: Sct0  !< time scale
+        double precision :: Scm0 !< mass scale
+        double precision :: Sce0 !< electrical field scale
+        double precision :: Scb0 !< magnetic field scale
+        double precision :: Scrho0 !< charge density scale
       contains
         subroutine constructT_PhysConst(dt,reffreq)
         double precision, intent(in) :: dt,reffreq

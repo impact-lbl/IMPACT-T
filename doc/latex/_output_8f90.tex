@@ -1,0 +1,32 @@
+\hypertarget{_output_8f90}{}\section{src/\+Contrl/\+Output.f90 File Reference}
+\label{_output_8f90}\index{src/Contrl/Output.f90@{src/Contrl/Output.f90}}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespaceoutputclass}{outputclass}}
+\begin{DoxyCompactList}\small\item\em This class defines functions to print out the charged particle beam information in the accelerator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a3b5a43f1652254e5a12880dc332a48c3}{outputclass\+::diagnostic1\+\_\+output}} (z, this)
+\begin{DoxyCompactList}\small\item\em calculate $<$x$^\wedge$2$>$,$<$xp$>$,$<$px$^\wedge$2$>$,x emittance, $<$y$^\wedge$2$>$,$<$ypy$>$, $<$py$^\wedge$2$>$ and y emittance, $<$z$^\wedge$2$>$,$<$zp$>$,$<$pz$^\wedge$2$>$,z emittance. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_ac91c3984014cb5cdc000c0422ccd08a1}{outputclass\+::diagnostic1avg\+\_\+output}} (z, this, Nbunch)
+\begin{DoxyCompactList}\small\item\em calculate averaged $<$x$^\wedge$2$>$,$<$xp$>$,$<$px$^\wedge$2$>$,x emittance, $<$y$^\wedge$2$>$,$<$ypy$>$, $<$py$^\wedge$2$>$ and y emittance, $<$z$^\wedge$2$>$,$<$zp$>$,$<$pz$^\wedge$2$>$,z emittance from multiple bunch/bin. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a42165712a4636aa78bacdd26efa4bae9}{outputclass\+::diagnostic1avgb\+\_\+output}} (z, this, Nbunch)
+\begin{DoxyCompactList}\small\item\em calculate averaged $<$x$^\wedge$2$>$,$<$xp$>$,$<$px$^\wedge$2$>$,x emittance, $<$y$^\wedge$2$>$,$<$ypy$>$, $<$py$^\wedge$2$>$ and y emittance, $<$z$^\wedge$2$>$,$<$zp$>$,$<$pz$^\wedge$2$>$,z emittance from multiple bunch/bin. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a4a7e188c45ca9b8099c7715873d9324a}{outputclass\+::diagnostic1avgz\+\_\+output}} (z, this, Nbunch)
+\begin{DoxyCompactList}\small\item\em calculate averaged $<$x$^\wedge$2$>$,$<$xp$>$,$<$px$^\wedge$2$>$,x emittance, $<$y$^\wedge$2$>$,$<$ypy$>$, $<$py$^\wedge$2$>$ and y emittance, $<$z$^\wedge$2$>$,$<$zp$>$,$<$pz$^\wedge$2$>$,z emittance from multiple bunch/bin at fixed z (i.\+e. bunch center). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a86742b646a584647da7837ee6fc09c89}{outputclass\+::phase\+\_\+output}} (nfile, this, sample\+Period)
+\begin{DoxyCompactList}\small\item\em the 6D phase space output has (x(m), px/mc, y(m), py/mc, z(m), pz/mc). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_ab7f55098e75e7410bbbb6ffa50148508}{outputclass\+::dens2d\+\_\+output}} (nstep, nfile, this, totnptcls, xmnin, xmxin,
+\begin{DoxyCompactList}\small\item\em output 2D particle number density. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_af40e04d104fbdb28b9cae7fb5fcba121}{outputclass\+::end\+\_\+output}} (time)
+\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a9fcc4b33aa3d9bee76ef32e6708293b1}{outputclass\+::inpoint\+\_\+output}} (nfile, this, z, inb, jstp, nprocrow, nprocco
+\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a14e60e5c44149548fa7843b51c625969}{outputclass\+::outpoint\+\_\+output}} (nfile, this, z, inb, jstp, nprocrow, nprocc
+\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_aaba51e45761070d95883093a25e402c4}{outputclass\+::sliceprocdep\+\_\+output}} (pts, innp, npt, nslice, qchg, pmass, nfil
+\begin{DoxyCompactList}\small\item\em This program calculate the current profile, slice emittance and uncorrelated energy spread using linear deposition. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceoutputclass_a17a23eedc331f6e6b2ca0543119aca42}{outputclass\+::diagnostic1avgztest\+\_\+output}} (z, this, Nbunch)
+\begin{DoxyCompactList}\small\item\em for 2 bunch diagnostic, only work on 1 PE. calculate averaged $<$x$^\wedge$2$>$,$<$xp$>$,$<$px$^\wedge$2$>$,x emittance, $<$y$^\wedge$2$>$,$<$ypy$>$, $<$py$^\wedge$2$>$ and y emittance, $<$z$^\wedge$2$>$,$<$zp$>$,$<$pz$^\wedge$2$>$,z emittance from multiple bunch/bin at fixed z (i.\+e. bunch center). \end{DoxyCompactList}\end{DoxyCompactItemize}

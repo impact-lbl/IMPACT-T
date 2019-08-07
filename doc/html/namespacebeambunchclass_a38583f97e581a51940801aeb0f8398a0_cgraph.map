@@ -1,0 +1,27 @@
+<map id="beambunchclass::kick2tbd0_beambunch" name="beambunchclass::kick2tbd0_beambunch">
+<area shape="rect" id="node1" title=" " alt="" coords="5,68,190,107"/>
+<area shape="rect" id="node2" href="$namespacetimerclass.html#afb272bcdcff72d225c2df5862630025c" title=" " alt="" coords="249,5,389,44"/>
+<area shape="rect" id="node4" href="$namespacebeamlineelemclass.html#a99175508a57a532d040552a0a72bdcc1" title=" " alt="" coords="245,397,393,436"/>
+<area shape="rect" id="node25" href="$namespacetimerclass.html#a3378d323d442f85aff95ab73cd13376d" title=" " alt="" coords="238,68,399,107"/>
+<area shape="rect" id="node3" href="$namespacempistub.html#a2456432a60801629e19273ebe4114bc9" title="mpi timing" alt="" coords="457,12,596,37"/>
+<area shape="rect" id="node5" href="$namespacequadrupoleclass.html#a1d1bf0b4ea88a1cd0c0832a178fc80e5" title="get external field without displacement and rotation errors. here, the skew quad can can be modeled w..." alt="" coords="447,61,606,100"/>
+<area shape="rect" id="node7" href="$namespacedrifttubeclass.html#aa903101ae6943402917a2f29a8aa67d3" title=" " alt="" coords="456,124,596,163"/>
+<area shape="rect" id="node8" href="$namespacecclclass.html#a4b07c783aa0e272c4924db67320c70d3" title="get external field without displacement and rotation errors." alt="" coords="459,187,594,212"/>
+<area shape="rect" id="node9" href="$namespaceccdtlclass.html#aa1b97607af3b788522be9e22c479ce2a" title="get the external field without misalignment and rotation errors." alt="" coords="465,236,588,275"/>
+<area shape="rect" id="node10" href="$namespacedtlclass.html#aef6d69ea2a551751181175c270a8b745" title="get external field without displacement and rotation errors." alt="" coords="461,299,592,324"/>
+<area shape="rect" id="node11" href="$namespacescclass.html#a73840f6e9b85c73425db1f08ab539aa2" title="get external field without displacement and rotation errors" alt="" coords="462,348,591,373"/>
+<area shape="rect" id="node12" href="$namespaceconstfocclass.html#a34425bf98b4a4cff016108f25a629dff" title=" " alt="" coords="456,397,597,436"/>
+<area shape="rect" id="node13" href="$namespacesolrfclass.html#ac164c5b7477e8ec4278009bd85cd4338" title="get external field without displacement and rotation errors." alt="" coords="466,460,587,499"/>
+<area shape="rect" id="node14" href="$namespacesolclass.html#ae8d2c14b13bdf023c1a9efb101b4c666" title="get the discrete Br, Bz as a function or &quot;r&quot; at given &quot;z&quot;." alt="" coords="458,523,595,548"/>
+<area shape="rect" id="node15" href="$namespacedipoleclass.html#af86cd228552505ad1c64928bb918f500" title="get external dipole field without displacement and rotation errors. here the fringe field of dipole i..." alt="" coords="461,572,592,611"/>
+<area shape="rect" id="node16" href="$namespaceemfldanaclass.html#a7ecbabd3d9e65aadaf2e8ccb096c6eed" title="get analytical field." alt="" coords="451,635,601,673"/>
+<area shape="rect" id="node21" href="$namespaceemfldcartclass.html#a63a14e90f4526aa45d3d28a9611d3908" title="get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t." alt="" coords="451,697,601,736"/>
+<area shape="rect" id="node22" href="$namespaceemfldcylclass.html#a82e58a65bbe911b6f676ddb81868db31" title="get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or &quot;r&quot; at given &quot;z&quot;." alt="" coords="454,760,599,799"/>
+<area shape="rect" id="node23" href="$namespacemultipoleclass.html#af4fb9d3cfd9db2d92930fcda605fbe26" title="get external field without displacement and rotation errors." alt="" coords="454,823,599,861"/>
+<area shape="rect" id="node6" href="$namespacequadrupoleclass.html#ab1abe8916ad3dace3e5d1373da4688ac" title=" " alt="" coords="655,61,859,100"/>
+<area shape="rect" id="node17" href="$namespaceemfldanaclass.html#a8e64e65ca00c486db83f7f7152aa5744" title="get analytical field from an alpha magnet" alt="" coords="665,540,848,579"/>
+<area shape="rect" id="node18" href="$namespaceemfldanaclass.html#a49f218450fbccc7099479730313a5ec1" title="get analytical field from a traveling wave meander plate" alt="" coords="675,603,839,641"/>
+<area shape="rect" id="node19" href="$namespaceemfldanaclass.html#ac3c4c5ce44722c1aa2ba2d10700e0215" title="get DC surface roughness fields" alt="" coords="654,665,860,704"/>
+<area shape="rect" id="node20" href="$namespaceemfldanaclass.html#aa9ea3d7a230bc88c83be56723c8d96a6" title=" " alt="" coords="664,728,850,767"/>
+<area shape="rect" id="node24" href="$namespacemultipoleclass.html#a8712b7622d8ed7c0e71cdc18204dcf46" title="interpolate the field from the SC rf cavity onto bunch location." alt="" coords="677,823,837,861"/>
+</map>

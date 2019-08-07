@@ -2,18 +2,23 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Ptclmgerclass: Particles moving manager class in Communication module 
 !                of FUNCTION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines functions to transport particles to 
-!              their local compuatation processor domain through an
-!              iterative neighboring processor communcation process.
+!
+! MODULE  : ... Ptclmgerclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines functions to transport particles to 
+!> their local compuatation processor domain through an
+!> iterative neighboring processor communcation process.
 ! Comments:
 !----------------------------------------------------------------
         module Ptclmgerclass
           use Timerclass
           use Pgrid2dclass
         contains
-        ! move particles from one processor to 4 neighboring processors.
+        !> move particles from one processor to 4 neighboring processors.
         subroutine ptsmv2_ptclmger(Ptsl,Nptlocal,grid,pdim,npmax,lcrange)
         implicit none
         include 'mpif.h'

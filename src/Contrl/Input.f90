@@ -1,11 +1,16 @@
 !----------------------------------------------------------------
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Inputclass: Input class in I/O module of CONTROL layer. 
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines functions to input the global
-!              beam and computational parameters and the lattice input
-!              parameters in the accelerator.
+! 
+! MODULE  : ... Inputclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines functions to input the global
+!> beam and computational parameters and the lattice input
+!> parameters in the accelerator.
 ! Comments: J.Q modified the source code so that the user can put comment
 !           lines starting with "!" for each number line in the input file
 !           "ImpactT.in".
@@ -16,7 +21,7 @@
           module procedure in1_Input, in2_Input, in3_Input
         end interface
       contains
-        ! Start MPI
+        !> Start MPI
         subroutine init_Input(time)
         implicit none
         include 'mpif.h'
@@ -31,7 +36,7 @@
 
         end subroutine init_Input
  
-        ! Input all parameters except beam line element parameters.
+        !> Input all parameters except beam line element parameters.
         subroutine in1_Input(odim,onp,onx,ony,onz,oflagbc,oflagdist, &
         orstartflg,oflagmap,distparam,nparam,obcurr,obkenergy,obmass,&
         obcharge,obfreq,oxrad,oyrad,operdlen,onblem,onpcol,onprow,oflagerr,&
@@ -241,7 +246,7 @@
 
         end subroutine in1_Input
 
-        ! Input beam line element parameters.
+        !> Input beam line element parameters.
 !        subroutine in2_Input(onblem,operd,oblength,obnseg,obmpstp,&
 !                             obtype,value1,value2,value3,value4,value5)
         subroutine in2_Input(onblem,oblength,obnseg,obmpstp,&
@@ -381,7 +386,7 @@
 
         end subroutine in2_Input
 
-        ! Input all parameters except beam line element parameters.
+        !> Input all parameters except beam line element parameters.
         subroutine in3_Input(odim,onp,onx,ony,onz,oflagbc,oflagdist, &
         orstartflg,oflagmap,distparam,nparam,obcurr,obkenergy,obmass,&
         obcharge,obfreq,oxrad,oyrad,operdlen,onblem,onpcol,onprow,oflagerr,&

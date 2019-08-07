@@ -1,0 +1,18 @@
+<map id="quadrupoleclass::getfldfrgana2_quadrupole" name="quadrupoleclass::getfldfrgana2_quadrupole">
+<area shape="rect" id="node1" title=" " alt="" coords="975,163,1179,201"/>
+<area shape="rect" id="node2" href="$namespacequadrupoleclass.html#a41791f03ec33f0255e54ebc7b9519170" title="get external field with displacement and rotation errors." alt="" coords="751,84,925,123"/>
+<area shape="rect" id="node4" href="$namespacequadrupoleclass.html#a1d1bf0b4ea88a1cd0c0832a178fc80e5" title="get external field without displacement and rotation errors. here, the skew quad can can be modeled w..." alt="" coords="759,163,917,201"/>
+<area shape="rect" id="node15" href="$namespacequadrupoleclass.html#a25a1f7329a298c01c802f96b0547ab6c" title="get external field with displacement and rotation errors." alt="" coords="749,225,927,264"/>
+<area shape="rect" id="node3" href="$namespacebeamlineelemclass.html#aa711cecfd3c01152cb0d88d88b645c4b" title="get external field with displacement and rotation errors." alt="" coords="538,68,699,107"/>
+<area shape="rect" id="node5" href="$namespacebeamlineelemclass.html#a21fd373bab34a4c18c8bcf5b00816c0c" title=" " alt="" coords="546,131,691,169"/>
+<area shape="rect" id="node6" href="$namespacebeamlineelemclass.html#a99175508a57a532d040552a0a72bdcc1" title=" " alt="" coords="545,193,693,232"/>
+<area shape="rect" id="node7" href="$namespacebeambunchclass.html#a950cb67b3fefb93f3d3a492fdef5b998" title=" " alt="" coords="293,319,481,357"/>
+<area shape="rect" id="node10" href="$namespacebeambunchclass.html#a13904891d2d14b332c4178871e861363" title=" " alt="" coords="306,256,468,295"/>
+<area shape="rect" id="node11" href="$namespacebeambunchclass.html#a8a635f6138c645606329c5c4b81bdf51" title=" " alt="" coords="296,131,478,169"/>
+<area shape="rect" id="node12" href="$namespacebeambunchclass.html#a01fdab4efb6d28b0604dfadfdbf302c1" title=" " alt="" coords="286,193,488,232"/>
+<area shape="rect" id="node13" href="$namespacebeambunchclass.html#a513182caa95677071325abf64bba8279" title=" " alt="" coords="298,5,476,44"/>
+<area shape="rect" id="node14" href="$namespacebeambunchclass.html#a38583f97e581a51940801aeb0f8398a0" title=" " alt="" coords="294,68,480,107"/>
+<area shape="rect" id="node8" href="$namespaceaccsimulatorclass.html#acbe26eeaf1cb4076384b90e1016785f0" title="Run beam dynamics simulation through accelerator." alt="" coords="104,193,238,232"/>
+<area shape="rect" id="node9" href="$main_8f90.html#a8ec2266d83cd6c0b762cbcbc92c0af3d" title="IMPACT&#45;T is a fully three&#45;dimensional program to track relativistic particles taking into account spa..." alt="" coords="5,200,56,225"/>
+<area shape="rect" id="node16" href="$namespacebeamlineelemclass.html#a7684dcfae71c895630dae0e95476e203" title=" " alt="" coords="536,256,701,295"/>
+</map>
