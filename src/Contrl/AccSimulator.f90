@@ -96,7 +96,7 @@
 
         !restart time and step
         double precision :: tend,dtlessend
-        integer :: iend,nfileout,ioutend,itszend,isteerend,isloutend
+        integer :: iend,ibchend,nfileout,ioutend,itszend,isteerend,isloutend
 
         !beam line element array.
         type (BPM),target,dimension(Nbpmmax) :: beamln0
@@ -566,7 +566,7 @@
         itszend = 0
         isteerend = 0
         if(Rstartflg.eq.1) then
-          call inpoint_Output(nfileout+myid,Ebunch(1),tend,iend,ib,nprow,npcol,&
+          call inpoint_Output(nfileout+myid,Ebunch(1),tend,iend,ibchend,nprow,npcol,&
           Ageom,Nx,Ny,Nz,myidx,myidy,Np(1),ioutend,itszend,isteerend,isloutend,&
           dtlessend)
           if(myid.eq.0) print*,"restart at: ",tend,iend,ib
@@ -593,7 +593,8 @@
           call construct_BeamBunch(Ebunch(ib),Bcurr,Bkenergy,Bmass,Bcharge,&
                             Np(ib),phsini)
           if(Rstartflg.eq.1) then
-            call inpoint_Output(ib*nfileout+myid,Ebunch(ib),tend,iend,ib,nprow,npcol,&
+             call inpoint_Output(ib*nfileout+myid,Ebunch(ib),tend,iend,ibchend,&
+                nprow,npcol,&
                 Ageom,Nx,Ny,Nz,myidx,myidy,Np(ib),ioutend,itszend,isteerend,&
                 isloutend,dtlessend)
           else
