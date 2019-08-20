@@ -1,0 +1,33 @@
+\hypertarget{interfacecompdomclass_1_1balance__compdom}{}\section{compdomclass\+::balance\+\_\+compdom Interface Reference}
+\label{interfacecompdomclass_1_1balance__compdom}\index{compdomclass::balance\_compdom@{compdomclass::balance\_compdom}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{interfacecompdomclass_1_1balance__compdom_a8dfdc2311f3acbda59cfe285e5bfe2ea}{balance1\+\_\+compdom}} (source, lctabnmz, lctabnmy, lctabrgz, lctabrgy, npz, npy, commrow, commcol, innx, inny, innz, inyglb,
+\begin{DoxyCompactList}\small\item\em find the balanced local domain geometry so that the number of particles on this domain about equal. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{interfacecompdomclass_1_1balance__compdom_a339cc6756f770ac477ca5d635b77a75f}{balance2\+\_\+compdom}} (source, lctabnmz, lctabrgz, npz, npy, commrow, commcol, innx, inny, innz, inyglb, inzglb, hz, zmin)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{interfacecompdomclass_1_1balance__compdom_a8dfdc2311f3acbda59cfe285e5bfe2ea}\label{interfacecompdomclass_1_1balance__compdom_a8dfdc2311f3acbda59cfe285e5bfe2ea}} 
+\index{compdomclass::balance\_compdom@{compdomclass::balance\_compdom}!balance1\_compdom@{balance1\_compdom}}
+\index{balance1\_compdom@{balance1\_compdom}!compdomclass::balance\_compdom@{compdomclass::balance\_compdom}}
+\subsubsection{\texorpdfstring{balance1\_compdom()}{balance1\_compdom()}}
+{\footnotesize\ttfamily subroutine compdomclass\+::balance\+\_\+compdom\+::balance1\+\_\+compdom (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:,\+:)}]{source,  }\item[{integer, dimension(0\+:npz-\/1), intent(inout)}]{lctabnmz,  }\item[{integer, dimension(0\+:npy-\/1), intent(inout)}]{lctabnmy,  }\item[{double precision, dimension(2,0\+:npz-\/1), intent(out)}]{lctabrgz,  }\item[{double precision, dimension(2,0\+:npy-\/1), intent(out)}]{lctabrgy,  }\item[{integer, intent(in)}]{npz,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{commrow,  }\item[{integer, intent(in)}]{commcol,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{integer, intent(in)}]{inyglb }\end{DoxyParamCaption})}
+
+
+
+find the balanced local domain geometry so that the number of particles on this domain about equal. 
+
+\mbox{\Hypertarget{interfacecompdomclass_1_1balance__compdom_a339cc6756f770ac477ca5d635b77a75f}\label{interfacecompdomclass_1_1balance__compdom_a339cc6756f770ac477ca5d635b77a75f}} 
+\index{compdomclass::balance\_compdom@{compdomclass::balance\_compdom}!balance2\_compdom@{balance2\_compdom}}
+\index{balance2\_compdom@{balance2\_compdom}!compdomclass::balance\_compdom@{compdomclass::balance\_compdom}}
+\subsubsection{\texorpdfstring{balance2\_compdom()}{balance2\_compdom()}}
+{\footnotesize\ttfamily subroutine compdomclass\+::balance\+\_\+compdom\+::balance2\+\_\+compdom (\begin{DoxyParamCaption}\item[{double precision, dimension(\+:,\+:,\+:)}]{source,  }\item[{integer, dimension(0\+:npz-\/1), intent(inout)}]{lctabnmz,  }\item[{double precision, dimension(2,0\+:npz-\/1), intent(out)}]{lctabrgz,  }\item[{integer, intent(in)}]{npz,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{commrow,  }\item[{integer, intent(in)}]{commcol,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{integer, intent(in)}]{inyglb,  }\item[{integer, intent(in)}]{inzglb,  }\item[{double precision, intent(in)}]{hz,  }\item[{double precision, intent(in)}]{zmin }\end{DoxyParamCaption})}
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Appl/\mbox{\hyperlink{_comp_dom_8f90}{Comp\+Dom.\+f90}}\end{DoxyCompactItemize}

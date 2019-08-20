@@ -1,0 +1,78 @@
+\hypertarget{_b_p_m_8f90}{}\section{src/\+Appl/\+B\+PM.f90 File Reference}
+\label{_b_p_m_8f90}\index{src/Appl/BPM.f90@{src/Appl/BPM.f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespacebpmclass_structbpmclass_1_1bpm}{bpmclass\+::bpm}}
+\item 
+interface \mbox{\hyperlink{interfacebpmclass_1_1getparam__bpm}{bpmclass\+::getparam\+\_\+bpm}}
+\item 
+interface \mbox{\hyperlink{interfacebpmclass_1_1setparam__bpm}{bpmclass\+::setparam\+\_\+bpm}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacebpmclass}{bpmclass}}
+\begin{DoxyCompactList}\small\item\em This class defines the different beam diagnostics at given beam position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_a777700e03d6422437747b159baf8ac47}{bpmclass\+::construct\+\_\+bpm}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_ac6cf17939baa6ee32b20af627036c73e}{bpmclass\+::setparam1\+\_\+bpm}} (this, i, value)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_a37f4e426713e3624ee853c1343294cab}{bpmclass\+::setparam2\+\_\+bpm}} (this, values)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_a75a67023bf7f429ccd2ef12a435077a7}{bpmclass\+::setparam3\+\_\+bpm}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_ac5588f058f6a85c7c6c131ca7172065d}{bpmclass\+::getparam1\+\_\+bpm}} (this, i, blparam)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_ae88ec9feb4f283a3914a0859b14dc8dc}{bpmclass\+::getparam2\+\_\+bpm}} (this, blparams)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_a290f2f59ee0b68d7f56e678b87f43393}{bpmclass\+::getparam3\+\_\+bpm}} (this, blength, bnseg, bmapstp, btype)
+\item 
+subroutine \mbox{\hyperlink{namespacebpmclass_af08cf75c879f797ae8f03ba69e95d628}{bpmclass\+::shift\+\_\+bpm}} (Pts1, itype, innp, nptot)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, parameter, private \mbox{\hyperlink{namespacebpmclass_ac2f2f373976236d08c9c68de895950eb}{bpmclass\+::nparam}} = 9
+\end{DoxyCompactItemize}
+
+
+\subsection{Data Type Documentation}
+\index{bpmclass::bpm@{bpmclass::bpm}}\label{structbpmclass_1_1bpm}
+\Hypertarget{namespacebpmclass_structbpmclass_1_1bpm}
+\subsubsection{type bpmclass\+::bpm}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespacebpmclass_a8759ea53c8b66bbdb08055405fff79a0}\label{namespacebpmclass_a8759ea53c8b66bbdb08055405fff79a0}} 
+integer&
+itype&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacebpmclass_a91bf471e42c1c733f27253fe367c02e1}\label{namespacebpmclass_a91bf471e42c1c733f27253fe367c02e1}} 
+double precision&
+length&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacebpmclass_a57b5d567476a69c20de780f6fb8d0a2e}\label{namespacebpmclass_a57b5d567476a69c20de780f6fb8d0a2e}} 
+integer&
+mapstp&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacebpmclass_af47828f23a39ecfbef81048d780c4107}\label{namespacebpmclass_af47828f23a39ecfbef81048d780c4107}} 
+integer&
+nseg&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacebpmclass_ab4cbff356dd68d8a0563cb3b1d4ae235}\label{namespacebpmclass_ab4cbff356dd68d8a0563cb3b1d4ae235}} 
+double precision, dimension(\mbox{\hyperlink{namespacebpmclass_ac2f2f373976236d08c9c68de895950eb}{nparam}})&
+param&
+\\
+\hline
+
+\end{DoxyFields}

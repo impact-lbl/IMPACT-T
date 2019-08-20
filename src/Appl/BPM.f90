@@ -1,11 +1,15 @@
 !----------------------------------------------------------------
 ! (c) Copyright, 2017 by the Regents of the University of California.
-! BPMclass: Beam position monitor class in Lattice module of APPLICATION 
-!           layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the different beam diagnostics at given
-!              beam position.
+! BPMclass: Beam position monitor class in Lattice module of APPLICATION layer.
+!
+! MODULE  : ... BPMclass
+! VERSION : ... 1.0
+!
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines the different beam diagnostics at given beam position.        
 ! Comments:
 !----------------------------------------------------------------
       module BPMclass

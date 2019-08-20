@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! DriftTubeclass: Drift space beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the linear transfer map and field
-!              for the drift space beam line elment.
+! MODULE  : ... DriftTubeclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class defines the linear transfer map and field for the drift space beam line elment.
+!    
 ! Comments:
 !----------------------------------------------------------------
       module DriftTubeclass

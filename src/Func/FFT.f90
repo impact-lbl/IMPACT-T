@@ -1,11 +1,16 @@
 !----------------------------------------------------------------
 ! (c) Copyright, 2018 by the Regents of the University of California.
 ! FFTclass: Fourier function class in Math Function module of FUNCTION layer.
-! Version: 2.0
-! Author: Ji Qiang 
-! Description: This class defines the 3d FFT transformation subject to
-!              open or periodic conditions, Fourier Sine transformation,
-!              Complex-Complex, Complex-Real, and Real-Complex FFT.
+! 
+! MODULE  : ... FFTclass
+! VERSION : ... 2.0
+!> @author
+!> Ji Qiang 
+! 
+! DESCRIPTION: 
+!> This class defines the 3d FFT transformation subject to
+!> open or periodic conditions, Fourier Sine transformation,
+!> Complex-Complex, Complex-Real, and Real-Complex FFT.
 ! Comments:
 !----------------------------------------------------------------
       module FFTclass

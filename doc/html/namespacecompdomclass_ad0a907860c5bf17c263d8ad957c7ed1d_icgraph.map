@@ -1,0 +1,11 @@
+<map id="compdomclass::getlcrange_compdom" name="compdomclass::getlcrange_compdom">
+<area shape="rect" id="node1" title=" " alt="" coords="753,92,933,131"/>
+<area shape="rect" id="node2" href="$namespacedepositorclass.html#aaa31c3a30e6e83ab67ee89344612328c" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="519,5,705,44"/>
+<area shape="rect" id="node4" href="$namespaceaccsimulatorclass.html#acbe26eeaf1cb4076384b90e1016785f0" title="Run beam dynamics simulation through accelerator." alt="" coords="104,33,238,72"/>
+<area shape="rect" id="node6" href="$namespacedistributionclass.html#aed89b043090c1817fc57baaa9604eb73" title=" " alt="" coords="550,120,675,159"/>
+<area shape="rect" id="node9" href="$namespacedistributionclass.html#acf080fd52aac8287d955bcfd88362c07" title=" " alt="" coords="551,183,674,221"/>
+<area shape="rect" id="node3" href="$namespacedepositorclass.html#a258e6305ffaed5752f7eaa0584e2e6d8" title=" " alt="" coords="286,5,471,44"/>
+<area shape="rect" id="node5" href="$main_8f90.html#a8ec2266d83cd6c0b762cbcbc92c0af3d" title="IMPACT&#45;T is a fully three&#45;dimensional program to track relativistic particles taking into account spa..." alt="" coords="5,40,56,65"/>
+<area shape="rect" id="node7" href="$namespacedistributionclass.html#aee8dd99a29887ed3860bcce7adb87ce8" title="sample the particles with intial distribution." alt="" coords="317,123,440,161"/>
+<area shape="rect" id="node8" href="$namespaceaccsimulatorclass.html#a6a90186281758191cfa3ef4fc9c54078" title="set up objects and parameters." alt="" coords="104,123,238,161"/>
+</map>

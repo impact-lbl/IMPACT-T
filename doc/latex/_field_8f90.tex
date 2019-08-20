@@ -1,0 +1,135 @@
+\hypertarget{_field_8f90}{}\section{src/\+Appl/\+Field.f90 File Reference}
+\label{_field_8f90}\index{src/Appl/Field.f90@{src/Appl/Field.f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespacefieldquantclass_structfieldquantclass_1_1fieldquant}{fieldquantclass\+::fieldquant}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacefieldquantclass}{fieldquantclass}}
+\begin{DoxyCompactList}\small\item\em This class defines a 3-\/D field quantity in the accelerator. The field quantity can be updated at each step. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a02f323941fc76278b26a3aa06fa3bbdd}{fieldquantclass\+::construct\+\_\+fieldquant}} (this, innx, inny, innz, geom, grid)
+\begin{DoxyCompactList}\small\item\em Initialize field class. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a2d6cd3fb8b4d962adbd4206a5fbd13ce}{fieldquantclass\+::set\+\_\+fieldquant}} (this, innx, inny, innz, geom, grid, nprx, npry)
+\begin{DoxyCompactList}\small\item\em set field quantity. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a1424ab249c01287bbfe998370d2c5703}{fieldquantclass\+::gradeb\+\_\+fieldquant}} (innx, inny, innz, temppotent, ptsgeom, grid, Flagbc, gammaz, Flag\+Image, egxout, egyout, egzout, bgxout, bgyout, bgzout)
+\begin{DoxyCompactList}\small\item\em find the E and B fields in the lab frame from the potential on the grid of beam frame. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a06d0461c3c52859b9fa8b0c4d5f0db46}{fieldquantclass\+::update3otnew\+\_\+fieldquant}} (this, source, fldgeom, grid, nxlc
+\begin{DoxyCompactList}\small\item\em update potential (solving Possion\textquotesingle{}s equation) with 3D isolated boundary conditions. Here, image charge potential along z also calculated \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_aae4177005bffdb768a50a98b860c111a}{fieldquantclass\+::openbc3dnew}} (innx, inny, innz, rho, hx, hy, hz, nxpylc2, nypzlc2, myidz, myidy, npz, npy, commrow, commcol, comm2d, pztable, pytable, ypzstable, xpystable, inxglb, inyglb, inzglb, rho\+Img, flag\+Image, zshift)
+\begin{DoxyCompactList}\small\item\em Solving Poisson\textquotesingle{}s equation with open B\+Cs. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a32715398e47b9a73bd6cde1ae980e0a3}{fieldquantclass\+::greenf1tintnew2}} (nx, ny, nz, nsizez, nsizey, nsizexy, nsizey
+\begin{DoxyCompactList}\small\item\em green function for extended array. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a25df6116d62bb56b5711333426dcd74d}{fieldquantclass\+::greenf1tintshift2}} (nx, ny, nz, nsizez, nsizey, nsizexy, nsiz
+\begin{DoxyCompactList}\small\item\em green function for extended array. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a61fa5f8980736fbc19fa50224214727b}{fieldquantclass\+::wakefield\+\_\+fieldquant}} (Nz, xwakez, ywakez, recvdensz, exwake
+\begin{DoxyCompactList}\small\item\em longitudinal and transverse wakefield \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_afc918d38222797f1f06903259e48461b}{fieldquantclass\+::wakereadin\+\_\+fieldquant}} (Nz, xwakez, ywakez, recvdensz, exwak
+\begin{DoxyCompactList}\small\item\em longitudinal and transverse wakefield on a beam using the readin longitudinal and transverse wake functions \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a773b62d57c290818337131902b979b43}{fieldquantclass\+::csrwaketr\+\_\+fieldquant}} (Nx, r0, ptmin, hx, blength, rhonew, rh
+\begin{DoxyCompactList}\small\item\em new version of the csrwake calculation. this subroutine calculate the 1d csr wakefield including entrance, stead-\/state, and transitions effects here, hx, rho,...are in real unit. the return ezwake is V/m \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a05318a0c571b3210e31af48028673474}{fieldquantclass\+::setval\+\_\+fieldquant}} (this, i, j, k, value)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a5d4c07c22ffea0330d90b66e590b24a8}{fieldquantclass\+::get\+\_\+fieldquant}} (this, i, j, k)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a2c0b0d0301e9ae5ccd8b2273ffc95ff3}{fieldquantclass\+::getglb\+\_\+fieldquant}} (this, temp)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_aa439599c2570610c1c2e0bfacc135603}{fieldquantclass\+::getlcgrid\+\_\+fieldquant}} (this, nxlc, nylc, nzlc)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_ae02f70d677d4bedfa6e41bd6cf33d612}{fieldquantclass\+::psiroot}} (r0, xx, deltas, psi, eps, Nmax)
+\begin{DoxyCompactList}\small\item\em find the psi in equation 12 of Stupakov and Emma\textquotesingle{}s paper \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a4e8922c1e25eef99306f4001c7289ba0}{fieldquantclass\+::destruct\+\_\+fieldquant}} (this)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_ac3c0238f350487871fdbe6a84bcdfc2e}{fieldquantclass\+::csrwaketrigf\+\_\+fieldquant}} (Nx, r0, ptmin, hx, blength, rhonew
+\begin{DoxyCompactList}\small\item\em This subroutine calculates the 1d csr wakefield including entrance, stead-\/state, and transitions effects. Here, hx, rho,...are in real units. The return ezwake is in V! /m. The current version uses I\+GF corresponding to the four cases ! of Saldin et al. \end{DoxyCompactList}\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a7431c26c185c399c546e1ac54043bad4}{fieldquantclass\+::icsrcasea}} (phih, ssh, xk2)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_ac6ac81d1607e424c294650bb3f89aa5c}{fieldquantclass\+::icsrcaseb}} (ssh, xk2)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a85aac5a4f515439e4263b24518d8c9dc}{fieldquantclass\+::icsrcasec}} (phimh, xxbarh, ssh, xk2)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a6e7b51293ed012f0a90b5de96a3cef05}{fieldquantclass\+::icsrcased}} (xxbarh, psimax, ssh, xk2, epstol, Nmax)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a990a046cc996cb957a94c4995bfe803a}{fieldquantclass\+::dwakefield\+\_\+fieldquant}} (Nx, Ny, Nz, hx, hy, hz, chgdens, dexwak
+\begin{DoxyCompactList}\small\item\em This routine computes the root of the function that is evaluated ! in the subroutine \textquotesingle{}funcd\textquotesingle{}. It is based on the subroutine \textquotesingle{}root\textquotesingle{} of Numerical Recipes 9.\+4, which makes use of a Newton-\/\+Raphson method with root bracketing. It has been modified to handle the two bra! cket endpoints carefully. The routine searches for a root in the inter! val \mbox{[}x1,x2\mbox{]} with a tolerance given by \textquotesingle{}xacc\textquotesingle{}, and returns this value as \textquotesingle{}rtsafe\textquotesingle{}. The maximum number of iterations allowed is \textquotesingle{}maxit\textquotesingle{}! . C.\+E.\+M. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a80dd0228de4fecabda6f6696b098a11f}{fieldquantclass\+::dwakeconv\+\_\+fieldquant}} (Nz, weightz, hz, kern, lam)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a362a63ffd1dbce47680a0224d88552c7}{fieldquantclass\+::dispeqslab\+\_\+fieldquant}} (a, b, eps, dlx, nkx, nky, dkx, dky)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_ac5166a3094bb6567db04903c1f43e4b6}{fieldquantclass\+::ampslab\+\_\+fieldquant}} (a, b, eps, nkx, nky, dkx, dky, amp)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_ac9b2b94f5051c235120e16bd55e0148d}{fieldquantclass\+::dispeqcyl\+\_\+fieldquant}} (a, b, eps, nkx, nky, dky)
+\item 
+subroutine \mbox{\hyperlink{namespacefieldquantclass_a0cf12c2453dd024814caca1b9dbbb9a5}{fieldquantclass\+::ampcyl\+\_\+fieldquant}} (a, b, eps, nkx, nky, dky, amp)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a3979aaa9ea17b446b00cd5477dfd354e}{fieldquantclass\+::func1}} (x, c1, c2)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a1758703e79afc95b20c7fd7261fa4afe}{fieldquantclass\+::func2}} (x, c1, c3)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_aaf0193e68163e6fb2bba0a9477f19cb0}{fieldquantclass\+::amplsm\+\_\+sym}} (a, b, eps, kx, ky)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_ac67e15255b5d57fb3c3a29ef79addb63}{fieldquantclass\+::amplsm\+\_\+asym}} (a, b, eps, kx, ky)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a8eb7b870ec7c240279076fbb6269ff07}{fieldquantclass\+::amplse\+\_\+sym}} (a, b, eps, kx, ky)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a735a6d51aabd219f525edeb04b034150}{fieldquantclass\+::amplse\+\_\+asym}} (a, b, eps, kx, ky)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a491cfca134ed1bb2dfc47d6de7fdd972}{fieldquantclass\+::calclfs}} (s, a, b, eps)
+\item 
+double precision function \mbox{\hyperlink{namespacefieldquantclass_a765f0fc87c405fa965c6c966794db11c}{fieldquantclass\+::calcr0}} (s, a, b)
+\end{DoxyCompactItemize}
+
+
+\subsection{Data Type Documentation}
+\index{fieldquantclass::fieldquant@{fieldquantclass::fieldquant}}\label{structfieldquantclass_1_1fieldquant}
+\Hypertarget{namespacefieldquantclass_structfieldquantclass_1_1fieldquant}
+\subsubsection{type fieldquantclass\+::fieldquant}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespacefieldquantclass_a3d25be64f02ec3fd9be9700006e6e4f3}\label{namespacefieldquantclass_a3d25be64f02ec3fd9be9700006e6e4f3}} 
+double precision, dimension(:,:,:), pointer&
+fieldq&
+num field quantity array. \\
+\hline
+
+\mbox{\Hypertarget{namespacefieldquantclass_a7e825dc6a0487f44528fad55e632cc70}\label{namespacefieldquantclass_a7e825dc6a0487f44528fad55e632cc70}} 
+integer&
+nx&
+num of mesh points in x and y directions. \\
+\hline
+
+\mbox{\Hypertarget{namespacefieldquantclass_a7caab2ebce71f57176a519933b7e2666}\label{namespacefieldquantclass_a7caab2ebce71f57176a519933b7e2666}} 
+integer&
+nxlocal&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacefieldquantclass_a400586052c8deb7240b215eee62b89e9}\label{namespacefieldquantclass_a400586052c8deb7240b215eee62b89e9}} 
+integer&
+ny&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacefieldquantclass_a3c9290ff97ebcaf272c17ed3975a18e1}\label{namespacefieldquantclass_a3c9290ff97ebcaf272c17ed3975a18e1}} 
+integer&
+nylocal&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacefieldquantclass_a6f78161e325887e087580ad729a35d0b}\label{namespacefieldquantclass_a6f78161e325887e087580ad729a35d0b}} 
+integer&
+nz&
+\\
+\hline
+
+\mbox{\Hypertarget{namespacefieldquantclass_aa91a76fdf699b94c32a92a2b2fa2451d}\label{namespacefieldquantclass_aa91a76fdf699b94c32a92a2b2fa2451d}} 
+integer&
+nzlocal&
+\\
+\hline
+
+\end{DoxyFields}

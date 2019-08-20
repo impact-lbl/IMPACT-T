@@ -1,0 +1,10 @@
+<map id="mpistub::mpi_barrier" name="mpistub::mpi_barrier">
+<area shape="rect" id="node1" title="synchronize communication" alt="" coords="507,104,650,129"/>
+<area shape="rect" id="node2" href="$namespacedataclass.html#abf0c8413e040d7ea8c0bc5df73c9ef96" title="read in discrete Ez(r,z), Er(r,z) and Btheta(r,z) rf data from files &quot;1Tx.T7 or 1Txx...." alt="" coords="296,5,448,31"/>
+<area shape="rect" id="node3" href="$namespacedataclass.html#a2ef1f00ff4295094270a70c5d3763019" title="read in discrete Ex(x,y,z), Ey(x,y,z), Ez(x,y,z), Bx(x,y,z), By(x,y,z), Bz(x,y,z) rf data from files ..." alt="" coords="296,55,448,80"/>
+<area shape="rect" id="node4" href="$namespacedataclass.html#a6a03d5b21b9316f6fd4053aeb7acb426" title="read in discrete Ez(r,z), Er(r,z) and Btheta(r,z) rf data from files &quot;1Tx.T7 or 1Txx...." alt="" coords="294,104,450,129"/>
+<area shape="rect" id="node7" href="$namespacedataclass.html#af6df6f58c6c53c92a78e3d512d6a4d03" title="read in discrete Bz(r,z), Br(r,z) data from files &quot;1Tx.T7 or 1Txx.T7 or 1Txxx.T7 for solenoid...." alt="" coords="286,153,459,179"/>
+<area shape="rect" id="node8" href="$namespacedataclass.html#a44430d1d47a985d35f3544c9b7dac562" title="read in discrete complex Ex(x,y,z), Ey(x,y,z), Ez(x,y,z), Bx(x,y,z), By(x,y,z), Bz(x,..." alt="" coords="294,203,450,228"/>
+<area shape="rect" id="node5" href="$namespaceaccsimulatorclass.html#acbe26eeaf1cb4076384b90e1016785f0" title="Run beam dynamics simulation through accelerator." alt="" coords="104,147,238,185"/>
+<area shape="rect" id="node6" href="$main_8f90.html#a8ec2266d83cd6c0b762cbcbc92c0af3d" title="IMPACT&#45;T is a fully three&#45;dimensional program to track relativistic particles taking into account spa..." alt="" coords="5,153,56,179"/>
+</map>

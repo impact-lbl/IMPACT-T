@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! SCclass: Superconducting cavity beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the linear transfer map and RF field
-!              for the SC beam line elment.
+! MODULE        : ... SCclass
+! VERSION       : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class defines the linear transfer map and RF field
+!> for the SC beam line elment.
 ! Comments:
 !----------------------------------------------------------------
       module SCclass
@@ -119,8 +122,10 @@
 
         end subroutine getparam3_SC
        
-
-        !interpolate the field from the SC rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the SC rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getaxfldE_SC(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -165,7 +170,10 @@
 
         end subroutine getaxfldE_SC
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_SC(pos,extfld,this,dx,dy,anglex,angley,&
                                  anglez)
         implicit none
@@ -272,7 +280,10 @@
 
         end subroutine getflderr_SC
         
-        !get external field without displacement and rotation errors
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_SC(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -340,7 +351,10 @@
 
         end subroutine getfld_SC
 
-        !get external field without displacement and rotation errors
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_SC(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

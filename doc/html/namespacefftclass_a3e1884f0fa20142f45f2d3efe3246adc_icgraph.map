@@ -1,0 +1,71 @@
+<map id="fftclass::xerfft" name="fftclass::xerfft">
+<area shape="rect" id="node1" title=" " alt="" coords="1552,1163,1651,1188"/>
+<area shape="rect" id="node2" href="$namespacefftclass.html#acc0dd0d3644e3ff67fd2dfb23dcb4e40" title=" " alt="" coords="1401,52,1503,77"/>
+<area shape="rect" id="node15" href="$namespacefftclass.html#a4cc16a9191f915424a42d281f821c291" title=" " alt="" coords="1402,101,1501,127"/>
+<area shape="rect" id="node16" href="$namespacefftclass.html#a7aaa42c1b45fc7175f2560cd023e4487" title=" " alt="" coords="1403,151,1501,176"/>
+<area shape="rect" id="node17" href="$namespacefftclass.html#a6684b378360642f160b255df6b3aa0bd" title=" " alt="" coords="1058,252,1171,277"/>
+<area shape="rect" id="node18" href="$namespacefftclass.html#a6770a2a0c7bdf09af5ed719175fb4ca4" title=" " alt="" coords="833,252,943,277"/>
+<area shape="rect" id="node19" href="$namespacefftclass.html#a546e80f6eb00444bf4508ae26186e0d2" title=" " alt="" coords="1060,404,1169,429"/>
+<area shape="rect" id="node20" href="$namespacefftclass.html#a205d9dc43dfb082cdee420a4ae2fb269" title=" " alt="" coords="835,353,941,379"/>
+<area shape="rect" id="node21" href="$namespacefftclass.html#ab281b0d26ef5d825f00696ab35e18e65" title=" " alt="" coords="1239,1112,1348,1137"/>
+<area shape="rect" id="node22" href="$namespacefftclass.html#aa0d2ffdfc38a79ecd1b47de75f3d1084" title=" " alt="" coords="1062,1124,1167,1149"/>
+<area shape="rect" id="node23" href="$namespacefftclass.html#a4f908baf4cda5a6be5b71eb85fc9309c" title=" " alt="" coords="1237,353,1350,379"/>
+<area shape="rect" id="node24" href="$namespacefftclass.html#a894b76f80148bf5d923d558356a6cc1a" title=" " alt="" coords="1239,455,1348,480"/>
+<area shape="rect" id="node25" href="$namespacefftclass.html#a766146700483880896edee5e866f29a6" title=" " alt="" coords="1056,1315,1173,1340"/>
+<area shape="rect" id="node26" href="$namespacefftclass.html#aa7e7e40b824e045f452a09a2e7abf333" title=" " alt="" coords="832,1289,945,1315"/>
+<area shape="rect" id="node27" href="$namespacefftclass.html#a48467d0cccf9f7f93786f4997fe714f5" title=" " alt="" coords="1058,1517,1171,1543"/>
+<area shape="rect" id="node28" href="$namespacefftclass.html#ae56c7f24f27f2fb48f15359441b5e82f" title=" " alt="" coords="834,1492,943,1517"/>
+<area shape="rect" id="node29" href="$namespacefftclass.html#a9851ac46e48072ac6c85e3c574a10dc5" title=" " alt="" coords="1237,2125,1350,2151"/>
+<area shape="rect" id="node30" href="$namespacefftclass.html#a642a9e3f241f3aaa6baf58741d4cdd3b" title=" " alt="" coords="1060,2100,1169,2125"/>
+<area shape="rect" id="node31" href="$namespacefftclass.html#a2bdaaab2b5d3130f8339f9463daa6db9" title=" " alt="" coords="1060,505,1169,531"/>
+<area shape="rect" id="node32" href="$namespacefftclass.html#ae01eaac3c675ef6c95b60a480bda63ba" title=" " alt="" coords="1062,757,1167,783"/>
+<area shape="rect" id="node34" href="$namespacefftclass.html#aa0605a45256c5ff2bfcd9229dd8854e4" title=" " alt="" coords="1241,1011,1346,1036"/>
+<area shape="rect" id="node35" href="$namespacefftclass.html#a2769de58926e8dc80c0fa9f862de7dce" title=" " alt="" coords="1239,556,1348,581"/>
+<area shape="rect" id="node36" href="$namespacefftclass.html#af419be9c656e387f89facc1033cf4f55" title=" " alt="" coords="1241,707,1346,732"/>
+<area shape="rect" id="node37" href="$namespacefftclass.html#a1bb83e3c96bf08b2789acf52feef22b8" title=" " alt="" coords="1058,1644,1171,1669"/>
+<area shape="rect" id="node38" href="$namespacefftclass.html#a04e4666f4382e42cf8e63ee5c44fc61a" title=" " alt="" coords="1060,1796,1169,1821"/>
+<area shape="rect" id="node39" href="$namespacefftclass.html#a4e2ea9d14ac7ed425be8cb1fd1ed8ddf" title=" " alt="" coords="1239,2189,1348,2215"/>
+<area shape="rect" id="node40" href="$namespacefftclass.html#a91e23ffaebaadf2b1c22e689f69996a2" title=" " alt="" coords="1235,1365,1352,1391"/>
+<area shape="rect" id="node41" href="$namespacefftclass.html#a05d00644e8642979b2c55b7822bbfb03" title=" " alt="" coords="1237,1568,1350,1593"/>
+<area shape="rect" id="node42" href="$namespacefftclass.html#a10f96df2a58ce7f2e6ac9eaddf09588e" title=" " alt="" coords="1237,1669,1350,1695"/>
+<area shape="rect" id="node43" href="$namespacefftclass.html#aac5cdc09f4e9979eb972972e1db55cb3" title=" " alt="" coords="1239,1771,1348,1796"/>
+<area shape="rect" id="node44" href="$namespacefftclass.html#aebd25014fd97baa3be31bda9b446e99f" title=" " alt="" coords="1237,1872,1350,1897"/>
+<area shape="rect" id="node45" href="$namespacefftclass.html#a4d9b6f96810b5b7a8b7dd38af74f5b55" title=" " alt="" coords="1060,1897,1169,1923"/>
+<area shape="rect" id="node46" href="$namespacefftclass.html#a151bd1685dbe69c9c36a08ff00a7e10e" title=" " alt="" coords="1239,1973,1349,1999"/>
+<area shape="rect" id="node47" href="$namespacefftclass.html#a497c6a39bac7daa7973b53cb00ffd6c3" title=" " alt="" coords="1062,1999,1167,2024"/>
+<area shape="rect" id="node48" href="$namespacefftclass.html#a2bdd31e65a4abb79ed9e0eeaa71cee6b" title=" " alt="" coords="1402,607,1502,632"/>
+<area shape="rect" id="node58" href="$namespacefftclass.html#ad5aa2059236e01ea65aecda114c3f45f" title=" " alt="" coords="1404,656,1500,681"/>
+<area shape="rect" id="node59" href="$namespacefftclass.html#af29f41f086c8e8901df2716d0b86db20" title=" " alt="" coords="1241,808,1346,833"/>
+<area shape="rect" id="node60" href="$namespacefftclass.html#ada18e37204cdb55b83be98eaecc27730" title=" " alt="" coords="1062,833,1167,859"/>
+<area shape="rect" id="node61" href="$namespacefftclass.html#aa79de4b10a068408990ac9ac8f32d134" title=" " alt="" coords="1243,909,1344,935"/>
+<area shape="rect" id="node62" href="$namespacefftclass.html#a6ae22ff215b2e962b410eb1b9c4860d7" title=" " alt="" coords="1064,960,1166,985"/>
+<area shape="rect" id="node64" href="$namespacefftclass.html#abb3d8b6f0166090db98de3e7d627434f" title=" " alt="" coords="1404,1061,1500,1087"/>
+<area shape="rect" id="node65" href="$namespacefftclass.html#ae156ccdcf953af967a42d20df0ddb725" title=" " alt="" coords="1243,1213,1344,1239"/>
+<area shape="rect" id="node66" href="$namespacefftclass.html#acc4295c5a3646519e26c3dd5ae66418d" title=" " alt="" coords="1400,1365,1504,1391"/>
+<area shape="rect" id="node67" href="$namespacefftclass.html#a4662111bc784aa321b0567a1a0578963" title=" " alt="" coords="1402,1720,1502,1745"/>
+<area shape="rect" id="node68" href="$namespacefftclass.html#a6a543283f910322f94293d719f923881" title=" " alt="" coords="1402,2176,1501,2201"/>
+<area shape="rect" id="node69" href="$namespacefftclass.html#a9b28ecda04690fe2a4425da2b5625e4d" title=" " alt="" coords="1241,2264,1346,2289"/>
+<area shape="rect" id="node3" href="$namespacefftclass.html#a4597d420a1363f9fd0b652472d7caf52" title=" " alt="" coords="1243,101,1344,127"/>
+<area shape="rect" id="node4" href="$namespacefftclass.html#a501325267c1425bfece04a18e20efe31" title=" " alt="" coords="1048,55,1182,80"/>
+<area shape="rect" id="node5" href="$namespacefftclass.html#aa64d94b8c8578b384955207a409a2445" title=" " alt="" coords="1051,104,1178,129"/>
+<area shape="rect" id="node6" href="$namespacefieldquantclass.html#a32715398e47b9a73bd6cde1ae980e0a3" title="green function for extended array." alt="" coords="782,5,994,31"/>
+<area shape="rect" id="node11" href="$namespacefieldquantclass.html#a25df6116d62bb56b5711333426dcd74d" title="green function for extended array." alt="" coords="782,55,994,80"/>
+<area shape="rect" id="node12" href="$namespacefftclass.html#acef38aed3ece8d2c1120ce0004e6297e" title=" " alt="" coords="827,104,949,129"/>
+<area shape="rect" id="node13" href="$namespacefftclass.html#a21e8a7bd2877ec439bc4f0e0bc0e4681" title=" " alt="" coords="819,153,957,179"/>
+<area shape="rect" id="node14" href="$namespacefftclass.html#a374c599138aeca237d4c303a07a470ee" title=" " alt="" coords="808,203,968,228"/>
+<area shape="rect" id="node7" href="$namespacefieldquantclass.html#aae4177005bffdb768a50a98b860c111a" title="Solving Poisson&#39;s equation with open BCs." alt="" coords="534,129,734,155"/>
+<area shape="rect" id="node8" href="$namespacefieldquantclass.html#a06d0461c3c52859b9fa8b0c4d5f0db46" title="update potential (solving Possion&#39;s equation) with 3D isolated boundary conditions...." alt="" coords="286,313,486,352"/>
+<area shape="rect" id="node9" href="$namespaceaccsimulatorclass.html#acbe26eeaf1cb4076384b90e1016785f0" title="Run beam dynamics simulation through accelerator." alt="" coords="104,569,238,608"/>
+<area shape="rect" id="node10" href="$main_8f90.html#a8ec2266d83cd6c0b762cbcbc92c0af3d" title="IMPACT&#45;T is a fully three&#45;dimensional program to track relativistic particles taking into account spa..." alt="" coords="5,576,56,601"/>
+<area shape="rect" id="node33" href="$namespacefftclass.html#ac4347b89b0b1a5894943daa3f37c54ee" title=" " alt="" coords="812,884,964,909"/>
+<area shape="rect" id="node49" href="$namespacefftclass.html#a1aec6e8023ec23ff926a64c54c93ee1e" title=" " alt="" coords="1244,656,1343,681"/>
+<area shape="rect" id="node50" href="$namespacefftclass.html#af33a24fc1bf4d5763c335c0cef247e3c" title=" " alt="" coords="1042,707,1187,732"/>
+<area shape="rect" id="node51" href="$namespacefftclass.html#a83a1c8ccf853ae07fdfc5a80e1e244d1" title=" " alt="" coords="816,656,961,681"/>
+<area shape="rect" id="node56" href="$namespacefftclass.html#a25ecfa928dd28501b9c251c1e887996b" title=" " alt="" coords="1042,555,1187,580"/>
+<area shape="rect" id="node57" href="$namespacefftclass.html#a62d05d7b0980c823708d03f4a1520c1e" title=" " alt="" coords="816,605,961,631"/>
+<area shape="rect" id="node52" href="$namespacefieldquantclass.html#a61fa5f8980736fbc19fa50224214727b" title="longitudinal and transverse wakefield" alt="" coords="548,661,721,700"/>
+<area shape="rect" id="node53" href="$namespacefieldquantclass.html#afc918d38222797f1f06903259e48461b" title="longitudinal and transverse wakefield on a beam using the readin longitudinal and transverse wake fun..." alt="" coords="542,536,727,575"/>
+<area shape="rect" id="node54" href="$namespacefieldquantclass.html#a80dd0228de4fecabda6f6696b098a11f" title=" " alt="" coords="542,599,726,637"/>
+<area shape="rect" id="node55" href="$namespacefieldquantclass.html#a990a046cc996cb957a94c4995bfe803a" title="This routine computes the root of the function that is evaluated ! in the subroutine &#39;funcd&#39;...." alt="" coords="296,597,476,636"/>
+<area shape="rect" id="node63" href="$namespacefftclass.html#abcd5ef700f07a29fa9949e15866f5d41" title=" " alt="" coords="841,1080,935,1105"/>
+</map>

@@ -1,0 +1,102 @@
+\hypertarget{_e_mfld_cart_8f90}{}\section{src/\+Appl/\+E\+Mfld\+Cart.f90 File Reference}
+\label{_e_mfld_cart_8f90}\index{src/Appl/EMfldCart.f90@{src/Appl/EMfldCart.f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}{emfldcartclass\+::emfldcart}}
+\item 
+interface \mbox{\hyperlink{interfaceemfldcartclass_1_1getparam__emfldcart}{emfldcartclass\+::getparam\+\_\+emfldcart}}
+\item 
+interface \mbox{\hyperlink{interfaceemfldcartclass_1_1setparam__emfldcart}{emfldcartclass\+::setparam\+\_\+emfldcart}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespaceemfldcartclass}{emfldcartclass}}
+\begin{DoxyCompactList}\small\item\em This class contains discrete EM field data (as a function of x,y,z) or (r,z) and analytical representation of EM field data (user can supply the function form). The linear transfer map is also computed base on the field on the axis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a22c8117844df69d19834c91595060930}{emfldcartclass\+::construct\+\_\+emfldcart}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a667f3b95239a56c59438d7645e902471}{emfldcartclass\+::setparam1\+\_\+emfldcart}} (this, i, value)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a49c36692c057476c17ea403564e4f057}{emfldcartclass\+::setparam2\+\_\+emfldcart}} (this, values)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a1091548d2fbca6e19b3861f96b834bfc}{emfldcartclass\+::setparam3\+\_\+emfldcart}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_ab81f3e948555a34e9f3e6dd08fb8d7c8}{emfldcartclass\+::getparam1\+\_\+emfldcart}} (this, i, blparam)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a0e3252de98b5d0c5318b5cdccb878b21}{emfldcartclass\+::getparam2\+\_\+emfldcart}} (this, blparams)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_af5ef093e045d499ae731aad8612e6333}{emfldcartclass\+::getparam3\+\_\+emfldcart}} (this, blength, bnseg, bmapstp, btype)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a4be4286a2e0f37f64d5fd1973fe73f39}{emfldcartclass\+::maplinear\+\_\+emfldcart}} (t, tau, xm, this, refpt, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a2d6f42bcd880ec225920c8179e292af6}{emfldcartclass\+::rk6i\+\_\+emfldcart}} (h, ns, t, y, nvar, this, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a2a33c1d59a306651080d563b98b844e7}{emfldcartclass\+::intfunc1\+\_\+emfldcart}} (t, y, f, this, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a98959709716076ee10dea98be7a2243c}{emfldcartclass\+::getaxflde\+\_\+emfldcart}} (z, this, ez1, ezp1, ezpp1)
+\begin{DoxyCompactList}\small\item\em interpolate the field from the E\+Mfld\+Cart rf cavity onto bunch location. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_abe4d0916e2997f8145abad1eb026ea9d}{emfldcartclass\+::getaxfldefc\+\_\+emfldcart}} (z, this, ez1, ezp1, ezpp1)
+\begin{DoxyCompactList}\small\item\em get external RF field on axis from analytical function Here, we have used a Fouier expansion representation of external field. Users should supply the field function as they want. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a77a88279f5b3f9878199cf20d7e4c5a5}{emfldcartclass\+::getfld\+\_\+emfldcart}} (pos, extfld, this)
+\begin{DoxyCompactList}\small\item\em get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from analytical function. Here we have used Fourier expansion of function. The user should supply his own analytical function if needed. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a8ab65fe6671e5e09361a2d44930aa93a}{emfldcartclass\+::getflderrold\+\_\+emfldcart}} (pos, extfld, this)
+\begin{DoxyCompactList}\small\item\em get external field with displacement and rotation errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a4c48df0aca1d75a2301a87c5b1c0304d}{emfldcartclass\+::getflderr\+\_\+emfldcart}} (pos, extfld, this, dx, dy, anglex, ang
+\begin{DoxyCompactList}\small\item\em get external field with displacement and rotation errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a099681f57177c62b1715bde0b0fe93bb}{emfldcartclass\+::getfld6\+\_\+emfldcart}} (this, z, extfld6)
+\begin{DoxyCompactList}\small\item\em get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or \char`\"{}r\char`\"{} at given \char`\"{}z\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a1b849dab96a221608dde6ea08028e459}{emfldcartclass\+::getfld6err\+\_\+emfldcart}} (this, pos, extfld, dx, dy, anglex, ang
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a524c612ff816f308845b0171733a95a5}{emfldcartclass\+::getfld6xyz\+\_\+emfldcart}} (this, z, extfld6xyz)
+\begin{DoxyCompactList}\small\item\em get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given \char`\"{}z\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_af92b0973e83fa817606951d4155f51b9}{emfldcartclass\+::getfld6xyzerr\+\_\+emfldcart}} (this, pos, extfld, dx, dy, anglex,
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldcartclass_a63a14e90f4526aa45d3d28a9611d3908}{emfldcartclass\+::getfldt\+\_\+emfldcart}} (pos, extfld, this, fldata)
+\begin{DoxyCompactList}\small\item\em get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, parameter, private \mbox{\hyperlink{namespaceemfldcartclass_a72ee7da1adbf56a707b72607da000549}{emfldcartclass\+::nparam}} = 11
+\end{DoxyCompactItemize}
+
+
+\subsection{Data Type Documentation}
+\index{emfldcartclass::emfldcart@{emfldcartclass::emfldcart}}\label{structemfldcartclass_1_1emfldcart}
+\Hypertarget{namespaceemfldcartclass_structemfldcartclass_1_1emfldcart}
+\subsubsection{type emfldcartclass\+::emfldcart}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespaceemfldcartclass_a9ea1ffbf61d29a3520ad743300cfce15}\label{namespaceemfldcartclass_a9ea1ffbf61d29a3520ad743300cfce15}} 
+integer&
+itype&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_aa2c152d23138df1a44c6ff50407ac04d}\label{namespaceemfldcartclass_aa2c152d23138df1a44c6ff50407ac04d}} 
+double precision&
+length&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_af80bf92550bb63b5f809ab3be6bbfe8d}\label{namespaceemfldcartclass_af80bf92550bb63b5f809ab3be6bbfe8d}} 
+integer&
+mapstp&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_acf5b75cb340cfc6f837318ed47038f25}\label{namespaceemfldcartclass_acf5b75cb340cfc6f837318ed47038f25}} 
+integer&
+nseg&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldcartclass_a72ab84a2cacd1906ab51cb7a6637956e}\label{namespaceemfldcartclass_a72ab84a2cacd1906ab51cb7a6637956e}} 
+double precision, dimension(\mbox{\hyperlink{namespaceemfldcartclass_a72ee7da1adbf56a707b72607da000549}{nparam}})&
+param&
+\\
+\hline
+
+\end{DoxyFields}

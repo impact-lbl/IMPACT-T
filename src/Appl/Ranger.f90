@@ -2,9 +2,12 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Rangerclass: particle range class of APPLICATION                        
 !                 layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: find the global range of computation domain class implementation.
+! MODULE  : ... Rangerclass 
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION:
+!> find the global range of computation domain class implementation.
 ! Comments:  
 !----------------------------------------------------------------
       module Rangerclass
@@ -13,8 +16,11 @@
           module procedure globalrange1,globalrange2,globalrange3,globalrange4
         end interface
       contains
-      !// find the range (minimum and maxium of a single bunch) and the centroid
-      !// of a single beam bunch.
+      !--------------------------------------------------------------------------------------
+      !> @brief
+      !> find the range (minimum and maxium of a single bunch) and the centroid
+      !> of a single beam bunch.
+      !--------------------------------------------------------------------------------------
       subroutine singlerange(partcls,nplc,nptot,range,center)
       implicit none
       include 'mpif.h'
@@ -75,8 +81,11 @@
 
       end subroutine singlerange
 
-      !//find the global range of "nbunch" of beam bunch with global periodic
-      !//length "perdlen".
+      !--------------------------------------------------------------------------------------
+      !> @brief
+      !> find the global range of "nbunch" of beam bunch with global periodic
+      !> length "perdlen".
+      !--------------------------------------------------------------------------------------
       subroutine globalrange1(Brange,perdlen,grange,gammaz,zcent,nptot,nbunch)
       implicit none
       include 'mpif.h'
@@ -141,7 +150,10 @@
 
       end subroutine globalrange1
 
-!  //find the global range of "nbunch" of beam bunch.
+      !--------------------------------------------------------------------------------------
+      !> @brief
+      !> find the global range of "nbunch" of beam bunch.
+      !--------------------------------------------------------------------------------------
       subroutine globalrange2(Brange,grange,gammaz,zcent,nptot,nbunch)
       implicit none
       include 'mpif.h'
@@ -212,9 +224,12 @@
 
       end subroutine globalrange2
 
-!  //find the global range of "nbunch" of beam bunch.
-!//find the global range of "nbunch" of beam bunch with global periodic
-!//length "perdlen".
+      !--------------------------------------------------------------------------------------
+      !> @brief
+      !> find the global range of "nbunch" of beam bunch.
+      !> find the global range of "nbunch" of beam bunch with global periodic
+      !> length "perdlen".
+      !--------------------------------------------------------------------------------------
       subroutine globalrange3(Brange,grange,gammaz,nptot,nbunch,nx,ny,perdlen,zcent)
       implicit none
       include 'mpif.h'
@@ -274,9 +289,12 @@
   
       end subroutine globalrange3
 
-!  //find the global range of "nbunch" of beam bunch.
-!//find the global range of "nbunch" of beam bunch with global periodic
-!//length "perdlen".
+      !--------------------------------------------------------------------------------------
+      !> @brief
+      !> find the global range of "nbunch" of beam bunch.
+      !> find the global range of "nbunch" of beam bunch with global periodic
+      !> length "perdlen".
+      !--------------------------------------------------------------------------------------
       subroutine globalrange4(Brange,grange,gammaz,nptot,nbunch,nx,ny,nz,zcent)
       implicit none
       include 'mpif.h'

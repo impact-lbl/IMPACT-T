@@ -2,9 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Depositorclass: Charge deposition class of APPLICATION 
 !                 layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class deposit the particles onto computational mesh implementation.
+! 
+! MODULE  : ... Depositorclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class deposit the particles onto computational mesh implementation.
 ! Comments:
 !----------------------------------------------------------------
       module depositorclass
@@ -13,7 +17,11 @@
         use BeamBunchclass
         use PhysConstclass
       contains
-        !find the charge density of each bunch
+
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> find the charge density of each bunch
+        !--------------------------------------------------------------------------------------
         subroutine chgdens_Depositor(pbunch,rho,ptsgeom,pgrid,&
                    gammaz,Flagbc,perd,zcent,flagpos)
            type (BeamBunch) :: pbunch
@@ -89,7 +97,10 @@
 
         end subroutine chgdens_Depositor
 
-        ! deposit particles onto grid. (3D open boundary condition)
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> deposit particles onto grid. (3D open boundary condition)
+        !--------------------------------------------------------------------------------------
         subroutine deposit1_Depositor(innp,innx,inny,innz,rays,rho,& 
                                 ptsgeom,npx,npy,myidx,myidy)
         implicit none
@@ -192,7 +203,10 @@
 
         end subroutine deposit1_Depositor
 
-        ! deposit particles onto grid. (3D open boundary condition)
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> deposit particles onto grid. (3D open boundary condition)
+        !--------------------------------------------------------------------------------------
         subroutine deposit1p_Depositor(innp,innx,inny,innz,rays,rho,& 
                                 ptsgeom,npx,npy,myidx,myidy)
         implicit none
@@ -377,7 +391,10 @@
 
         end subroutine chgdenstest_Depositor
 
-        ! deposit particles onto grid. (3D open boundary condition)
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> deposit particles onto grid. (3D open boundary condition)
+        !--------------------------------------------------------------------------------------
         subroutine deposit1test_Depositor(innp,innx,inny,innz,rays,rho,& 
                             ptsgeom,npx,npy,myidx,myidy,nytot,commcol)
         implicit none

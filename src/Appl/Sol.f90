@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Solclass: Solenoid beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Authors: Ji Qiang
-! Description: This class defines the linear transfer map and field
-!              for the Solenoid beam line elment.
+! MODULE  : ... Solclass
+! VERSION : ... 1.0
+!> @authors
+!> Ji Qiang
+! DESCRIPTION:
+!> This class defines the linear transfer map and field
+!> for the Solenoid beam line elment.
 ! Comments:
 !----------------------------------------------------------------
       module Solclass
@@ -131,7 +134,10 @@
 
         end subroutine getBgradfld_Sol
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_Sol(pos,extfld,this,dx,dy,anglex,angley,&
                                   anglez)
         implicit none
@@ -188,8 +194,11 @@
 
         end subroutine getflderr_Sol
         
-        !get external field without displacement and rotation errors and
-        !with fringe field of Solenoid. (f(z) = b0 + bb*z^2 + cc*z^4,f(x0)=0,f'(x0)=0)
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors and
+        !> with fringe field of Solenoid. (f(z) = b0 + bb*z^2 + cc*z^4,f(x0)=0,f'(x0)=0)
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_Sol(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -239,9 +248,11 @@
 
         end subroutine getfld_Sol
 
-!-----------------------------------------------------------------
-! get the discrete Br, Bz as a function or 
-! "r" at given "z".
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get the discrete Br, Bz as a function or 
+        !> "r" at given "z".
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_Sol(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

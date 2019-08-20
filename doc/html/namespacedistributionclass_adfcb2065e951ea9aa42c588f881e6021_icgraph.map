@@ -1,0 +1,5 @@
+<map id="distributionclass::read_dist" name="distributionclass::read_dist">
+<area shape="rect" id="node1" title="read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...)" alt="" coords="359,5,482,44"/>
+<area shape="rect" id="node2" href="$namespacedistributionclass.html#aee8dd99a29887ed3860bcce7adb87ce8" title="sample the particles with intial distribution." alt="" coords="187,5,311,44"/>
+<area shape="rect" id="node3" href="$namespaceaccsimulatorclass.html#a6a90186281758191cfa3ef4fc9c54078" title="set up objects and parameters." alt="" coords="5,5,139,44"/>
+</map>

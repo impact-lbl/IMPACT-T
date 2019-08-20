@@ -1,0 +1,115 @@
+\hypertarget{_beam_bunch_8f90}{}\section{src/\+Appl/\+Beam\+Bunch.f90 File Reference}
+\label{_beam_bunch_8f90}\index{src/Appl/BeamBunch.f90@{src/Appl/BeamBunch.f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespacebeambunchclass_structbeambunchclass_1_1beambunch}{beambunchclass\+::beambunch}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacebeambunchclass}{beambunchclass}}
+\begin{DoxyCompactList}\small\item\em This class defines the charged particle beam bunch information in the accelerator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a1605e527eb41043dc5962da1e3bb5159}{beambunchclass\+::construct\+\_\+beambunch}} (this, incurr, inkin, inmass, incharge
+\begin{DoxyCompactList}\small\item\em Initialize Beambunch class. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_af1b14b706bd1283ff6c5a7cec4b06c48}{beambunchclass\+::setnpt\+\_\+beambunch}} (this, innpt)
+\begin{DoxyCompactList}\small\item\em Set local \# of particles. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_aec332b229b76111b68db82b20ab2846e}{beambunchclass\+::getnpt\+\_\+beambunch}} (this, outnpt)
+\begin{DoxyCompactList}\small\item\em Get local \# of particles. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a269bbe3913214953b92f55253daa5b16}{beambunchclass\+::drifthalf\+\_\+beambunch}} (this, t, tau, betazini)
+\begin{DoxyCompactList}\small\item\em Drift half step in positions. Here, x, y, z are normalized by C $\ast$ Dt tau -\/ normalized step size (by Dt). Only particle with z $>$ 0 is drifted. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a2c80320f40c450b5384dfd16c76bcc6a}{beambunchclass\+::driftemission\+\_\+beambunch}} (this, t, tau, betazini)
+\begin{DoxyCompactList}\small\item\em Particle emission For particle with z $<$ 0, they are just shifted long z This is used to simulate the process of emission from photocathod. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a1a12151be16b0be8122e01c579035ddd}{beambunchclass\+::drifthalforg\+\_\+beambunch}} (this, t, tau)
+\begin{DoxyCompactList}\small\item\em Drift half step in positions. Here, x, y, z are normalized by C $\ast$ Dt tau -\/ normalized step size (by Dt). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a653727137cda46af62ebf20a0bcb9ab8}{beambunchclass\+::driftz\+\_\+beambunch}} (this, dz)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_ac4e7c6a08c052c9bbc3c2bb1703adea6}{beambunchclass\+::kick1t\+\_\+beambunch}} (this, beamelem, zbeamelem, idrfile, nbea
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a4353d7ca4b2e80df2e71209df5b0e36c}{beambunchclass\+::scatter2t\+\_\+beambunch}} (innp, innx, inny, innz, rays, exg, eyg, ezg, ptsgeom, npx, npy, myidx, myidy, tg, gammaz, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a950cb67b3fefb93f3d3a492fdef5b998}{beambunchclass\+::scatter20t\+\_\+beambunch}} (innp, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, flagerr)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a13904891d2d14b332c4178871e861363}{beambunchclass\+::kick2t\+\_\+beambunch}} (innp, innx, inny, innz, rays, exg, eyg, ezg, bxg, byg, bzg, ptsgeom, npx, npy, myidx, myidy, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, flagerr)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a7cccd378d69c7b51808b6d96d3151e50}{beambunchclass\+::lost\+\_\+beambunch}} (this, xrad, yrad, zleng, zcent, nplc, nptot)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a68be93e06f8b6c65ee45af2e08610396}{beambunchclass\+::lostxy\+\_\+beambunch}} (this, xradmin, xradmax, yradmin, yradmax
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a8a635f6138c645606329c5c4b81bdf51}{beambunchclass\+::kickpt2pt\+\_\+beambunch}} (nptlc, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, totchrg, r0, npttot, nptrue)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a01fdab4efb6d28b0604dfadfdbf302c1}{beambunchclass\+::kickpt2ptimg\+\_\+beambunch}} (nptlc, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, ibinit, ibend, fldmap, totchrg, r0, npttot, nptrue)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a6708b67cc6ed6cbdbba8340d6512ab4f}{beambunchclass\+::rottot\+\_\+beambunch}} (this, ptref, ptrange, poscent)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a26facece08e7014e20db987d5df33c42}{beambunchclass\+::rotbackt\+\_\+beambunch}} (this, ptref)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a875b1de387c0e2e667bfa7a33bb70311}{beambunchclass\+::conventr\+\_\+beambunch}} (this, zorgin, gamin)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a4126361c8be17915e9c6c24697801f47}{beambunchclass\+::convexit\+\_\+beambunch}} (this, zorgin)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a53657fc9705a5a612bc5775c121c314e}{beambunchclass\+::convexitold\+\_\+beambunch}} (this)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_ae62dcc6dbc6d31b22daefa701822d49d}{beambunchclass\+::driftbackhalf\+\_\+beambunch}} (this, t, tau)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a45079536068a233e490ed282b4225c93}{beambunchclass\+::drifthalfbd\+\_\+beambunch}} (this, t, tau)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a513182caa95677071325abf64bba8279}{beambunchclass\+::kick2tbd\+\_\+beambunch}} (innp, innx, inny, innz, rays, exg, eyg, ezg, bxg, byg, bzg, ptsgeom, npx, npy, myidx, myidy, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, idbd, fldmap, refpt)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a38583f97e581a51940801aeb0f8398a0}{beambunchclass\+::kick2tbd0\+\_\+beambunch}} (innp, rays, tg, chge, mass, dt, beamelem, zbeamelem, idrfile, nbeamln, idbd, fldmap, refpt)
+\item 
+subroutine \mbox{\hyperlink{namespacebeambunchclass_a0fe1e4d236f209b18f75b272bf07782d}{beambunchclass\+::destruct\+\_\+beambunch}} (this)
+\end{DoxyCompactItemize}
+
+
+\subsection{Data Type Documentation}
+\index{beambunchclass::beambunch@{beambunchclass::beambunch}}\label{structbeambunchclass_1_1beambunch}
+\Hypertarget{namespacebeambunchclass_structbeambunchclass_1_1beambunch}
+\subsubsection{type beambunchclass\+::beambunch}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespacebeambunchclass_a555bb0dc53871a3f69755125598c8938}\label{namespacebeambunchclass_a555bb0dc53871a3f69755125598c8938}} 
+double precision&
+charge&
+charge \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a0611d8fb67f60eb1ea7a3df79c5de915}\label{namespacebeambunchclass_a0611d8fb67f60eb1ea7a3df79c5de915}} 
+double precision&
+current&
+beam current \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_abeaad3b1ce823a9c49cab5a8b96f5ff0}\label{namespacebeambunchclass_abeaad3b1ce823a9c49cab5a8b96f5ff0}} 
+double precision&
+mass&
+part. mass \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a20f5303645e1b7fa0cbfa88f81cda947}\label{namespacebeambunchclass_a20f5303645e1b7fa0cbfa88f81cda947}} 
+integer&
+npt&
+num of total global macroparticles \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a71a8687235fdc19d862fb13092b714a3}\label{namespacebeambunchclass_a71a8687235fdc19d862fb13092b714a3}} 
+integer&
+nptlocal&
+num of total local particles \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_af0d19c1e3e537ade010af8554783c8d7}\label{namespacebeambunchclass_af0d19c1e3e537ade010af8554783c8d7}} 
+double precision, dimension(:,:), pointer&
+pts1&
+particles type one \\
+\hline
+
+\mbox{\Hypertarget{namespacebeambunchclass_a973e0e4ee1b24185bac1d727d2c074f5}\label{namespacebeambunchclass_a973e0e4ee1b24185bac1d727d2c074f5}} 
+double precision, dimension(6)&
+refptcl&
+reference particle \\
+\hline
+
+\end{DoxyFields}

@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! CompDomclass: 3D global and local computational domain class in 
 !               Computational Domain module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines 3-D global and local computational domain
-!              in the parallel simulation.
+! MODULE  : ... CompDomclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class defines 3-D global and local computational domain in the parallel simulation.
+!             
 ! Comments:
 !----------------------------------------------------------------
       module CompDomclass
@@ -20,15 +23,15 @@
         end interface
         type CompDom
 !          private
-          !spatial range in each dimenion.
+          !> spatial range in each dimenion.
           double precision, dimension(2*Ndim) :: SpatRange
           double precision, dimension(2*Ndim) :: Sptrnglocal
-          !mesh size in each dimension.
+          !> mesh size in each dimension.
           double precision, dimension(Ndim) :: Meshsize
-          !# of mesh points in each dimension.
+          !> num of mesh points in each dimension.
           integer, dimension(Ndim) :: Meshnum
           integer, dimension(Ndim) :: Mshlocal
-          !ymin, ymax, # of y grids on local processor.
+          !> ymin, ymax, num of y grids on local processor.
           double precision, pointer, dimension(:,:,:) :: LcTabrg
           integer, pointer, dimension(:,:,:) :: LcTabnm
         end type CompDom
@@ -36,10 +39,14 @@
           module procedure init_CompDom
         end interface
       contains
-        ! calculate the initial computational geometry parameters
-        ! and double precision parameters. Here, computational domain is mapped
-        ! onto a one dimension processor array in y direction. Load
-        ! balance is achieved using density function integration.
+
+        !------------------------------------------------------------------------
+        !> @brief
+        !> calculate the initial computational geometry parameters
+        !> and double precision parameters. Here, computational domain is mapped
+        !> onto a one dimension processor array in y direction. Load
+        !> balance is achieved using density function integration.
+        !------------------------------------------------------------------------
         subroutine init_CompDom(this,distparam,nparam, &
                flg,nx,ny,nz,grid2d,nprocrow,nproccol,Flagbc,xrad,yrad,perd)
         implicit none
@@ -487,7 +494,10 @@
         
         end subroutine init_CompDom
 
-        !update geometry parameters using new particle positions.
+        !------------------------------------------------------------------------
+        !> @brief
+        !> update geometry parameters using new particle positions.
+        !------------------------------------------------------------------------
         subroutine update_CompDom(this, ptrange, grid2d, Flagbc)
         implicit none
         include 'mpif.h'
@@ -814,7 +824,10 @@
 
         end subroutine update_CompDom
 
-        !update geometry parameters using new particle positions.
+        !------------------------------------------------------------------------
+        !> @brief
+        !> update geometry parameters using new particle positions.
+        !------------------------------------------------------------------------
         subroutine updateold_CompDom(this, inrange, grid2d, nplc)
         implicit none
         include 'mpif.h'
@@ -1121,8 +1134,10 @@
 
         end subroutine updateold_CompDom
 
-        ! find the balanced local domain geometry so that the number 
-        ! of particles on this domain about equal.
+        !------------------------------------------------------------------------------------------------------
+        !> @brief
+        !> find the balanced local domain geometry so that the number of particles on this domain about equal.
+        !-------------------------------------------------------------------------------------------------------
         subroutine balance1_CompDom(source,lctabnmz,lctabnmy,&
         lctabrgz,lctabrgy,npz,npy,commrow,commcol,innx,inny,innz,inyglb,&
         inzglb,hy,hz,ymin,zmin)

@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Quadrupoleclass: Quadrupole beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the linear transfer map and field
-!              for the quadrupole beam line elment.
+! MODULE  : ... Quadrupoleclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION:
+!> This class defines the linear transfer map and field
+!> for the quadrupole beam line elment.
 ! Comments:
 !----------------------------------------------------------------
       module Quadrupoleclass
@@ -119,8 +122,10 @@
 
         end subroutine getparam3_Quadrupole
        
-
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_Quadrupole(pos,extfld,this,dx,dy,anglex,&
                                          angley,anglez)
         implicit none
@@ -200,9 +205,12 @@
         endif
 
         end subroutine getflderr_Quadrupole
-        
-        !get external field without displacement and rotation errors.
-        !here, the skew quad can can be modeled with nonzero anglez
+
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !> here, the skew quad can can be modeled with nonzero anglez
+        !--------------------------------------------------------------------------------------
         subroutine getfld_Quadrupole(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -265,7 +273,10 @@
 
         end subroutine getfld_Quadrupole
 
-        !interpolate the field from the SC rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the SC rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getfldfrg_Quadrupole(zz,this,bgrad)
         implicit none
         include 'mpif.h'
@@ -369,7 +380,10 @@
  
         end subroutine getfldfrgAna2_Quadrupole
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrt_Quadrupole(pos,extfld,this)
         implicit none
         include 'mpif.h'

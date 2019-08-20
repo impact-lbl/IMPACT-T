@@ -1,13 +1,16 @@
-!----------------------------------------------------------------
+!--------------------------------------------------------------------------------------
 ! (c) Copyright, 2017 by the Regents of the University of California.
-! BeamBunchclass: Charged beam bunch class in Beam module of APPLICATION 
-!                 layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the charged particle beam bunch 
-!              information in the accelerator.
+! BeamBunchclass: Charged beam bunch class in Beam module of APPLICATION layer.
+! 
+! MODULE    : ... BeamBunchclass
+! VERSION   : ... 1.0
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines the charged particle beam bunch information in the accelerator.
 ! Comments: 1) 
-!----------------------------------------------------------------
+!--------------------------------------------------------------------------------------
       module BeamBunchclass
         use Timerclass
         use PhysConstclass
@@ -17,18 +20,22 @@
         use Fldmgerclass
         use Dataclass
         type BeamBunch
-!          private
-          !beam current, part. mass and charge.
-          double precision :: Current,Mass,Charge
-          !# of total global macroparticles and local particles
-          integer :: Npt,Nptlocal
-          !particles type one.
-          double precision, pointer, dimension(:,:) :: Pts1
-          !reference particle
-          double precision, dimension(6) :: refptcl
+          !private
+          double precision :: Current !< beam current
+          double precision :: Mass !< part. mass
+          double precision :: Charge !< charge
+          integer :: Npt !< num of total global macroparticles
+          integer :: Nptlocal !< num of total local particles
+          double precision, pointer, dimension(:,:) :: Pts1 !< particles type one
+          double precision, dimension(6) :: refptcl !< reference particle
         end type BeamBunch
       contains
-        !//initialize BeamBunch class.
+        !--------------------------------------------------------------------------------------
+        !> @author Ji Qiang
+        !> @brief
+        !> Initialize Beambunch class.
+        !> @param[in] incurr, inkin, inmass, incharge, innp, phasini 
+        !--------------------------------------------------------------------------------------
         subroutine construct_BeamBunch(this,incurr,inkin,inmass,incharge,innp,&
                                        phasini)
         implicit none
@@ -51,7 +58,12 @@
 
         end subroutine construct_BeamBunch
 
-        ! set local # of particles.
+        !--------------------------------------------------------------------------------------
+        !> @author Ji Qiang
+        !> @brief
+        !> Set local # of particles.
+        !> @param[in] innpt 
+        !--------------------------------------------------------------------------------------
         subroutine setnpt_BeamBunch(this,innpt)
         implicit none
         include 'mpif.h'
@@ -62,7 +74,12 @@
 
         end subroutine setnpt_BeamBunch
 
-        ! get local # of particles.
+        !--------------------------------------------------------------------------------------
+        !> @author Ji Qiang
+        !> @brief
+        !> Get local # of particles.
+        !> @param[out] outnpt 
+        !--------------------------------------------------------------------------------------
         subroutine getnpt_BeamBunch(this,outnpt)
         implicit none
         include 'mpif.h'
@@ -73,10 +90,16 @@
 
         end subroutine getnpt_BeamBunch
 
-        !//drift half step in positions.
-        !//Here, x, y, z are normalized by C * Dt
-        !//tau - normalized step size (by Dt).
-        !//only particle with z > 0 is drifted.
+        !--------------------------------------------------------------------------------------
+        !> @author Ji Qiang
+        !> @brief
+        !> Drift half step in positions.
+        !> Here, x, y, z are normalized by C * Dt
+        !> tau - normalized step size (by Dt).
+        !> Only particle with z > 0 is drifted.
+        !> @param[in] tau, betazini 
+        !> @param[inout] t
+        !--------------------------------------------------------------------------------------
         subroutine drifthalf_BeamBunch(this,t,tau,betazini)
         implicit none
         include 'mpif.h'
@@ -89,7 +112,7 @@
         call starttime_Timer(t0)
 
         do i = 1, this%Nptlocal
-          !//get 1.0d0/gamma of each particle
+          ! get 1.0d0/gamma of each particle
           recpgam = 1.0d0/sqrt(1.0d0+this%Pts1(2,i)**2+this%Pts1(4,i)**2+&
                                  this%Pts1(6,i)**2)
           if(this%Pts1(5,i).gt.0.0) then
@@ -103,10 +126,15 @@
 
         end subroutine drifthalf_BeamBunch
 
-        !particle emission
-        !//for particle with z < 0, they are just shifted long z
-        !//this is used to simulate the process of emission from
-        !//photocathod
+        !--------------------------------------------------------------------------------------
+        !> @author Ji Qiang
+        !> @brief
+        !> Particle emission
+        !> For particle with z < 0, they are just shifted long z
+        !> This is used to simulate the process of emission from photocathod
+        !> @param[inout] t
+        !> @param[in] tau, betazini 
+        !-------------------------------------------------------------------------------------- 
         subroutine driftemission_BeamBunch(this,t,tau,betazini)
         implicit none
         include 'mpif.h'
@@ -128,9 +156,15 @@
 
         end subroutine driftemission_BeamBunch
 
-        !//drift half step in positions.
-        !//Here, x, y, z are normalized by C * Dt
-        !//tau - normalized step size (by Dt).
+        !--------------------------------------------------------------------------------------
+        !> @author Ji Qiang
+        !> @brief
+        !> Drift half step in positions.
+        !> Here, x, y, z are normalized by C * Dt
+        !> tau - normalized step size (by Dt).
+        !> @param[inout] t
+        !> @param[in] tau
+        !-------------------------------------------------------------------------------------- 
         subroutine drifthalforg_BeamBunch(this,t,tau)
         implicit none
         include 'mpif.h'

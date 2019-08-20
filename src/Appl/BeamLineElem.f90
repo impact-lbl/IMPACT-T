@@ -1,11 +1,15 @@
 !----------------------------------------------------------------
 ! (c) Copyright, 2017 by the Regents of the University of California.
-! BeamLineElemclass: Beam line element base class in Lattice module of 
-!                    APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the base beam line element class for
-!              different lattice element class.
+! BeamLineElemclass: Beam line element base class in Lattice module of APPLICATION layer.
+!
+! MODULE  : ... BeamLineElemclass
+! VERSION : ... 1.0
+! 
+!> @author
+!> Ji Qiang
+!
+! DESCRIPTION: 
+!> This class defines the base beam line element class for different lattice element class.
 ! Comments:
 !----------------------------------------------------------------
       module BeamLineElemclass
@@ -877,7 +881,10 @@
 
         end subroutine getfld_BeamLineElem
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine getflderr_BeamLineElem(this,pos,extfld,dx,dy,anglex,&
                                           angley,anglez)
         implicit none

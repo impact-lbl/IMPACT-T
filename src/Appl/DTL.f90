@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! DTLclass: Drift-tube-linac beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang
-! Description: This class defines the linear transfer map and RF field
-!              for the DTL beam line elment.
+! MODULE  : ... DTLclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang
+! DESCRIPTION: 
+!> This class defines the linear transfer map and RF field for the DTL beam line elment.
+!              
 ! Comments:
 !----------------------------------------------------------------
       module DTLclass
@@ -133,8 +136,10 @@
 
         end subroutine getparam3_DTL
        
-
-        !interpolate the field from the DTL rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the DTL rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getaxfldE_DTL(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -205,7 +210,10 @@
 
         end subroutine getBgradfld_DTL
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrold_DTL(pos,extfld,this,dx,dy,anglex,angley,&
                                   anglez)
         implicit none
@@ -360,8 +368,11 @@
 
         end subroutine getflderrold_DTL
         
-        !get external field with different field and Quad displacement and rotation errors.
-        !Here, there 2 displacement errors and rotation errors for Quad 
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with different field and Quad displacement and rotation errors.
+        !> Here, there 2 displacement errors and rotation errors for Quad 
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_DTL(pos,extfld,this,dx,dy,anglex,angley,&
                                   anglez)
         implicit none
@@ -553,7 +564,10 @@
 
         end subroutine getflderr_DTL
 
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_DTL(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -638,7 +652,10 @@
 
         end subroutine getfld_DTL
 
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_DTL(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

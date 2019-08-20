@@ -1,0 +1,16 @@
+<map id="compdomclass::getmsize_compdom" name="compdomclass::getmsize_compdom">
+<area shape="rect" id="node1" title=" " alt="" coords="768,294,939,332"/>
+<area shape="rect" id="node2" href="$namespacebeambunchclass.html#ac4e7c6a08c052c9bbc3c2bb1703adea6" title=" " alt="" coords="297,20,460,59"/>
+<area shape="rect" id="node3" href="$namespacebeambunchclass.html#a4353d7ca4b2e80df2e71209df5b0e36c" title=" " alt="" coords="530,55,710,94"/>
+<area shape="rect" id="node4" href="$namespacebeambunchclass.html#a13904891d2d14b332c4178871e861363" title=" " alt="" coords="297,106,460,144"/>
+<area shape="rect" id="node5" href="$namespaceaccsimulatorclass.html#acbe26eeaf1cb4076384b90e1016785f0" title="Run beam dynamics simulation through accelerator." alt="" coords="104,322,238,360"/>
+<area shape="rect" id="node7" href="$namespacebeambunchclass.html#a513182caa95677071325abf64bba8279" title=" " alt="" coords="290,239,467,278"/>
+<area shape="rect" id="node8" href="$namespacedepositorclass.html#adea4a5f5ed3c85a2ef236eaa94f10b98" title="find the charge density of each bunch" alt="" coords="296,322,461,360"/>
+<area shape="rect" id="node9" href="$namespacedepositorclass.html#acb64300f2b31d40a2d4741c4475ae10a" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="538,322,702,360"/>
+<area shape="rect" id="node10" href="$namespacedepositorclass.html#a1f57e8a4537070af145a196172e3ba85" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="534,384,706,423"/>
+<area shape="rect" id="node11" href="$namespacedepositorclass.html#a258e6305ffaed5752f7eaa0584e2e6d8" title=" " alt="" coords="286,442,471,480"/>
+<area shape="rect" id="node12" href="$namespacedepositorclass.html#aaa31c3a30e6e83ab67ee89344612328c" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="527,499,713,538"/>
+<area shape="rect" id="node13" href="$namespacefieldquantclass.html#a1424ab249c01287bbfe998370d2c5703" title="find the E and B fields in the lab frame from the potential on the grid of beam frame." alt="" coords="299,518,458,556"/>
+<area shape="rect" id="node14" href="$namespacefieldquantclass.html#a06d0461c3c52859b9fa8b0c4d5f0db46" title="update potential (solving Possion&#39;s equation) with 3D isolated boundary conditions...." alt="" coords="519,614,720,652"/>
+<area shape="rect" id="node6" href="$main_8f90.html#a8ec2266d83cd6c0b762cbcbc92c0af3d" title="IMPACT&#45;T is a fully three&#45;dimensional program to track relativistic particles taking into account spa..." alt="" coords="5,328,56,354"/>
+</map>

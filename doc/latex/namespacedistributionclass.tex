@@ -1,0 +1,590 @@
+\hypertarget{namespacedistributionclass}{}\section{distributionclass Module Reference}
+\label{namespacedistributionclass}\index{distributionclass@{distributionclass}}
+
+
+This class defines initial distributions for the charged particle beam bunch information in the accelerator.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aee8dd99a29887ed3860bcce7adb87ce8}{sample\+\_\+dist}} (this, distparam, nparam, flagdist, geom, grid,
+\begin{DoxyCompactList}\small\item\em sample the particles with intial distribution. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a5e52f4e8f1be5bbedde152f2263e74af}{uniform\+\_\+dist}} (this, nparam, distparam, grid)
+\begin{DoxyCompactList}\small\item\em 6d uniform distribution \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_af85f956a3fdb677022a546bc69ecfb3c}{gauss3\+\_\+dist}} (this, nparam, distparam, grid, flagalloc)
+\begin{DoxyCompactList}\small\item\em 6d Gaussian distribution \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a00377c8aa90fa9dc8b222d71d019f936}{normdv}} (y)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_acfc04ca0c8be3e0f3e73779c5e88693b}{normvec}} (y, num)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aed734df6d00f7004cf11847adb42dd1d}{waterbag\+\_\+dist}} (this, nparam, distparam, grid, flagalloc)
+\begin{DoxyCompactList}\small\item\em 6d Waterbag distribution. sample the particles with intial distribution using rejection method. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a2e96d2c85cac39531d37f2ce057c5766}{kv3d\+\_\+dist}} (this, nparam, distparam, grid)
+\begin{DoxyCompactList}\small\item\em transverse KV distribution and longitudinal uniform distribution \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a5ae8e13c52291510b7b0b6fe333db73f}{semigauss\+\_\+dist}} (this, nparam, distparam, grid)
+\begin{DoxyCompactList}\small\item\em 3d Waterbag distribution in spatial and 3d Gaussian distribution in momentum space \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a020961b4717af242fc3c82090a17ce12}{normdv2}} (y)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_adfcb2065e951ea9aa42c588f881e6021}{read\+\_\+dist}} (this, nparam, distparam, ib)
+\begin{DoxyCompactList}\small\item\em read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aed89b043090c1817fc57baaa9604eb73}{readparmela\+\_\+dist}} (this, nparam, distparam, geom, grid, Flag
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_acf080fd52aac8287d955bcfd88362c07}{readelegant\+\_\+dist}} (this, nparam, distparam, geom, grid, Flag
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ac36fd92d83720ca88efee259d51ec474}{normdv1d}} (y)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a149c64b379e691ba9bfba3dc16c44571}{cylcoldzsob\+\_\+dist}} (this, nparam, distparam, grid)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a714922ece09780473330b901fa566f71}{psiroot}} (rk, xx, xmod, psi, eps, Nmax)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a8125c1fdf424cfd4bad6cd74eb2d3946}{sobseq}} (n, x, iseed)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ae01180ba4966edba5753229ef24e5b8b}{combine\+\_\+dist}} (this, nparam, distparam, grid, ib, Nb, flagdis
+\begin{DoxyCompactList}\small\item\em generating initial particle distribution based on the combination of transverse spatial distribution (2 types), longitudinal spatial distribution (3 types) and 3D momentum distribution (4 types). For example, flagdist = 111 denotes type 1 from transverse spatial distribution, type 1 from longitudinal spatial distribution, and type 1 from 3D momentum distribution. In this case, it denotes a transverse uniform elliptical, longitudinal flat-\/top with linear ramping in spatial, and 3d full Gaussian distribution in momentum space. flagdist = ijk, where i = 1 (transverse uniform ellipse) and 2 (Gaussian with cut-\/off); j = 1 (flat-\/top with linear ramping), 2 (flat-\/top with 2sigma Gaussain ramping), and 3 (Gaussian with cut-\/off); k = 1, (3D Gaussian momentum), 2 (transverse Gaussian momentum, longitudinal semi-\/\+Gaussian), 3 (streak camera model), and 4 (3 step model). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aec8b879df17219ee41f1855623176867}{tranunifxy\+\_\+dist}} (ptxy, avgpts, sigx, sigy, xmu1, xmu3)
+\begin{DoxyCompactList}\small\item\em transverse spatial uniform elleptical distribution. (id=1) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a42ccdb5100e3e35c9424c89dcac131c1}{trangaussxy\+\_\+dist}} (ptxy, avgpts, sigx, sigy, xmu1, xmu3, cutx
+\begin{DoxyCompactList}\small\item\em transverse spatial Gaussian distribution with cut-\/off. (id=2) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a00926191e33371dc32c2fdbaca1ee2a5}{longflattoplinz\+\_\+dist}} (ptz, avgpts, avgpts0, zscale, pzscal
+\begin{DoxyCompactList}\small\item\em longitudinal spatial flat-\/top distribution with linear ramp (id=1). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a635c045c52b04bd03c076b8b8454b278}{longflattopgasz\+\_\+dist}} (ptz, avgpts, avgpts0, zscale, pzscal
+\begin{DoxyCompactList}\small\item\em longitudinal spatial flat-\/top distribution with 2sigma Gaussian ramp. (id=2) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ab34be02e18a0166b3b2c945e0f68b9ca}{longgaussz\+\_\+dist}} (ptz, avgpts, sigz, xmu5, cutz)
+\begin{DoxyCompactList}\small\item\em longitudinal spatial Gaussian distribution with cut-\/off. (id=3) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a2b070800bac220b6560be536eaa0d780}{waterxyz\+\_\+dist}} (ptxyz, avgpts, sigx, sigy, sigz, xmu1, xmu3, x
+\begin{DoxyCompactList}\small\item\em 3D spatial Waterbag distribution. (id=34) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a93a16b51a7754d6ec2c99d0a8c4f5ced}{pxpypzgauss3d\+\_\+dist}} (pmxyz, avgpts, sigpx, sigpy, sigpz, xmu
+\begin{DoxyCompactList}\small\item\em 3D Momentum Gaussian distribution. (id=1) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ab6dde242aa247f41d9581455e84607fb}{pxpygausspzsg\+\_\+dist}} (pmxyz, avgpts, sigpx, sigpy, sigpz, xmu
+\begin{DoxyCompactList}\small\item\em Momentum Gaussian distribution in transverse while longitudinal xexp(-\/x$^\wedge$2/sigz$^\wedge$2). (id=2) The longitudinal distribution follows Bird\textquotesingle{}s book, p.\+129. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a323470431d5dda05b3dd2ba27cf8565c}{pxpypzstreakcam\+\_\+dist}} (pmxyz, avgpts, emax, wkf, emass, xmu2
+\begin{DoxyCompactList}\small\item\em Momentum distribution following the streak camera model. (id=3) both emax and wkf are in the units of eV. emass is also in eV. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aaeb585c7c5a8664f047fb95fc7721059}{pxpypz3step\+\_\+dist}} (pmxyz, avgpts, Ef, Eph, Tem, Ewk, emass, xm
+\begin{DoxyCompactList}\small\item\em Momentum distribution following the streak camera model. (id=4) momentum\+: following the 3 step model in David Dowell\textquotesingle{}s P\+R\+S\+T\+AB paper v.\+12, 074201, 2009. momentum input parameters are\+: laser photon energy (eV), cathode temperature (eV), cathode effective work function (eV) (work function -\/ surface field), Fermi energy of cathode material, emass (eV). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ae604d1dc6d7f92f0c37e00fb504d38fa}{normveccut}} (y, num, cutx, cuty)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class defines initial distributions for the charged particle beam bunch information in the accelerator. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacedistributionclass_ae01180ba4966edba5753229ef24e5b8b}\label{namespacedistributionclass_ae01180ba4966edba5753229ef24e5b8b}} 
+\index{distributionclass@{distributionclass}!combine\_dist@{combine\_dist}}
+\index{combine\_dist@{combine\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{combine\_dist()}{combine\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::combine\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid,  }\item[{integer, intent(in)}]{ib,  }\item[{integer, intent(in)}]{Nb,  }\item[{}]{flagdis }\end{DoxyParamCaption})}
+
+
+
+generating initial particle distribution based on the combination of transverse spatial distribution (2 types), longitudinal spatial distribution (3 types) and 3D momentum distribution (4 types). For example, flagdist = 111 denotes type 1 from transverse spatial distribution, type 1 from longitudinal spatial distribution, and type 1 from 3D momentum distribution. In this case, it denotes a transverse uniform elliptical, longitudinal flat-\/top with linear ramping in spatial, and 3d full Gaussian distribution in momentum space. flagdist = ijk, where i = 1 (transverse uniform ellipse) and 2 (Gaussian with cut-\/off); j = 1 (flat-\/top with linear ramping), 2 (flat-\/top with 2sigma Gaussain ramping), and 3 (Gaussian with cut-\/off); k = 1, (3D Gaussian momentum), 2 (transverse Gaussian momentum, longitudinal semi-\/\+Gaussian), 3 (streak camera model), and 4 (3 step model). 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_ae01180ba4966edba5753229ef24e5b8b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_ae01180ba4966edba5753229ef24e5b8b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a149c64b379e691ba9bfba3dc16c44571}\label{namespacedistributionclass_a149c64b379e691ba9bfba3dc16c44571}} 
+\index{distributionclass@{distributionclass}!cylcoldzsob\_dist@{cylcoldzsob\_dist}}
+\index{cylcoldzsob\_dist@{cylcoldzsob\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{cylcoldzsob\_dist()}{cylcoldzsob\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::cylcoldzsob\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a149c64b379e691ba9bfba3dc16c44571_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a149c64b379e691ba9bfba3dc16c44571_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_af85f956a3fdb677022a546bc69ecfb3c}\label{namespacedistributionclass_af85f956a3fdb677022a546bc69ecfb3c}} 
+\index{distributionclass@{distributionclass}!gauss3\_dist@{gauss3\_dist}}
+\index{gauss3\_dist@{gauss3\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{gauss3\_dist()}{gauss3\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::gauss3\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid,  }\item[{integer, intent(in)}]{flagalloc }\end{DoxyParamCaption})}
+
+
+
+6d Gaussian distribution 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_af85f956a3fdb677022a546bc69ecfb3c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_af85f956a3fdb677022a546bc69ecfb3c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a2e96d2c85cac39531d37f2ce057c5766}\label{namespacedistributionclass_a2e96d2c85cac39531d37f2ce057c5766}} 
+\index{distributionclass@{distributionclass}!kv3d\_dist@{kv3d\_dist}}
+\index{kv3d\_dist@{kv3d\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{kv3d\_dist()}{kv3d\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::kv3d\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid }\end{DoxyParamCaption})}
+
+
+
+transverse KV distribution and longitudinal uniform distribution 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a2e96d2c85cac39531d37f2ce057c5766_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a2e96d2c85cac39531d37f2ce057c5766_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a635c045c52b04bd03c076b8b8454b278}\label{namespacedistributionclass_a635c045c52b04bd03c076b8b8454b278}} 
+\index{distributionclass@{distributionclass}!longflattopgasz\_dist@{longflattopgasz\_dist}}
+\index{longflattopgasz\_dist@{longflattopgasz\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{longflattopgasz\_dist()}{longflattopgasz\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::longflattopgasz\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(avgpts0), intent(out)}]{ptz,  }\item[{integer, intent(inout)}]{avgpts,  }\item[{integer, intent(in)}]{avgpts0,  }\item[{real$\ast$8, intent(in)}]{zscale,  }\item[{}]{pzscal }\end{DoxyParamCaption})}
+
+
+
+longitudinal spatial flat-\/top distribution with 2sigma Gaussian ramp. (id=2) 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a635c045c52b04bd03c076b8b8454b278_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a00926191e33371dc32c2fdbaca1ee2a5}\label{namespacedistributionclass_a00926191e33371dc32c2fdbaca1ee2a5}} 
+\index{distributionclass@{distributionclass}!longflattoplinz\_dist@{longflattoplinz\_dist}}
+\index{longflattoplinz\_dist@{longflattoplinz\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{longflattoplinz\_dist()}{longflattoplinz\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::longflattoplinz\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(avgpts0), intent(out)}]{ptz,  }\item[{integer, intent(inout)}]{avgpts,  }\item[{integer, intent(in)}]{avgpts0,  }\item[{real$\ast$8, intent(in)}]{zscale,  }\item[{}]{pzscal }\end{DoxyParamCaption})}
+
+
+
+longitudinal spatial flat-\/top distribution with linear ramp (id=1). 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a00926191e33371dc32c2fdbaca1ee2a5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_ab34be02e18a0166b3b2c945e0f68b9ca}\label{namespacedistributionclass_ab34be02e18a0166b3b2c945e0f68b9ca}} 
+\index{distributionclass@{distributionclass}!longgaussz\_dist@{longgaussz\_dist}}
+\index{longgaussz\_dist@{longgaussz\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{longgaussz\_dist()}{longgaussz\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::longgaussz\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(avgpts), intent(out)}]{ptz,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{sigz,  }\item[{real$\ast$8, intent(in)}]{xmu5,  }\item[{real$\ast$8, intent(in)}]{cutz }\end{DoxyParamCaption})}
+
+
+
+longitudinal spatial Gaussian distribution with cut-\/off. (id=3) 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{namespacedistributionclass_ab34be02e18a0166b3b2c945e0f68b9ca_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_ab34be02e18a0166b3b2c945e0f68b9ca_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a00377c8aa90fa9dc8b222d71d019f936}\label{namespacedistributionclass_a00377c8aa90fa9dc8b222d71d019f936}} 
+\index{distributionclass@{distributionclass}!normdv@{normdv}}
+\index{normdv@{normdv}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{normdv()}{normdv()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::normdv (\begin{DoxyParamCaption}\item[{double precision, dimension(2), intent(out)}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedistributionclass_ac36fd92d83720ca88efee259d51ec474}\label{namespacedistributionclass_ac36fd92d83720ca88efee259d51ec474}} 
+\index{distributionclass@{distributionclass}!normdv1d@{normdv1d}}
+\index{normdv1d@{normdv1d}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{normdv1d()}{normdv1d()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::normdv1d (\begin{DoxyParamCaption}\item[{double precision, intent(out)}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedistributionclass_a020961b4717af242fc3c82090a17ce12}\label{namespacedistributionclass_a020961b4717af242fc3c82090a17ce12}} 
+\index{distributionclass@{distributionclass}!normdv2@{normdv2}}
+\index{normdv2@{normdv2}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{normdv2()}{normdv2()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::normdv2 (\begin{DoxyParamCaption}\item[{double precision, dimension(3), intent(out)}]{y }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a020961b4717af242fc3c82090a17ce12_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_acfc04ca0c8be3e0f3e73779c5e88693b}\label{namespacedistributionclass_acfc04ca0c8be3e0f3e73779c5e88693b}} 
+\index{distributionclass@{distributionclass}!normvec@{normvec}}
+\index{normvec@{normvec}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{normvec()}{normvec()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::normvec (\begin{DoxyParamCaption}\item[{double precision, dimension(2,num), intent(out)}]{y,  }\item[{integer, intent(in)}]{num }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_acfc04ca0c8be3e0f3e73779c5e88693b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_ae604d1dc6d7f92f0c37e00fb504d38fa}\label{namespacedistributionclass_ae604d1dc6d7f92f0c37e00fb504d38fa}} 
+\index{distributionclass@{distributionclass}!normveccut@{normveccut}}
+\index{normveccut@{normveccut}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{normveccut()}{normveccut()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::normveccut (\begin{DoxyParamCaption}\item[{double precision, dimension(2,num), intent(out)}]{y,  }\item[{integer, intent(in)}]{num,  }\item[{real$\ast$8, intent(in)}]{cutx,  }\item[{real$\ast$8, intent(in)}]{cuty }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_ae604d1dc6d7f92f0c37e00fb504d38fa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a714922ece09780473330b901fa566f71}\label{namespacedistributionclass_a714922ece09780473330b901fa566f71}} 
+\index{distributionclass@{distributionclass}!psiroot@{psiroot}}
+\index{psiroot@{psiroot}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{psiroot()}{psiroot()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::psiroot (\begin{DoxyParamCaption}\item[{real$\ast$8}]{rk,  }\item[{real$\ast$8}]{xx,  }\item[{real$\ast$8}]{xmod,  }\item[{real$\ast$8}]{psi,  }\item[{real$\ast$8}]{eps,  }\item[{integer}]{Nmax }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a714922ece09780473330b901fa566f71_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_ab6dde242aa247f41d9581455e84607fb}\label{namespacedistributionclass_ab6dde242aa247f41d9581455e84607fb}} 
+\index{distributionclass@{distributionclass}!pxpygausspzsg\_dist@{pxpygausspzsg\_dist}}
+\index{pxpygausspzsg\_dist@{pxpygausspzsg\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{pxpygausspzsg\_dist()}{pxpygausspzsg\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::pxpygausspzsg\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(3,avgpts), intent(out)}]{pmxyz,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{sigpx,  }\item[{real$\ast$8, intent(in)}]{sigpy,  }\item[{real$\ast$8, intent(in)}]{sigpz,  }\item[{}]{xmu }\end{DoxyParamCaption})}
+
+
+
+Momentum Gaussian distribution in transverse while longitudinal xexp(-\/x$^\wedge$2/sigz$^\wedge$2). (id=2) The longitudinal distribution follows Bird\textquotesingle{}s book, p.\+129. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{namespacedistributionclass_ab6dde242aa247f41d9581455e84607fb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_ab6dde242aa247f41d9581455e84607fb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_aaeb585c7c5a8664f047fb95fc7721059}\label{namespacedistributionclass_aaeb585c7c5a8664f047fb95fc7721059}} 
+\index{distributionclass@{distributionclass}!pxpypz3step\_dist@{pxpypz3step\_dist}}
+\index{pxpypz3step\_dist@{pxpypz3step\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{pxpypz3step\_dist()}{pxpypz3step\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::pxpypz3step\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(3,avgpts), intent(out)}]{pmxyz,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{Ef,  }\item[{real$\ast$8, intent(in)}]{Eph,  }\item[{real$\ast$8, intent(in)}]{Tem,  }\item[{real$\ast$8, intent(in)}]{Ewk,  }\item[{real$\ast$8, intent(in)}]{emass,  }\item[{}]{xm }\end{DoxyParamCaption})}
+
+
+
+Momentum distribution following the streak camera model. (id=4) momentum\+: following the 3 step model in David Dowell\textquotesingle{}s P\+R\+S\+T\+AB paper v.\+12, 074201, 2009. momentum input parameters are\+: laser photon energy (eV), cathode temperature (eV), cathode effective work function (eV) (work function -\/ surface field), Fermi energy of cathode material, emass (eV). 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_aaeb585c7c5a8664f047fb95fc7721059_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a93a16b51a7754d6ec2c99d0a8c4f5ced}\label{namespacedistributionclass_a93a16b51a7754d6ec2c99d0a8c4f5ced}} 
+\index{distributionclass@{distributionclass}!pxpypzgauss3d\_dist@{pxpypzgauss3d\_dist}}
+\index{pxpypzgauss3d\_dist@{pxpypzgauss3d\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{pxpypzgauss3d\_dist()}{pxpypzgauss3d\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::pxpypzgauss3d\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(3,avgpts), intent(out)}]{pmxyz,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{sigpx,  }\item[{real$\ast$8, intent(in)}]{sigpy,  }\item[{real$\ast$8, intent(in)}]{sigpz,  }\item[{}]{xmu }\end{DoxyParamCaption})}
+
+
+
+3D Momentum Gaussian distribution. (id=1) 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{namespacedistributionclass_a93a16b51a7754d6ec2c99d0a8c4f5ced_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a93a16b51a7754d6ec2c99d0a8c4f5ced_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a323470431d5dda05b3dd2ba27cf8565c}\label{namespacedistributionclass_a323470431d5dda05b3dd2ba27cf8565c}} 
+\index{distributionclass@{distributionclass}!pxpypzstreakcam\_dist@{pxpypzstreakcam\_dist}}
+\index{pxpypzstreakcam\_dist@{pxpypzstreakcam\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{pxpypzstreakcam\_dist()}{pxpypzstreakcam\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::pxpypzstreakcam\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(3,avgpts), intent(out)}]{pmxyz,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{emax,  }\item[{real$\ast$8, intent(in)}]{wkf,  }\item[{real$\ast$8, intent(in)}]{emass,  }\item[{real$\ast$8, intent(in)}]{xmu2 }\end{DoxyParamCaption})}
+
+
+
+Momentum distribution following the streak camera model. (id=3) both emax and wkf are in the units of eV. emass is also in eV. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a323470431d5dda05b3dd2ba27cf8565c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_adfcb2065e951ea9aa42c588f881e6021}\label{namespacedistributionclass_adfcb2065e951ea9aa42c588f881e6021}} 
+\index{distributionclass@{distributionclass}!read\_dist@{read\_dist}}
+\index{read\_dist@{read\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{read\_dist()}{read\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::read\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{integer, intent(in)}]{ib }\end{DoxyParamCaption})}
+
+
+
+read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...) 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_adfcb2065e951ea9aa42c588f881e6021_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_acf080fd52aac8287d955bcfd88362c07}\label{namespacedistributionclass_acf080fd52aac8287d955bcfd88362c07}} 
+\index{distributionclass@{distributionclass}!readelegant\_dist@{readelegant\_dist}}
+\index{readelegant\_dist@{readelegant\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{readelegant\_dist()}{readelegant\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::readelegant\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (compdom), intent(in)}]{geom,  }\item[{type (pgrid2d), intent(in)}]{grid,  }\item[{}]{Flag }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=344pt]{namespacedistributionclass_acf080fd52aac8287d955bcfd88362c07_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_acf080fd52aac8287d955bcfd88362c07_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_aed89b043090c1817fc57baaa9604eb73}\label{namespacedistributionclass_aed89b043090c1817fc57baaa9604eb73}} 
+\index{distributionclass@{distributionclass}!readparmela\_dist@{readparmela\_dist}}
+\index{readparmela\_dist@{readparmela\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{readparmela\_dist()}{readparmela\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::readparmela\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (compdom), intent(in)}]{geom,  }\item[{type (pgrid2d), intent(in)}]{grid,  }\item[{}]{Flag }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=344pt]{namespacedistributionclass_aed89b043090c1817fc57baaa9604eb73_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_aed89b043090c1817fc57baaa9604eb73_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_aee8dd99a29887ed3860bcce7adb87ce8}\label{namespacedistributionclass_aee8dd99a29887ed3860bcce7adb87ce8}} 
+\index{distributionclass@{distributionclass}!sample\_dist@{sample\_dist}}
+\index{sample\_dist@{sample\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{sample\_dist()}{sample\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::sample\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{integer, intent(in)}]{nparam,  }\item[{integer, intent(in)}]{flagdist,  }\item[{type (compdom), intent(in)}]{geom,  }\item[{type (pgrid2d), intent(in)}]{grid }\end{DoxyParamCaption})}
+
+
+
+sample the particles with intial distribution. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_aee8dd99a29887ed3860bcce7adb87ce8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{namespacedistributionclass_aee8dd99a29887ed3860bcce7adb87ce8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a5ae8e13c52291510b7b0b6fe333db73f}\label{namespacedistributionclass_a5ae8e13c52291510b7b0b6fe333db73f}} 
+\index{distributionclass@{distributionclass}!semigauss\_dist@{semigauss\_dist}}
+\index{semigauss\_dist@{semigauss\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{semigauss\_dist()}{semigauss\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::semigauss\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid }\end{DoxyParamCaption})}
+
+
+
+3d Waterbag distribution in spatial and 3d Gaussian distribution in momentum space 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a5ae8e13c52291510b7b0b6fe333db73f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a5ae8e13c52291510b7b0b6fe333db73f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a8125c1fdf424cfd4bad6cd74eb2d3946}\label{namespacedistributionclass_a8125c1fdf424cfd4bad6cd74eb2d3946}} 
+\index{distributionclass@{distributionclass}!sobseq@{sobseq}}
+\index{sobseq@{sobseq}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{sobseq()}{sobseq()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::sobseq (\begin{DoxyParamCaption}\item[{integer}]{n,  }\item[{real$\ast$8, dimension($\ast$)}]{x,  }\item[{integer}]{iseed }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a8125c1fdf424cfd4bad6cd74eb2d3946_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a42ccdb5100e3e35c9424c89dcac131c1}\label{namespacedistributionclass_a42ccdb5100e3e35c9424c89dcac131c1}} 
+\index{distributionclass@{distributionclass}!trangaussxy\_dist@{trangaussxy\_dist}}
+\index{trangaussxy\_dist@{trangaussxy\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{trangaussxy\_dist()}{trangaussxy\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::trangaussxy\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(2,avgpts), intent(out)}]{ptxy,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{sigx,  }\item[{real$\ast$8, intent(in)}]{sigy,  }\item[{real$\ast$8, intent(in)}]{xmu1,  }\item[{real$\ast$8, intent(in)}]{xmu3,  }\item[{real$\ast$8, intent(in)}]{cutx }\end{DoxyParamCaption})}
+
+
+
+transverse spatial Gaussian distribution with cut-\/off. (id=2) 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{namespacedistributionclass_a42ccdb5100e3e35c9424c89dcac131c1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a42ccdb5100e3e35c9424c89dcac131c1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_aec8b879df17219ee41f1855623176867}\label{namespacedistributionclass_aec8b879df17219ee41f1855623176867}} 
+\index{distributionclass@{distributionclass}!tranunifxy\_dist@{tranunifxy\_dist}}
+\index{tranunifxy\_dist@{tranunifxy\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{tranunifxy\_dist()}{tranunifxy\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::tranunifxy\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(2,avgpts), intent(out)}]{ptxy,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{sigx,  }\item[{real$\ast$8, intent(in)}]{sigy,  }\item[{real$\ast$8, intent(in)}]{xmu1,  }\item[{real$\ast$8, intent(in)}]{xmu3 }\end{DoxyParamCaption})}
+
+
+
+transverse spatial uniform elleptical distribution. (id=1) 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_aec8b879df17219ee41f1855623176867_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a5e52f4e8f1be5bbedde152f2263e74af}\label{namespacedistributionclass_a5e52f4e8f1be5bbedde152f2263e74af}} 
+\index{distributionclass@{distributionclass}!uniform\_dist@{uniform\_dist}}
+\index{uniform\_dist@{uniform\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{uniform\_dist()}{uniform\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::uniform\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid }\end{DoxyParamCaption})}
+
+
+
+6d uniform distribution 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a5e52f4e8f1be5bbedde152f2263e74af_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_a5e52f4e8f1be5bbedde152f2263e74af_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_aed734df6d00f7004cf11847adb42dd1d}\label{namespacedistributionclass_aed734df6d00f7004cf11847adb42dd1d}} 
+\index{distributionclass@{distributionclass}!waterbag\_dist@{waterbag\_dist}}
+\index{waterbag\_dist@{waterbag\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{waterbag\_dist()}{waterbag\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::waterbag\+\_\+dist (\begin{DoxyParamCaption}\item[{type (beambunch), intent(inout)}]{this,  }\item[{integer, intent(in)}]{nparam,  }\item[{double precision, dimension(nparam)}]{distparam,  }\item[{type (pgrid2d), intent(in)}]{grid,  }\item[{integer, intent(in)}]{flagalloc }\end{DoxyParamCaption})}
+
+
+
+6d Waterbag distribution. sample the particles with intial distribution using rejection method. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_aed734df6d00f7004cf11847adb42dd1d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedistributionclass_aed734df6d00f7004cf11847adb42dd1d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedistributionclass_a2b070800bac220b6560be536eaa0d780}\label{namespacedistributionclass_a2b070800bac220b6560be536eaa0d780}} 
+\index{distributionclass@{distributionclass}!waterxyz\_dist@{waterxyz\_dist}}
+\index{waterxyz\_dist@{waterxyz\_dist}!distributionclass@{distributionclass}}
+\subsubsection{\texorpdfstring{waterxyz\_dist()}{waterxyz\_dist()}}
+{\footnotesize\ttfamily subroutine distributionclass\+::waterxyz\+\_\+dist (\begin{DoxyParamCaption}\item[{real$\ast$8, dimension(3,avgpts), intent(out)}]{ptxyz,  }\item[{integer, intent(in)}]{avgpts,  }\item[{real$\ast$8, intent(in)}]{sigx,  }\item[{real$\ast$8, intent(in)}]{sigy,  }\item[{real$\ast$8, intent(in)}]{sigz,  }\item[{real$\ast$8, intent(in)}]{xmu1,  }\item[{real$\ast$8, intent(in)}]{xmu3,  }\item[{}]{x }\end{DoxyParamCaption})}
+
+
+
+3D spatial Waterbag distribution. (id=34) 
+

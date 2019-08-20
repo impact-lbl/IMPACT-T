@@ -1,0 +1,160 @@
+<map id="accsimulatorclass::run_accsimulator" name="accsimulatorclass::run_accsimulator">
+<area shape="rect" id="node1" title="Run beam dynamics simulation through accelerator." alt="" coords="5,2594,139,2633"/>
+<area shape="rect" id="node2" href="$namespacepgrid2dclass.html#a559d4550356f88440ae55fceda480de2" title="get my rank position in 2d, column, and row communicators." alt="" coords="732,662,879,701"/>
+<area shape="rect" id="node3" href="$namespacepgrid2dclass.html#a550cb1b5c94a9e168c3e0108bb8a6d5b" title="get 2D, column, and row communicators." alt="" coords="726,395,885,434"/>
+<area shape="rect" id="node4" href="$namespacepgrid2dclass.html#ac088657db5b1deb05bb1ec732579ba53" title="get the total number of PEs, PEs in column and row communicators." alt="" coords="732,333,878,371"/>
+<area shape="rect" id="node5" href="$namespacetimerclass.html#afb272bcdcff72d225c2df5862630025c" title=" " alt="" coords="1244,1547,1384,1586"/>
+<area shape="rect" id="node7" href="$namespaceoutputclass.html#ac91c3984014cb5cdc000c0422ccd08a1" title="calculate averaged &lt;x^2&gt;,&lt;xp&gt;,&lt;px^2&gt;,x emittance, &lt;y^2&gt;,&lt;ypy&gt;, &lt;py^2&gt; and y emittance,..." alt="" coords="969,1998,1154,2037"/>
+<area shape="rect" id="node8" href="$namespacetimerclass.html#a3378d323d442f85aff95ab73cd13376d" title=" " alt="" coords="1234,1935,1395,1974"/>
+<area shape="rect" id="node9" href="$namespaceoutputclass.html#a4a7e188c45ca9b8099c7715873d9324a" title="calculate averaged &lt;x^2&gt;,&lt;xp&gt;,&lt;px^2&gt;,x emittance, &lt;y^2&gt;,&lt;ypy&gt;, &lt;py^2&gt; and y emittance,..." alt="" coords="965,2163,1157,2202"/>
+<area shape="rect" id="node10" href="$namespaceoutputclass.html#a17a23eedc331f6e6b2ca0543119aca42" title="for 2 bunch diagnostic, only work on 1 PE. calculate averaged &lt;x^2&gt;,&lt;xp&gt;,&lt;px^2&gt;,x emittance,..." alt="" coords="187,2879,401,2918"/>
+<area shape="rect" id="node11" href="$namespaceoutputclass.html#a86742b646a584647da7837ee6fc09c89" title="the 6D phase space output has (x(m), px/mc, y(m), py/mc, z(m), pz/mc)." alt="" coords="228,2942,360,2981"/>
+<area shape="rect" id="node12" href="$namespaceoutputclass.html#aaba51e45761070d95883093a25e402c4" title="This program calculate the current profile, slice emittance and uncorrelated energy spread using line..." alt="" coords="208,3005,379,3043"/>
+<area shape="rect" id="node13" href="$namespacerangerclass.html#a5e8eb23d6d5bf16cd2d36cd10ecf6f70" title="find the range (minimum and maxium of a single bunch) and the centroid of a single beam bunch." alt="" coords="211,3067,377,3093"/>
+<area shape="rect" id="node14" href="$namespacefieldquantclass.html#a362a63ffd1dbce47680a0224d88552c7" title=" " alt="" coords="204,3117,384,3155"/>
+<area shape="rect" id="node17" href="$namespacefieldquantclass.html#ac5166a3094bb6567db04903c1f43e4b6" title=" " alt="" coords="210,3179,378,3218"/>
+<area shape="rect" id="node22" href="$namespacefieldquantclass.html#ac9b2b94f5051c235120e16bd55e0148d" title=" " alt="" coords="208,3305,380,3343"/>
+<area shape="rect" id="node25" href="$namespacefieldquantclass.html#a0cf12c2453dd024814caca1b9dbbb9a5" title=" " alt="" coords="214,3242,374,3281"/>
+<area shape="rect" id="node26" href="$namespacebeambunchclass.html#a269bbe3913214953b92f55253daa5b16" title="Drift half step in positions. Here, x, y, z are normalized by C * Dt tau &#45; normalized step size (by D..." alt="" coords="975,2226,1147,2265"/>
+<area shape="rect" id="node27" href="$namespacebeambunchclass.html#a1a12151be16b0be8122e01c579035ddd" title="Drift half step in positions. Here, x, y, z are normalized by C * Dt tau &#45; normalized step size (by D..." alt="" coords="965,1706,1157,1745"/>
+<area shape="rect" id="node28" href="$namespacebeambunchclass.html#a7cccd378d69c7b51808b6d96d3151e50" title=" " alt="" coords="219,3367,369,3406"/>
+<area shape="rect" id="node29" href="$namespacedataclass.html#af6df6f58c6c53c92a78e3d512d6a4d03" title="read in discrete Bz(r,z), Br(r,z) data from files &quot;1Tx.T7 or 1Txx.T7 or 1Txxx.T7 for solenoid...." alt="" coords="207,3578,381,3603"/>
+<area shape="rect" id="node32" href="$namespacedataclass.html#a8a4f016b0eeea3567fb59c4100c5cdc5" title="readin the Fourier coefficients of the RF field from files &quot;rfdatax or rfdataxx or rfdataxxx&quot;." alt="" coords="216,3430,372,3455"/>
+<area shape="rect" id="node33" href="$namespacedataclass.html#a44430d1d47a985d35f3544c9b7dac562" title="read in discrete complex Ex(x,y,z), Ey(x,y,z), Ez(x,y,z), Bx(x,y,z), By(x,y,z), Bz(x,..." alt="" coords="216,3627,372,3653"/>
+<area shape="rect" id="node34" href="$namespacedataclass.html#a6a03d5b21b9316f6fd4053aeb7acb426" title="read in discrete Ez(r,z), Er(r,z) and Btheta(r,z) rf data from files &quot;1Tx.T7 or 1Txx...." alt="" coords="216,3529,372,3554"/>
+<area shape="rect" id="node35" href="$namespacedataclass.html#a8159006c3a211e35e4c3e22d94b2abc6" title="read in analytical function coefficients of Ex(x,y,z), Ey(x,y,z), Ez(x,y,z), Bx(x,..." alt="" coords="216,3479,372,3505"/>
+<area shape="rect" id="node36" href="$namespacecompdomclass.html#a0e7d562b378f77e0d3a14b33168cb46b" title="update geometry parameters using new particle positions." alt="" coords="471,111,629,150"/>
+<area shape="rect" id="node37" href="$namespacecompdomclass.html#a545b0a4e8dce9ec9c326806ed1b36598" title=" " alt="" coords="459,883,641,922"/>
+<area shape="rect" id="node38" href="$namespacecompdomclass.html#ad0a907860c5bf17c263d8ad957c7ed1d" title=" " alt="" coords="715,881,895,919"/>
+<area shape="rect" id="node39" href="$namespaceptclmgerclass.html#a15bfd87febad22b6f820896f8720a3d7" title="move particles from one processor to 4 neighboring processors." alt="" coords="473,174,627,213"/>
+<area shape="rect" id="node40" href="$namespacebeambunchclass.html#af1b14b706bd1283ff6c5a7cec4b06c48" title="Set local # of particles." alt="" coords="211,3739,377,3778"/>
+<area shape="rect" id="node41" href="$namespacefieldquantclass.html#a2d6cd3fb8b4d962adbd4206a5fbd13ce" title="set field quantity." alt="" coords="483,1251,617,1290"/>
+<area shape="rect" id="node42" href="$namespacecompdomclass.html#a7c7c1450a459bb1753ef8230ab0d7651" title=" " alt="" coords="714,1142,897,1181"/>
+<area shape="rect" id="node43" href="$namespacedepositorclass.html#a258e6305ffaed5752f7eaa0584e2e6d8" title=" " alt="" coords="201,763,387,802"/>
+<area shape="rect" id="node45" href="$namespacecompdomclass.html#a460a22916802ee9041aa66d1922cb812" title=" " alt="" coords="720,1079,891,1118"/>
+<area shape="rect" id="node46" href="$namespacecompdomclass.html#acba710aa1017492e05a537273742cc16" title=" " alt="" coords="720,1205,891,1243"/>
+<area shape="rect" id="node47" href="$namespacedepositorclass.html#adea4a5f5ed3c85a2ef236eaa94f10b98" title="find the charge density of each bunch" alt="" coords="212,1194,376,1233"/>
+<area shape="rect" id="node50" href="$namespacefieldquantclass.html#a61fa5f8980736fbc19fa50224214727b" title="longitudinal and transverse wakefield" alt="" coords="719,2579,892,2618"/>
+<area shape="rect" id="node75" href="$namespacefieldquantclass.html#afc918d38222797f1f06903259e48461b" title="longitudinal and transverse wakefield on a beam using the readin longitudinal and transverse wake fun..." alt="" coords="713,2454,898,2493"/>
+<area shape="rect" id="node76" href="$namespacefieldquantclass.html#a990a046cc996cb957a94c4995bfe803a" title="This routine computes the root of the function that is evaluated ! in the subroutine &#39;funcd&#39;...." alt="" coords="204,2511,384,2550"/>
+<area shape="rect" id="node78" href="$namespacefieldquantclass.html#a06d0461c3c52859b9fa8b0c4d5f0db46" title="update potential (solving Possion&#39;s equation) with 3D isolated boundary conditions...." alt="" coords="194,1587,394,1626"/>
+<area shape="rect" id="node108" href="$namespacefieldquantclass.html#a1424ab249c01287bbfe998370d2c5703" title="find the E and B fields in the lab frame from the potential on the grid of beam frame." alt="" coords="215,529,373,567"/>
+<area shape="rect" id="node111" href="$namespacebeambunchclass.html#a13904891d2d14b332c4178871e861363" title=" " alt="" coords="469,1922,631,1961"/>
+<area shape="rect" id="node137" href="$namespacebeambunchclass.html#a01fdab4efb6d28b0604dfadfdbf302c1" title=" " alt="" coords="449,2846,651,2885"/>
+<area shape="rect" id="node138" href="$namespacebeambunchclass.html#a950cb67b3fefb93f3d3a492fdef5b998" title=" " alt="" coords="456,2783,644,2822"/>
+<area shape="rect" id="node139" href="$namespacebeambunchclass.html#a2c80320f40c450b5384dfd16c76bcc6a" title="Particle emission For particle with z &lt; 0, they are just shifted long z This is used to simulate the ..." alt="" coords="959,1883,1163,1922"/>
+<area shape="rect" id="node140" href="$namespacebeambunchclass.html#a875b1de387c0e2e667bfa7a33bb70311" title=" " alt="" coords="204,3802,384,3841"/>
+<area shape="rect" id="node141" href="$namespacebeambunchclass.html#ae62dcc6dbc6d31b22daefa701822d49d" title=" " alt="" coords="705,2391,906,2430"/>
+<area shape="rect" id="node142" href="$namespacebeambunchclass.html#a45079536068a233e490ed282b4225c93" title=" " alt="" coords="712,3731,899,3770"/>
+<area shape="rect" id="node143" href="$namespacebeambunchclass.html#a6708b67cc6ed6cbdbba8340d6512ab4f" title=" " alt="" coords="214,3865,374,3903"/>
+<area shape="rect" id="node144" href="$namespacefieldquantclass.html#ac3c0238f350487871fdbe6a84bcdfc2e" title="This subroutine calculates the 1d csr wakefield including entrance, stead&#45;state, and transitions effe..." alt="" coords="200,3927,388,3966"/>
+<area shape="rect" id="node149" href="$namespacebeambunchclass.html#a513182caa95677071325abf64bba8279" title=" " alt="" coords="461,1859,639,1898"/>
+<area shape="rect" id="node150" href="$namespacebeambunchclass.html#a38583f97e581a51940801aeb0f8398a0" title=" " alt="" coords="457,2909,643,2947"/>
+<area shape="rect" id="node151" href="$namespacebeambunchclass.html#a26facece08e7014e20db987d5df33c42" title=" " alt="" coords="206,3990,382,4029"/>
+<area shape="rect" id="node152" href="$namespaceoutputclass.html#a42165712a4636aa78bacdd26efa4bae9" title="calculate averaged &lt;x^2&gt;,&lt;xp&gt;,&lt;px^2&gt;,x emittance, &lt;y^2&gt;,&lt;ypy&gt;, &lt;py^2&gt; and y emittance,..." alt="" coords="965,1769,1157,1807"/>
+<area shape="rect" id="node153" href="$namespacebeambunchclass.html#a4126361c8be17915e9c6c24697801f47" title=" " alt="" coords="205,4053,383,4091"/>
+<area shape="rect" id="node154" href="$namespaceoutputclass.html#a14e60e5c44149548fa7843b51c625969" title=" " alt="" coords="222,4115,366,4154"/>
+<area shape="rect" id="node155" href="$namespacebeambunchclass.html#a68be93e06f8b6c65ee45af2e08610396" title=" " alt="" coords="212,4178,375,4217"/>
+<area shape="rect" id="node156" href="$namespacetimerclass.html#aa34d67fa57ad546ab7e1a7fb1643e9b0" title=" " alt="" coords="221,3677,366,3715"/>
+<area shape="rect" id="node6" href="$namespacempistub.html#a2456432a60801629e19273ebe4114bc9" title="mpi timing" alt="" coords="1471,1939,1610,1965"/>
+<area shape="rect" id="node15" href="$namespacefieldquantclass.html#a3979aaa9ea17b446b00cd5477dfd354e" title=" " alt="" coords="475,3123,625,3149"/>
+<area shape="rect" id="node16" href="$namespacefieldquantclass.html#a1758703e79afc95b20c7fd7261fa4afe" title=" " alt="" coords="475,3074,625,3099"/>
+<area shape="rect" id="node18" href="$namespacefieldquantclass.html#aaf0193e68163e6fb2bba0a9477f19cb0" title=" " alt="" coords="452,3222,648,3247"/>
+<area shape="rect" id="node19" href="$namespacefieldquantclass.html#ac67e15255b5d57fb3c3a29ef79addb63" title=" " alt="" coords="449,3271,651,3297"/>
+<area shape="rect" id="node20" href="$namespacefieldquantclass.html#a8eb7b870ec7c240279076fbb6269ff07" title=" " alt="" coords="454,3321,646,3346"/>
+<area shape="rect" id="node21" href="$namespacefieldquantclass.html#a735a6d51aabd219f525edeb04b034150" title=" " alt="" coords="450,3173,650,3198"/>
+<area shape="rect" id="node23" href="$namespacefieldquantclass.html#a491cfca134ed1bb2dfc47d6de7fdd972" title=" " alt="" coords="473,3422,627,3447"/>
+<area shape="rect" id="node24" href="$namespacefieldquantclass.html#a765f0fc87c405fa965c6c966794db11c" title=" " alt="" coords="729,3846,882,3871"/>
+<area shape="rect" id="node30" href="$namespacempistub.html#a3085e38e0e5d38df633afc7b2d92cebb" title="processor ID" alt="" coords="718,3895,892,3921"/>
+<area shape="rect" id="node31" href="$namespacempistub.html#a0d84064615f696d4877ad9f912d4cbef" title="synchronize communication" alt="" coords="479,3625,621,3650"/>
+<area shape="rect" id="node44" href="$namespacedepositorclass.html#aaa31c3a30e6e83ab67ee89344612328c" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="457,821,643,859"/>
+<area shape="rect" id="node48" href="$namespacedepositorclass.html#a1f57e8a4537070af145a196172e3ba85" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="464,1417,636,1455"/>
+<area shape="rect" id="node49" href="$namespacedepositorclass.html#acb64300f2b31d40a2d4741c4475ae10a" title="deposit particles onto grid. (3D open boundary condition)" alt="" coords="468,1479,632,1518"/>
+<area shape="rect" id="node51" href="$namespacefftclass.html#a83a1c8ccf853ae07fdfc5a80e1e244d1" title=" " alt="" coords="989,2441,1134,2466"/>
+<area shape="rect" id="node74" href="$namespacefftclass.html#a62d05d7b0980c823708d03f4a1520c1e" title=" " alt="" coords="989,2391,1134,2417"/>
+<area shape="rect" id="node52" href="$namespacefftclass.html#a1aec6e8023ec23ff926a64c54c93ee1e" title=" " alt="" coords="1264,2229,1364,2254"/>
+<area shape="rect" id="node53" href="$namespacefftclass.html#abb3d8b6f0166090db98de3e7d627434f" title=" " alt="" coords="1493,2179,1588,2205"/>
+<area shape="rect" id="node56" href="$namespacefftclass.html#ac09ed442a8bb7846768adbe2d5c798c6" title=" " alt="" coords="1466,2067,1616,2106"/>
+<area shape="rect" id="node57" href="$namespacefftclass.html#ad5aa2059236e01ea65aecda114c3f45f" title=" " alt="" coords="1492,2130,1589,2155"/>
+<area shape="rect" id="node64" href="$namespacefftclass.html#ac898bf50e64ca8c43e8d9fa0c2c85919" title=" " alt="" coords="1466,2278,1616,2317"/>
+<area shape="rect" id="node65" href="$namespacefftclass.html#a78a858cc72da790e88dc826f5bdd14b3" title=" " alt="" coords="1466,2341,1616,2379"/>
+<area shape="rect" id="node66" href="$namespacefftclass.html#a2bdd31e65a4abb79ed9e0eeaa71cee6b" title=" " alt="" coords="1491,2229,1591,2254"/>
+<area shape="rect" id="node73" href="$namespacefftclass.html#a49a850047c36eff6fb6d5eb1669cb009" title=" " alt="" coords="1466,2005,1616,2043"/>
+<area shape="rect" id="node54" href="$namespacefftclass.html#a3e1884f0fa20142f45f2d3efe3246adc" title=" " alt="" coords="1676,2007,1776,2033"/>
+<area shape="rect" id="node55" href="$namespacefftclass.html#a122822a405cd96e5df936acaad731746" title=" " alt="" coords="1678,2179,1774,2205"/>
+<area shape="rect" id="node58" href="$namespacefftclass.html#af9f24f143ca02395c91f7757343e8003" title=" " alt="" coords="1678,2130,1774,2155"/>
+<area shape="rect" id="node59" href="$namespacefftclass.html#ac2e28efef69b7ac5c599c51dc9be973d" title=" " alt="" coords="1847,2229,1951,2254"/>
+<area shape="rect" id="node60" href="$namespacefftclass.html#a9d3bdd521a616fe934704cb38ac074f4" title=" " alt="" coords="1847,2031,1951,2057"/>
+<area shape="rect" id="node61" href="$namespacefftclass.html#a382f39146e7d8e1450810efdc6f4cd79" title=" " alt="" coords="1847,2081,1951,2106"/>
+<area shape="rect" id="node62" href="$namespacefftclass.html#acc419931cfa3ec3e19e6264b35e83aae" title=" " alt="" coords="1847,2130,1951,2155"/>
+<area shape="rect" id="node63" href="$namespacefftclass.html#adb327056327448d0a605271d57091578" title=" " alt="" coords="1847,2179,1951,2205"/>
+<area shape="rect" id="node67" href="$namespacefftclass.html#a338a7a4db13f2357c42a682142df3190" title=" " alt="" coords="1676,2351,1776,2377"/>
+<area shape="rect" id="node68" href="$namespacefftclass.html#a71f9b9a5e0173f9ddef4dd0fc92e6164" title=" " alt="" coords="1845,2475,1952,2501"/>
+<area shape="rect" id="node69" href="$namespacefftclass.html#a6cf75b3c3c340adb4eb40e50289cf439" title=" " alt="" coords="1845,2278,1952,2303"/>
+<area shape="rect" id="node70" href="$namespacefftclass.html#ad450dc5bf08d49d4784e609c41b42950" title=" " alt="" coords="1845,2327,1952,2353"/>
+<area shape="rect" id="node71" href="$namespacefftclass.html#a42f5de07f4eb994cbe15a8526291566b" title=" " alt="" coords="1845,2377,1952,2402"/>
+<area shape="rect" id="node72" href="$namespacefftclass.html#aa5cb9e2d3b6aa9d5adcb4144cd17f10e" title=" " alt="" coords="1845,2426,1952,2451"/>
+<area shape="rect" id="node77" href="$namespacefieldquantclass.html#a80dd0228de4fecabda6f6696b098a11f" title=" " alt="" coords="714,2517,897,2555"/>
+<area shape="rect" id="node79" href="$namespacecompdomclass.html#a4742fe5698151e1e31e2261798a433c8" title=" " alt="" coords="463,1645,637,1683"/>
+<area shape="rect" id="node80" href="$namespacefieldquantclass.html#aae4177005bffdb768a50a98b860c111a" title="Solving Poisson&#39;s equation with open BCs." alt="" coords="450,1810,650,1835"/>
+<area shape="rect" id="node81" href="$namespacefftclass.html#acef38aed3ece8d2c1120ce0004e6297e" title=" " alt="" coords="745,1418,866,1443"/>
+<area shape="rect" id="node104" href="$namespacefieldquantclass.html#a32715398e47b9a73bd6cde1ae980e0a3" title="green function for extended array." alt="" coords="699,1467,911,1493"/>
+<area shape="rect" id="node105" href="$namespacefftclass.html#a21e8a7bd2877ec439bc4f0e0bc0e4681" title=" " alt="" coords="736,1517,875,1542"/>
+<area shape="rect" id="node106" href="$namespacefieldquantclass.html#a25df6116d62bb56b5711333426dcd74d" title="green function for extended array." alt="" coords="699,1319,911,1345"/>
+<area shape="rect" id="node107" href="$namespacefftclass.html#a374c599138aeca237d4c303a07a470ee" title=" " alt="" coords="725,1369,885,1394"/>
+<area shape="rect" id="node82" href="$namespacetransposeclass.html#a53eeae5e11acd8c39e03fb8672f2d90e" title="Subroutine Trans3d: get the transpose of 3D double precision array with uneven distribution." alt="" coords="980,1389,1142,1427"/>
+<area shape="rect" id="node83" href="$namespacefftclass.html#aa64d94b8c8578b384955207a409a2445" title=" " alt="" coords="998,1174,1124,1199"/>
+<area shape="rect" id="node103" href="$namespacetransposeclass.html#ac2cdff8d4fbeb19df8a8ba2ff562b8c2" title="Subroutine Trans3d3: get the transpose of 3D double precision array with uneven distribution." alt="" coords="976,1326,1146,1365"/>
+<area shape="rect" id="node84" href="$namespacefftclass.html#a4597d420a1363f9fd0b652472d7caf52" title=" " alt="" coords="1264,1498,1364,1523"/>
+<area shape="rect" id="node85" href="$namespacefftclass.html#a7aaa42c1b45fc7175f2560cd023e4487" title=" " alt="" coords="1492,1498,1590,1523"/>
+<area shape="rect" id="node89" href="$namespacefftclass.html#acc0dd0d3644e3ff67fd2dfb23dcb4e40" title=" " alt="" coords="1489,1637,1592,1662"/>
+<area shape="rect" id="node96" href="$namespacefftclass.html#a4cc16a9191f915424a42d281f821c291" title=" " alt="" coords="1491,1883,1590,1909"/>
+<area shape="rect" id="node86" href="$namespacefftclass.html#aecf4238ff306578dd37cab143ce6efac" title=" " alt="" coords="1664,1489,1788,1514"/>
+<area shape="rect" id="node87" href="$namespacefftclass.html#ad76d163c3f3aec3b5a3bbb3285498ffd" title=" " alt="" coords="1838,1439,1960,1465"/>
+<area shape="rect" id="node88" href="$namespacefftclass.html#a882cd8d6eeb407d2b10ee9b3d9fee8b9" title=" " alt="" coords="1836,1489,1961,1514"/>
+<area shape="rect" id="node90" href="$namespacefftclass.html#a2f5368919279e1986ee34764caa05fe0" title=" " alt="" coords="1669,1637,1783,1662"/>
+<area shape="rect" id="node91" href="$namespacefftclass.html#a5b4381756639205cdda3aa66b4d3e98c" title=" " alt="" coords="1844,1735,1954,1761"/>
+<area shape="rect" id="node92" href="$namespacefftclass.html#af43eb54e0a7553e31585e67ad240b860" title=" " alt="" coords="1844,1538,1954,1563"/>
+<area shape="rect" id="node93" href="$namespacefftclass.html#a16b67c4056cd4bef03d70d6289f60954" title=" " alt="" coords="1844,1587,1954,1613"/>
+<area shape="rect" id="node94" href="$namespacefftclass.html#aa356856107611ad66966fed70ede74f1" title=" " alt="" coords="1844,1637,1954,1662"/>
+<area shape="rect" id="node95" href="$namespacefftclass.html#af3a0a7ee1c2b801d9ff55c016cdc13f4" title=" " alt="" coords="1844,1686,1954,1711"/>
+<area shape="rect" id="node97" href="$namespacefftclass.html#a8870afa6b2bab24460d719026aa6e0d8" title=" " alt="" coords="1671,1883,1781,1909"/>
+<area shape="rect" id="node98" href="$namespacefftclass.html#a0535bb9fc14fda824be9053638cdfb2a" title=" " alt="" coords="1846,1982,1952,2007"/>
+<area shape="rect" id="node99" href="$namespacefftclass.html#ae586c2f39848274e0454c7d161522c31" title=" " alt="" coords="1846,1785,1952,1810"/>
+<area shape="rect" id="node100" href="$namespacefftclass.html#a4121c0b7de23d7df058852fb75a9a31a" title=" " alt="" coords="1846,1834,1952,1859"/>
+<area shape="rect" id="node101" href="$namespacefftclass.html#a21d2647f4c2392ed5498288f99a3203c" title=" " alt="" coords="1846,1883,1952,1909"/>
+<area shape="rect" id="node102" href="$namespacefftclass.html#aa48f7f35412e5994c6fe459ad6f8c46d" title=" " alt="" coords="1846,1933,1952,1958"/>
+<area shape="rect" id="node109" href="$namespacefldmgerclass.html#a028236bf0d8419b6f75a7fb28eb7226b" title="exchange grid information between neighboring guard cell to calculate E from phi." alt="" coords="463,441,637,479"/>
+<area shape="rect" id="node110" href="$namespacefldmgerclass.html#a490fceb1792fb1664488b1394dcff5f0" title="exchange the information for interpolation from neighboring guard cells." alt="" coords="469,503,631,542"/>
+<area shape="rect" id="node112" href="$namespacebeamlineelemclass.html#a7684dcfae71c895630dae0e95476e203" title=" " alt="" coords="723,2822,888,2861"/>
+<area shape="rect" id="node133" href="$namespacebeamlineelemclass.html#a99175508a57a532d040552a0a72bdcc1" title=" " alt="" coords="731,2909,879,2947"/>
+<area shape="rect" id="node113" href="$namespacequadrupoleclass.html#a25a1f7329a298c01c802f96b0547ab6c" title="get external field with displacement and rotation errors." alt="" coords="972,2615,1150,2654"/>
+<area shape="rect" id="node115" href="$namespacedrifttubeclass.html#aa903101ae6943402917a2f29a8aa67d3" title=" " alt="" coords="991,2741,1131,2779"/>
+<area shape="rect" id="node116" href="$namespacecclclass.html#a4b07c783aa0e272c4924db67320c70d3" title="get external field without displacement and rotation errors." alt="" coords="993,2803,1129,2829"/>
+<area shape="rect" id="node117" href="$namespaceccdtlclass.html#aa1b97607af3b788522be9e22c479ce2a" title="get the external field without misalignment and rotation errors." alt="" coords="1000,2853,1123,2891"/>
+<area shape="rect" id="node118" href="$namespacedtlclass.html#aef6d69ea2a551751181175c270a8b745" title="get external field without displacement and rotation errors." alt="" coords="996,2915,1127,2941"/>
+<area shape="rect" id="node119" href="$namespacescclass.html#a73840f6e9b85c73425db1f08ab539aa2" title="get external field without displacement and rotation errors" alt="" coords="996,2965,1126,2990"/>
+<area shape="rect" id="node120" href="$namespaceconstfocclass.html#a34425bf98b4a4cff016108f25a629dff" title=" " alt="" coords="990,3077,1132,3115"/>
+<area shape="rect" id="node121" href="$namespacesolrfclass.html#a81aef201f157970a5566536d7738c3f9" title="get external field with displacement and rotation errors." alt="" coords="993,2490,1130,2529"/>
+<area shape="rect" id="node122" href="$namespacesolclass.html#ae8d2c14b13bdf023c1a9efb101b4c666" title="get the discrete Br, Bz as a function or &quot;r&quot; at given &quot;z&quot;." alt="" coords="993,3139,1130,3165"/>
+<area shape="rect" id="node123" href="$namespacedipoleclass.html#af86cd228552505ad1c64928bb918f500" title="get external dipole field without displacement and rotation errors. here the fringe field of dipole i..." alt="" coords="996,3189,1127,3227"/>
+<area shape="rect" id="node124" href="$namespaceemfldanaclass.html#a7ecbabd3d9e65aadaf2e8ccb096c6eed" title="get analytical field." alt="" coords="986,3014,1136,3053"/>
+<area shape="rect" id="node129" href="$namespaceemfldcartclass.html#a63a14e90f4526aa45d3d28a9611d3908" title="get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t." alt="" coords="986,2678,1136,2717"/>
+<area shape="rect" id="node130" href="$namespaceemfldcylclass.html#a82e58a65bbe911b6f676ddb81868db31" title="get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or &quot;r&quot; at given &quot;z&quot;." alt="" coords="989,3251,1133,3290"/>
+<area shape="rect" id="node131" href="$namespacemultipoleclass.html#ab9a8281befade6912e33564f4db52877" title="get external field with displacement and rotation errors." alt="" coords="979,2553,1144,2591"/>
+<area shape="rect" id="node114" href="$namespacequadrupoleclass.html#ab1abe8916ad3dace3e5d1373da4688ac" title=" " alt="" coords="1212,2921,1416,2959"/>
+<area shape="rect" id="node125" href="$namespaceemfldanaclass.html#a8e64e65ca00c486db83f7f7152aa5744" title="get analytical field from an alpha magnet" alt="" coords="1223,2983,1406,3022"/>
+<area shape="rect" id="node126" href="$namespaceemfldanaclass.html#a49f218450fbccc7099479730313a5ec1" title="get analytical field from a traveling wave meander plate" alt="" coords="1232,3046,1396,3085"/>
+<area shape="rect" id="node127" href="$namespaceemfldanaclass.html#ac3c4c5ce44722c1aa2ba2d10700e0215" title="get DC surface roughness fields" alt="" coords="1211,3109,1418,3147"/>
+<area shape="rect" id="node128" href="$namespaceemfldanaclass.html#aa9ea3d7a230bc88c83be56723c8d96a6" title=" " alt="" coords="1221,2795,1407,2834"/>
+<area shape="rect" id="node132" href="$namespacemultipoleclass.html#a8712b7622d8ed7c0e71cdc18204dcf46" title="interpolate the field from the SC rf cavity onto bunch location." alt="" coords="1234,2858,1395,2897"/>
+<area shape="rect" id="node134" href="$namespacequadrupoleclass.html#a1d1bf0b4ea88a1cd0c0832a178fc80e5" title="get external field without displacement and rotation errors. here, the skew quad can can be modeled w..." alt="" coords="982,3846,1140,3885"/>
+<area shape="rect" id="node135" href="$namespacesolrfclass.html#ac164c5b7477e8ec4278009bd85cd4338" title="get external field without displacement and rotation errors." alt="" coords="1001,3314,1121,3353"/>
+<area shape="rect" id="node136" href="$namespacemultipoleclass.html#af4fb9d3cfd9db2d92930fcda605fbe26" title="get external field without displacement and rotation errors." alt="" coords="989,3377,1134,3415"/>
+<area shape="rect" id="node145" href="$namespacefieldquantclass.html#a7431c26c185c399c546e1ac54043bad4" title=" " alt="" coords="463,3934,637,3959"/>
+<area shape="rect" id="node146" href="$namespacefieldquantclass.html#ac6ac81d1607e424c294650bb3f89aa5c" title=" " alt="" coords="463,3983,637,4009"/>
+<area shape="rect" id="node147" href="$namespacefieldquantclass.html#a85aac5a4f515439e4263b24518d8c9dc" title=" " alt="" coords="464,4033,636,4058"/>
+<area shape="rect" id="node148" href="$namespacefieldquantclass.html#a6e7b51293ed012f0a90b5de96a3cef05" title=" " alt="" coords="463,3885,637,3910"/>
+<area shape="rect" id="node157" href="$namespacetimerclass.html#a3535b11970327778ddd27cee93c2288b" title=" " alt="" coords="463,3835,637,3861"/>
+<area shape="rect" id="node158" href="$namespacempistub.html#a188b67a76569dcb918a27f48018e6baf" title="total number of processors" alt="" coords="720,3945,891,3970"/>
+</map>

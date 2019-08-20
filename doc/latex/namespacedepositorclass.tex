@@ -1,0 +1,147 @@
+\hypertarget{namespacedepositorclass}{}\section{depositorclass Module Reference}
+\label{namespacedepositorclass}\index{depositorclass@{depositorclass}}
+
+
+This class deposit the particles onto computational mesh implementation.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacedepositorclass_adea4a5f5ed3c85a2ef236eaa94f10b98}{chgdens\+\_\+depositor}} (pbunch, rho, ptsgeom, pgrid, gammaz, Flagbc, perd, zcent, flagpos)
+\begin{DoxyCompactList}\small\item\em find the charge density of each bunch \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedepositorclass_acb64300f2b31d40a2d4741c4475ae10a}{deposit1\+\_\+depositor}} (innp, innx, inny, innz, rays, rho, ptsgeom, npx, npy, myidx, myidy)
+\begin{DoxyCompactList}\small\item\em deposit particles onto grid. (3D open boundary condition) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedepositorclass_a1f57e8a4537070af145a196172e3ba85}{deposit1p\+\_\+depositor}} (innp, innx, inny, innz, rays, rho, ptsgeom, npx, npy, myidx, myidy)
+\begin{DoxyCompactList}\small\item\em deposit particles onto grid. (3D open boundary condition) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedepositorclass_a258e6305ffaed5752f7eaa0584e2e6d8}{chgdenstest\+\_\+depositor}} (pbunch, rho, ptsgeom, pgrid, gammaz, Flagbc, perd, zcent, flagpos, nytot)
+\item 
+subroutine \mbox{\hyperlink{namespacedepositorclass_aaa31c3a30e6e83ab67ee89344612328c}{deposit1test\+\_\+depositor}} (innp, innx, inny, innz, rays, rho, ptsgeom, npx, npy, myidx, myidy, nytot, commcol)
+\begin{DoxyCompactList}\small\item\em deposit particles onto grid. (3D open boundary condition) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class deposit the particles onto computational mesh implementation. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacedepositorclass_adea4a5f5ed3c85a2ef236eaa94f10b98}\label{namespacedepositorclass_adea4a5f5ed3c85a2ef236eaa94f10b98}} 
+\index{depositorclass@{depositorclass}!chgdens\_depositor@{chgdens\_depositor}}
+\index{chgdens\_depositor@{chgdens\_depositor}!depositorclass@{depositorclass}}
+\subsubsection{\texorpdfstring{chgdens\_depositor()}{chgdens\_depositor()}}
+{\footnotesize\ttfamily subroutine depositorclass\+::chgdens\+\_\+depositor (\begin{DoxyParamCaption}\item[{type (beambunch)}]{pbunch,  }\item[{double precision, dimension(\+:,\+:,\+:)}]{rho,  }\item[{type (compdom), intent(in)}]{ptsgeom,  }\item[{type (pgrid2d), intent(in)}]{pgrid,  }\item[{double precision, intent(in)}]{gammaz,  }\item[{integer, intent(in)}]{Flagbc,  }\item[{double precision, intent(in)}]{perd,  }\item[{double precision, intent(in)}]{zcent,  }\item[{integer, intent(in)}]{flagpos }\end{DoxyParamCaption})}
+
+
+
+find the charge density of each bunch 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_adea4a5f5ed3c85a2ef236eaa94f10b98_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_adea4a5f5ed3c85a2ef236eaa94f10b98_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedepositorclass_a258e6305ffaed5752f7eaa0584e2e6d8}\label{namespacedepositorclass_a258e6305ffaed5752f7eaa0584e2e6d8}} 
+\index{depositorclass@{depositorclass}!chgdenstest\_depositor@{chgdenstest\_depositor}}
+\index{chgdenstest\_depositor@{chgdenstest\_depositor}!depositorclass@{depositorclass}}
+\subsubsection{\texorpdfstring{chgdenstest\_depositor()}{chgdenstest\_depositor()}}
+{\footnotesize\ttfamily subroutine depositorclass\+::chgdenstest\+\_\+depositor (\begin{DoxyParamCaption}\item[{type (beambunch)}]{pbunch,  }\item[{double precision, dimension(\+:,\+:,\+:)}]{rho,  }\item[{type (compdom), intent(in)}]{ptsgeom,  }\item[{type (pgrid2d), intent(in)}]{pgrid,  }\item[{double precision, intent(in)}]{gammaz,  }\item[{integer, intent(in)}]{Flagbc,  }\item[{double precision, intent(in)}]{perd,  }\item[{double precision, intent(in)}]{zcent,  }\item[{integer, intent(in)}]{flagpos,  }\item[{integer, intent(in)}]{nytot }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_a258e6305ffaed5752f7eaa0584e2e6d8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_a258e6305ffaed5752f7eaa0584e2e6d8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedepositorclass_acb64300f2b31d40a2d4741c4475ae10a}\label{namespacedepositorclass_acb64300f2b31d40a2d4741c4475ae10a}} 
+\index{depositorclass@{depositorclass}!deposit1\_depositor@{deposit1\_depositor}}
+\index{deposit1\_depositor@{deposit1\_depositor}!depositorclass@{depositorclass}}
+\subsubsection{\texorpdfstring{deposit1\_depositor()}{deposit1\_depositor()}}
+{\footnotesize\ttfamily subroutine depositorclass\+::deposit1\+\_\+depositor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{double precision, dimension (6, innp), intent(in)}]{rays,  }\item[{}]{rho,  }\item[{type (compdom)}]{ptsgeom,  }\item[{integer, intent(in)}]{npx,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{myidx,  }\item[{integer, intent(in)}]{myidy }\end{DoxyParamCaption})}
+
+
+
+deposit particles onto grid. (3D open boundary condition) 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_acb64300f2b31d40a2d4741c4475ae10a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_acb64300f2b31d40a2d4741c4475ae10a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedepositorclass_a1f57e8a4537070af145a196172e3ba85}\label{namespacedepositorclass_a1f57e8a4537070af145a196172e3ba85}} 
+\index{depositorclass@{depositorclass}!deposit1p\_depositor@{deposit1p\_depositor}}
+\index{deposit1p\_depositor@{deposit1p\_depositor}!depositorclass@{depositorclass}}
+\subsubsection{\texorpdfstring{deposit1p\_depositor()}{deposit1p\_depositor()}}
+{\footnotesize\ttfamily subroutine depositorclass\+::deposit1p\+\_\+depositor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{double precision, dimension (6, innp), intent(in)}]{rays,  }\item[{}]{rho,  }\item[{type (compdom)}]{ptsgeom,  }\item[{integer, intent(in)}]{npx,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{myidx,  }\item[{integer, intent(in)}]{myidy }\end{DoxyParamCaption})}
+
+
+
+deposit particles onto grid. (3D open boundary condition) 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_a1f57e8a4537070af145a196172e3ba85_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_a1f57e8a4537070af145a196172e3ba85_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacedepositorclass_aaa31c3a30e6e83ab67ee89344612328c}\label{namespacedepositorclass_aaa31c3a30e6e83ab67ee89344612328c}} 
+\index{depositorclass@{depositorclass}!deposit1test\_depositor@{deposit1test\_depositor}}
+\index{deposit1test\_depositor@{deposit1test\_depositor}!depositorclass@{depositorclass}}
+\subsubsection{\texorpdfstring{deposit1test\_depositor()}{deposit1test\_depositor()}}
+{\footnotesize\ttfamily subroutine depositorclass\+::deposit1test\+\_\+depositor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{innp,  }\item[{integer, intent(in)}]{innx,  }\item[{integer, intent(in)}]{inny,  }\item[{integer, intent(in)}]{innz,  }\item[{double precision, dimension (6, innp), intent(in)}]{rays,  }\item[{}]{rho,  }\item[{type (compdom)}]{ptsgeom,  }\item[{integer, intent(in)}]{npx,  }\item[{integer, intent(in)}]{npy,  }\item[{integer, intent(in)}]{myidx,  }\item[{integer, intent(in)}]{myidy,  }\item[{integer, intent(in)}]{nytot,  }\item[{integer, intent(in)}]{commcol }\end{DoxyParamCaption})}
+
+
+
+deposit particles onto grid. (3D open boundary condition) 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_aaa31c3a30e6e83ab67ee89344612328c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacedepositorclass_aaa31c3a30e6e83ab67ee89344612328c_icgraph}
+\end{center}
+\end{figure}

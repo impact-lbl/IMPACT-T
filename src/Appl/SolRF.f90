@@ -2,10 +2,13 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! SolRFclass: Solenoid with imbeded RF field beam line element class
 !             in Lattice module of APPLICATION layer.
-! Version: 1.0
-! Author: Ji Qiang 
-! Description: This class defines the linear transfer map and RF field
-!              for the Sol-RF beam line elment.
+! MODULE  : ... SolRFclass
+! VERSION : ... 1.0
+!> @author
+!> Ji Qiang 
+! DESCRIPTION:
+!> This class defines the linear transfer map and RF field
+!> for the Sol-RF beam line elment.
 ! Comments:
 !----------------------------------------------------------------
       module SolRFclass
@@ -120,8 +123,10 @@
 
         end subroutine getparam3_SolRF
        
-
-        !interpolate the field from the SolRF rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> interpolate the field from the SolRF rf cavity onto bunch location.
+        !--------------------------------------------------------------------------------------
         subroutine getaxfldE_SolRF(z,this,ez1,ezp1,ezpp1)
         implicit none
         include 'mpif.h'
@@ -192,7 +197,10 @@
 
         end subroutine getBgradfld_SolRF
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderr_SolRF(pos,extfld,this,dx,dy,anglex,angley,&
                                     anglez)
         implicit none
@@ -333,7 +341,10 @@
 
         end subroutine getflderr_SolRF
         
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getfld_SolRF(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -410,8 +421,10 @@
 
         end subroutine getfld_SolRF
 
-
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getfldt_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
@@ -573,7 +586,10 @@
 
         end subroutine getfldt_SolRF
 
-        !get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field with displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getflderrt_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
@@ -779,7 +795,10 @@
 
         end subroutine getflderrt_SolRF
 
-        !get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> get external field without displacement and rotation errors.
+        !--------------------------------------------------------------------------------------
         subroutine  getvecAt_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'

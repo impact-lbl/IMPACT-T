@@ -1,0 +1,416 @@
+\hypertarget{namespaceemfldanaclass}{}\section{emfldanaclass Module Reference}
+\label{namespaceemfldanaclass}\index{emfldanaclass@{emfldanaclass}}
+
+
+This class contains discrete EM field data (as a function of x,y,z) or (r,z) and analytical representation of EM field data (user can supply the function form). The linear transfer map is also computed base on the field on the axis.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}
+\item 
+interface \mbox{\hyperlink{interfaceemfldanaclass_1_1getparam__emfldana}{getparam\+\_\+emfldana}}
+\item 
+interface \mbox{\hyperlink{interfaceemfldanaclass_1_1setparam__emfldana}{setparam\+\_\+emfldana}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a56809546255dc4d8ef545de43f8ced80}{construct\+\_\+emfldana}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_acef322ec41908ed27c9dc0f7fe9f4c1c}{setparam1\+\_\+emfldana}} (this, i, value)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_aac0a3936b2e95e4a86fee5277907646e}{setparam2\+\_\+emfldana}} (this, values)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_aad90f0dd7002f12e7a5ba004dfb37635}{setparam3\+\_\+emfldana}} (this, numseg, nmpstp, type, blength)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_ae345ffd1b3393ca091f8cdf3409e3088}{getparam1\+\_\+emfldana}} (this, i, blparam)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_ae0015cdb617a1920e47dbc2274fb77b2}{getparam2\+\_\+emfldana}} (this, blparams)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a67575d528d7993efafb802f4c346d6c0}{getparam3\+\_\+emfldana}} (this, blength, bnseg, bmapstp, btype)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_aabcc1ab7e5ac19f07fba4e38cfe24b04}{maplinear\+\_\+emfldana}} (t, tau, xm, this, refpt, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_aed1f8dea5d7871c10eb2835b204dd581}{rk6i\+\_\+emfldana}} (h, ns, t, y, nvar, this, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_aeab0c2abbaa5f527784ce7006d3b4d58}{intfunc1\+\_\+emfldana}} (t, y, f, this, Bchg, Bmass)
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a4f3936b925964dccc4f9911bcf93c2d7}{getaxflde\+\_\+emfldana}} (z, this, ez1, ezp1, ezpp1)
+\begin{DoxyCompactList}\small\item\em interpolate the field from the E\+Mfld\+Ana rf cavity onto bunch location. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a458770ca16d15a091232d5067c282f5a}{getaxfldefc\+\_\+emfldana}} (z, this, ez1, ezp1, ezpp1)
+\begin{DoxyCompactList}\small\item\em get external RF field on axis from analytical function Here, we have used a Fouier expansion representation of external field. Users should supply the field function as they want. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_abf2e2171f7b0a3aa36462d1965e428f4}{getfld\+\_\+emfldana}} (pos, extfld, this)
+\begin{DoxyCompactList}\small\item\em get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from analytical function. Here we have used Fourier expansion of function. The user should supply his own analytical function if needed. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a653a95a05e7093fca664a1a8ba38e991}{getflderrold\+\_\+emfldana}} (pos, extfld, this)
+\begin{DoxyCompactList}\small\item\em get external field with displacement and rotation errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a95772a7b3030b57d7c0753ef96a2f764}{getflderr\+\_\+emfldana}} (pos, extfld, this, dx, dy, anglex, angl
+\begin{DoxyCompactList}\small\item\em get external field with displacement and rotation errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a3ff336abdafaac7ad874da092e6365ed}{getfld6\+\_\+emfldana}} (this, z, extfld6)
+\begin{DoxyCompactList}\small\item\em get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or \char`\"{}r\char`\"{} at given \char`\"{}z\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_af8390aa825a9ca8733745551ee96bc17}{getfld6err\+\_\+emfldana}} (this, pos, extfld, dx, dy, anglex, angl
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a8cc6ab7d703889424d80d660ca470042}{getfld6xyz\+\_\+emfldana}} (this, z, extfld6xyz)
+\begin{DoxyCompactList}\small\item\em get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given \char`\"{}z\char`\"{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a0abd49dbf81da65741c9bf08b9900a46}{getfld6xyzerr\+\_\+emfldana}} (this, pos, extfld, dx, dy, anglex, a
+\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a7ecbabd3d9e65aadaf2e8ccb096c6eed}{getfldt\+\_\+emfldana}} (pos, extfld, this, fldata)
+\begin{DoxyCompactList}\small\item\em get analytical field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_ac3c4c5ce44722c1aa2ba2d10700e0215}{getfldtsurfrough\+\_\+emfldtana}} (pos, extfld, this, fldata)
+\begin{DoxyCompactList}\small\item\em get DC surface roughness fields \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a8e64e65ca00c486db83f7f7152aa5744}{getfldtalpha\+\_\+emfldana}} (pos, extfld, this, fldata)
+\begin{DoxyCompactList}\small\item\em get analytical field from an alpha magnet \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_a49f218450fbccc7099479730313a5ec1}{getfldttw\+\_\+emfldana}} (pos, extfld, this, fldata)
+\begin{DoxyCompactList}\small\item\em get analytical field from a traveling wave meander plate \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemfldanaclass_aa9ea3d7a230bc88c83be56723c8d96a6}{getfldtdipole\+\_\+emfldana}} (pos, extfld, this, fldata)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, parameter, private \mbox{\hyperlink{namespaceemfldanaclass_a3ce28adb644b4d35b7f3e9713a275828}{nparam}} = 11
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class contains discrete EM field data (as a function of x,y,z) or (r,z) and analytical representation of EM field data (user can supply the function form). The linear transfer map is also computed base on the field on the axis. 
+
+\begin{DoxyAuthor}{Author}
+Ji Qiang 
+\end{DoxyAuthor}
+
+
+\subsection{Data Type Documentation}
+\index{emfldanaclass::emfldana@{emfldanaclass::emfldana}}\label{structemfldanaclass_1_1emfldana}
+\Hypertarget{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}
+\subsubsection{type emfldanaclass\+::emfldana}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{namespaceemfldanaclass_a0f9482a746a37ef5287bb0b990c4244c}\label{namespaceemfldanaclass_a0f9482a746a37ef5287bb0b990c4244c}} 
+integer&
+itype&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a94ad15c988b1d3fd9a7eb2902230b501}\label{namespaceemfldanaclass_a94ad15c988b1d3fd9a7eb2902230b501}} 
+double precision&
+length&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a4db12b7d942f212750921af22cc57a48}\label{namespaceemfldanaclass_a4db12b7d942f212750921af22cc57a48}} 
+integer&
+mapstp&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a9c550d5110930bddd92a57c1d9809e66}\label{namespaceemfldanaclass_a9c550d5110930bddd92a57c1d9809e66}} 
+integer&
+nseg&
+\\
+\hline
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a5d95e09d4f314af58ac2b9b0ecbdaa94}\label{namespaceemfldanaclass_a5d95e09d4f314af58ac2b9b0ecbdaa94}} 
+double precision, dimension(\mbox{\hyperlink{namespaceemfldanaclass_a3ce28adb644b4d35b7f3e9713a275828}{nparam}})&
+param&
+\\
+\hline
+
+\end{DoxyFields}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceemfldanaclass_a56809546255dc4d8ef545de43f8ced80}\label{namespaceemfldanaclass_a56809546255dc4d8ef545de43f8ced80}} 
+\index{emfldanaclass@{emfldanaclass}!construct\_emfldana@{construct\_emfldana}}
+\index{construct\_emfldana@{construct\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{construct\_emfldana()}{construct\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::construct\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(out)}]{this,  }\item[{integer, intent(in)}]{numseg,  }\item[{integer, intent(in)}]{nmpstp,  }\item[{integer, intent(in)}]{type,  }\item[{double precision, intent(in)}]{blength }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a4f3936b925964dccc4f9911bcf93c2d7}\label{namespaceemfldanaclass_a4f3936b925964dccc4f9911bcf93c2d7}} 
+\index{emfldanaclass@{emfldanaclass}!getaxflde\_emfldana@{getaxflde\_emfldana}}
+\index{getaxflde\_emfldana@{getaxflde\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getaxflde\_emfldana()}{getaxflde\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getaxflde\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{z,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(out)}]{ez1,  }\item[{double precision, intent(out)}]{ezp1,  }\item[{double precision, intent(out)}]{ezpp1 }\end{DoxyParamCaption})}
+
+
+
+interpolate the field from the E\+Mfld\+Ana rf cavity onto bunch location. 
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a458770ca16d15a091232d5067c282f5a}\label{namespaceemfldanaclass_a458770ca16d15a091232d5067c282f5a}} 
+\index{emfldanaclass@{emfldanaclass}!getaxfldefc\_emfldana@{getaxfldefc\_emfldana}}
+\index{getaxfldefc\_emfldana@{getaxfldefc\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getaxfldefc\_emfldana()}{getaxfldefc\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getaxfldefc\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{z,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(out)}]{ez1,  }\item[{double precision, intent(out)}]{ezp1,  }\item[{double precision, intent(out)}]{ezpp1 }\end{DoxyParamCaption})}
+
+
+
+get external RF field on axis from analytical function Here, we have used a Fouier expansion representation of external field. Users should supply the field function as they want. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_a458770ca16d15a091232d5067c282f5a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_a3ff336abdafaac7ad874da092e6365ed}\label{namespaceemfldanaclass_a3ff336abdafaac7ad874da092e6365ed}} 
+\index{emfldanaclass@{emfldanaclass}!getfld6\_emfldana@{getfld6\_emfldana}}
+\index{getfld6\_emfldana@{getfld6\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfld6\_emfldana()}{getfld6\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfld6\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{z,  }\item[{}]{extfld6 }\end{DoxyParamCaption})}
+
+
+
+get the discrete Er,Etheta,Ez, Br, Btheta, Bz as a function or \char`\"{}r\char`\"{} at given \char`\"{}z\char`\"{}. 
+
+\mbox{\Hypertarget{namespaceemfldanaclass_af8390aa825a9ca8733745551ee96bc17}\label{namespaceemfldanaclass_af8390aa825a9ca8733745551ee96bc17}} 
+\index{emfldanaclass@{emfldanaclass}!getfld6err\_emfldana@{getfld6err\_emfldana}}
+\index{getfld6err\_emfldana@{getfld6err\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfld6err\_emfldana()}{getfld6err\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfld6err\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{double precision, intent(in)}]{dx,  }\item[{double precision, intent(in)}]{dy,  }\item[{double precision, intent(in)}]{anglex,  }\item[{}]{angl }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a8cc6ab7d703889424d80d660ca470042}\label{namespaceemfldanaclass_a8cc6ab7d703889424d80d660ca470042}} 
+\index{emfldanaclass@{emfldanaclass}!getfld6xyz\_emfldana@{getfld6xyz\_emfldana}}
+\index{getfld6xyz\_emfldana@{getfld6xyz\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfld6xyz\_emfldana()}{getfld6xyz\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfld6xyz\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{z,  }\item[{double precision, dimension(6,nxintvrfg+1,nyintvrfg+1), intent(out)}]{extfld6xyz }\end{DoxyParamCaption})}
+
+
+
+get the discrete Ex,Ey,Ez, Bx, By, Bz as a function of x and y at given \char`\"{}z\char`\"{}. 
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a0abd49dbf81da65741c9bf08b9900a46}\label{namespaceemfldanaclass_a0abd49dbf81da65741c9bf08b9900a46}} 
+\index{emfldanaclass@{emfldanaclass}!getfld6xyzerr\_emfldana@{getfld6xyzerr\_emfldana}}
+\index{getfld6xyzerr\_emfldana@{getfld6xyzerr\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfld6xyzerr\_emfldana()}{getfld6xyzerr\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfld6xyzerr\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{double precision, intent(in)}]{dx,  }\item[{double precision, intent(in)}]{dy,  }\item[{double precision, intent(in)}]{anglex,  }\item[{}]{a }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_abf2e2171f7b0a3aa36462d1965e428f4}\label{namespaceemfldanaclass_abf2e2171f7b0a3aa36462d1965e428f4}} 
+\index{emfldanaclass@{emfldanaclass}!getfld\_emfldana@{getfld\_emfldana}}
+\index{getfld\_emfldana@{getfld\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfld\_emfldana()}{getfld\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfld\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this }\end{DoxyParamCaption})}
+
+
+
+get external field Ex, Ey, Ez, Bx, Bx, Bz at given position x, y, z, t from analytical function. Here we have used Fourier expansion of function. The user should supply his own analytical function if needed. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{namespaceemfldanaclass_abf2e2171f7b0a3aa36462d1965e428f4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_a95772a7b3030b57d7c0753ef96a2f764}\label{namespaceemfldanaclass_a95772a7b3030b57d7c0753ef96a2f764}} 
+\index{emfldanaclass@{emfldanaclass}!getflderr\_emfldana@{getflderr\_emfldana}}
+\index{getflderr\_emfldana@{getflderr\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getflderr\_emfldana()}{getflderr\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getflderr\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{dx,  }\item[{double precision, intent(in)}]{dy,  }\item[{double precision, intent(in)}]{anglex,  }\item[{}]{angl }\end{DoxyParamCaption})}
+
+
+
+get external field with displacement and rotation errors. 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_a95772a7b3030b57d7c0753ef96a2f764_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_a653a95a05e7093fca664a1a8ba38e991}\label{namespaceemfldanaclass_a653a95a05e7093fca664a1a8ba38e991}} 
+\index{emfldanaclass@{emfldanaclass}!getflderrold\_emfldana@{getflderrold\_emfldana}}
+\index{getflderrold\_emfldana@{getflderrold\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getflderrold\_emfldana()}{getflderrold\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getflderrold\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this }\end{DoxyParamCaption})}
+
+
+
+get external field with displacement and rotation errors. 
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a7ecbabd3d9e65aadaf2e8ccb096c6eed}\label{namespaceemfldanaclass_a7ecbabd3d9e65aadaf2e8ccb096c6eed}} 
+\index{emfldanaclass@{emfldanaclass}!getfldt\_emfldana@{getfldt\_emfldana}}
+\index{getfldt\_emfldana@{getfldt\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfldt\_emfldana()}{getfldt\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfldt\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{type (fielddata), intent(in)}]{fldata }\end{DoxyParamCaption})}
+
+
+
+get analytical field. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_a7ecbabd3d9e65aadaf2e8ccb096c6eed_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_a7ecbabd3d9e65aadaf2e8ccb096c6eed_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_a8e64e65ca00c486db83f7f7152aa5744}\label{namespaceemfldanaclass_a8e64e65ca00c486db83f7f7152aa5744}} 
+\index{emfldanaclass@{emfldanaclass}!getfldtalpha\_emfldana@{getfldtalpha\_emfldana}}
+\index{getfldtalpha\_emfldana@{getfldtalpha\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfldtalpha\_emfldana()}{getfldtalpha\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfldtalpha\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{type (fielddata), intent(in)}]{fldata }\end{DoxyParamCaption})}
+
+
+
+get analytical field from an alpha magnet 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_a8e64e65ca00c486db83f7f7152aa5744_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_aa9ea3d7a230bc88c83be56723c8d96a6}\label{namespaceemfldanaclass_aa9ea3d7a230bc88c83be56723c8d96a6}} 
+\index{emfldanaclass@{emfldanaclass}!getfldtdipole\_emfldana@{getfldtdipole\_emfldana}}
+\index{getfldtdipole\_emfldana@{getfldtdipole\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfldtdipole\_emfldana()}{getfldtdipole\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfldtdipole\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{type (fielddata), intent(in)}]{fldata }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_aa9ea3d7a230bc88c83be56723c8d96a6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_ac3c4c5ce44722c1aa2ba2d10700e0215}\label{namespaceemfldanaclass_ac3c4c5ce44722c1aa2ba2d10700e0215}} 
+\index{emfldanaclass@{emfldanaclass}!getfldtsurfrough\_emfldtana@{getfldtsurfrough\_emfldtana}}
+\index{getfldtsurfrough\_emfldtana@{getfldtsurfrough\_emfldtana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfldtsurfrough\_emfldtana()}{getfldtsurfrough\_emfldtana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfldtsurfrough\+\_\+emfldtana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{type (fielddata), intent(in)}]{fldata }\end{DoxyParamCaption})}
+
+
+
+get DC surface roughness fields 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_ac3c4c5ce44722c1aa2ba2d10700e0215_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_a49f218450fbccc7099479730313a5ec1}\label{namespaceemfldanaclass_a49f218450fbccc7099479730313a5ec1}} 
+\index{emfldanaclass@{emfldanaclass}!getfldttw\_emfldana@{getfldttw\_emfldana}}
+\index{getfldttw\_emfldana@{getfldttw\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getfldttw\_emfldana()}{getfldttw\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getfldttw\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, dimension(4), intent(in)}]{pos,  }\item[{double precision, dimension(6), intent(out)}]{extfld,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{type (fielddata), intent(in)}]{fldata }\end{DoxyParamCaption})}
+
+
+
+get analytical field from a traveling wave meander plate 
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_a49f218450fbccc7099479730313a5ec1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_ae345ffd1b3393ca091f8cdf3409e3088}\label{namespaceemfldanaclass_ae345ffd1b3393ca091f8cdf3409e3088}} 
+\index{emfldanaclass@{emfldanaclass}!getparam1\_emfldana@{getparam1\_emfldana}}
+\index{getparam1\_emfldana@{getparam1\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getparam1\_emfldana()}{getparam1\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getparam1\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{integer, intent(in)}]{i,  }\item[{double precision, intent(out)}]{blparam }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_ae0015cdb617a1920e47dbc2274fb77b2}\label{namespaceemfldanaclass_ae0015cdb617a1920e47dbc2274fb77b2}} 
+\index{emfldanaclass@{emfldanaclass}!getparam2\_emfldana@{getparam2\_emfldana}}
+\index{getparam2\_emfldana@{getparam2\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getparam2\_emfldana()}{getparam2\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getparam2\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, dimension(\+:), intent(out)}]{blparams }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_a67575d528d7993efafb802f4c346d6c0}\label{namespaceemfldanaclass_a67575d528d7993efafb802f4c346d6c0}} 
+\index{emfldanaclass@{emfldanaclass}!getparam3\_emfldana@{getparam3\_emfldana}}
+\index{getparam3\_emfldana@{getparam3\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{getparam3\_emfldana()}{getparam3\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::getparam3\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(out)}]{blength,  }\item[{integer, intent(out)}]{bnseg,  }\item[{integer, intent(out)}]{bmapstp,  }\item[{integer, intent(out)}]{btype }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_aeab0c2abbaa5f527784ce7006d3b4d58}\label{namespaceemfldanaclass_aeab0c2abbaa5f527784ce7006d3b4d58}} 
+\index{emfldanaclass@{emfldanaclass}!intfunc1\_emfldana@{intfunc1\_emfldana}}
+\index{intfunc1\_emfldana@{intfunc1\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{intfunc1\_emfldana()}{intfunc1\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::intfunc1\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{t,  }\item[{double precision, dimension(\+:), intent(in)}]{y,  }\item[{double precision, dimension(\+:), intent(out)}]{f,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{Bchg,  }\item[{double precision, intent(in)}]{Bmass }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_aeab0c2abbaa5f527784ce7006d3b4d58_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_aeab0c2abbaa5f527784ce7006d3b4d58_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_aabcc1ab7e5ac19f07fba4e38cfe24b04}\label{namespaceemfldanaclass_aabcc1ab7e5ac19f07fba4e38cfe24b04}} 
+\index{emfldanaclass@{emfldanaclass}!maplinear\_emfldana@{maplinear\_emfldana}}
+\index{maplinear\_emfldana@{maplinear\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{maplinear\_emfldana()}{maplinear\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::maplinear\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{t,  }\item[{double precision, intent(in)}]{tau,  }\item[{double precision, dimension(6,6), intent(out)}]{xm,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, dimension(6), intent(inout)}]{refpt,  }\item[{double precision, intent(in)}]{Bchg,  }\item[{double precision, intent(in)}]{Bmass }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_aabcc1ab7e5ac19f07fba4e38cfe24b04_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_aed1f8dea5d7871c10eb2835b204dd581}\label{namespaceemfldanaclass_aed1f8dea5d7871c10eb2835b204dd581}} 
+\index{emfldanaclass@{emfldanaclass}!rk6i\_emfldana@{rk6i\_emfldana}}
+\index{rk6i\_emfldana@{rk6i\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{rk6i\_emfldana()}{rk6i\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::rk6i\+\_\+emfldana (\begin{DoxyParamCaption}\item[{double precision, intent(in)}]{h,  }\item[{integer, intent(in)}]{ns,  }\item[{double precision, intent(inout)}]{t,  }\item[{double precision, dimension(nvar), intent(inout)}]{y,  }\item[{integer, intent(in)}]{nvar,  }\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(in)}]{this,  }\item[{double precision, intent(in)}]{Bchg,  }\item[{double precision, intent(in)}]{Bmass }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemfldanaclass_aed1f8dea5d7871c10eb2835b204dd581_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{namespaceemfldanaclass_aed1f8dea5d7871c10eb2835b204dd581_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemfldanaclass_acef322ec41908ed27c9dc0f7fe9f4c1c}\label{namespaceemfldanaclass_acef322ec41908ed27c9dc0f7fe9f4c1c}} 
+\index{emfldanaclass@{emfldanaclass}!setparam1\_emfldana@{setparam1\_emfldana}}
+\index{setparam1\_emfldana@{setparam1\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{setparam1\_emfldana()}{setparam1\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::setparam1\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{i,  }\item[{double precision, intent(in)}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_aac0a3936b2e95e4a86fee5277907646e}\label{namespaceemfldanaclass_aac0a3936b2e95e4a86fee5277907646e}} 
+\index{emfldanaclass@{emfldanaclass}!setparam2\_emfldana@{setparam2\_emfldana}}
+\index{setparam2\_emfldana@{setparam2\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{setparam2\_emfldana()}{setparam2\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::setparam2\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(inout)}]{this,  }\item[{double precision, dimension(\+:), intent(in)}]{values }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceemfldanaclass_aad90f0dd7002f12e7a5ba004dfb37635}\label{namespaceemfldanaclass_aad90f0dd7002f12e7a5ba004dfb37635}} 
+\index{emfldanaclass@{emfldanaclass}!setparam3\_emfldana@{setparam3\_emfldana}}
+\index{setparam3\_emfldana@{setparam3\_emfldana}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{setparam3\_emfldana()}{setparam3\_emfldana()}}
+{\footnotesize\ttfamily subroutine emfldanaclass\+::setparam3\+\_\+emfldana (\begin{DoxyParamCaption}\item[{type (\mbox{\hyperlink{namespaceemfldanaclass_structemfldanaclass_1_1emfldana}{emfldana}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{numseg,  }\item[{integer, intent(in)}]{nmpstp,  }\item[{integer, intent(in)}]{type,  }\item[{double precision, intent(in)}]{blength }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceemfldanaclass_a3ce28adb644b4d35b7f3e9713a275828}\label{namespaceemfldanaclass_a3ce28adb644b4d35b7f3e9713a275828}} 
+\index{emfldanaclass@{emfldanaclass}!nparam@{nparam}}
+\index{nparam@{nparam}!emfldanaclass@{emfldanaclass}}
+\subsubsection{\texorpdfstring{nparam}{nparam}}
+{\footnotesize\ttfamily integer, parameter, private emfldanaclass\+::nparam = 11\hspace{0.3cm}{\ttfamily [private]}}
+

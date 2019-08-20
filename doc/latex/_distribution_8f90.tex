@@ -1,0 +1,66 @@
+\hypertarget{_distribution_8f90}{}\section{src/\+Appl/\+Distribution.f90 File Reference}
+\label{_distribution_8f90}\index{src/Appl/Distribution.f90@{src/Appl/Distribution.f90}}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacedistributionclass}{distributionclass}}
+\begin{DoxyCompactList}\small\item\em This class defines initial distributions for the charged particle beam bunch information in the accelerator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aee8dd99a29887ed3860bcce7adb87ce8}{distributionclass\+::sample\+\_\+dist}} (this, distparam, nparam, flagdist, geom, grid,
+\begin{DoxyCompactList}\small\item\em sample the particles with intial distribution. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a5e52f4e8f1be5bbedde152f2263e74af}{distributionclass\+::uniform\+\_\+dist}} (this, nparam, distparam, grid)
+\begin{DoxyCompactList}\small\item\em 6d uniform distribution \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_af85f956a3fdb677022a546bc69ecfb3c}{distributionclass\+::gauss3\+\_\+dist}} (this, nparam, distparam, grid, flagalloc)
+\begin{DoxyCompactList}\small\item\em 6d Gaussian distribution \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a00377c8aa90fa9dc8b222d71d019f936}{distributionclass\+::normdv}} (y)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_acfc04ca0c8be3e0f3e73779c5e88693b}{distributionclass\+::normvec}} (y, num)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aed734df6d00f7004cf11847adb42dd1d}{distributionclass\+::waterbag\+\_\+dist}} (this, nparam, distparam, grid, flagalloc)
+\begin{DoxyCompactList}\small\item\em 6d Waterbag distribution. sample the particles with intial distribution using rejection method. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a2e96d2c85cac39531d37f2ce057c5766}{distributionclass\+::kv3d\+\_\+dist}} (this, nparam, distparam, grid)
+\begin{DoxyCompactList}\small\item\em transverse KV distribution and longitudinal uniform distribution \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a5ae8e13c52291510b7b0b6fe333db73f}{distributionclass\+::semigauss\+\_\+dist}} (this, nparam, distparam, grid)
+\begin{DoxyCompactList}\small\item\em 3d Waterbag distribution in spatial and 3d Gaussian distribution in momentum space \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a020961b4717af242fc3c82090a17ce12}{distributionclass\+::normdv2}} (y)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_adfcb2065e951ea9aa42c588f881e6021}{distributionclass\+::read\+\_\+dist}} (this, nparam, distparam, ib)
+\begin{DoxyCompactList}\small\item\em read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aed89b043090c1817fc57baaa9604eb73}{distributionclass\+::readparmela\+\_\+dist}} (this, nparam, distparam, geom, grid, Flag
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_acf080fd52aac8287d955bcfd88362c07}{distributionclass\+::readelegant\+\_\+dist}} (this, nparam, distparam, geom, grid, Flag
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ac36fd92d83720ca88efee259d51ec474}{distributionclass\+::normdv1d}} (y)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a149c64b379e691ba9bfba3dc16c44571}{distributionclass\+::cylcoldzsob\+\_\+dist}} (this, nparam, distparam, grid)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a714922ece09780473330b901fa566f71}{distributionclass\+::psiroot}} (rk, xx, xmod, psi, eps, Nmax)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a8125c1fdf424cfd4bad6cd74eb2d3946}{distributionclass\+::sobseq}} (n, x, iseed)
+\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ae01180ba4966edba5753229ef24e5b8b}{distributionclass\+::combine\+\_\+dist}} (this, nparam, distparam, grid, ib, Nb, flagdis
+\begin{DoxyCompactList}\small\item\em generating initial particle distribution based on the combination of transverse spatial distribution (2 types), longitudinal spatial distribution (3 types) and 3D momentum distribution (4 types). For example, flagdist = 111 denotes type 1 from transverse spatial distribution, type 1 from longitudinal spatial distribution, and type 1 from 3D momentum distribution. In this case, it denotes a transverse uniform elliptical, longitudinal flat-\/top with linear ramping in spatial, and 3d full Gaussian distribution in momentum space. flagdist = ijk, where i = 1 (transverse uniform ellipse) and 2 (Gaussian with cut-\/off); j = 1 (flat-\/top with linear ramping), 2 (flat-\/top with 2sigma Gaussain ramping), and 3 (Gaussian with cut-\/off); k = 1, (3D Gaussian momentum), 2 (transverse Gaussian momentum, longitudinal semi-\/\+Gaussian), 3 (streak camera model), and 4 (3 step model). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aec8b879df17219ee41f1855623176867}{distributionclass\+::tranunifxy\+\_\+dist}} (ptxy, avgpts, sigx, sigy, xmu1, xmu3)
+\begin{DoxyCompactList}\small\item\em transverse spatial uniform elleptical distribution. (id=1) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a42ccdb5100e3e35c9424c89dcac131c1}{distributionclass\+::trangaussxy\+\_\+dist}} (ptxy, avgpts, sigx, sigy, xmu1, xmu3, cutx
+\begin{DoxyCompactList}\small\item\em transverse spatial Gaussian distribution with cut-\/off. (id=2) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a00926191e33371dc32c2fdbaca1ee2a5}{distributionclass\+::longflattoplinz\+\_\+dist}} (ptz, avgpts, avgpts0, zscale, pzscal
+\begin{DoxyCompactList}\small\item\em longitudinal spatial flat-\/top distribution with linear ramp (id=1). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a635c045c52b04bd03c076b8b8454b278}{distributionclass\+::longflattopgasz\+\_\+dist}} (ptz, avgpts, avgpts0, zscale, pzscal
+\begin{DoxyCompactList}\small\item\em longitudinal spatial flat-\/top distribution with 2sigma Gaussian ramp. (id=2) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ab34be02e18a0166b3b2c945e0f68b9ca}{distributionclass\+::longgaussz\+\_\+dist}} (ptz, avgpts, sigz, xmu5, cutz)
+\begin{DoxyCompactList}\small\item\em longitudinal spatial Gaussian distribution with cut-\/off. (id=3) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a2b070800bac220b6560be536eaa0d780}{distributionclass\+::waterxyz\+\_\+dist}} (ptxyz, avgpts, sigx, sigy, sigz, xmu1, xmu3, x
+\begin{DoxyCompactList}\small\item\em 3D spatial Waterbag distribution. (id=34) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a93a16b51a7754d6ec2c99d0a8c4f5ced}{distributionclass\+::pxpypzgauss3d\+\_\+dist}} (pmxyz, avgpts, sigpx, sigpy, sigpz, xmu
+\begin{DoxyCompactList}\small\item\em 3D Momentum Gaussian distribution. (id=1) \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ab6dde242aa247f41d9581455e84607fb}{distributionclass\+::pxpygausspzsg\+\_\+dist}} (pmxyz, avgpts, sigpx, sigpy, sigpz, xmu
+\begin{DoxyCompactList}\small\item\em Momentum Gaussian distribution in transverse while longitudinal xexp(-\/x$^\wedge$2/sigz$^\wedge$2). (id=2) The longitudinal distribution follows Bird\textquotesingle{}s book, p.\+129. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_a323470431d5dda05b3dd2ba27cf8565c}{distributionclass\+::pxpypzstreakcam\+\_\+dist}} (pmxyz, avgpts, emax, wkf, emass, xmu2
+\begin{DoxyCompactList}\small\item\em Momentum distribution following the streak camera model. (id=3) both emax and wkf are in the units of eV. emass is also in eV. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_aaeb585c7c5a8664f047fb95fc7721059}{distributionclass\+::pxpypz3step\+\_\+dist}} (pmxyz, avgpts, Ef, Eph, Tem, Ewk, emass, xm
+\begin{DoxyCompactList}\small\item\em Momentum distribution following the streak camera model. (id=4) momentum\+: following the 3 step model in David Dowell\textquotesingle{}s P\+R\+S\+T\+AB paper v.\+12, 074201, 2009. momentum input parameters are\+: laser photon energy (eV), cathode temperature (eV), cathode effective work function (eV) (work function -\/ surface field), Fermi energy of cathode material, emass (eV). \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacedistributionclass_ae604d1dc6d7f92f0c37e00fb504d38fa}{distributionclass\+::normveccut}} (y, num, cutx, cuty)
+\end{DoxyCompactItemize}
