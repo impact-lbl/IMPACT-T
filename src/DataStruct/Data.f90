@@ -95,12 +95,12 @@
 !> @name
 !> @{
 !> using the Fourier coefficients
+        integer, parameter :: NcoefF = 401
         double precision,dimension(NcoefF) :: Fcoef 
         !> @name
 
         !> @{
         !> number of Fourier expansion coefficients.
-        integer, parameter :: NcoefF = 401
         !> @}
         
         !Fcoef(1): constant
