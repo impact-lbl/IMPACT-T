@@ -318,7 +318,7 @@ class PlotBaseFrame(tk.Frame):
         self.subfig = self.fig.add_subplot(111)
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
         self.toolbar = NavigationToolbar2Tk(self.canvas, self)
@@ -372,7 +372,7 @@ class PlotFrame(tk.Frame):
         subfig.set_position([box.x0*1.3, box.y0*1.1, box.width, box.height])
         
         canvas = FigureCanvasTkAgg(fig, self) 
-        canvas.show()
+        canvas.draw()
         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
         toolbar = NavigationToolbar2Tk(canvas, self)
@@ -394,7 +394,7 @@ class OverallFrame(tk.Frame):
         self.subfig.append(self.fig.add_subplot(224))
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
         self.toolbar = NavigationToolbar2Tk(self.canvas, self)
@@ -619,7 +619,7 @@ class PlotHighOrderBaseFrame(tk.Frame):
         self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
         self.toolbar = NavigationToolbar2Tk(self.canvas, self)
