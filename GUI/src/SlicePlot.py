@@ -77,7 +77,7 @@ class SliceBaseFrame(tk.Frame):
         self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
         
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         
         self.toolbar = NavigationToolbar2Tk(self.canvas, self)
