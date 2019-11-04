@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk,filedialog
 import time,os,sys
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter 
 
@@ -321,7 +321,7 @@ class PlotBaseFrame(tk.Frame):
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -375,7 +375,7 @@ class PlotFrame(tk.Frame):
         canvas.show()
         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar = NavigationToolbar2Tk(canvas, self)
         toolbar.update()
         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
@@ -397,7 +397,7 @@ class OverallFrame(tk.Frame):
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -622,7 +622,7 @@ class PlotHighOrderBaseFrame(tk.Frame):
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
