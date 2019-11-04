@@ -377,10 +377,10 @@ class PlotFrame(tk.Frame):
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
         
         fig = Figure(figsize=(7,5), dpi=100)
-        subfig = fig.add_subplot(111)
-        subfig.plot(x,y)
-        subfig.set_xlabel('Z (m)')
-        subfig.set_ylabel(labelY)
+        self.subfig = fig.add_subplot(111)
+        self.subfig.plot(x,y)
+        self.subfig.set_xlabel('Z (m)')
+        self.subfig.set_ylabel(labelY)
 
         xMax = np.max(x)
         xMin = np.min(x)
@@ -393,8 +393,8 @@ class PlotFrame(tk.Frame):
         
         #xmajorFormatter = FormatStrFormatter('%2.2E')
         #subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = subfig.get_position()
-        subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
         
         canvas = FigureCanvasTkAgg(fig, self)
         canvas.draw()
@@ -723,6 +723,6 @@ def axis_format_T(xData,yData,subfig):
     yMax = np.max(yData)
     yMin = np.min(yData)
     if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-        subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
     if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-        subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
