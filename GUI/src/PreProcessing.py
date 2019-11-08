@@ -4,9 +4,9 @@ from glob import glob
 from shutil import copyfile
 #
 #--- (c) Copyright, 2014 by the Regents of the University of California.
-#This PreProcessing.py is based on the PhaseOpt.py beta v. 1.1: 
+#This PreProcessing.py is based on the PhaseOpt.py beta v. 1.1:
 #Authors: Zhicong Liu, T. Wilson,  and J. Qiang.
-#Description: 
+#Description:
 #             Find the RF driven phase used in the ImpactT.in given the
 #             design phase initially specified in the ImpactT.in.
 #             The initial ImpactT.in is copied into file ImpactT_backup.in.
@@ -44,7 +44,7 @@ tol = 0.0001
 # max number of iterations in Brent's Method before quitting
 it_max = 20
 
-    
+
 def process(parent):
     # remove previous data files
     files = glob(os.path.join('.' + "/ang_*"))
@@ -52,10 +52,10 @@ def process(parent):
     files += glob(os.path.join('.' + "/data_*"))
     for f in files:
         os.remove(f)
-    
+
     # create backup of ImpactT.in
     copyfile('ImpactT.in','ImpactT_backup.in')
-    
+
     # from row_start to row_end, optimize beam elements one at a time
     row_start = 14
     row_end = len(open('ImpactT.in').readlines())
@@ -67,7 +67,7 @@ def process(parent):
     length = -1
     freq = -1
     prediction = -1
-    
+
     global angle_in
     global angle_end
     global delv
@@ -100,7 +100,7 @@ def process(parent):
     for i in range(row_start, row_end):
         # set angle_in and angle_end back to default values stored in angle_inVal and angle_endVal
         # This is reset for every row, just in case our prediction is bad (cannot find a max within +/- 20 degrees
-        # of the prediction), so we are forced to scan the entire default range to find a max. 
+        # of the prediction), so we are forced to scan the entire default range to find a max.
         angle_in  = angle_inVal
         angle_end = angle_endVal
 
@@ -108,7 +108,7 @@ def process(parent):
         file = open('ImpactT.in', 'r')
         lines = file.readlines()
         file.close()
-        
+
         print(lines[i].split(),col_el,col_freq)
 
 
@@ -135,23 +135,23 @@ def process(parent):
                     # makes sure that we only insert one set of -3 and -99 lines
                     # more than one can be inserted if we have duplicate beam elements
                     inserted = True
-                    
+
                     # set position parameters for -3 and -99 line
                     length_str = (lines[i].split())[0]
                     prev_length = length
                     length = float(length_str.replace('d','E'))
-                    
+
                     zedge_str = lines[i].split()[4]
                     prev_zedge = zedge
                     zedge = float(zedge_str.replace('d','E'))
-                    
+
                     cav_end = zedge + length
                     # create -3 and -99 lines
                     tmp3line = '0 0 80 -3 '+str(cav_end)+' '+str(cav_end)+' '+str(cav_end)+' / \n'
                     tmp99line = '0 0 0 -99 '+str(cav_end)+' '+str(cav_end)+' '+str(cav_end)+' / \n'
                     x = x+line
                     x = x+tmp3line+tmp99line
-                    
+
                     print(zedge,length,cav_end)
 
                 else:
@@ -166,10 +166,10 @@ def process(parent):
             # predict next phase angle if RstartFlag = 1 (if this isn't the first beam element)
             if int((lines[row_restart].split())[1]) == 1:
                prediction = predict(zedge, prev_zedge, max_ang, prev_freq, prev_length)
-            
+
             # determine phase angle for which energy is a maximum
             max_ang = findMax(i, cav_end, prediction)
-            
+
             # write user specified angle relative to zero phase (max angle) into ImpactT.in
             file = open('ImpactT.in','r')
             lines = file.readlines()
@@ -186,7 +186,7 @@ def process(parent):
             file = open('ImpactT.in','w')
             file.writelines(lines)
             file.close()
-            
+
             file = open('ImpactT.in','r')
             lines = file.readlines()
             file.close()
@@ -253,7 +253,7 @@ def process(parent):
             # We will need this data for the next beam element because we restart simulation right after
             # current beam element.
             copyfile('fort.80','temp_fort.80')
- 
+
 
    # After looping over all lines in ImpactT.in, we're done.
    # Set Rstartflag back to 0 for next run.
@@ -292,18 +292,18 @@ def predict(zedge, prev_zedge, max_ang, prev_freq, prev_length):
    # 'large' difference.
    diff1 = 1
    diff2 = 1
-   
+
    file = open('ImpactT.in', 'r')
    lines = file.readlines()
    file.close()
 
- 
+
    # make prediction for phase angle to make angular scan range smaller, reduce running time
 
    # First, we need to find the elapsed time between the time when the beam entered and exited
    # the previous cavity. This will be found by looking at fort.18_max because it is not easily
    # calculable (the beam is being accelerated).
-   
+
    # read in time from fort.18_max
    file = open('fort.18_max', 'r')
    lines18 = file.readlines()
@@ -332,7 +332,7 @@ def predict(zedge, prev_zedge, max_ang, prev_freq, prev_length):
          if diff_new2 < diff2:
             diff2 = diff_new2
             t2 = float(lines18[ind].split()[0])
-   
+
    # delt is the time elapsed between the beam entering and exiting the previous cavity
    print(float((lines18[ind].split())[1]),prev_zedge,prev_length)
    try:
@@ -380,7 +380,7 @@ def findMax(row, cav_end, prediction):
    ang_max = -1
 
    theta1 = prediction
-   
+
    if theta1 != -1:
       # Set new angular scan range to prediction +/- 20 degrees
       global angle_in
@@ -401,7 +401,7 @@ def findMax(row, cav_end, prediction):
       if (eng > eng_max):
          eng_max = eng
          ang_max = i
-      
+
    # If the maximum turns out to be either the max or min of the angular range, we have reason
    # to be suspicious that our initial prediction range doesn't contain the maximum.
    # This could be true either if:
@@ -414,11 +414,11 @@ def findMax(row, cav_end, prediction):
          print('i: ',i,eng)
          if (eng > eng_max):
             eng_max = eng
-            ang_max = i         
+            ang_max = i
 
    print('initial max angle: '+str(ang_max))
    print('initial max energy: '+str(eng_max))
-   
+
    # Set bracketed maximum triplet for Brent's method, along with corresponding energy values
    bracket_low = ang_max - 10
    bracket_high = ang_max + 10
@@ -436,7 +436,7 @@ def returnEng(ang, row, cav_end):
    # confines angle to 0-360 degrees
    ang = angMod(ang)
 
-   # We want fort.80 to contain the simulation information up to the previous beam element--this makes it so that 
+   # We want fort.80 to contain the simulation information up to the previous beam element--this makes it so that
    # we don't have to re-do that part of the simualtion. However, because of the way IMPACT-T runs, every time it
    # encounters a -3 line, it outputs data to fort.80. This is a problem because when we are testing multiple phase
    # angles for a single beam element, the fort.80 file that we are using to restart will contain information from
@@ -475,13 +475,13 @@ def returnEng(ang, row, cav_end):
    # file will be for that angle, and not the max energy.
 
    copyfile('fort.18','fort.18_max')
-   
+
    #os.system('tail -1 fort.18 >> tmpeng')
    tailAppend('fort.18','tmpeng')
-   
+
    os.system('echo '+str(ang)+' >> tmpphase')
-   
-   
+
+
    #os.system('paste tmpphase tmpeng > engout')
    pasteL('tmpphase','tmpeng','engout')
    os.remove('tmpeng')
@@ -502,10 +502,10 @@ def returnEng(ang, row, cav_end):
    print('----------')
 
    return float(eng)
-   
+
 # Brent's method of parabolic interpolation finds maximum given a bracketed triplet
 def brents(ax, bx, cx, fa, fb, fc, tol, it_max, row, cav_end):
-    
+
     print("Brent's method to find maximum with fractional tolerance " + str(tol) + "...")
     cgold = 0.3819660
     zeps = 0.0000000001
@@ -542,31 +542,31 @@ def brents(ax, bx, cx, fa, fb, fc, tol, it_max, row, cav_end):
               p = -p
            q = abs(q)
            etemp = e
-           
+
            # This line is in the example code for the Brent's method in 'Numerical Recipes in Fortran', but I'm not
            # sure what purpose it serves. It seems invalid since there is no previous declaration of 'd' in the first
            # iteration of this for loop.
-           #e = d  
+           #e = d
 
            # This is a clumsy workaround in trying to adapt code from 'Numerical Recipes in Fortran', in which
            # they use 'goto' statements, which don't exist in Python. I was able to recreate the basic structure
            # without too much repetitious code by having a single iteration 'for loop' that I could 'break' out of.
            for i in range(1):
-              
+
               # condition to determine acceptability of parabolic fit
               if (not ((abs(p) >= abs(0.5 * q * etemp)) or (p <= q * (a - x)) or (p >= q * (b - x)))):
                  # parabolic fit works
                  d = p / q
                  u = x + d
-                 
+
                  if (((u - a) < tol2) or ((b - u) < tol2)):
                     # skip over golden section step
                     break
-                 
+
                  else:
                     # do golden section step
                     if (x >= xm):
-                       e = a - x      
+                       e = a - x
                     else:
                        e = b - x
                        d = cgold * e
@@ -575,7 +575,7 @@ def brents(ax, bx, cx, fa, fb, fc, tol, it_max, row, cav_end):
               else:
                  # parabolic fit does not work
                  # do golden section step
-                 if (x >= xm): 
+                 if (x >= xm):
                     e = a - x
                  else:
                     e = b - x
@@ -619,7 +619,7 @@ def brents(ax, bx, cx, fa, fb, fc, tol, it_max, row, cav_end):
         # if the condition in line 187 is false, we still need to do the golden section step and everything
         # else that follows
         else:
-           if (x >= xm):  
+           if (x >= xm):
               e = a - x
            else:
               e = b - x
@@ -641,9 +641,9 @@ def brents(ax, bx, cx, fa, fb, fc, tol, it_max, row, cav_end):
                        x = u
                        fx = fu
                  else:
-                    if (u < x):  
+                    if (u < x):
                        a = u
-                    else:    
+                    else:
                        b = u
                        if ((fu >= fw) or (w == x)):
                           v = w
@@ -676,7 +676,7 @@ def tailAppend(src,dest):
     f2.write(li[-1])
     f1.close()
     f2.close()
-    
+
 def pasteL(src1,src2,dest):
     f1 = open(src1,'r')
     f2 = open(src2,'r')
