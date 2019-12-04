@@ -416,28 +416,28 @@ class OverallFrame(tk.Frame):
         labelList[0]    = ['rms.X','max.X']
         xdataList[0]    = [0,0]
         ydataList[0]    = [2,1]
-        xyLabelList[0]  = ['z drection (m)','beam size in X (mm)']
+        xyLabelList[0]  = ['z direction (m)','beam size in X (mm)']
         
         saveName.append('sizeY')
         fileList[1]     = ['fort.25','fort.27']
         labelList[1]    = ['rms.Y','max.Y']
         xdataList[1]    = [0,0]
         ydataList[1]    = [2,3]
-        xyLabelList[1]  = ['z drection (m)','beam size in Y (mm)']
+        xyLabelList[1]  = ['z direction (m)','beam size in Y (mm)']
         
         saveName.append('sizeZ')
         fileList[2]     = ['fort.26','fort.27']
         labelList[2]    = ['rms.Z','max.Z']
         xdataList[2]    = [0,0]
         ydataList[2]    = [2,5]
-        xyLabelList[2]  = ['z drection (m)','beam size in Z (mm)']
+        xyLabelList[2]  = ['z direction (m)','beam size in Z (mm)']
         
         saveName.append('emitXY')
         fileList[3]     = ['fort.24','fort.25']
         labelList[3]    = ['emit.nor.X','emit.nor.Y']
         xdataList[3]    = [0,0]
         ydataList[3]    = [6,6]
-        xyLabelList[3]  = ['z drection (m)','emittance at X and Y (mm*mrad)']
+        xyLabelList[3]  = ['z direction (m)','emittance at X and Y (mm*mrad)']
         
         lineType = ['r-','b--']
 
