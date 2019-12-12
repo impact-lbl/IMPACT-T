@@ -338,7 +338,7 @@ class PlotFrame(tk.Frame):
         try:
             fin = open(PlotFileName,'r')
         except:
-            print(( "  ERRPR! Can't open file '" + PlotFileName + "'"))
+            print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
         
         linesList  = fin.readlines()
         fin .close()
@@ -445,7 +445,7 @@ class OverallFrame(tk.Frame):
                 try:
                     fin = open(fileList[i][j],'r')
                 except:
-                    print("ERRPR Can't open file ' " + fileList[i][j] + "'")
+                    print("ERROR Can't open file ' " + fileList[i][j] + "'")
                     return
                 linesList  = fin.readlines()
                 fin .close()
@@ -495,12 +495,12 @@ class EmitGrowthFrame(PlotBaseFrame):
         try:
             fin1 = open(fileList[0],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[0] + "'")
+            print("  ERROR! Can't open file '" + fileList[0] + "'")
             return
         try:
             fin2 = open(fileList[1],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[1] + "'")
+            print("  ERROR! Can't open file '" + fileList[1] + "'")
             return
         linesList1  = fin1.readlines()
         linesList2  = fin2.readlines()
@@ -517,7 +517,7 @@ class EmitGrowthFrame(PlotBaseFrame):
                 start=1.0e-16
             y   = [(float(linesList1[k][yId]) + float(linesList2[k][yId]))/2 / start -1 for k in range(len(linesList1))]
         except:
-            print("  ERRPR! Can't read data '" + fileList[1] + "'")
+            print("  ERROR! Can't read data '" + fileList[1] + "'")
             
         self.subfig.cla()
         self.subfig.plot(x, y, lineType[0], linewidth=2, label='emit.growth')
@@ -547,7 +547,7 @@ class TemperatureFrame(PlotBaseFrame):
             try:
                 fin = open(arg[i],'r')
             except:
-                print( "  ERRPR! Can't open file '" + arg[i] + "'")
+                print( "  ERROR! Can't open file '" + arg[i] + "'")
                 return
     
             linesList  = fin.readlines()
