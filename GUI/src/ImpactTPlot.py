@@ -22,9 +22,9 @@ import ParticlePlot, SlicePlot
 _height=300
 _width =200
 
-IMPACT_T_ADVANCED_PLOT_TYPE= {'Centriod location (mm)'    :2,
+IMPACT_T_ADVANCED_PLOT_TYPE= {'Centroid location (mm)'    :2,
                      'Rms size (mm)'             :3,
-                     'Centriod momentum (MC)'    :4,
+                     'Centroid momentum (MC)'    :4,
                      'Rms momentum (MC)'         :5,
                      'Twiss'                     :6,
                      'Emittance (mm-mrad)'       :7}
@@ -371,7 +371,7 @@ class PlotFrame(tk.Frame):
         x   = np.array([float(xrt[xl]) for xrt in linesList])
         y   = np.array([float(xrt[yl]) for xrt in linesList])
         
-        if labelY in ['Centriod location (mm)','Rms size (mm)','Rmax (mm)']:
+        if labelY in ['Centroid location (mm)','Rms size (mm)','Rmax (mm)']:
             y = y*1.0e3       # unit convert from m to mm
         elif labelY in ['Emittance (mm-mrad)']:
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
