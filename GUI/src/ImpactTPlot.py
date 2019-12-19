@@ -80,6 +80,18 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         self.button_overall.grid(row = rowN, column=0,  pady=5 ,padx=5, columnspan = 2, sticky="nswe")
         rowN+=1
         
+        self.button_per_bunch = tk.Button(
+            self.frame2,text='Overall plots per bunch',
+            command = self.perBunchPlot)
+        self.button_per_bunch.grid(
+            row=rowN,
+            column=0,
+            pady=5,
+            padx=5,
+            columnspan=2,
+            sticky="nswe")
+        rowN+=1
+
         self.button_emitGrowth      = tk.Button(self.frame2,text='EmitGrowth',
                                                 command = self.emitGrowthPlot)
         self.button_emitGrowth      .grid(row = rowN, column=0, pady=5 ,padx=5, sticky="nswe")
@@ -163,11 +175,20 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         print(self.__class__.__name__)
 
         plotWindow = tk.Toplevel(self)
-        plotWindow.title('Plot')
+        plotWindow.title('Overall plot')
         
         l=OverallFrame(plotWindow)
         l.pack()    
         
+    def perBunchPlot(self):
+        print(self.__class__.__name__)
+
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Bunch plot')
+
+        l=OverallFrame(plotWindow, plot_all_bunches=False)
+        l.pack()
+
     def energyPlot(self,y,ylabel):
         print(sys._getframe().f_back.f_code.co_name)
 
@@ -408,7 +429,7 @@ class PlotFrame(tk.Frame):
         self.destroy()
                 
 class OverallFrame(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, plot_all_bunches=True):
         tk.Frame.__init__(self, parent)
 
         self.fig = Figure(figsize=(12,5), dpi=100)
@@ -426,6 +447,13 @@ class OverallFrame(tk.Frame):
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
+        if plot_all_bunches:
+            self.set_default_filelist()
+        else:
+            self.bunch = self.choose_bunch()
+            self.set_bunch_filelist(self.bunch)
+            parent.title(f'Bunch {self.bunch} plots')
+
         self.plot()
     def plot(self):
         picNum = 4
@@ -438,28 +466,28 @@ class OverallFrame(tk.Frame):
         
         xl  = 2
         saveName.append('sizeX')
-        fileList[0]     = ['fort.24','fort.27']
+        fileList[0]     = self.fileList[0]
         labelList[0]    = ['rms.X','max.X']
         xdataList[0]    = [xl,xl]
         ydataList[0]    = [4,3]
         xyLabelList[0]  = ['z drection (m)','beam size in X (mm)']
         
         saveName.append('sizeY')
-        fileList[1]     = ['fort.25','fort.27']
+        fileList[1]     = self.fileList[1]
         labelList[1]    = ['rms.Y','max.Y']
         xdataList[1]    = [xl,xl]
         ydataList[1]    = [4,5]
         xyLabelList[1]  = ['z drection (m)','beam size in Y (mm)']
         
         saveName.append('sizeZ')
-        fileList[2]     = ['fort.26','fort.27']
+        fileList[2]     = self.fileList[2]
         labelList[2]    = ['rms.Z','max.Z']
         xdataList[2]    = [xl,xl]
         ydataList[2]    = [3,7]
         xyLabelList[2]  = ['z drection (m)','beam size in Z (mm)']
         
         saveName.append('emitXY')
-        fileList[3]     = ['fort.24','fort.25']
+        fileList[3]     = self.fileList[3]
         labelList[3]    = ['emit.nor.X','emit.nor.Y']
         xdataList[3]    = [xl,xl]
         ydataList[3]    = [8,8]
@@ -504,6 +532,23 @@ class OverallFrame(tk.Frame):
                 
             self.subfig[i].legend(loc='upper center', bbox_to_anchor=(0.5, 1.21),fancybox=True, shadow=True, ncol=5)
         self.canvas.draw()
+    def choose_bunch(self):
+        return tk.simpledialog.askinteger(
+            title='Overall plot',
+            prompt='Choose a bunch number to plot:')
+    def set_bunch_filelist(self, bunch):
+        self.fileList = [[]*2]*4
+        self.fileList[0] = [f'fort.{bunch*1000+24}', f'fort.{bunch*1000+27}']
+        self.fileList[1] = [f'fort.{bunch*1000+25}', f'fort.{bunch*1000+27}']
+        self.fileList[2] = [f'fort.{bunch*1000+26}', f'fort.{bunch*1000+27}']
+        self.fileList[3] = [f'fort.{bunch*1000+24}', f'fort.{bunch*1000+25}']
+    def set_default_filelist(self):
+        self.fileList = [[]*2]*4
+        self.fileList[0] = ['fort.24','fort.27']
+        self.fileList[1] = ['fort.25','fort.27']
+        self.fileList[2] = ['fort.26','fort.27']
+        self.fileList[3] = ['fort.24','fort.25']
+        pass
         
 class EmitGrowthFrame(PlotBaseFrame):
     def __init__(self, parent):
