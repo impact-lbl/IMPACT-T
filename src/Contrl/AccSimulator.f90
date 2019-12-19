@@ -764,6 +764,8 @@
 !for switch integrator: -18
         integer :: flaginteg = 0
         real*8, dimension(101) :: tinteg
+! for diagnostic output per bunch
+        integer :: file_offset
 !--------------
 ! dielectric wakefield module implemented by Daniel Mihalcea:
 ! PRST-AB, 15, 081304, (2012).
@@ -1159,6 +1161,13 @@
         enddo
         nplocal0 = Nplocal(1)
         np0 = Np(1)
+
+        ! Output the moments from each bunch at fixed t to separate files
+        DO ib = 1, Nbunch
+          file_offset = 1000 * ib
+          CALL diagnostic1_Output(t, Ebunch(ib), file_offset)
+        END DO
+
         if(Flagdiag.eq.1) then
           !output the moments from the average of all bunches at fixed t.
           call diagnostic1avg_Output(t,Ebunch,Nbunch)
@@ -2080,6 +2089,12 @@
  
           !output for every 5 steps
           if(mod(i,5).eq.0) then
+
+          ! Output the moments from each bunch at fixed t to separate files
+          DO ib = 1, Nbunch
+            file_offset = 1000 * ib
+            CALL diagnostic1_Output(t, Ebunch(ib), file_offset)
+          END DO
 
           if(Flagdiag.eq.1) then
             call diagnostic1avg_Output(t,Ebunch,Nbunch)
