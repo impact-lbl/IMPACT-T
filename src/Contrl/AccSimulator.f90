@@ -1810,7 +1810,7 @@
             do ib = 1, ibunch
 
               ! Skip any empty or neutral bunches
-              IF ((Np(ib) == 0) .OR. (Ebunch(ib)%Charge < 0.1d-10)) CYCLE
+              IF ((Np(ib) == 0) .OR. (ABS(Ebunch(ib)%Charge) < 0.1d-10)) CYCLE
 
               ! deposit particles onto grid to obtain charge density of each bunch/bin.
               if(flagazmuth.eq.1) then
