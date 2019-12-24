@@ -568,9 +568,40 @@ class OverallFrame(tk.Frame):
 class EmitGrowthFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
+
+        self.Nbunch = int(parent.master.master.Nbunch.get())
+        if self.Nbunch > 1:
+            self.create_option_frame(self.Nbunch)
+
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
+
         self.plot()
+    def create_option_frame(self, Nbunch):
+        """Creates a bar at the top to select options of the plot"""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.bunch_list = ['All']
+        self.bunch_list.extend(range(1, Nbunch + 1))
+        self.bunch_default = tk.StringVar(self.option_frame, 'All')
+        self.bunch_label = tk.Label(self.option_frame, text="Select bunch: ")
+        self.bunch_label.pack(side='left')
+        self.bunch_select = ttk.Combobox(
+            self.option_frame,
+            text=self.bunch_default,
+            width=6,
+            values=self.bunch_list)
+        self.bunch_select.pack(fill='both', expand=1, side='left')
+        self.plot_button = tk.Button(
+            self.option_frame,
+            text="Plot",
+            foreground="blue",
+            bg="red",
+            font=("Verdana", 12),
+            command=self.plot)
+        self.plot_button.pack(fill='both', expand=1, side='left')
     def plot(self):        
-        fileList        = ['fort.24','fort.25']
+        fileList        = self.get_filelist()
         xdataList       = [2,2]
         ydataList       = [8,8]
         xyLabelList     = ['Z (m)','Avg emit growth in X and Y']
@@ -606,13 +637,28 @@ class EmitGrowthFrame(PlotBaseFrame):
         
         self.subfig.cla()
         self.subfig.plot(x, y, lineType[0], linewidth=2, label='emit.growth')
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
+        
         self.subfig.set_xlabel(xyLabelList[0])
         self.subfig.set_ylabel(xyLabelList[1])
         self.subfig.legend()
         
         self.canvas.draw()
+        
+    def get_default_filelist(self):
+        return ['fort.24', 'fort.25']
+    def get_bunch_filelist(self, bunch):
+        return [f'fort.{bunch*1000+24}', f'fort.{bunch*1000+25}']
+    def get_filelist(self):
+        selected_bunch = self.get_selected_bunch()
+        if selected_bunch == 'All':
+            return self.get_default_filelist()
+        else:
+            return self.get_bunch_filelist(int(selected_bunch))
+    def get_selected_bunch(self):
+        if hasattr(self, "bunch_select"):
+            return self.bunch_select.get()
+        else:
+            return 'All'
         
 class TemperatureFrame(PlotBaseFrame):
     def __init__(self, parent):
