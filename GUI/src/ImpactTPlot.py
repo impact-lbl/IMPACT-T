@@ -705,134 +705,103 @@ class TemperatureFrame(PlotBaseFrame):
     def get_xaxis_parameters(self):
         return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
 
-class PlotHighOrderBaseFrame(tk.Frame):
-    ParticleDirec = {'X (mm)'    :2,
-                     'Px (MC)'   :3,
-                     'Y (mm)'    :4,
-                     'Py (MC)'   :5,
-                     'Z (mm)'    :6,
-                     'Pz (MC)'   :7}
+class PlotHighOrderBaseFrame(PlotBaseFrame):
+    particle_directions = {'X (mm)'    :2,
+                           'Px (MC)'   :3,
+                           'Y (mm)'    :4,
+                           'Py (MC)'   :5,
+                           'Z (mm)'    :6,
+                           'Pz (MC)'   :7}
     data = np.array([])
     def __init__(self, parent, PlotFileName):
-        tk.Frame.__init__(self, parent)
+        PlotBaseFrame.__init__(self, parent)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
+        self.plot_file = int(PlotFileName.split('.')[-1])
+        self.current_file = ''
+        self.plot()
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Overrides base class, adding a y-axis selector"""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_bunch_selector(Nbunch, per_bunch)
+        self.create_xaxis_selector()
+        self.create_yaxis_selector()
+        self.create_plot_button()
+    def create_yaxis_selector(self):
+        self.yaxis_list = [direction for direction in self.particle_directions]
+        self.yaxis_default = tk.StringVar(self.option_frame, 'X (mm)')
+        self.yaxis_label = tk.Label(self.option_frame, 
+                                    text="Select y-axis dimension: ")
+        self.yaxis_label.pack(side='left')
+        self.yaxis_select = ttk.Combobox(self.option_frame,
+                                         text=self.yaxis_default,
+                                         width=6,
+                                         values=self.yaxis_list)
+        self.yaxis_select.pack(fill='both', expand=1, side='left')
+    def load(self, PlotFileName):
+        """Load data from file into plot object data array"""
         try:
             self.data = np.loadtxt(PlotFileName)
         except:
             print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
             return
-        
         self.data = np.transpose(self.data)
         for i in range(0,6,2):
             self.data[i] = self.data[i] * 1e3  # from m to mm
-        
-        self.frame_PlotParticleControl = tk.Frame(self)
-        self.frame_PlotParticleControl.pack()
-        
-        self.label_x    = tk.Label(self.frame_PlotParticleControl, text="Direction:")
-        self.label_x.pack(side='left')
-
-        self.ppc1Value  = tk.StringVar(self.frame_PlotParticleControl,'X (mm)')
-        self.ppc1       = ttk.Combobox(self.frame_PlotParticleControl,text=self.ppc1Value,
-                                       width=6,
-                                       values=['X (mm)', 'Px (MC)', 'Y (mm)', 'Py (MC)','Z (mm)','Pz (MC)'])
-        self.ppc1.pack(fill = 'both',expand =1,side = 'left')
-        
-        LARGE_FONT= ("Verdana", 12)
-        self.button_ppc=tk.Button(self.frame_PlotParticleControl)
-        self.button_ppc["text"]         = "Plot"
-        self.button_ppc["foreground"]   = "blue"
-        self.button_ppc["bg"]           = "red"
-        self.button_ppc["font"]         = LARGE_FONT
-        self.button_ppc["command"]      = self.plot
-        self.button_ppc.pack(fill = 'both',expand =1,side = 'left')
-
-        x   = 1
-        y   = self.ParticleDirec[self.ppc1.get()]
-        
-        self.fig = Figure(figsize=(7,5), dpi=100)
-        self.subfig = self.fig.add_subplot(111)
-        self.subfig.scatter(self.data[x],self.data[y],s=1)
-        
-        xmajorFormatter = FormatStrFormatter('%2.2E')
-        self.subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
-
-        self.canvas = FigureCanvasTkAgg(self.fig, self)
+    def plot(self):
+        # Get selected options
+        PlotFileName = self.get_filelist()[0]
+        self.xcol, self.xlabel = self.get_xaxis_parameters()
+        self.ycol, self.ylabel = self.get_yaxis_parameters()
+        # Load data
+        if PlotFileName != self.current_file:
+            print(f'Loading data from {PlotFileName}')
+            self.load(PlotFileName)
+            self.current_file = PlotFileName
+        # Plot data
+        self.subfig.cla()
+        self.subfig.plot(self.data[self.xcol], self.data[self.ycol])
+        self.format_axes(self.xcol, self.ycol)
+        self.subfig.set_xlabel(self.xlabel)
+        self.subfig.set_ylabel(self.ylabel)
         self.canvas.show()
-        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
-        self.toolbar.update()
-        self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        
-        self.plot()
+    def get_default_filelist(self):
+        return [f'fort.{self.plot_file}']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
+    def get_yaxis_parameters(self):
+        selected_yaxis = self.yaxis_select.get()
+        return [self.particle_directions[selected_yaxis], selected_yaxis]
+    def format_axes(self, xcol, ycol):
+        xMax = np.max(self.data[xcol])
+        xMin = np.min(self.data[xcol])
+        yMax = np.max(self.data[ycol])
+        yMin = np.min(self.data[ycol])
+        if (   (xMax - xMin) > IMPACT_T_sciMaxLimit
+            or (xMax - xMin) < IMPACT_T_sciMinLimit):
+            self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        if (   (yMax - yMin) > IMPACT_T_sciMaxLimit 
+            or (yMax - yMin) < IMPACT_T_sciMinLimit):
+            self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
         
 class PlotMaxFrame(PlotHighOrderBaseFrame):
-    def __init__(self, parent,ifile):    
-        PlotHighOrderBaseFrame.__init__(self, parent, ifile)
-        
-    def plot(self):
-        y   = self.ParticleDirec[self.ppc1.get()]
-        
-        self.subfig.cla()
-        self.subfig.plot(self.data[1],self.data[y])
-        
-        axis_format_T(self.data[1],self.data[y], self.subfig)
+    def __init__(self, parent, PlotFileName):
+        PlotHighOrderBaseFrame.__init__(self, parent, PlotFileName)
+    def get_yaxis_parameters(self):
+        ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
+        return [ycol, 'Max ' + ylabel]
 
-        self.subfig.set_xlabel('Z (m)')
-        if y%2==0:
-            self.subfig.set_ylabel('Max '+ self.ppc1.get())
-        else:
-            self.subfig.set_ylabel('Max '+ self.ppc1.get())
-        self.canvas.draw()
-        
 class Plot3orderFrame(PlotHighOrderBaseFrame):
-    def __init__(self, parent,ifile):    
-        PlotHighOrderBaseFrame.__init__(self, parent, ifile)
-        
-    def plot(self):
-        y   = self.ParticleDirec[self.ppc1.get()]
-        
-        self.subfig.cla()
-        self.subfig.plot(self.data[1],self.data[y])
-        
-        xmajorFormatter = FormatStrFormatter('%2.2E')
-        self.subfig.yaxis.set_major_formatter(xmajorFormatter)
-
-        self.subfig.set_xlabel('Z (m)')
-        if y%2==0:
-            self.subfig.set_ylabel('cubic root of 3rd'+ self.ppc1.get())
-        else:
-            self.subfig.set_ylabel('cubic root of 3rd'+ self.ppc1.get())
-        self.canvas.draw()
+    def __init__(self, parent, PlotFileName):
+        PlotHighOrderBaseFrame.__init__(self, parent, PlotFileName)
+    def get_yaxis_parameters(self):
+        ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
+        return [ycol, 'Cubic root of 3rd moment of ' + ylabel]
         
 class Plot4orderFrame(PlotHighOrderBaseFrame):
-    def __init__(self, parent,ifile):    
-        PlotHighOrderBaseFrame.__init__(self, parent, ifile)
-        
-    def plot(self):
-        y   = self.ParticleDirec[self.ppc1.get()]
-        
-        self.subfig.cla()
-        self.subfig.plot(self.data[1],self.data[y])
-        
-        #xmajorFormatter = FormatStrFormatter('%2.2E')
-        #self.subfig.yaxis.set_major_formatter(xmajorFormatter)
-
-        self.subfig.set_xlabel('Z (m)')
-        if y%2==0:
-            self.subfig.set_ylabel('square square root of 4th '+ self.ppc1.get())
-        else:
-            self.subfig.set_ylabel('square square root of 4th '+ self.ppc1.get())
-        self.canvas.draw()
-        
-def axis_format_T(xData,yData,subfig):
-    xMax = np.max(xData)
-    xMin = np.min(xData)
-    yMax = np.max(yData)
-    yMin = np.min(yData)
-    if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-        subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
-    if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-        subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+    def __init__(self, parent, PlotFileName):
+        PlotHighOrderBaseFrame.__init__(self, parent, PlotFileName)
+    def get_yaxis_parameters(self):
+        ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
+        return [ycol, 'Square square root of 4th moment of ' + ylabel]
