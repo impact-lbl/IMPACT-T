@@ -704,43 +704,49 @@ class EmitGrowthFrame(PlotBaseFrame):
 class TemperatureFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.2, box.y0, box.width, box.height])
         self.plot()
     def plot(self):
-        arg=['ct','fort.24','fort.25','fort.26']
+        filelist = self.get_filelist()
+        xcol, xlabel = self.get_xaxis_parameters()
         labelList= ['X','Y','Z']
         lineType = ['-','--',':']
         col      = ['b','g','r']
         linew    = [2,2,3]
-        picNum = len(arg) - 1
+        picNum = len(filelist)
         plotPath = './post'
         if os.path.exists(plotPath) == False:
             os.makedirs(plotPath)
-            
         self.subfig.cla()
-        for i in range(1,picNum+1):
+        for i in range(0, picNum):
             try:
-                fin = open(arg[i],'r')
+                fin = open(filelist[i],'r')
             except:
-                print( "  ERRPR! Can't open file '" + arg[i] + "'")
+                print( "  ERROR! Can't open file '" + filelist[i] + "'")
                 return
-    
             linesList  = fin.readlines()
-            fin .close()
+            fin.close()
             linesList  = [line.split() for line in linesList ]
-            x   = [float(xrt[0]) for xrt in linesList]
-            yl=5
-            if i==3:
-                yl=4
-            y   = [float(xrt[yl])*float(xrt[yl]) for xrt in linesList]
-            self.subfig.plot(x, y, color = col[(i-1)],linestyle=lineType[i-1], linewidth=linew[i-1],label=labelList[i-1])
-        
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.2, box.y0, box.width, box.height])    
-        self.subfig.set_xlabel('T (s)')
+            x = [float(xrt[xcol]) for xrt in linesList]
+            if i==2:
+                ycol = 4
+            else:
+                ycol = 5
+            y = [float(xrt[ycol])*float(xrt[ycol]) for xrt in linesList]
+            self.subfig.plot(x, y, 
+                             color=col[i],
+                             linestyle=lineType[i],
+                             linewidth=linew[i],
+                             label=labelList[i])
+        self.subfig.set_xlabel(xlabel)
         self.subfig.set_ylabel('Temperature')
         self.subfig.legend()
-        
         self.canvas.draw()
+    def get_default_filelist(self):
+        return ['fort.24', 'fort.25', 'fort.26']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
 
 class PlotHighOrderBaseFrame(tk.Frame):
     ParticleDirec = {'X (mm)'    :2,
