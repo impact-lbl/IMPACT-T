@@ -654,55 +654,25 @@ class OverallFrame(tk.Frame):
 class EmitGrowthFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
-
-        self.Nbunch = int(parent.master.master.Nbunch.get())
-        if self.Nbunch > 1:
-            self.create_option_frame(self.Nbunch)
-
         box = self.subfig.get_position()
         self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
-
         self.plot()
-    def create_option_frame(self, Nbunch):
-        """Creates a bar at the top to select options of the plot"""
-        self.option_frame = tk.Frame(self)
-        self.option_frame.pack()
-        self.bunch_list = ['All']
-        self.bunch_list.extend(range(1, Nbunch + 1))
-        self.bunch_default = tk.StringVar(self.option_frame, 'All')
-        self.bunch_label = tk.Label(self.option_frame, text="Select bunch: ")
-        self.bunch_label.pack(side='left')
-        self.bunch_select = ttk.Combobox(
-            self.option_frame,
-            text=self.bunch_default,
-            width=6,
-            values=self.bunch_list)
-        self.bunch_select.pack(fill='both', expand=1, side='left')
-        self.plot_button = tk.Button(
-            self.option_frame,
-            text="Plot",
-            foreground="blue",
-            bg="red",
-            font=("Verdana", 12),
-            command=self.plot)
-        self.plot_button.pack(fill='both', expand=1, side='left')
-    def plot(self):        
-        fileList        = self.get_filelist()
-        xdataList       = [2,2]
-        ydataList       = [8,8]
-        xyLabelList     = ['Z (m)','Avg emit growth in X and Y']
-        
+    def plot(self):
+        fileList = self.get_filelist()
+        xcol, xlabel = self.get_xaxis_parameters()
+        xdataList = [xcol, xcol]
+        ydataList = [8, 8]
+        xyLabelList = [xlabel, 'Avg emit growth in X and Y']
         lineType = ['r-','b--']
-        
         try:
             fin1 = open(fileList[0],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[0] + "'")
+            print("  ERROR! Can't open file '" + fileList[0] + "'")
             return
         try:
             fin2 = open(fileList[1],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[1] + "'")
+            print("  ERROR! Can't open file '" + fileList[1] + "'")
             return
         linesList1  = fin1.readlines()
         linesList2  = fin2.readlines()
@@ -719,33 +689,18 @@ class EmitGrowthFrame(PlotBaseFrame):
                 start=1.0e-16
             y   = [(float(linesList1[k][yId]) + float(linesList2[k][yId]))/2 / start -1 for k in range(len(linesList1))]
         except:
-            print("  ERRPR! Can't read data '" + fileList[1] + "'")
-        
+            print("  ERROR! Can't read data '" + fileList[1] + "'")
         self.subfig.cla()
         self.subfig.plot(x, y, lineType[0], linewidth=2, label='emit.growth')
-        
         self.subfig.set_xlabel(xyLabelList[0])
         self.subfig.set_ylabel(xyLabelList[1])
         self.subfig.legend()
-        
         self.canvas.draw()
-        
     def get_default_filelist(self):
         return ['fort.24', 'fort.25']
-    def get_bunch_filelist(self, bunch):
-        return [f'fort.{bunch*1000+24}', f'fort.{bunch*1000+25}']
-    def get_filelist(self):
-        selected_bunch = self.get_selected_bunch()
-        if selected_bunch == 'All':
-            return self.get_default_filelist()
-        else:
-            return self.get_bunch_filelist(int(selected_bunch))
-    def get_selected_bunch(self):
-        if hasattr(self, "bunch_select"):
-            return self.bunch_select.get()
-        else:
-            return 'All'
-        
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=1, zcol=2)
+
 class TemperatureFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
