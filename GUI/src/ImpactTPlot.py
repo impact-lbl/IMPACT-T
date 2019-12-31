@@ -496,14 +496,12 @@ class PlotFrame(PlotBaseFrame):
     def quit(self):
         self.destroy()
                 
-class OverallFrame(tk.Frame):
+class OverallFrame(PlotBaseFrame):
     def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
-
-        self.Nbunch = int(parent.master.master.Nbunch.get())
-        if self.Nbunch > 1:
-            self.create_option_frame(self.Nbunch)
-
+        PlotBaseFrame.__init__(self, parent)
+        self.plot()
+    def create_figure(self):
+        """Overrides the base method with four subplots"""
         self.fig = Figure(figsize=(12,5), dpi=100)
         self.subfig = []
         self.subfig.append(self.fig.add_subplot(221))
@@ -512,46 +510,13 @@ class OverallFrame(tk.Frame):
         self.subfig.append(self.fig.add_subplot(224))
         for i in range(0, 4):
             box = self.subfig[i].get_position()
-            self.subfig[i].set_position(
-                [box.x0*1.1,
-                 box.y0*1.1,
-                 box.width,
-                 box.height*0.88])
-
-        self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
-        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
-        self.toolbar.update()
-        self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        
-        self.plot()
-    def create_option_frame(self, Nbunch):
-        """Creates a frame to select options of the plot"""
-        self.option_frame = tk.Frame(self)
-        self.option_frame.pack()
-        self.bunch_list = ['All']
-        self.bunch_list.extend(range(1, Nbunch + 1))
-        self.bunch_default = tk.StringVar(self.option_frame, 'All')
-        self.bunch_label = tk.Label(self.option_frame, text="Select bunch: ")
-        self.bunch_label.pack(side='left')
-        self.bunch_select = ttk.Combobox(
-            self.option_frame,
-            text=self.bunch_default,
-            width=6,
-            values=self.bunch_list)
-        self.bunch_select.pack(fill='both', expand=1, side='left')
-        self.plot_button = tk.Button(
-            self.option_frame,
-            text="Plot",
-            foreground="blue",
-            bg="red",
-            font=("Verdana", 12),
-            command=self.plot)
-        self.plot_button.pack(fill='both', expand=1, side='left')
+            self.subfig[i].set_position([box.x0*1.1,
+                                         box.y0*1.1,
+                                         box.width,
+                                         box.height*0.88])
     def plot(self):
         filelist = self.get_filelist()
+        xcol, xlabel = self.get_xaxis_parameters()
 
         picNum = 4
         fileList    = [[]*2]*picNum
@@ -561,34 +526,33 @@ class OverallFrame(tk.Frame):
         ydataList   = [[]*2]*picNum
         xyLabelList = [[]*2]*picNum
         
-        xl  = 2
         saveName.append('sizeX')
         fileList[0]     = filelist[0]
         labelList[0]    = ['rms.X','max.X']
-        xdataList[0]    = [xl,xl]
+        xdataList[0]    = [xcol, xcol]
         ydataList[0]    = [4,3]
-        xyLabelList[0]  = ['z drection (m)','beam size in X (mm)']
+        xyLabelList[0]  = [xlabel, 'beam size in X (mm)']
         
         saveName.append('sizeY')
         fileList[1]     = filelist[1]
         labelList[1]    = ['rms.Y','max.Y']
-        xdataList[1]    = [xl,xl]
+        xdataList[1]    = [xcol, xcol]
         ydataList[1]    = [4,5]
-        xyLabelList[1]  = ['z drection (m)','beam size in Y (mm)']
+        xyLabelList[1]  = [xlabel, 'beam size in Y (mm)']
         
         saveName.append('sizeZ')
         fileList[2]     = filelist[2]
         labelList[2]    = ['rms.Z','max.Z']
-        xdataList[2]    = [xl,xl]
+        xdataList[2]    = [xcol, xcol]
         ydataList[2]    = [3,7]
-        xyLabelList[2]  = ['z drection (m)','beam size in Z (mm)']
+        xyLabelList[2]  = [xlabel, 'beam size in Z (mm)']
         
         saveName.append('emitXY')
         fileList[3]     = filelist[3]
         labelList[3]    = ['emit.nor.X','emit.nor.Y']
-        xdataList[3]    = [xl,xl]
+        xdataList[3]    = [xcol, xcol]
         ydataList[3]    = [8,8]
-        xyLabelList[3]  = ['z drection (m)','emittance at X and Y (mm*mrad)']
+        xyLabelList[3]  = [xlabel, 'emittance at X and Y (mm*mrad)']
         
         lineType = ['r-','b--']
 
@@ -630,30 +594,20 @@ class OverallFrame(tk.Frame):
         self.canvas.draw()
     def get_default_filelist(self):
         filelist = [[]*2]*4
-        filelist[0] = ['fort.24','fort.27']
-        filelist[1] = ['fort.25','fort.27']
-        filelist[2] = ['fort.26','fort.27']
-        filelist[3] = ['fort.24','fort.25']
+        filelist[0] = ['fort.24', 'fort.27']
+        filelist[1] = ['fort.25', 'fort.27']
+        filelist[2] = ['fort.26', 'fort.27']
+        filelist[3] = ['fort.24', 'fort.25']
         return filelist
-    def get_bunch_filelist(self, bunch):
-        filelist = [[]*2]*4
-        filelist[0] = [f'fort.{bunch*1000+24}', f'fort.{bunch*1000+27}']
-        filelist[1] = [f'fort.{bunch*1000+25}', f'fort.{bunch*1000+27}']
-        filelist[2] = [f'fort.{bunch*1000+26}', f'fort.{bunch*1000+27}']
-        filelist[3] = [f'fort.{bunch*1000+24}', f'fort.{bunch*1000+25}']
+    def get_bunch_filelist(self, filelist, bunch):
+        """Extends the base method for the four sublists"""
+        for idx, sublist in enumerate(filelist):
+            new_sublist = PlotBaseFrame.get_bunch_filelist(self, sublist, bunch)
+            filelist[idx] = new_sublist
         return filelist
-    def get_filelist(self):
-        selected_bunch = self.get_selected_bunch()
-        if selected_bunch == 'All':
-            return self.get_default_filelist()
-        else:
-            return self.get_bunch_filelist(int(selected_bunch))
-    def get_selected_bunch(self):
-        if hasattr(self, "bunch_select"):
-            return self.bunch_select.get()
-        else:
-            return 'All'
-        
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=1, zcol=2)
+
 class EmitGrowthFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
