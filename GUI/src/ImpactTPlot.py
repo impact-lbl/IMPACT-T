@@ -174,7 +174,13 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         plotWindow = tk.Toplevel(self)
         plotWindow.title(sys._getframe().f_back.f_code.co_name)
         
-        l=PlotFrame(plotWindow,'fort.18',1,y,ylabel)
+        # Column 6, rms energy spread, is not available in per-bunch output
+        if y == 6:
+             per_bunch=False
+        else:
+             per_bunch=True
+
+        l=PlotFrame(plotWindow, 'fort.18', y, ylabel, per_bunch)
         l.pack()
     
     def emitGrowthPlot(self):
@@ -201,7 +207,7 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         plotWindow = tk.Toplevel(self)
         plotWindow.title(sys._getframe().f_back.f_code.co_name)
         
-        l=PlotFrame(plotWindow,'fort.28',1,4,'Live particle number')
+        l=PlotFrame(plotWindow, 'fort.28', 4, 'Live particle number')
         l.pack()
         
     def ParticlePlot(self):
@@ -285,7 +291,7 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         plotWindow = tk.Toplevel(self)
         plotWindow.title('Plot')
         
-        l=PlotFrame(plotWindow,PlotFileName,1,yl,self.plotType.get())
+        l=PlotFrame(plotWindow, PlotFileName, yl, self.plotType.get())
         l.pack()
         
 
@@ -436,38 +442,43 @@ class PlotBaseFrame(tk.Frame):
         else:
             return [zcol, 'z direction (m)']
 
-class PlotFrame(tk.Frame):
-    def __init__(self, parent,PlotFileName,xl,yl,labelY):
-        tk.Frame.__init__(self, parent)
-        #LARGE_FONT= ("Verdana", 12)
-        #label = tk.Label(self, font=LARGE_FONT,
-        #                 text='plot '+PlotFileName+
-        #                 ' use '+str(xl)+':'+str(yl))
-        #label.pack(pady=10,padx=10)
-
+class PlotFrame(PlotBaseFrame):
+    def __init__(self, parent, PlotFileName, yl, labelY, per_bunch=True):
+        PlotBaseFrame.__init__(self, parent, per_bunch)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.45,
+                                  box.y0*1.1,
+                                  box.width,
+                                  box.height])
+        self.plot_file = int(PlotFileName.split('.')[-1])
+        self.ycol, self.ylabel = yl, labelY
+        self.plot()
+    def plot(self):
+        # Get selected options
+        PlotFileName = self.get_filelist()[0]
+        self.xcol, self.xlabel = self.get_xaxis_parameters()
+        # Open file
         try:
             fin = open(PlotFileName,'r')
         except:
-            print(( "  ERRPR! Can't open file '" + PlotFileName + "'"))
+            print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
             return
-        
+        # Read in data
         linesList  = fin.readlines()
-        fin .close()
+        fin.close()
         linesList  = [line.split() for line in linesList ]
-        x   = np.array([float(xrt[xl]) for xrt in linesList])
-        y   = np.array([float(xrt[yl]) for xrt in linesList])
-        
-        if labelY in ['Centriod location (mm)','Rms size (mm)','Rmax (mm)']:
+        x   = np.array([float(xrt[self.xcol]) for xrt in linesList])
+        y   = np.array([float(xrt[self.ycol]) for xrt in linesList])
+        # Convert units
+        if self.ylabel in ['Centriod location (mm)','Rms size (mm)','Rmax (mm)']:
             y = y*1.0e3       # unit convert from m to mm
-        elif labelY in ['Emittance (mm-mrad)']:
+        elif self.ylabel in ['Emittance (mm-mrad)']:
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
-        
-        fig = Figure(figsize=(7,5), dpi=100)
-        subfig = fig.add_subplot(111)
+        # Plot data
         subfig.plot(x,y)
-        subfig.set_xlabel('Z (m)')
-        subfig.set_ylabel(labelY)
-
+        self.subfig.set_xlabel(self.xlabel)
+        self.subfig.set_ylabel(self.ylabel)
+        # Set axes scales
         xMax = np.max(x)
         xMin = np.min(x)
         yMax = np.max(y)
@@ -476,20 +487,12 @@ class PlotFrame(tk.Frame):
             self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
         if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
             self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
-        
-        #xmajorFormatter = FormatStrFormatter('%2.2E')
-        #subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = subfig.get_position()
-        subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
-        
-        canvas = FigureCanvasTkAgg(fig, self)
-        canvas.show()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-        toolbar = NavigationToolbar2TkAgg(canvas, self)
-        toolbar.update()
-        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
+        # Redraw
+        self.canvas.draw()
+    def get_default_filelist(self):
+        return [f'fort.{self.plot_file}']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
     def quit(self):
         self.destroy()
                 
