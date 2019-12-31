@@ -334,22 +334,108 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         l.pack() 
 
 class PlotBaseFrame(tk.Frame):
-    def __init__(self, parent):
+    """Basic plot object that other objects inherit from"""
+    def __init__(self, parent, per_bunch=True):
         tk.Frame.__init__(self, parent)
-
+        self.Nbunch = int(parent.master.master.Nbunch.get())
+        self.create_option_frame(self.Nbunch, per_bunch)
+        self.create_figure()
+        self.create_canvas()
+        self.create_toolbar()
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Creates a frame to select options of the plot"""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_bunch_selector(Nbunch, per_bunch)
+        self.create_xaxis_selector()
+        self.create_plot_button()
+    def create_bunch_selector(self, Nbunch, per_bunch=True):
+        """Creates bunch selector as part of the option frame"""
+        if per_bunch and Nbunch > 1:
+            self.bunch_list = ['All']
+            self.bunch_list.extend(range(1, Nbunch + 1))
+            self.bunch_default = tk.StringVar(self.option_frame, 'All')
+            self.bunch_label = tk.Label(self.option_frame,
+                                        text="Select bunch: ")
+            self.bunch_label.pack(side='left')
+            self.bunch_select = ttk.Combobox(self.option_frame,
+                                             text=self.bunch_default,
+                                             width=6,
+                                             values=self.bunch_list)
+            self.bunch_select.pack(fill='both', expand=1, side='left')
+    def create_xaxis_selector(self):
+        """Creates x-axis selector as part of the option frame"""
+        self.xaxis_list = ['z', 't']
+        self.xaxis_default = tk.StringVar(self.option_frame, 'z')
+        self.xaxis_label = tk.Label(self.option_frame, text="Select x-axis: ")
+        self.xaxis_label.pack(side='left')
+        self.xaxis_select = ttk.Combobox(self.option_frame,
+                                         text=self.xaxis_default,
+                                         width=6,
+                                         values=self.xaxis_list)
+        self.xaxis_select.pack(fill='both', expand=1, side='left')
+    def create_plot_button(self):
+        """Creates plot button as part of the option frame"""
+        self.plot_button = tk.Button(self.option_frame,
+                                     text="Plot",
+                                     foreground="blue",
+                                     bg="red",
+                                     font=("Verdana", 12),
+                                     command=self.plot)
+        self.plot_button.pack(fill='both', expand=1, side='left')
+    def create_figure(self):
+        """Creates the main figure section which will later hold the plot"""
         self.fig = Figure(figsize=(7,5), dpi=100)
         self.subfig = self.fig.add_subplot(111)
-
+    def create_canvas(self):
+        """Create and draw the canvas object"""
         self.canvas = FigureCanvasTkAgg(self.fig, self)
         self.canvas.show()
-        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    
+        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, 
+                                         fill=tk.BOTH, 
+                                         expand=True)
+    def create_toolbar(self):
+        """Create the bottom toolbar"""
         self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        
+    def get_selected_bunch(self):
+        """Find which bunch is selected in the option frame"""
+        if hasattr(self, "bunch_select"):
+            return self.bunch_select.get()
+        else:
+            return 'All'
+    def get_selected_xaxis(self):
+        """Find which x axis is selected in the option frame"""
+        if hasattr(self, "xaxis_select"):
+            return self.xaxis_select.get()
+        else:
+            return 'z'
+    def get_filelist(self):
+        selected_bunch = self.get_selected_bunch()
+        default_filelist = self.get_default_filelist()
+        if selected_bunch == 'All':
+            return default_filelist
+        else:
+            return self.get_bunch_filelist(default_filelist, 
+                                           int(selected_bunch))
+    def get_bunch_filelist(self, filelist, bunch):
+        for idx, filename in enumerate(filelist):
+            basename = '.'.join(filename.split('.')[0:-1])
+            extension = filename.split('.')[-1]
+            new_extension = str(int(extension) + bunch*1000)
+            new_filename = '.'.join([basename, new_extension])
+            filelist[idx] = new_filename
+        return filelist
+    def get_default_filelist(self):
+        raise NotImplementedError()
+    def get_xaxis_parameters(self, tcol, zcol):
+        selected_xaxis = self.get_selected_xaxis()
+        if selected_xaxis == 't':
+            return [tcol, 'time (s)']
+        else:
+            return [zcol, 'z direction (m)']
 
-        
 class PlotFrame(tk.Frame):
     def __init__(self, parent,PlotFileName,xl,yl,labelY):
         tk.Frame.__init__(self, parent)
