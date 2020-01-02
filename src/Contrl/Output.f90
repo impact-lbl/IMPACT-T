@@ -46,7 +46,7 @@
         double precision:: qmc,xl,xt
         double precision, dimension(6) :: localmax, glmax
         double precision, dimension(27) :: tmplc,tmpgl
-        double precision :: t0,lcrmax,glrmax,z0gl,z0avg
+        double precision :: t0,lcrmax,glrmax,z0gl,z0avg,pz0gl,pz0avg
         integer :: npctmin,npctmax
 
         call starttime_Timer(t0)
@@ -65,12 +65,17 @@
         den2 = den1*den1
 
         z0lc = 0.0
+        pz0lc = 0.0
         do i = 1, innp
           z0lc = z0lc + this%Pts1(5,i)
+          pz0lc = pz0lc + this%Pts1(6,i)
         enddo
         call MPI_ALLREDUCE(z0lc,z0gl,1,MPI_DOUBLE_PRECISION,&
                         MPI_SUM,MPI_COMM_WORLD,ierr)
+        call MPI_ALLREDUCE(pz0lc, pz0gl, 1, MPI_DOUBLE_PRECISION, &
+                           MPI_SUM, MPI_COMM_WORLD, ierr)
         z0avg = z0gl*den1
+        pz0avg = pz0gl*den1
 
         x0lc = 0.0
         px0lc = 0.0
@@ -99,18 +104,10 @@
         pz0lc3 = 0.0
         pz0lc4 = 0.0
 
-        ! for cache optimization.
-        if(innp.ne.0) then
-          do i = 1, 6
-            localmax(i) = abs(this%Pts1(i,1))
-          enddo
-          lcrmax = this%Pts1(1,1)**2+this%Pts1(3,1)**2
-        else
-          do i = 1, 6
-            localmax(i) = 0.0
-          enddo
-          lcrmax = 0.0
-        endif
+        do i = 1, 6
+          localmax(i) = 0.0
+        enddo
+        lcrmax = 0.0
         do i = 1, innp
           x0lc = x0lc + this%Pts1(1,i)
           sqsum1local = sqsum1local + this%Pts1(1,i)*this%Pts1(1,i)
@@ -143,14 +140,17 @@
           pz0lc3 = pz0lc3 + this%Pts1(6,i)*this%Pts1(6,i)*this%Pts1(6,i)
           pz0lc4 = pz0lc4 + this%Pts1(6,i)*this%Pts1(6,i)*this%Pts1(6,i)*&
                             this%Pts1(6,i)
-          do j = 1, 6
+          do j = 1, 4
             if(localmax(j).lt.abs(this%Pts1(j,i))) then
                localmax(j) = abs(this%Pts1(j,i))
             endif
           enddo
-            if(localmax(5).lt.abs(this%Pts1(5,i)-z0avg)) then
-               localmax(5) = abs(this%Pts1(5,i)-z0avg)
-            endif
+          if(localmax(5).lt.abs(this%Pts1(5,i)-z0avg)) then
+            localmax(5) = abs(this%Pts1(5,i)-z0avg)
+          endif
+          if(localmax(6).lt.abs(this%Pts1(6,i)-pz0avg)) then
+            localmax(6) = abs(this%Pts1(6,i)-pz0avg)
+          endif
           if(lcrmax.lt.(this%Pts1(1,i)**2+this%Pts1(3,i)**2)) then
             lcrmax = this%Pts1(1,i)**2 + this%Pts1(3,i)**2
           endif
