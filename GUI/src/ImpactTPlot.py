@@ -18,7 +18,7 @@ from scipy.stats import gaussian_kde
 import numpy as np
 
 
-import ParticlePlot, SlicePlot
+import ParticlePlot, SlicePlot, MultiBunchPlot
 _height=300
 _width =200
 
@@ -32,6 +32,8 @@ IMPACT_T_ADVANCED_PLOT_TYPE= {'Centriod location (mm)'    :2,
 IMPACT_T_SciFormatter = FormatStrFormatter('%2.1E')
 IMPACT_T_sciMaxLimit  = 99999 *2
 IMPACT_T_sciMinLimit  = 0.0001*2
+IMPACT_T_initial_slice = 40
+IMPACT_T_final_slice   = 50
 
 class AdvancedPlotControlFrame(tk.Toplevel):
     """Output"""
@@ -157,6 +159,51 @@ class AdvancedPlotControlFrame(tk.Toplevel):
 
         rowN+=1
 
+        self.t = (ttk.Separator(self.frame2, orient=tk.HORIZONTAL)
+                     .grid(row=rowN, column=0, columnspan=2, sticky="we"))
+        rowN += 1
+        self.label_MB = tk.Label(self.frame2, text='Multi-bunch plots')
+        self.label_MB.grid(row=rowN, column=0, columnspan=2, sticky="we")
+        rowN += 1
+        self.button_MBBeamSizePlot = tk.Button(self.frame2,
+                                               text='Beam size',
+                                               command=self.MBBeamSizePlot)
+        self.button_MBBeamSizePlot.grid(row=rowN, column=0, columnspan=1,
+                                        padx=5, pady=1, sticky="nswe")
+        self.button_MBBunchCountPlot = tk.Button(self.frame2,
+                                                 text='Bunch count',
+                                                 command=self.MBBunchCountPlot)
+        self.button_MBBunchCountPlot.grid(row=rowN, column=1, columnspan=1,
+                                          padx=5, pady=1, sticky="nswe")
+        rowN += 1
+        self.button_MBEmittancePlot = tk.Button(self.frame2,
+                                                text='Emittance',
+                                                command=self.MBEmittancePlot)
+        self.button_MBEmittancePlot.grid(row=rowN, column=0, columnspan=1,
+                                         padx=5, pady=1, sticky="nswe")
+        self.button_MBEmitGrowthPlot = tk.Button(self.frame2,
+                                                 text='Emittance growth',
+                                                 command=self.MBEmitGrowthPlot)
+        self.button_MBEmitGrowthPlot.grid(row=rowN, column=1, columnspan=1,
+                                          padx=5, pady=1, sticky="nswe")
+        rowN += 1
+        self.button_MBEnergyPlot = tk.Button(self.frame2,
+                                             text='Energy',
+                                             command=self.MBEnergyPlot)
+        self.button_MBEnergyPlot.grid(row=rowN, column=0, columnspan=1,
+                                      padx=5, pady=1, sticky="nswe")
+        self.button_MBTotalEnergyPlot = tk.Button(self.frame2,
+                                                  text='Total energy',
+                                                  command=self.MBTotalEnergyPlot)
+        self.button_MBTotalEnergyPlot.grid(row=rowN, column=1, columnspan=1,
+                                           padx=5, pady=1, sticky="nswe")
+        rowN += 1
+        self.button_MBPhaseSpacePlot = tk.Button(self.frame2,
+                                                 text='Phase space',
+                                                 command=self.MBPhaseSpacePlot)
+        self.button_MBPhaseSpacePlot.grid(row=rowN, column=0, columnspan=2,
+                                          padx=5, pady=1, sticky="nswe")
+        rowN += 1
 
 
     def overallPlot(self):
@@ -339,6 +386,55 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         l=Plot4orderFrame(plotWindow,filename)
         l.pack()
 
+    def MBBeamSizePlot(self):
+        print('Multi-bunch beam size plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch beam size plot')
+        l = PlotMBBeamSizeFrame(plotWindow)
+        l.pack()
+
+    def MBBunchCountPlot(self):
+        print('Multi-bunch bunch count plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch bunch count plot')
+        l = PlotMBBunchCountFrame(plotWindow)
+        l.pack()
+
+    def MBEmittancePlot(self):
+        print('Multi-bunch emittance plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch emittance plot')
+        l = PlotMBEmittanceFrame(plotWindow)
+        l.pack()
+
+    def MBEmitGrowthPlot(self):
+        print('Multi-bunch emittance growth plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch emittance growth plot')
+        l = PlotMBEmittanceGrowthFrame(plotWindow)
+        l.pack()
+
+    def MBPhaseSpacePlot(self):
+        print('Multi-bunch phase space plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch phase space plot')
+        l = PlotMBPhaseSpaceFrame(plotWindow)
+        l.pack()
+
+    def MBEnergyPlot(self):
+        print('Multi-bunch energy spectra plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch energy spectra plot')
+        l = PlotMBEnergyFrame(plotWindow)
+        l.pack()
+
+    def MBTotalEnergyPlot(self):
+        print('Multi-bunch total energy spectrum plot')
+        plotWindow = tk.Toplevel(self)
+        plotWindow.title('Multi-bunch total energy spectrum plot')
+        l = PlotMBTotalEnergyFrame(plotWindow)
+        l.pack()
+
 class PlotBaseFrame(tk.Frame):
     """Basic plot object that other objects inherit from"""
     def __init__(self, parent, per_bunch=True):
@@ -441,6 +537,8 @@ class PlotBaseFrame(tk.Frame):
             return [tcol, 'time (s)']
         else:
             return [zcol, 'z direction (m)']
+    def plot(self):
+        raise NotImplementedError()
 
 class PlotFrame(PlotBaseFrame):
     def __init__(self, parent, PlotFileName, yl, labelY, per_bunch=True):
@@ -806,3 +904,259 @@ class Plot4orderFrame(PlotHighOrderBaseFrame):
     def get_yaxis_parameters(self):
         ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
         return [ycol, 'Square square root of 4th moment of ' + ylabel]
+
+class PlotMultiBunchBaseFrame(PlotBaseFrame):
+    """Base class for frames that combine data from multiple bunches."""
+    def __init__(self, parent):
+        PlotBaseFrame.__init__(self, parent, per_bunch=True)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
+        self.plot()
+    def create_bunch_selector(self, Nbunch, per_bunch=True):
+        """Add selector (override base class, give 'from' and 'to' bunches)."""
+        if per_bunch and Nbunch > 1:
+            self.from_bunch_list = list(range(1, Nbunch + 1))
+            self.from_bunch_default = tk.StringVar(self.option_frame, '1')
+            self.from_bunch_label = tk.Label(self.option_frame,
+                                             text='Bunches from:')
+            self.from_bunch_label.pack(side='left')
+            self.from_bunch_select = ttk.Combobox(self.option_frame,
+                                                  text=self.from_bunch_default,
+                                                  width=6,
+                                                  values=self.from_bunch_list)
+            self.from_bunch_select.pack(fill='both', expand=1, side='left')
+            self.to_bunch_list = list(range(1, Nbunch + 1))
+            self.to_bunch_default = tk.StringVar(self.option_frame,
+                                                 str(self.Nbunch))
+            self.to_bunch_label = tk.Label(self.option_frame, text='to:')
+            self.to_bunch_label.pack(side='left')
+            self.to_bunch_select = ttk.Combobox(self.option_frame,
+                                                text=self.to_bunch_default,
+                                                width=6,
+                                                values=self.to_bunch_list)
+            self.to_bunch_select.pack(fill='both', expand=1, side='left')
+    def get_from_bunch(self):
+        """Get branch selected in options frame."""
+        if hasattr(self, "from_bunch_select"):
+            return int(self.from_bunch_select.get())
+        else:
+            return 1
+    def get_to_bunch(self):
+        """Get branch selected in options frame."""
+        if hasattr(self, "to_bunch_select"):
+            return int(self.to_bunch_select.get())
+        else:
+            return self.Nbunch
+    def get_bunch_list(self):
+        """Find which bunches are selected in the option frame."""
+        return list(range(self.get_from_bunch(), self.get_to_bunch()+1))
+
+class PlotMBBeamSizeFrame(PlotMultiBunchBaseFrame):
+    """Frame to plot rms beam sizes for selected bunches."""
+    def __init__(self, parent):
+        PlotMultiBunchBaseFrame.__init__(self, parent)
+    def plot(self):
+        """Plot rms beam size and compare with experimental results."""
+        try:
+            experimental_results = MultiBunchPlot.load_experimental_results()
+        except FileNotFoundError as err:
+            print(f'Experimental data file not found: {err}')
+            print('Continuing without experimental data.')
+            experimental_results = None
+        bunch_list = self.get_bunch_list()
+        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list)
+        # TODO: Can we calculate rdata from xdata and ydata?
+        self.subfig.cla()
+        MultiBunchPlot.plot_beam_size(self.subfig.axes, xdata, bunch_list,
+                                      xaxis=self.get_selected_xaxis(),
+                                      experiment_data=experimental_results)
+        self.canvas.draw()
+
+class PlotMBBunchCountFrame(PlotMultiBunchBaseFrame):
+    """Frame to plot bunch counts for selected bunches."""
+    def __init__(self, parent):
+        PlotMultiBunchBaseFrame.__init__(self, parent)
+    def plot(self):
+        """Plot bunch counts up to the selected max bunch."""
+        self.subfig.cla()
+        self.data = MultiBunchPlot.load_bunch_count_data()
+        MultiBunchPlot.plot_bunch_count(self.subfig, self.data,
+                                        self.get_bunch_list(),
+                                        xaxis=self.get_selected_xaxis())
+        self.canvas.draw()
+
+class PlotMBEmittanceFrame(PlotMultiBunchBaseFrame):
+    """Frame to plot emittance for selected bunches together."""
+    def __init__(self, parent):
+        PlotMultiBunchBaseFrame.__init__(self, parent)
+    def plot(self):
+        """Plot average of x and y emittance for selected bunches."""
+        bunch_list = self.get_bunch_list()
+        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list)
+        self.subfig.cla()
+        MultiBunchPlot.plot_emittance(self.subfig.axes,
+                                      xdata, ydata, bunch_list,
+                                      xaxis=self.get_selected_xaxis())
+        self.canvas.draw()
+
+class PlotMBEmittanceGrowthFrame(PlotMultiBunchBaseFrame):
+    """Frame to plot emittance growth for selected bunches together."""
+    def __init__(self, parent):
+        PlotMultiBunchBaseFrame.__init__(self, parent)
+    def plot(self):
+        """Plot growth of average x and y emittance for selected bunches."""
+        bunch_list = self.get_bunch_list()
+        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list)
+        self.subfig.cla()
+        MultiBunchPlot.plot_emittance_growth(self.subfig.axes,
+                                             xdata, ydata, bunch_list,
+                                             xaxis=self.get_selected_xaxis())
+        self.canvas.draw()
+
+class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
+    """Base class for multi-bunch plots based on particle output files."""
+    def __init__(self, parent):
+        PlotBaseFrame.__init__(self, parent, per_bunch=True)
+        self.last_filenumber = 0
+        self.last_bunch_count = 0
+        self.plot()
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Add options (override base class)."""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_slice_selector()
+        self.create_bunch_selector(Nbunch)
+        self.create_bins_box()
+        self.create_plot_button()
+    def create_slice_selector(self):
+        """Add selector for which slice or BPM output to plot."""
+        self.slice_list = self.get_slice_list()
+        self.slice_default = tk.StringVar(self.option_frame, 'Initial')
+        self.slice_label = tk.Label(self.option_frame,
+                                    text='Select phase space position: ')
+        self.slice_label.pack(fill='both', expand=1, side='left')
+        self.slice_select = ttk.Combobox(self.option_frame,
+                                         text=self.slice_default,
+                                         width=6,
+                                         values=list(self.slice_list))
+        self.slice_select.pack(fill='both', expand=1, side='left')
+    def create_bins_box(self):
+        """Add text box to set number of bins for plot sampling."""
+        self.bins_label = tk.Label(self.option_frame, text='Bins: ')
+        self.bins_label.pack(fill='both', expand=1, side='left')
+        self.bins = tk.Entry(self.option_frame, width=5)
+        self.bins.insert(0, '100')
+        self.bins.pack(fill='both', expand=1, side='left')
+    def get_slice_list(self):
+        """Get list of available phase space slices, including BPMs."""
+        lattice = MultiBunchPlot.get_lattice()
+        bpm_list = MultiBunchPlot.get_bpms(lattice)
+        slice_list = {'Initial': IMPACT_T_initial_slice}
+        slice_list.update(bpm_list)
+        slice_list['Final'] = IMPACT_T_final_slice
+        return slice_list
+    def get_filenumber(self):
+        """Get the file number of the selected slice for plotting."""
+        return self.slice_list[self.slice_select.get()]
+    def get_bins(self):
+        """Get the selected number of bins for plot sampling."""
+        return int(self.bins.get())
+    def get_title(self, filenumber):
+        """Generate the plot title for a particular file number."""
+        raise NotImplementedError()
+    def build_title(self, base_title, filenumber):
+        """Build the plot title from a base string and a file number."""
+        bunch_text = MultiBunchPlot.bunch_text(self.get_bunch_list())
+        if filenumber == IMPACT_T_initial_slice:
+            return f'Initial {base_title} for {bunch_text}'
+        elif filenumber == IMPACT_T_final_slice:
+            return f'Final {base_title} for {bunch_text}'
+        else:
+            matches = [bpm for bpm in self.slice_list
+                       if self.slice_list[bpm] == filenumber]
+            return (f'{base_title} at z = {matches[0]} '.capitalize()
+                    + f'for {bunch_text}')
+    def refresh_data(self):
+        """Reload data (list of all bunch data) when filenumber is changed."""
+        filenumber = self.get_filenumber()
+        if filenumber != self.last_filenumber:
+            full_bunch_list = list(range(1, self.Nbunch+1))
+            self.data = MultiBunchPlot.load_phase_space_data(filenumber,
+                                                             full_bunch_list)
+            self.last_filenumber = filenumber
+    def get_selected_data(self):
+        """Return datasets for only the selected bunches."""
+        self.refresh_data()
+        return [self.data[bunch-1] for bunch in self.get_bunch_list()]
+    def get_combined_data(self):
+        """Return a combined dataset for the selected bunches."""
+        return MultiBunchPlot.combine_phase_space_data(self.get_selected_data())
+
+class PlotMBPhaseSpaceFrame(PlotMultiBunchParticleBaseFrame):
+    """Frame to plot phase spaces for selected bunches together."""
+    def __init__(self, parent):
+        PlotMultiBunchParticleBaseFrame.__init__(self, parent)
+    def create_figure(self):
+        """Create four subplots (override base class)."""
+        self.fig = Figure(figsize=(8,6))
+        self.subfig = []
+        self.subfig.append(self.fig.add_subplot(221))
+        self.subfig.append(self.fig.add_subplot(222))
+        self.subfig.append(self.fig.add_subplot(223))
+        self.subfig.append(self.fig.add_subplot(224))
+        self.axes = np.array([[self.subfig[0], self.subfig[1]],
+                              [self.subfig[2], self.subfig[3]]])
+        for subfig in self.subfig:
+            box = subfig.get_position()
+            subfig.set_position([box.x0*1.1, box.y0*1.1,
+                                 box.width, box.height*0.88])
+    def get_title(self, filenumber):
+        """Generate the plot title for a particular file number."""
+        return self.build_title('phase space', filenumber)
+    def plot(self):
+        """Load and plot phase space data for selected bunches."""
+        for subfig in self.subfig:
+            subfig.cla()
+        MultiBunchPlot.plot_phase_spaces(
+            self.axes,
+            self.get_combined_data(),
+            self.get_bunch_list(),
+            title=self.get_title(self.get_filenumber()),
+            grid_size=self.get_bins())
+        self.canvas.draw()
+
+class PlotMBEnergyFrame(PlotMultiBunchParticleBaseFrame):
+    """Frame to plot energy spectra for selected bunches together."""
+    def __init__(self, parent):
+        PlotMultiBunchParticleBaseFrame.__init__(self, parent)
+    def get_title(self, filenumber):
+        """Generate the plot title for a particular file number."""
+        return self.build_title('energy spectra', filenumber)
+    def plot(self):
+        """Plot energy spectra for selected bunches."""
+        self.subfig.cla()
+        MultiBunchPlot.plot_bunch_energies(
+            self.subfig.axes,
+            self.get_selected_data(),
+            self.get_bunch_list(),
+            title=self.get_title(self.get_filenumber()),
+            bins=self.get_bins())
+        self.canvas.draw()
+
+class PlotMBTotalEnergyFrame(PlotMultiBunchParticleBaseFrame):
+    """Frame to plot total energy spectrum for selected bunches combined."""
+    def __init__(self, parent):
+        PlotMultiBunchParticleBaseFrame.__init__(self, parent)
+    def get_title(self, filenumber):
+        """Generate the plot title for a particular file number."""
+        return self.build_title('energy spectrum', filenumber)
+    def plot(self):
+        """Load and plot total energy spectrum for selected bunches."""
+        self.subfig.cla()
+        MultiBunchPlot.plot_total_energy(
+            self.subfig.axes,
+            self.get_combined_data(),
+            self.get_bunch_list(),
+            title=self.get_title(self.get_filenumber()),
+            bins=self.get_bins())
+        self.canvas.draw()
