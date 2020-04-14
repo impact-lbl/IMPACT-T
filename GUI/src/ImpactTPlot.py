@@ -163,7 +163,7 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         print(self.__class__.__name__)
 
         plotWindow = tk.Toplevel(self)
-        plotWindow.title('Plot')
+        plotWindow.title('Overall plot')
 
         l=OverallFrame(plotWindow)
         l.pack()
@@ -174,7 +174,13 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         plotWindow = tk.Toplevel(self)
         plotWindow.title(sys._getframe().f_back.f_code.co_name)
 
-        l=PlotFrame(plotWindow,'fort.18',1,y,ylabel)
+        # Column 6, rms energy spread, is not available in per-bunch output
+        if y == 6:
+             per_bunch=False
+        else:
+             per_bunch=True
+
+        l=PlotFrame(plotWindow, 'fort.18', y, ylabel, per_bunch)
         l.pack()
 
     def emitGrowthPlot(self):
@@ -201,7 +207,7 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         plotWindow = tk.Toplevel(self)
         plotWindow.title(sys._getframe().f_back.f_code.co_name)
 
-        l=PlotFrame(plotWindow,'fort.28',1,4,'Live particle number')
+        l=PlotFrame(plotWindow, 'fort.28', 4, 'Live particle number')
         l.pack()
 
     def ParticlePlot(self):
@@ -285,7 +291,7 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         plotWindow = tk.Toplevel(self)
         plotWindow.title('Plot')
 
-        l=PlotFrame(plotWindow,PlotFileName,1,yl,self.plotType.get())
+        l=PlotFrame(plotWindow, PlotFileName, yl, self.plotType.get())
         l.pack()
 
 
@@ -334,54 +340,146 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         l.pack()
 
 class PlotBaseFrame(tk.Frame):
-    def __init__(self, parent):
+    """Basic plot object that other objects inherit from"""
+    def __init__(self, parent, per_bunch=True):
         tk.Frame.__init__(self, parent)
-
+        self.Nbunch = int(parent.master.master.Nbunch.get())
+        self.create_option_frame(self.Nbunch, per_bunch)
+        self.create_figure()
+        self.create_canvas()
+        self.create_toolbar()
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Creates a frame to select options of the plot"""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_bunch_selector(Nbunch, per_bunch)
+        self.create_xaxis_selector()
+        self.create_plot_button()
+    def create_bunch_selector(self, Nbunch, per_bunch=True):
+        """Creates bunch selector as part of the option frame"""
+        if per_bunch and Nbunch > 1:
+            self.bunch_list = ['All']
+            self.bunch_list.extend(range(1, Nbunch + 1))
+            self.bunch_default = tk.StringVar(self.option_frame, 'All')
+            self.bunch_label = tk.Label(self.option_frame,
+                                        text="Select bunch: ")
+            self.bunch_label.pack(side='left')
+            self.bunch_select = ttk.Combobox(self.option_frame,
+                                             text=self.bunch_default,
+                                             width=6,
+                                             values=self.bunch_list)
+            self.bunch_select.pack(fill='both', expand=1, side='left')
+    def create_xaxis_selector(self):
+        """Creates x-axis selector as part of the option frame"""
+        self.xaxis_list = ['z', 't']
+        self.xaxis_default = tk.StringVar(self.option_frame, 'z')
+        self.xaxis_label = tk.Label(self.option_frame, text="Select x-axis: ")
+        self.xaxis_label.pack(side='left')
+        self.xaxis_select = ttk.Combobox(self.option_frame,
+                                         text=self.xaxis_default,
+                                         width=6,
+                                         values=self.xaxis_list)
+        self.xaxis_select.pack(fill='both', expand=1, side='left')
+    def create_plot_button(self):
+        """Creates plot button as part of the option frame"""
+        self.plot_button = tk.Button(self.option_frame,
+                                     text="Plot",
+                                     foreground="blue",
+                                     bg="red",
+                                     font=("Verdana", 12),
+                                     command=self.plot)
+        self.plot_button.pack(fill='both', expand=1, side='left')
+    def create_figure(self):
+        """Creates the main figure section which will later hold the plot"""
         self.fig = Figure(figsize=(7,5), dpi=100)
         self.subfig = self.fig.add_subplot(111)
-
+    def create_canvas(self):
+        """Create and draw the canvas object"""
         self.canvas = FigureCanvasTkAgg(self.fig, self)
         self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
+        self.canvas.get_tk_widget().pack(side=tk.BOTTOM,
+                                         fill=tk.BOTH,
+                                         expand=True)
+    def create_toolbar(self):
+        """Create the bottom toolbar"""
         self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+    def get_selected_bunch(self):
+        """Find which bunch is selected in the option frame"""
+        if hasattr(self, "bunch_select"):
+            return self.bunch_select.get()
+        else:
+            return 'All'
+    def get_selected_xaxis(self):
+        """Find which x axis is selected in the option frame"""
+        if hasattr(self, "xaxis_select"):
+            return self.xaxis_select.get()
+        else:
+            return 'z'
+    def get_filelist(self):
+        selected_bunch = self.get_selected_bunch()
+        default_filelist = self.get_default_filelist()
+        if selected_bunch == 'All':
+            return default_filelist
+        else:
+            return self.get_bunch_filelist(default_filelist,
+                                           int(selected_bunch))
+    def get_bunch_filelist(self, filelist, bunch):
+        for idx, filename in enumerate(filelist):
+            basename = '.'.join(filename.split('.')[0:-1])
+            extension = filename.split('.')[-1]
+            new_extension = str(int(extension) + bunch*1000)
+            new_filename = '.'.join([basename, new_extension])
+            filelist[idx] = new_filename
+        return filelist
+    def get_default_filelist(self):
+        raise NotImplementedError()
+    def get_xaxis_parameters(self, tcol, zcol):
+        selected_xaxis = self.get_selected_xaxis()
+        if selected_xaxis == 't':
+            return [tcol, 'time (s)']
+        else:
+            return [zcol, 'z direction (m)']
 
-
-
-class PlotFrame(tk.Frame):
-    def __init__(self, parent,PlotFileName,xl,yl,labelY):
-        tk.Frame.__init__(self, parent)
-        #LARGE_FONT= ("Verdana", 12)
-        #label = tk.Label(self, font=LARGE_FONT,
-        #                 text='plot '+PlotFileName+
-        #                 ' use '+str(xl)+':'+str(yl))
-        #label.pack(pady=10,padx=10)
-
+class PlotFrame(PlotBaseFrame):
+    def __init__(self, parent, PlotFileName, yl, labelY, per_bunch=True):
+        PlotBaseFrame.__init__(self, parent, per_bunch)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.45,
+                                  box.y0*1.1,
+                                  box.width,
+                                  box.height])
+        self.plot_file = int(PlotFileName.split('.')[-1])
+        self.ycol, self.ylabel = yl, labelY
+        self.plot()
+    def plot(self):
+        # Get selected options
+        PlotFileName = self.get_filelist()[0]
+        self.xcol, self.xlabel = self.get_xaxis_parameters()
+        # Open file
         try:
             fin = open(PlotFileName,'r')
         except:
-            print(( "  ERRPR! Can't open file '" + PlotFileName + "'"))
+            print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
             return
-
+        # Read in data
         linesList  = fin.readlines()
-        fin .close()
+        fin.close()
         linesList  = [line.split() for line in linesList ]
-        x   = np.array([float(xrt[xl]) for xrt in linesList])
-        y   = np.array([float(xrt[yl]) for xrt in linesList])
-
-        if labelY in ['Centriod location (mm)','Rms size (mm)','Rmax (mm)']:
+        x   = np.array([float(xrt[self.xcol]) for xrt in linesList])
+        y   = np.array([float(xrt[self.ycol]) for xrt in linesList])
+        # Convert units
+        if self.ylabel in ['Centriod location (mm)','Rms size (mm)','Rmax (mm)']:
             y = y*1.0e3       # unit convert from m to mm
-        elif labelY in ['Emittance (mm-mrad)']:
+        elif self.ylabel in ['Emittance (mm-mrad)']:
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
-
-        fig = Figure(figsize=(7,5), dpi=100)
-        self.subfig = fig.add_subplot(111)
+        # Plot data
+        self.subfig.clear()
         self.subfig.plot(x,y)
-        self.subfig.set_xlabel('Z (m)')
-        self.subfig.set_ylabel(labelY)
-
+        self.subfig.set_xlabel(self.xlabel)
+        self.subfig.set_ylabel(self.ylabel)
+        # Set axes scales
         xMax = np.max(x)
         xMin = np.min(x)
         yMax = np.max(y)
@@ -390,44 +488,37 @@ class PlotFrame(tk.Frame):
             self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
         if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
             self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
-
-        #xmajorFormatter = FormatStrFormatter('%2.2E')
-        #subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
-
-        canvas = FigureCanvasTkAgg(fig, self)
-        canvas.draw()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-        toolbar = NavigationToolbar2Tk(canvas, self)
-        toolbar.update()
-        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
+        # Redraw
+        self.canvas.draw()
+    def get_default_filelist(self):
+        return [f'fort.{self.plot_file}']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
     def quit(self):
         self.destroy()
 
-class OverallFrame(tk.Frame):
+class OverallFrame(PlotBaseFrame):
     def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
-
+        PlotBaseFrame.__init__(self, parent)
+        self.plot()
+    def create_figure(self):
+        """Overrides the base method with four subplots"""
         self.fig = Figure(figsize=(12,5), dpi=100)
         self.subfig = []
         self.subfig.append(self.fig.add_subplot(221))
         self.subfig.append(self.fig.add_subplot(222))
         self.subfig.append(self.fig.add_subplot(223))
         self.subfig.append(self.fig.add_subplot(224))
-
-        self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
-        self.toolbar.update()
-        self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-        self.plot()
+        for i in range(0, 4):
+            box = self.subfig[i].get_position()
+            self.subfig[i].set_position([box.x0*1.1,
+                                         box.y0*1.1,
+                                         box.width,
+                                         box.height*0.88])
     def plot(self):
+        filelist = self.get_filelist()
+        xcol, xlabel = self.get_xaxis_parameters()
+
         picNum = 4
         fileList    = [[]*2]*picNum
         saveName    = []
@@ -436,38 +527,38 @@ class OverallFrame(tk.Frame):
         ydataList   = [[]*2]*picNum
         xyLabelList = [[]*2]*picNum
 
-        xl  = 2
         saveName.append('sizeX')
-        fileList[0]     = ['fort.24','fort.27']
+        fileList[0]     = filelist[0]
         labelList[0]    = ['rms.X','max.X']
-        xdataList[0]    = [xl,xl]
+        xdataList[0]    = [xcol, xcol]
         ydataList[0]    = [4,3]
-        xyLabelList[0]  = ['z drection (m)','beam size in X (mm)']
+        xyLabelList[0]  = [xlabel, 'beam size in X (mm)']
 
         saveName.append('sizeY')
-        fileList[1]     = ['fort.25','fort.27']
+        fileList[1]     = filelist[1]
         labelList[1]    = ['rms.Y','max.Y']
-        xdataList[1]    = [xl,xl]
+        xdataList[1]    = [xcol, xcol]
         ydataList[1]    = [4,5]
-        xyLabelList[1]  = ['z drection (m)','beam size in Y (mm)']
+        xyLabelList[1]  = [xlabel, 'beam size in Y (mm)']
 
         saveName.append('sizeZ')
-        fileList[2]     = ['fort.26','fort.27']
+        fileList[2]     = filelist[2]
         labelList[2]    = ['rms.Z','max.Z']
-        xdataList[2]    = [xl,xl]
+        xdataList[2]    = [xcol, xcol]
         ydataList[2]    = [3,7]
-        xyLabelList[2]  = ['z drection (m)','beam size in Z (mm)']
+        xyLabelList[2]  = [xlabel, 'beam size in Z (mm)']
 
         saveName.append('emitXY')
-        fileList[3]     = ['fort.24','fort.25']
+        fileList[3]     = filelist[3]
         labelList[3]    = ['emit.nor.X','emit.nor.Y']
-        xdataList[3]    = [xl,xl]
+        xdataList[3]    = [xcol, xcol]
         ydataList[3]    = [8,8]
-        xyLabelList[3]  = ['z drection (m)','emittance at X and Y (mm*mrad)']
+        xyLabelList[3]  = [xlabel, 'emittance at X and Y (mm*mrad)']
 
         lineType = ['r-','b--']
 
         for i in range(0,picNum):
+            self.subfig[i].clear()
             for j in range(0,2):
                 try:
                     fin = open(fileList[i][j],'r')
@@ -490,8 +581,6 @@ class OverallFrame(tk.Frame):
 
             self.subfig[i].set_xlabel(xyLabelList[i][0])
             self.subfig[i].set_ylabel(xyLabelList[i][1])
-            box = self.subfig[i].get_position()
-            self.subfig[i].set_position([box.x0*1.1, box.y0*1.1, box.width, box.height *0.88])
 
             xMax = np.max(x)
             xMin = np.min(x)
@@ -504,28 +593,44 @@ class OverallFrame(tk.Frame):
 
             self.subfig[i].legend(loc='upper center', bbox_to_anchor=(0.5, 1.21),fancybox=True, shadow=True, ncol=5)
         self.canvas.draw()
+    def get_default_filelist(self):
+        filelist = [[]*2]*4
+        filelist[0] = ['fort.24', 'fort.27']
+        filelist[1] = ['fort.25', 'fort.27']
+        filelist[2] = ['fort.26', 'fort.27']
+        filelist[3] = ['fort.24', 'fort.25']
+        return filelist
+    def get_bunch_filelist(self, filelist, bunch):
+        """Extends the base method for the four sublists"""
+        for idx, sublist in enumerate(filelist):
+            new_sublist = PlotBaseFrame.get_bunch_filelist(self, sublist, bunch)
+            filelist[idx] = new_sublist
+        return filelist
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=1, zcol=2)
 
 class EmitGrowthFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
         self.plot()
     def plot(self):
-        fileList        = ['fort.24','fort.25']
-        xdataList       = [2,2]
-        ydataList       = [8,8]
-        xyLabelList     = ['Z (m)','Avg emit growth in X and Y']
-
+        fileList = self.get_filelist()
+        xcol, xlabel = self.get_xaxis_parameters()
+        xdataList = [xcol, xcol]
+        ydataList = [8, 8]
+        xyLabelList = [xlabel, 'Avg emit growth in X and Y']
         lineType = ['r-','b--']
-
         try:
             fin1 = open(fileList[0],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[0] + "'")
+            print("  ERROR! Can't open file '" + fileList[0] + "'")
             return
         try:
             fin2 = open(fileList[1],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[1] + "'")
+            print("  ERROR! Can't open file '" + fileList[1] + "'")
             return
         linesList1  = fin1.readlines()
         linesList2  = fin2.readlines()
@@ -542,187 +647,162 @@ class EmitGrowthFrame(PlotBaseFrame):
                 start=1.0e-16
             y   = [(float(linesList1[k][yId]) + float(linesList2[k][yId]))/2 / start -1 for k in range(len(linesList1))]
         except:
-            print("  ERRPR! Can't read data '" + fileList[1] + "'")
-
+            print("  ERROR! Can't read data '" + fileList[1] + "'")
         self.subfig.cla()
         self.subfig.plot(x, y, lineType[0], linewidth=2, label='emit.growth')
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
         self.subfig.set_xlabel(xyLabelList[0])
         self.subfig.set_ylabel(xyLabelList[1])
         self.subfig.legend()
-
         self.canvas.draw()
+    def get_default_filelist(self):
+        return ['fort.24', 'fort.25']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=1, zcol=2)
 
 class TemperatureFrame(PlotBaseFrame):
     def __init__(self, parent):
         PlotBaseFrame.__init__(self, parent)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.2, box.y0, box.width, box.height])
         self.plot()
     def plot(self):
-        arg=['ct','fort.24','fort.25','fort.26']
+        filelist = self.get_filelist()
+        xcol, xlabel = self.get_xaxis_parameters()
         labelList= ['X','Y','Z']
         lineType = ['-','--',':']
         col      = ['b','g','r']
         linew    = [2,2,3]
-        picNum = len(arg) - 1
+        picNum = len(filelist)
         plotPath = './post'
         if os.path.exists(plotPath) == False:
             os.makedirs(plotPath)
-
         self.subfig.cla()
-        for i in range(1,picNum+1):
+        for i in range(0, picNum):
             try:
-                fin = open(arg[i],'r')
+                fin = open(filelist[i],'r')
             except:
-                print( "  ERRPR! Can't open file '" + arg[i] + "'")
+                print( "  ERROR! Can't open file '" + filelist[i] + "'")
                 return
-
             linesList  = fin.readlines()
-            fin .close()
+            fin.close()
             linesList  = [line.split() for line in linesList ]
-            x   = [float(xrt[0]) for xrt in linesList]
-            yl=5
-            if i==3:
-                yl=4
-            y   = [float(xrt[yl])*float(xrt[yl]) for xrt in linesList]
-            self.subfig.plot(x, y, color = col[(i-1)],linestyle=lineType[i-1], linewidth=linew[i-1],label=labelList[i-1])
-
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.2, box.y0, box.width, box.height])
-        self.subfig.set_xlabel('T (s)')
+            x = [float(xrt[xcol]) for xrt in linesList]
+            if i==2:
+                ycol = 4
+            else:
+                ycol = 5
+            y = [float(xrt[ycol])*float(xrt[ycol]) for xrt in linesList]
+            self.subfig.plot(x, y,
+                             color=col[i],
+                             linestyle=lineType[i],
+                             linewidth=linew[i],
+                             label=labelList[i])
+        self.subfig.set_xlabel(xlabel)
         self.subfig.set_ylabel('Temperature')
         self.subfig.legend()
-
         self.canvas.draw()
+    def get_default_filelist(self):
+        return ['fort.24', 'fort.25', 'fort.26']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
 
-class PlotHighOrderBaseFrame(tk.Frame):
-    ParticleDirec = {'X (mm)'    :2,
-                     'Px (MC)'   :3,
-                     'Y (mm)'    :4,
-                     'Py (MC)'   :5,
-                     'Z (mm)'    :6,
-                     'Pz (MC)'   :7}
+class PlotHighOrderBaseFrame(PlotBaseFrame):
+    particle_directions = {'X (mm)'    :2,
+                           'Px (MC)'   :3,
+                           'Y (mm)'    :4,
+                           'Py (MC)'   :5,
+                           'Z (mm)'    :6,
+                           'Pz (MC)'   :7}
     data = np.array([])
     def __init__(self, parent, PlotFileName):
-        tk.Frame.__init__(self, parent)
+        PlotBaseFrame.__init__(self, parent)
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
+        self.plot_file = int(PlotFileName.split('.')[-1])
+        self.current_file = ''
+        self.plot()
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Overrides base class, adding a y-axis selector"""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_bunch_selector(Nbunch, per_bunch)
+        self.create_xaxis_selector()
+        self.create_yaxis_selector()
+        self.create_plot_button()
+    def create_yaxis_selector(self):
+        self.yaxis_list = [direction for direction in self.particle_directions]
+        self.yaxis_default = tk.StringVar(self.option_frame, 'X (mm)')
+        self.yaxis_label = tk.Label(self.option_frame,
+                                    text="Select y-axis dimension: ")
+        self.yaxis_label.pack(side='left')
+        self.yaxis_select = ttk.Combobox(self.option_frame,
+                                         text=self.yaxis_default,
+                                         width=6,
+                                         values=self.yaxis_list)
+        self.yaxis_select.pack(fill='both', expand=1, side='left')
+    def load(self, PlotFileName):
+        """Load data from file into plot object data array"""
         try:
             self.data = np.loadtxt(PlotFileName)
         except:
             print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
             return
-
         self.data = np.transpose(self.data)
         for i in range(0,6,2):
             self.data[i] = self.data[i] * 1e3  # from m to mm
-
-        self.frame_PlotParticleControl = tk.Frame(self)
-        self.frame_PlotParticleControl.pack()
-
-        self.label_x    = tk.Label(self.frame_PlotParticleControl, text="Direction:")
-        self.label_x.pack(side='left')
-
-        self.ppc1Value  = tk.StringVar(self.frame_PlotParticleControl,'X (mm)')
-        self.ppc1       = ttk.Combobox(self.frame_PlotParticleControl,text=self.ppc1Value,
-                                       width=6,
-                                       values=['X (mm)', 'Px (MC)', 'Y (mm)', 'Py (MC)','Z (mm)','Pz (MC)'])
-        self.ppc1.pack(fill = 'both',expand =1,side = 'left')
-
-        LARGE_FONT= ("Verdana", 12)
-        self.button_ppc=tk.Button(self.frame_PlotParticleControl)
-        self.button_ppc["text"]         = "Plot"
-        self.button_ppc["foreground"]   = "blue"
-        self.button_ppc["bg"]           = "red"
-        self.button_ppc["font"]         = LARGE_FONT
-        self.button_ppc["command"]      = self.plot
-        self.button_ppc.pack(fill = 'both',expand =1,side = 'left')
-
-        x   = 1
-        y   = self.ParticleDirec[self.ppc1.get()]
-
-        self.fig = Figure(figsize=(7,5), dpi=100)
-        self.subfig = self.fig.add_subplot(111)
-        self.subfig.scatter(self.data[x],self.data[y],s=1)
-
-        xmajorFormatter = FormatStrFormatter('%2.2E')
-        self.subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
-
-        self.canvas = FigureCanvasTkAgg(self.fig, self)
+    def plot(self):
+        # Get selected options
+        PlotFileName = self.get_filelist()[0]
+        self.xcol, self.xlabel = self.get_xaxis_parameters()
+        self.ycol, self.ylabel = self.get_yaxis_parameters()
+        # Load data
+        if PlotFileName != self.current_file:
+            print(f'Loading data from {PlotFileName}')
+            self.load(PlotFileName)
+            self.current_file = PlotFileName
+        # Plot data
+        self.subfig.cla()
+        self.subfig.plot(self.data[self.xcol], self.data[self.ycol])
+        self.format_axes(self.xcol, self.ycol)
+        self.subfig.set_xlabel(self.xlabel)
+        self.subfig.set_ylabel(self.ylabel)
         self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
-        self.toolbar.update()
-        self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-        self.plot()
+    def get_default_filelist(self):
+        return [f'fort.{self.plot_file}']
+    def get_xaxis_parameters(self):
+        return PlotBaseFrame.get_xaxis_parameters(self, tcol=0, zcol=1)
+    def get_yaxis_parameters(self):
+        selected_yaxis = self.yaxis_select.get()
+        return [self.particle_directions[selected_yaxis], selected_yaxis]
+    def format_axes(self, xcol, ycol):
+        xMax = np.max(self.data[xcol])
+        xMin = np.min(self.data[xcol])
+        yMax = np.max(self.data[ycol])
+        yMin = np.min(self.data[ycol])
+        if (   (xMax - xMin) > IMPACT_T_sciMaxLimit
+            or (xMax - xMin) < IMPACT_T_sciMinLimit):
+            self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        if (   (yMax - yMin) > IMPACT_T_sciMaxLimit
+            or (yMax - yMin) < IMPACT_T_sciMinLimit):
+            self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
 
 class PlotMaxFrame(PlotHighOrderBaseFrame):
-    def __init__(self, parent,ifile):
-        PlotHighOrderBaseFrame.__init__(self, parent, ifile)
-
-    def plot(self):
-        y   = self.ParticleDirec[self.ppc1.get()]
-
-        self.subfig.cla()
-        self.subfig.plot(self.data[1],self.data[y])
-
-        axis_format_T(self.data[1],self.data[y], self.subfig)
-
-        self.subfig.set_xlabel('Z (m)')
-        if y%2==0:
-            self.subfig.set_ylabel('Max '+ self.ppc1.get())
-        else:
-            self.subfig.set_ylabel('Max '+ self.ppc1.get())
-        self.canvas.draw()
+    def __init__(self, parent, PlotFileName):
+        PlotHighOrderBaseFrame.__init__(self, parent, PlotFileName)
+    def get_yaxis_parameters(self):
+        ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
+        return [ycol, 'Max ' + ylabel]
 
 class Plot3orderFrame(PlotHighOrderBaseFrame):
-    def __init__(self, parent,ifile):
-        PlotHighOrderBaseFrame.__init__(self, parent, ifile)
-
-    def plot(self):
-        y   = self.ParticleDirec[self.ppc1.get()]
-
-        self.subfig.cla()
-        self.subfig.plot(self.data[1],self.data[y])
-
-        xmajorFormatter = FormatStrFormatter('%2.2E')
-        self.subfig.yaxis.set_major_formatter(xmajorFormatter)
-
-        self.subfig.set_xlabel('Z (m)')
-        if y%2==0:
-            self.subfig.set_ylabel('cubic root of 3rd'+ self.ppc1.get())
-        else:
-            self.subfig.set_ylabel('cubic root of 3rd'+ self.ppc1.get())
-        self.canvas.draw()
+    def __init__(self, parent, PlotFileName):
+        PlotHighOrderBaseFrame.__init__(self, parent, PlotFileName)
+    def get_yaxis_parameters(self):
+        ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
+        return [ycol, 'Cubic root of 3rd moment of ' + ylabel]
 
 class Plot4orderFrame(PlotHighOrderBaseFrame):
-    def __init__(self, parent,ifile):
-        PlotHighOrderBaseFrame.__init__(self, parent, ifile)
-
-    def plot(self):
-        y   = self.ParticleDirec[self.ppc1.get()]
-
-        self.subfig.cla()
-        self.subfig.plot(self.data[1],self.data[y])
-
-        #xmajorFormatter = FormatStrFormatter('%2.2E')
-        #self.subfig.yaxis.set_major_formatter(xmajorFormatter)
-
-        self.subfig.set_xlabel('Z (m)')
-        if y%2==0:
-            self.subfig.set_ylabel('square square root of 4th '+ self.ppc1.get())
-        else:
-            self.subfig.set_ylabel('square square root of 4th '+ self.ppc1.get())
-        self.canvas.draw()
-
-def axis_format_T(xData,yData,subfig):
-    xMax = np.max(xData)
-    xMin = np.min(xData)
-    yMax = np.max(yData)
-    yMin = np.min(yData)
-    if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-        self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
-    if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-        self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+    def __init__(self, parent, PlotFileName):
+        PlotHighOrderBaseFrame.__init__(self, parent, PlotFileName)
+    def get_yaxis_parameters(self):
+        ycol, ylabel = PlotHighOrderBaseFrame.get_yaxis_parameters(self)
+        return [ycol, 'Square square root of 4th moment of ' + ylabel]
