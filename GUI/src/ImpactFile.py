@@ -21,7 +21,7 @@ def conciseReadInput(inputFileName):
                 dataList[i]=dataList[i].lstrip()[:index].rstrip()+'\n'
         i=i+1
     dataList  = [line.split() for line in dataList ]
-    
+
     for i in range(0,len(dataList)):
         for j in range(0,len(dataList[i])):
             dataList[i][j] = DtoE(dataList[i][j])
@@ -43,7 +43,7 @@ def conciseWriteInput(dataList,outputFileName):
 
 
 def DtoE(word):
-    if 'D' in word or 'd' in word: 
+    if 'D' in word or 'd' in word:
         try:
             temp = float(word.replace('D','E',1).replace('d','e',1))
             return str(temp)
