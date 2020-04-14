@@ -1206,7 +1206,8 @@
         !restart function).
         do i = iend+1, ntstep
           if(myid.eq.0) then
-            print*,"i,t,<z>: ",i,t,distance
+            print*,"i: ",i,t,distance,ibunch,Ebunch(1:Nbunch)%Npt
+            write(11,*)i,t,distance,ibunch,Ebunch(1:Nbunch)%Npt
           endif
 
           !switch on the backward traveling wave structure
