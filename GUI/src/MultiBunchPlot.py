@@ -52,7 +52,9 @@ def is_mass_matched(bunch_list):
 
 def bunch_text(bunch_list):
     """Create a text string to describe the bunch list for titles."""
-    if len(bunch_list) == 1:
+    if get_bunch_count() == 1:
+        return 'single bunch'
+    elif len(bunch_list) == 1:
         return f'bunch {bunch_list[0]}'
     elif len(bunch_list) == get_bunch_count():
         return 'all bunches'
@@ -63,6 +65,13 @@ def bunch_text(bunch_list):
                 + ', '.join([str(bunch) for bunch in bunch_list[:-1]])
                 + ' and '
                 + str(bunch_list[-1]))
+
+def check_bunch_list(bunch_list):
+    """Remove any bunches from the list that don't exist."""
+    max_bunch = get_bunch_count()
+    valid_bunches = [bunch for bunch in bunch_list if bunch <= max_bunch]
+    invalid_bunches = [bunch for bunch in bunch_list if bunch > max_bunch]
+    return valid_bunches, invalid_bunches
 
 def read_input_file(filename):
     """Read input file and return list of input lines, excluding comments."""
@@ -368,6 +377,9 @@ def add_plot_margins(axes, margin):
 def plot_all(bunch_list):
     """Run and save all plots consecutively."""
     full_bunch_list = list(range(1, int(get_bunch_count()) + 1))
+    bunch_list, invalid_bunches = check_bunch_list(bunch_list)
+    if invalid_bunches:
+        print(f'Skipping invalid bunches: {invalid_bunches}')
     print('Loading experimental data...')
     try:
         experimental_results = load_experimental_results()
@@ -436,12 +448,14 @@ def plot_all(bunch_list):
             title=f'Initial phase space for {bunch_text(bunch_list)}')
         figure.savefig('phase-space-initial')
         matplotlib.pyplot.close(figure)
-        for bunch in full_bunch_list:
-            figure, axes = matplotlib.pyplot.subplots(nrows=2, ncols=2, dpi=300)
-            plot_phase_spaces(axes, full_data[bunch-1], [bunch], grid_size=300,
-                title=f'Initial phase space for {bunch_text([bunch])}')
-            figure.savefig(f'phase-space-initial-bunch{bunch}')
-            matplotlib.pyplot.close(figure)
+        if len(full_bunch_list) > 1:
+            for bunch in full_bunch_list:
+                figure, axes = matplotlib.pyplot.subplots(2, 2, dpi=300)
+                plot_phase_spaces(axes, full_data[bunch-1], [bunch],
+                    title=f'Initial phase space for {bunch_text([bunch])}',
+                    grid_size=300)
+                figure.savefig(f'phase-space-initial-bunch{bunch}')
+                matplotlib.pyplot.close(figure)
         print('Plotting initial energy spectra...')
         figure, axes = matplotlib.pyplot.subplots(dpi=300)
         plot_bunch_energies(axes, data, bunch_list, bins=300,
@@ -468,12 +482,14 @@ def plot_all(bunch_list):
             title=f'Final phase space for {bunch_text(bunch_list)}')
         figure.savefig('phase-space-final')
         matplotlib.pyplot.close(figure)
-        for bunch in full_bunch_list:
-            figure, axes = matplotlib.pyplot.subplots(nrows=2, ncols=2, dpi=300)
-            plot_phase_spaces(axes, full_data[bunch-1], [bunch], grid_size=300,
-                title=f'Final phase space for {bunch_text([bunch])}')
-            figure.savefig(f'phase-space-final-bunch{bunch}')
-            matplotlib.pyplot.close(figure)
+        if len(full_bunch_list) > 1:
+            for bunch in full_bunch_list:
+                figure, axes = matplotlib.pyplot.subplots(2, 2, dpi=300)
+                plot_phase_spaces(axes, full_data[bunch-1], [bunch],
+                    title=f'Final phase space for {bunch_text([bunch])}',
+                    grid_size=300)
+                figure.savefig(f'phase-space-final-bunch{bunch}')
+                matplotlib.pyplot.close(figure)
         print('Plotting final energy spectra...')
         figure, axes = matplotlib.pyplot.subplots(dpi=300)
         plot_bunch_energies(axes, data,  bunch_list, bins=300,
@@ -511,14 +527,15 @@ def plot_all(bunch_list):
                                   grid_size=300)
                 figure.savefig(f'phase-space-{filenumber}')
                 matplotlib.pyplot.close(figure)
-                for bunch in full_bunch_list:
-                    figure, axes = matplotlib.pyplot.subplots(2, 2, dpi=300)
-                    plot_phase_spaces(axes, full_data[bunch-1], [bunch],
-                                      title=(f'Phase space at z = {location} '
-                                             f'for {bunch_text([bunch])}'),
-                                      grid_size=300)
-                    figure.savefig(f'phase-space-{filenumber}-bunch{bunch}')
-                    matplotlib.pyplot.close(figure)
+                if len(full_bunch_list) > 1:
+                    for bunch in full_bunch_list:
+                        figure, axes = matplotlib.pyplot.subplots(2, 2, dpi=300)
+                        plot_phase_spaces(axes, full_data[bunch-1], [bunch],
+                                        title=(f'Phase space at z = {location} '
+                                                f'for {bunch_text([bunch])}'),
+                                        grid_size=300)
+                        figure.savefig(f'phase-space-{filenumber}-bunch{bunch}')
+                        matplotlib.pyplot.close(figure)
                 print(f'Plotting BPM {filenumber} energy spectra...')
                 figure, axes = matplotlib.pyplot.subplots(dpi=300)
                 plot_bunch_energies(axes, data, bunch_list, bins=300,
