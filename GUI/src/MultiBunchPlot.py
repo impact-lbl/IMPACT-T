@@ -24,10 +24,25 @@ def get_lattice():
     input = read_input_file(get_input_filename(1))
     return [line.split() for line in input[9:]]
 
-def get_bpms(lattice):
+def get_bpms(lattice, z_offset=None):
     """Get the location and file number of all BPMs as a list of tuples."""
-    return [(str(float(elem[4])*1000) + ' mm', int(elem[2]))
+    return [(get_position_as_text(float(elem[4]), z_offset), int(elem[2]))
             for elem in lattice if elem[3]=='-2']
+
+def get_position_as_text(position, z_offset=None):
+    """Return a text description of a numerical position."""
+    if z_offset:
+        position = position - z_offset
+    if position > 1:
+        unit = 'm'
+    else:
+        position = position*1000
+        unit = 'mm'
+    if position >= 1000:
+        position = round(position)
+    else:
+        position = float(f'{position:.4g}')
+    return f'{position} {unit}'
 
 def get_bunch_counts(bunch_list):
     """Get the particle counts for each bunch as an array."""
@@ -89,26 +104,41 @@ def load_experimental_results(filename='experimental_data.txt'):
     """Load z, rms beam size and error values (m) from file as an array."""
     return load_data_from_file(filename, header=1)
 
-def load_statistics_data(bunch_list):
+def load_statistics_data(bunch_list, z_offset=None):
     """Load x and y data per bunch from statistics files as arrays."""
     xdata = []
     ydata = []
     for bunch in bunch_list:
-        xdata.append(load_data_from_file(f'fort.{bunch}024'))
-        ydata.append(load_data_from_file(f'fort.{bunch}025'))
+        x = load_data_from_file(f'fort.{bunch}024')
+        y = load_data_from_file(f'fort.{bunch}024')
+        if z_offset:
+            x = shift_z(x, z_offset, 1)
+            y = shift_z(y, z_offset, 1)
+        xdata.append(x)
+        ydata.append(y)
     return numpy.array(xdata), numpy.array(ydata)
 
-def load_bunch_count_data():
+def load_bunch_count_data(z_offset=None):
     """Load bunch counts vs time from `fort.11` as an array."""
     data = load_data_from_file('fort.11')
-    return numpy.delete(data, 0, 1) # remove first column (time-step #)
+    data = numpy.delete(data, 0, 1) # remove first column (time-step #)
+    if z_offset:
+        data = shift_z(data, z_offset, 1)
+    return data
 
-def load_phase_space_data(filenumber, bunch_list):
+def load_phase_space_data(filenumber, bunch_list, z_offset=None):
     """Load phase space data per bunch as a list of arrays."""
     data = []
     for bunch in bunch_list:
         this_data = load_data_from_file(f'fort.{filenumber+bunch-1}')
+        if z_offset:
+            this_data = shift_z(this_data, z_offset, 4)
         data.append(calculate_energies(this_data, bunch))
+    return data
+
+def shift_z(data, z_offset, z_col=1):
+    """Shift all z values by the given offset."""
+    data[:,z_col] = data[:,z_col] - z_offset
     return data
 
 def calculate_energies(data, bunch):
@@ -374,7 +404,7 @@ def add_plot_margins(axes, margin):
     axes.set_xlim(xmin - xmargin, xmax + xmargin)
     axes.set_ylim(ymin - ymargin, ymax + ymargin)
 
-def plot_all(bunch_list):
+def plot_all(bunch_list, z_offset=None):
     """Run and save all plots consecutively."""
     full_bunch_list = list(range(1, int(get_bunch_count()) + 1))
     bunch_list, invalid_bunches = check_bunch_list(bunch_list)
@@ -389,7 +419,7 @@ def plot_all(bunch_list):
         experimental_results = None
     print('Loading statistical data...')
     try:
-        xdata, ydata = load_statistics_data(bunch_list)
+        xdata, ydata = load_statistics_data(bunch_list, z_offset)
     except FileNotFoundError as err:
         print(f'Statistical data file not found: {err}')
         print('Skipping statistical plots.')
@@ -423,7 +453,7 @@ def plot_all(bunch_list):
         matplotlib.pyplot.close(figure)
     print('Loading bunch count data...')
     try:
-        data = load_bunch_count_data()
+        data = load_bunch_count_data(z_offset)
     except FileNotFoundError as err:
         print(f'Bunch count data file not found: {err}')
         print('Skipping bunch count plot.')
@@ -435,7 +465,7 @@ def plot_all(bunch_list):
         matplotlib.pyplot.close(figure)
     print('Loading initial phase space data...')
     try:
-        full_data = load_phase_space_data(40, full_bunch_list)
+        full_data = load_phase_space_data(40, full_bunch_list, z_offset)
     except FileNotFoundError as err:
         print(f'Phase space data file not found: {err}')
         print('Skipping initial phase space step.')
@@ -469,7 +499,7 @@ def plot_all(bunch_list):
         matplotlib.pyplot.close(figure)
     print('Loading final phase space data...')
     try:
-        full_data = load_phase_space_data(50, full_bunch_list)
+        full_data = load_phase_space_data(50, full_bunch_list, z_offset)
     except FileNotFoundError as err:
         print(f'Phase space data file not found: {err}')
         print('Skipping final phase space step.')
@@ -504,7 +534,7 @@ def plot_all(bunch_list):
     print('Getting list of BPMs...')
     try:
         lattice = get_lattice()
-        bpm_list = get_bpms(lattice)
+        bpm_list = get_bpms(lattice, z_offset)
     except FileNotFoundError as err:
         print(f'Input file not found: {err}')
         print('Skipping BPM plot steps.')
@@ -512,7 +542,8 @@ def plot_all(bunch_list):
         for location, filenumber in bpm_list:
             print(f'Loading BPM {filenumber} phase space data...')
             try:
-                full_data = load_phase_space_data(filenumber, full_bunch_list)
+                full_data = load_phase_space_data(filenumber, full_bunch_list,
+                                                  z_offset)
             except FileNotFoundError as err:
                 print(f'BPM data file not found: {err}')
                 print('Skipping this BPM plot step.')
@@ -539,13 +570,13 @@ def plot_all(bunch_list):
                 print(f'Plotting BPM {filenumber} energy spectra...')
                 figure, axes = matplotlib.pyplot.subplots(dpi=300)
                 plot_bunch_energies(axes, data, bunch_list, bins=300,
-                                    title=(f'BPM {filenumber} energy spectra '
+                                    title=(f'Energy spectra at z = {location} '
                                            f'for {bunch_text(bunch_list)}'))
                 figure.savefig(f'energies-{filenumber}')
                 matplotlib.pyplot.close(figure)
                 figure, axes = matplotlib.pyplot.subplots(dpi=300)
                 plot_total_energy(axes, combined_data, bunch_list, bins=300,
-                                  title=(f'BPM {filenumber} energy spectrum '
+                                  title=(f'Energy spectrum at z = {location} '
                                          f'for {bunch_text(bunch_list)}'))
                 figure.savefig(f'energy-{filenumber}')
                 matplotlib.pyplot.close(figure)
@@ -563,4 +594,12 @@ if __name__ == '__main__':
                 bunch_list = list(range(1, int(get_bunch_count()) + 1))
     else:
         bunch_list = list(range(1, int(get_bunch_count()) + 1))
-    plot_all(bunch_list)
+    if len(sys.argv) > 2:
+        z_offset = sys.argv[2]
+        try:
+            z_offset = float(z_offset)
+        except:
+            z_offset = None
+    else:
+        z_offset = None
+    plot_all(bunch_list, z_offset)

@@ -912,6 +912,14 @@ class PlotMultiBunchBaseFrame(PlotBaseFrame):
         box = self.subfig.get_position()
         self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
         self.plot()
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Set up options (override base class, add offset option)."""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_bunch_selector(Nbunch, per_bunch)
+        self.create_xaxis_selector()
+        self.create_offset_selector()
+        self.create_plot_button()
     def create_bunch_selector(self, Nbunch, per_bunch=True):
         """Add selector (override base class, give 'from' and 'to' bunches)."""
         if per_bunch and Nbunch > 1:
@@ -935,6 +943,13 @@ class PlotMultiBunchBaseFrame(PlotBaseFrame):
                                                 width=6,
                                                 values=self.to_bunch_list)
             self.to_bunch_select.pack(fill='both', expand=1, side='left')
+    def create_offset_selector(self):
+        """Add entry box for a z-offset."""
+        self.offset_label = tk.Label(self.option_frame, text='z offset (mm):')
+        self.offset_label.pack(side='left')
+        self.offset_box = tk.Entry(self.option_frame, width=6)
+        self.offset_box.insert(0, '0')
+        self.offset_box.pack(fill='both', expand=1, side='left')
     def get_from_bunch(self):
         """Get branch selected in options frame."""
         if hasattr(self, "from_bunch_select"):
@@ -950,6 +965,12 @@ class PlotMultiBunchBaseFrame(PlotBaseFrame):
     def get_bunch_list(self):
         """Find which bunches are selected in the option frame."""
         return list(range(self.get_from_bunch(), self.get_to_bunch()+1))
+    def get_offset(self):
+        """Get z offset as set in options frame."""
+        if hasattr(self, "offset_box"):
+            return float(self.offset_box.get())/1000
+        else:
+            return None
 
 class PlotMBBeamSizeFrame(PlotMultiBunchBaseFrame):
     """Frame to plot rms beam sizes for selected bunches."""
@@ -964,7 +985,8 @@ class PlotMBBeamSizeFrame(PlotMultiBunchBaseFrame):
             print('Continuing without experimental data.')
             experimental_results = None
         bunch_list = self.get_bunch_list()
-        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list)
+        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list,
+                                                           self.get_offset())
         # TODO: Can we calculate rdata from xdata and ydata?
         self.subfig.cla()
         MultiBunchPlot.plot_beam_size(self.subfig.axes, xdata, bunch_list,
@@ -979,7 +1001,7 @@ class PlotMBBunchCountFrame(PlotMultiBunchBaseFrame):
     def plot(self):
         """Plot bunch counts up to the selected max bunch."""
         self.subfig.cla()
-        self.data = MultiBunchPlot.load_bunch_count_data()
+        self.data = MultiBunchPlot.load_bunch_count_data(self.get_offset())
         MultiBunchPlot.plot_bunch_count(self.subfig, self.data,
                                         self.get_bunch_list(),
                                         xaxis=self.get_selected_xaxis())
@@ -992,7 +1014,8 @@ class PlotMBEmittanceFrame(PlotMultiBunchBaseFrame):
     def plot(self):
         """Plot average of x and y emittance for selected bunches."""
         bunch_list = self.get_bunch_list()
-        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list)
+        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list,
+                                                           self.get_offset())
         self.subfig.cla()
         MultiBunchPlot.plot_emittance(self.subfig.axes,
                                       xdata, ydata, bunch_list,
@@ -1006,7 +1029,8 @@ class PlotMBEmittanceGrowthFrame(PlotMultiBunchBaseFrame):
     def plot(self):
         """Plot growth of average x and y emittance for selected bunches."""
         bunch_list = self.get_bunch_list()
-        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list)
+        xdata, ydata = MultiBunchPlot.load_statistics_data(bunch_list,
+                                                           self.get_offset())
         self.subfig.cla()
         MultiBunchPlot.plot_emittance_growth(self.subfig.axes,
                                              xdata, ydata, bunch_list,
@@ -1019,6 +1043,7 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
         PlotBaseFrame.__init__(self, parent, per_bunch=True)
         self.last_filenumber = 0
         self.last_bunch_count = 0
+        self.last_offset = 0
         self.plot()
     def create_option_frame(self, Nbunch, per_bunch=True):
         """Add options (override base class)."""
@@ -1026,6 +1051,7 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
         self.option_frame.pack()
         self.create_slice_selector()
         self.create_bunch_selector(Nbunch)
+        self.create_offset_selector()
         self.create_bins_box()
         self.create_plot_button()
     def create_slice_selector(self):
@@ -1040,6 +1066,13 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
                                          width=6,
                                          values=list(self.slice_list))
         self.slice_select.pack(fill='both', expand=1, side='left')
+    def update_slice_selector(self):
+        """Reset the list of slice positions when the z offset changes."""
+        filenumber = self.get_filenumber()
+        self.slice_list = self.get_slice_list()
+        new_slice = [k for k,v in self.slice_list.items() if v == filenumber][0]
+        self.slice_select['values'] = list(self.slice_list)
+        self.slice_select.set(new_slice)
     def create_bins_box(self):
         """Add text box to set number of bins for plot sampling."""
         self.bins_label = tk.Label(self.option_frame, text='Bins: ')
@@ -1050,7 +1083,7 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
     def get_slice_list(self):
         """Get list of available phase space slices, including BPMs."""
         lattice = MultiBunchPlot.get_lattice()
-        bpm_list = MultiBunchPlot.get_bpms(lattice)
+        bpm_list = MultiBunchPlot.get_bpms(lattice, self.get_offset())
         slice_list = {'Initial': IMPACT_T_initial_slice}
         slice_list.update(bpm_list)
         slice_list['Final'] = IMPACT_T_final_slice
@@ -1077,13 +1110,18 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
             return (f'{base_title} at z = {matches[0]} '.capitalize()
                     + f'for {bunch_text}')
     def refresh_data(self):
-        """Reload data (list of all bunch data) when filenumber is changed."""
+        """Reload all bunch data when filenumber or offset is changed."""
         filenumber = self.get_filenumber()
-        if filenumber != self.last_filenumber:
+        z_offset = self.get_offset()
+        if z_offset != self.last_offset:
+            self.update_slice_selector()
+        if filenumber != self.last_filenumber or z_offset != self.last_offset:
             full_bunch_list = list(range(1, self.Nbunch+1))
             self.data = MultiBunchPlot.load_phase_space_data(filenumber,
-                                                             full_bunch_list)
+                                                             full_bunch_list,
+                                                             self.get_offset())
             self.last_filenumber = filenumber
+            self.last_offset = z_offset
     def get_selected_data(self):
         """Return datasets for only the selected bunches."""
         self.refresh_data()
