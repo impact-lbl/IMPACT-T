@@ -143,7 +143,9 @@ def shift_z(data, z_offset, z_col=1):
 
 def calculate_energies(data, bunch):
     """Calculate the energies for per-bunch data and save as an extra column."""
-    gamma = numpy.sqrt(1 + numpy.square(data.T[5]))
+    gamma = numpy.sqrt(1 + numpy.square(data.T[1])
+                         + numpy.square(data.T[3])
+                         + numpy.square(data.T[5]))
     mass = get_mass(get_input_filename(bunch))
     W = (gamma - 1)*mass
     new_data = numpy.zeros((data.shape[0], data.shape[1]+1))
