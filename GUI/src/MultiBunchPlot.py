@@ -328,8 +328,8 @@ def plot_phase_spaces(axes, data, bunch_list, title=None, grid_size=100):
     z = data.T[4]
     pz = data.T[5]
     W = data.T[6]
-    xp = px/pz
-    yp = py/pz
+    xp = numpy.arctan(px/pz)
+    yp = numpy.arctan(py/pz)
     plot_phase_space(axes[0,0], x*1e3, xp*1e3, 'x (mm)', 'x` (mrad)', grid_size)
     plot_phase_space(axes[0,1], y*1e3, yp*1e3, 'y (mm)', 'y` (mrad)', grid_size)
     plot_phase_space(axes[1,1], x*1e3, y*1e3, 'x (mm)', 'y (mm)', grid_size)
