@@ -2,13 +2,10 @@
 ! (c) Copyright, 2017 by the Regents of the University of California.
 ! Quadrupoleclass: Quadrupole beam line element class
 !             in Lattice module of APPLICATION layer.
-! MODULE  : ... Quadrupoleclass
-! VERSION : ... 1.0
-!> @author
-!> Ji Qiang
-! DESCRIPTION:
-!> This class defines the linear transfer map and field
-!> for the quadrupole beam line elment.
+! Version: 1.0
+! Author: Ji Qiang
+! Description: This class defines the linear transfer map and field
+!              for the quadrupole beam line elment.
 ! Comments:
 !----------------------------------------------------------------
       module Quadrupoleclass
@@ -122,10 +119,8 @@
 
         end subroutine getparam3_Quadrupole
        
-        !--------------------------------------------------------------------------------------
-        !> @brief
-        !> get external field with displacement and rotation errors.
-        !--------------------------------------------------------------------------------------
+
+        !get external field with displacement and rotation errors.
         subroutine  getflderr_Quadrupole(pos,extfld,this,dx,dy,anglex,&
                                          angley,anglez)
         implicit none
@@ -176,8 +171,10 @@
 !        extfld(5) = bgrad*tmp(1)
 !        extfld(6) = 0.0
         if(this%Param(3).gt.0.0) then
-          extfld(4) = bgrad*tmp(2) - bgradpp*tmp(2)**3/6
-          extfld(5) = bgrad*tmp(1) - bgradpp*tmp(1)*tmp(2)**2/2
+          extfld(4) = bgrad*tmp(2) - &
+                      bgradpp*(tmp(2)**3+3*tmp(1)**2*tmp(2))/12
+          extfld(5) = bgrad*tmp(1) - &
+                      bgradpp*(tmp(1)**3+3*tmp(1)*tmp(2)**2)/12
           extfld(6) = bgradp*tmp(1)*tmp(2)
         else
           extfld(4) = bgrad*tmp(2)
@@ -205,12 +202,9 @@
         endif
 
         end subroutine getflderr_Quadrupole
-
-        !--------------------------------------------------------------------------------------
-        !> @brief
-        !> get external field without displacement and rotation errors.
-        !> here, the skew quad can can be modeled with nonzero anglez
-        !--------------------------------------------------------------------------------------
+        
+        !get external field without displacement and rotation errors.
+        !here, the skew quad can can be modeled with nonzero anglez
         subroutine getfld_Quadrupole(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -243,11 +237,11 @@
         extfld(2) = 0.0
         extfld(3) = 0.0
         if(this%Param(3).gt.0.0) then
-          !extfld(4) = bgrad*pos(2) - bgradpp*pos(2)**3/6
-          !extfld(5) = bgrad*pos(1) - bgradpp*pos(1)*pos(2)**2/2
-          !extfld(6) = bgradp*pos(1)*pos(2)
-          temp(1) = bgrad*tmp(2) - bgradpp*tmp(2)**3/6
-          temp(2) = bgrad*tmp(1) - bgradpp*tmp(1)*tmp(2)**2/2
+          temp(1) = bgrad*tmp(2) - &
+                      bgradpp*(tmp(2)**3+3*tmp(1)**2*tmp(2))/12
+          temp(2) = bgrad*tmp(1) - &
+                      bgradpp*(tmp(1)**3+3*tmp(1)*tmp(2)**2)/12
+
           temp(3) = bgradp*tmp(1)*tmp(2)
         else
           !extfld(4) = bgrad*pos(2)
@@ -273,10 +267,7 @@
 
         end subroutine getfld_Quadrupole
 
-        !--------------------------------------------------------------------------------------
-        !> @brief
-        !> interpolate the field from the SC rf cavity onto bunch location.
-        !--------------------------------------------------------------------------------------
+        !interpolate the field from the SC rf cavity onto bunch location.
         subroutine getfldfrg_Quadrupole(zz,this,bgrad)
         implicit none
         include 'mpif.h'
@@ -380,10 +371,7 @@
  
         end subroutine getfldfrgAna2_Quadrupole
 
-        !--------------------------------------------------------------------------------------
-        !> @brief
-        !> get external field with displacement and rotation errors.
-        !--------------------------------------------------------------------------------------
+        !get external field with displacement and rotation errors.
         subroutine  getflderrt_Quadrupole(pos,extfld,this)
         implicit none
         include 'mpif.h'
@@ -430,8 +418,11 @@
 !        extfld(5) = bgrad*tmp(1)
 !        extfld(6) = 0.0
         if(this%Param(3).gt.0.0) then
-          extfld(4) = bgrad*tmp(2) - bgradpp*tmp(2)**3/6
-          extfld(5) = bgrad*tmp(1) - bgradpp*tmp(1)*tmp(2)**2/2
+          extfld(4) = bgrad*tmp(2) - &
+                      bgradpp*(tmp(2)**3+3*tmp(1)**2*tmp(2))/12
+          extfld(5) = bgrad*tmp(1) - &
+                      bgradpp*(tmp(1)**3+3*tmp(1)*tmp(2)**2)/12
+
           extfld(6) = bgradp*tmp(1)*tmp(2)
         else
           extfld(4) = bgrad*tmp(2)

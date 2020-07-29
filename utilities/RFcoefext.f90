@@ -31,7 +31,7 @@
       emax = 0.0
       do i = 1, n
 !        edata(i) = -(edata(i)-edata(n))
-        if(emax.le.abs(edata(i))) then
+        if(abs(emax).le.abs(edata(i))) then
           emax = edata(i)
         endif
 !        zdata(i) = zdata(i)/100

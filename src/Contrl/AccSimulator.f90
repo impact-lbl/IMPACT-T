@@ -18,17 +18,12 @@
 !****************************
 !
 ! AccSimulatorclass: Linear accelerator simulator class in CONTROL layer.
-! 
-! MODULE  : ... AccSimulatorclass
-! VERSION : ... 2.0
-!> @author
-!> Ji Qiang
-!
-! DESCRIPTION: 
-!> This class defines functions to set up the initial beam 
-!> particle distribution, field information, computational
-!> domain, beam line element lattice and run the dynamics
-!> simulation through the system.
+! Version: 2.0
+! Author: Ji Qiang
+! Description: This class defines functions to set up the initial beam 
+!              particle distribution, field information, computational
+!              domain, beam line element lattice and run the dynamics
+!              simulation through the system.
 ! Comments:
 !----------------------------------------------------------------
       module AccSimulatorclass
@@ -48,83 +43,62 @@
         use Rangerclass
         use Depositorclass
         implicit none
-        !> @name
-        !! \# of phase dim., num. total and local particles, int. dist. 
-        !! and restart switch, error study switch, substep for space-charge
-        !! switch, \# of time step
-        !> @{
+        !# of phase dim., num. total and local particles, int. dist. 
+        !and restart switch, error study switch, substep for space-charge
+        !switch,# of time step
         integer :: Dim, Flagdist,Rstartflg,Flagerr,&
                             Flagsubstep,ntstep 
         integer, dimension(Nbunchmax) :: Np, Nplocal
-        !> @}
-
-        !> @name
-        !! \# of num. total x, total and local y mesh pts., type of BC, 
-        !! \# of beam elems, type of integrator.
-        !! FlagImage: switch flag for image space-charge force calculation: "1" for yes, 
-        !! otherwise for no. 
-        !> @{
+        !# of num. total x, total and local y mesh pts., type of BC, 
+        !# of beam elems, type of integrator.
+        !FlagImage: switch flag for image space-charge force calculation: "1" for yes, 
+        !otherwise for no. 
         integer :: Nx,Ny,Nz,Nxlocal,Nylocal,Nzlocal,Flagbc,&
                             Nblem,Flagmap,Flagdiag,FlagImage
-        !> @}
 
-        !> @name                    
-        !! \# of processors in column and row direction.
-        !> @{
+        !# of processors in column and row direction.
         integer :: npcol, nprow
-        !> @}
 
-        !> initial \# of bunches/bins
-        integer :: Nbunch 
+        !initial # of bunches/bins
+        integer :: Nbunch
 
-        !> @name
-        !! beam current, kin. energy, part. mass, charge, ref. freq., period length, 
-        !! time step size 
-        !> @{
+        !beam current, kin. energy, part. mass, charge, ref. freq., period length, 
+        !time step size 
         double precision :: Bcurr,Bkenergy,Bmass,Bcharge,Bfreq,&
                                      Perdlen,dt,xrad,yrad
-        !> @}
 
-        !> @name
-        !! conts. in init. dist.
-        !> @{
+        !conts. in init. dist.
         integer, parameter :: Ndistparam = 21
         double precision, dimension(Ndistparam) :: distparam
-        !> @}
 
-        !> 2d logical processor array
-        type (Pgrid2d) :: grid2d 
+        !2d logical processor array.
+        type (Pgrid2d) :: grid2d
 
-        !> beam particle object and array.
+        !beam particle object and array.
         type (BeamBunch), dimension(Nbunchmax) :: Ebunch
 
-        !> beam charge density and field potential arrays.
+        !beam charge density and field potential arrays.
         type (FieldQuant) :: Potential
 
-        !> geometry object.
+        !geometry object.
         type (CompDom) :: Ageom
 
-        !> overlaped external field data array
+        !overlaped external field data array
         type (fielddata), dimension(Maxoverlap) :: fldmp
 
-        !> maximum e- emission time
+        !maximum e- emission time
         double precision :: temission
-        !> number of steps for emission
+        !number of steps for emission
         integer :: Nemission
 
-        !> distance after that to turn off image space-charge
+        !distance after that to turn off image space-charge
         double precision :: zimage
 
-        !> @name
-        !! restart time and step
-        !> @{
+        !restart time and step
         double precision :: tend,dtlessend
         integer :: iend,ibchend,nfileout,ioutend,itszend,isteerend,isloutend
-        !> @}
 
-        !> @name 
-        !! beam line element array.
-        !> @{
+        !beam line element array.
         type (BPM),target,dimension(Nbpmmax) :: beamln0
         type (DriftTube),target,dimension(Ndriftmax) :: beamln1
         type (Quadrupole),target,dimension(Nquadmax) :: beamln2
@@ -142,16 +116,14 @@
         type (EMfldAna),target,dimension(Ncclmax) :: beamln14
         type (Multipole),target,dimension(Nquadmax) :: beamln15
         type (BeamLineElem),dimension(Nblemtmax)::Blnelem
-        !> @}
-
-        !> longitudinal position of each element (min and max).
+        !longitudinal position of each element (min and max).
         double precision, dimension(2,Nblemtmax)::zBlnelem
-        !> beam line element period.
+        !beam line element period.
         interface construct_AccSimulator
           module procedure init_AccSimulator
         end interface
       contains
-        !> set up objects and parameters.
+        !set up objects and parameters.
         subroutine init_AccSimulator(time)
         implicit none
         include 'mpif.h'
@@ -179,7 +151,7 @@
         real*8 rancheck
         integer :: seedsize
 
-        ! start up MPI.
+        !start up MPI.
         call init_Input(time)
 
         ! initialize Timer.
@@ -642,7 +614,7 @@
 
         end subroutine init_AccSimulator
 
-        !> Run beam dynamics simulation through accelerator.
+        !Run beam dynamics simulation through accelerator.
         subroutine run_AccSimulator()
         implicit none
         include 'mpif.h'
@@ -1082,8 +1054,8 @@
               read(11,*)
             enddo
             do ii = 1, 6
-              read(11,*)rmt(i,1,imap),rmt(i,2,imap),rmt(i,3,imap),&
-                       rmt(i,4,imap),rmt(i,5,imap),rmt(i,6,imap)
+              read(11,*)rmt(ii,1,imap),rmt(ii,2,imap),rmt(ii,3,imap),&
+                       rmt(ii,4,imap),rmt(ii,5,imap),rmt(ii,6,imap)
             enddo
             close(11)
           endif
@@ -1237,32 +1209,36 @@
           if(distance.le.tmap(imap+1) .and. (distance+dzz).ge.tmap(imap+1)) then
             imap = imap + 1
             do ib = 1, Nbunch
-              !//find the range and center information of each bunch/bin
+
+            !//find the range and center information of each bunch/bin
+              call singlerange(Ebunch(ib)%Pts1,Nplocal(ib),Np(ib),&
+                             ptrange,sgcenter)
+
               do ipt = 1, Nplocal(ib)
-                 tmpx = Ebunch(ib)%Pts1(1,ipt) 
-                 tmppx = Ebunch(ib)%Pts1(2,ipt)
-                 tmpy = Ebunch(ib)%Pts1(3,ipt) 
-                 tmppy = Ebunch(ib)%Pts1(4,ipt)
-                 tmpz = Ebunch(ib)%Pts1(5,ipt) 
-                 tmppz = Ebunch(ib)%Pts1(6,ipt)
+                 tmpx = Ebunch(ib)%Pts1(1,ipt)  - sgcenter(1)
+                 tmppx = Ebunch(ib)%Pts1(2,ipt) - sgcenter(2)
+                 tmpy = Ebunch(ib)%Pts1(3,ipt)  - sgcenter(3)
+                 tmppy = Ebunch(ib)%Pts1(4,ipt) - sgcenter(4)
+                 tmpz = Ebunch(ib)%Pts1(5,ipt)  - sgcenter(5)
+                 tmppz = Ebunch(ib)%Pts1(6,ipt) - sgcenter(6)
                  Ebunch(ib)%Pts1(1,ipt)=tmpx*rmt(1,1,imap)+tmppx*rmt(1,2,imap)+&
                     tmpy*rmt(1,3,imap)+tmppy*rmt(1,4,imap)+&
-                    tmpz*rmt(1,5,imap)+tmppz*rmt(1,6,imap)                  
+                    tmpz*rmt(1,5,imap)+tmppz*rmt(1,6,imap)+ sgcenter(1)
                  Ebunch(ib)%Pts1(2,ipt)=tmpx*rmt(2,1,imap)+tmppx*rmt(2,2,imap)+&
                     tmpy*rmt(2,3,imap)+tmppy*rmt(2,4,imap)+&
-                    tmpz*rmt(2,5,imap)+tmppz*rmt(2,6,imap)                  
+                    tmpz*rmt(2,5,imap)+tmppz*rmt(2,6,imap)+ sgcenter(2)
                  Ebunch(ib)%Pts1(3,ipt)=tmpx*rmt(3,1,imap)+tmppx*rmt(3,2,imap)+&
                     tmpy*rmt(3,3,imap)+tmppy*rmt(3,4,imap)+&
-                    tmpz*rmt(3,5,imap)+tmppz*rmt(3,6,imap)                  
+                    tmpz*rmt(3,5,imap)+tmppz*rmt(3,6,imap)+ sgcenter(3)
                  Ebunch(ib)%Pts1(4,ipt)=tmpx*rmt(4,1,imap)+tmppx*rmt(4,2,imap)+&
                     tmpy*rmt(4,3,imap)+tmppy*rmt(4,4,imap)+&
-                    tmpz*rmt(4,5,imap)+tmppz*rmt(4,6,imap)                  
+                    tmpz*rmt(4,5,imap)+tmppz*rmt(4,6,imap)+ sgcenter(4)
                  Ebunch(ib)%Pts1(5,ipt)=tmpx*rmt(5,1,imap)+tmppx*rmt(5,2,imap)+&
                     tmpy*rmt(5,3,imap)+tmppy*rmt(5,4,imap)+&
-                    tmpz*rmt(5,5,imap)+tmppz*rmt(5,6,imap)                  
+                    tmpz*rmt(5,5,imap)+tmppz*rmt(5,6,imap)+ sgcenter(5)
                  Ebunch(ib)%Pts1(6,ipt)=tmpx*rmt(6,1,imap)+tmppx*rmt(6,2,imap)+&
                     tmpy*rmt(6,3,imap)+tmppy*rmt(6,4,imap)+&
-                    tmpz*rmt(6,5,imap)+tmppz*rmt(6,6,imap)                  
+                    tmpz*rmt(6,5,imap)+tmppz*rmt(6,6,imap)+ sgcenter(6)
               enddo
             enddo
           endif

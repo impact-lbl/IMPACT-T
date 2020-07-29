@@ -30,7 +30,7 @@
         !edata(n) = tmp2/10000.
         zdata(n) = tmp1
         edata(n) = tmp2
-        if(emax.le.abs(edata(n))) emax = edata(n)
+        if(abs(emax).le.abs(edata(n))) emax = edata(n)
       goto 10
 100   continue
       close(3)
