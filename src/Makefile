@@ -8,7 +8,7 @@
 
 CC = ifort
 LINK = ifort
-FFLAGS = -O3
+FFLAGS = -fallow-argument-mismatch -O3
 
 #**************************************************************************
 # List of .o files that EXENAME depends on.  Edit as appropriate for MP.
