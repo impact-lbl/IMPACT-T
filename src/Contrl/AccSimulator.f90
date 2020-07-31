@@ -18,7 +18,7 @@
 !****************************
 !
 ! AccSimulatorclass: Linear accelerator simulator class in CONTROL layer.
-! Version: 2.0
+! Version: 2.1
 ! Author: Ji Qiang
 ! Description: This class defines functions to set up the initial beam 
 !              particle distribution, field information, computational
@@ -178,7 +178,7 @@
         if(myid.eq.0) then
           !print*,"Start simulation:"
           print*,"!-----------------------------------------------------------"
-          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: 2.0 beta version"
+          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: 2.1 beta version"
           print*,"! Copyright of The Regents of the University of California"
           print*,"!-----------------------------------------------------------"
         endif
