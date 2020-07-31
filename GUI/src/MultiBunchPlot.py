@@ -3,6 +3,7 @@ import matplotlib.pyplot
 import numpy
 import sys
 import pathlib
+import copy
 
 def get_input_filename(bunch):
     """Return the filename of the input file for a particular bunch."""
@@ -348,7 +349,7 @@ def plot_phase_space(axes, xdata, ydata, xlabel, ylabel, grid_size=100):
 
 def plot_phase_space_hist2d(axes, x, y, grid_size=100):
     """Plot the 2d histogram part of the phase space plot."""
-    colour_map = matplotlib.cm.get_cmap('jet')
+    colour_map = copy.copy(matplotlib.cm.get_cmap("jet"))
     colour_map.set_under('white', 0.)
     return axes.hist2d(x, y, bins=grid_size, cmap=colour_map, cmin=1)
 
@@ -383,7 +384,7 @@ def plot_bunch_energies(axes, data, bunch_list, title=None, bins=100):
     handles, labels = axes.get_legend_handles_labels()
     handles.reverse()
     labels.reverse()
-    axes.legend(handles, labels)
+    axes.legend(handles, labels, loc='upper right')
 
 def plot_total_energy(axes, combined_data, bunch_list, title=None, bins=100):
     """Plot total energy spectrum histogram on log scale."""
@@ -471,6 +472,9 @@ def plot_all(bunch_list, z_offset=None):
     except FileNotFoundError as err:
         print(f'Phase space data file not found: {err}')
         print('Skipping initial phase space step.')
+    except IndexError as err:
+        print(f'Error processing phase space data: {err}')
+        print('Skipping initial phase space step.')
     else:
         data = [full_data[bunch-1] for bunch in bunch_list]
         combined_data = combine_phase_space_data(data)
@@ -504,6 +508,9 @@ def plot_all(bunch_list, z_offset=None):
         full_data = load_phase_space_data(50, full_bunch_list, z_offset)
     except FileNotFoundError as err:
         print(f'Phase space data file not found: {err}')
+        print('Skipping final phase space step.')
+    except IndexError as err:
+        print(f'Error processing phase space data: {err}')
         print('Skipping final phase space step.')
     else:
         data = [full_data[bunch-1] for bunch in bunch_list]
@@ -548,6 +555,9 @@ def plot_all(bunch_list, z_offset=None):
                                                   z_offset)
             except FileNotFoundError as err:
                 print(f'BPM data file not found: {err}')
+                print('Skipping this BPM plot step.')
+            except IndexError as err:
+                print(f'Error processing phase space data: {err}')
                 print('Skipping this BPM plot step.')
             else:
                 data = [full_data[bunch-1] for bunch in bunch_list]
