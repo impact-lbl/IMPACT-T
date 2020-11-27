@@ -111,7 +111,7 @@ def load_statistics_data(bunch_list, z_offset=None):
     ydata = []
     for bunch in bunch_list:
         x = load_data_from_file(f'fort.{bunch}024')
-        y = load_data_from_file(f'fort.{bunch}024')
+        y = load_data_from_file(f'fort.{bunch}025')
         if z_offset:
             x = shift_z(x, z_offset, 1)
             y = shift_z(y, z_offset, 1)
