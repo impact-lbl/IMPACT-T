@@ -211,7 +211,11 @@ def combine_bunch_values(data, bunch_list):
 
 def combine_phase_space_data(data):
     """Combine per-bunch phase space data into single array."""
-    return numpy.concatenate(get_non_empty(data))
+    non_empty = get_non_empty(data)
+    if non_empty == []:
+        return non_empty
+    else:
+        return numpy.concatenate(non_empty)
 
 def get_xdata(data, xaxis):
     """Return data for the given x-axis: time t (ns) or location z (mm)."""
