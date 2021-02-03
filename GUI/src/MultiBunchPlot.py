@@ -419,7 +419,8 @@ def plot_bunch_energies(axes, data, bunch_list, title=None, bins=100):
     labels.reverse()
     axes.legend(handles, labels, loc='upper right')
 
-def plot_total_energy(axes, combined_data, bunch_list, title=None, bins=100):
+def plot_total_energy(axes, combined_data, bunch_list, title=None, bins=100,
+                      target_range=None):
     """Plot total energy spectrum histogram on log scale."""
     if not title:
         title = 'Total energy spectrum for ' + bunch_text(bunch_list)
@@ -430,6 +431,17 @@ def plot_total_energy(axes, combined_data, bunch_list, title=None, bins=100):
     axes.set_xlabel('Energy (MeV)')
     axes.set_ylabel('Number of macroparticles')
     axes.set_yscale('log')
+    if target_range is not None:
+        min_energy = target_range[0]/1e6  # MeV
+        max_energy = target_range[1]/1e6  # MeV
+        W_low = W[W < min_energy]
+        W_high = W[W > max_energy]
+        W_target = W[W >= min_energy]
+        W_target = W_target[W_target <= max_energy]
+        W = [W_low, W_target, W_high]
+        labels = ['Below target', 'Target range', 'Above target']
+        axes.hist(W, bins=bins, histtype='stepfilled', label=labels, alpha=0.7)
+        axes.legend()
 
 def add_plot_margins(axes, margin):
     """Adjust the axis limits to include a margin around the data."""
@@ -440,7 +452,14 @@ def add_plot_margins(axes, margin):
     axes.set_xlim(xmin - xmargin, xmax + xmargin)
     axes.set_ylim(ymin - ymargin, ymax + ymargin)
 
-def plot_all(bunch_list):
+def select_by_energy(data, target_range):
+    """Return a subset of the data that falls within the target range."""
+    min_energy, max_energy = target_range
+    selected = data[data.T[6] >= min_energy]
+    selected = selected[selected.T[6] <= max_energy]
+    return selected
+
+def plot_all(bunch_list, target_range=None):
     """Run and save all plots consecutively."""
     bunch_list, invalid_bunches = check_bunch_list(bunch_list)
     if invalid_bunches:
@@ -526,7 +545,8 @@ def plot_all(bunch_list):
         matplotlib.pyplot.close(figure)
     print('Processing initial phase space data...')
     try:
-        plot_phase_spaces_and_energies(40, 'initial', bunch_list, z_offset)
+        plot_phase_spaces_and_energies(
+            40, 'initial', bunch_list, z_offset, target_range)
     except FileNotFoundError as err:
         print(f'! Phase space data file not found: {err}')
         print( '! Skipping initial phase space step.')
@@ -535,7 +555,8 @@ def plot_all(bunch_list):
         print( '! Skipping initial phase space step.')
     print('Processing final phase space data...')
     try:
-        plot_phase_spaces_and_energies(50, 'final', bunch_list, z_offset)
+        plot_phase_spaces_and_energies(
+            50, 'final', bunch_list, z_offset, target_range)
     except FileNotFoundError as err:
         print(f'! Phase space data file not found: {err}')
         print( '! Skipping final phase space step.')
@@ -554,7 +575,7 @@ def plot_all(bunch_list):
             print(f'Processing BPM {filenumber} phase space data...')
             try:
                 plot_phase_spaces_and_energies(
-                    filenumber, location, bunch_list, z_offset)
+                    filenumber, location, bunch_list, z_offset, target_range)
             except FileNotFoundError as err:
                 print(f'! BPM data file not found: {err}')
                 print( '! Skipping this BPM plot step.')
@@ -562,7 +583,9 @@ def plot_all(bunch_list):
                 print(f'! Error processing phase space data: {err}')
                 print( '! Skipping this BPM plot step.')
 
-def plot_phase_spaces_and_energies(filenumber, location, bunch_list, z_offset):
+def plot_phase_spaces_and_energies(
+        filenumber, location, bunch_list, z_offset, target_range):
+    """Generate all phase space and energy plots for the given output step."""
     if filenumber == 40:
         file_title = 'initial'
         phase_title = 'Initial phase space'
@@ -599,6 +622,24 @@ def plot_phase_spaces_and_energies(filenumber, location, bunch_list, z_offset):
         else:
             figure.savefig(f'phase-space-{file_title}')
         matplotlib.pyplot.close(figure)
+        if target_range is not None:
+            print(' - Plotting phase space for target energy range...')
+            try:
+                selected_data = select_by_energy(combined_data, target_range)
+            except Exception as err:
+                print(f' ! Error selecting data based on energy range: {err}')
+            else:
+                figure, axes = matplotlib.pyplot.subplots(
+                    nrows=2, ncols=2, dpi=300)
+                try:
+                    plot_phase_spaces(
+                        axes, selected_data, bunch_list, grid_size=300,
+                        title=f'{phase_title} for target energy range')
+                except Exception as err:
+                    print(f' ! Error plotting phase space data: {err}')
+                else:
+                    figure.savefig(f'phase-space-{file_title}-target')
+                matplotlib.pyplot.close(figure)
     if len(full_bunch_list) > 1:
         print(' - Plotting individual bunch phase spaces...')
         for bunch in full_bunch_list:
@@ -627,6 +668,7 @@ def plot_phase_spaces_and_energies(filenumber, location, bunch_list, z_offset):
         figure, axes = matplotlib.pyplot.subplots(dpi=300)
         try:
             plot_total_energy(axes, combined_data, bunch_list, bins=300,
+                target_range=target_range,
                 title=f'{energy_title} for {bunch_text(bunch_list)}')
         except Exception as err:
             print(f' ! Error plotting energy spectrum: {err}')
