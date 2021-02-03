@@ -17,13 +17,18 @@ def get_input_filename(bunch):
 
 def get_bunch_count():
     """Get the number of bunches from the first input file."""
-    input = read_input_file(get_input_filename(1))
-    return int(input[1].split()[2])
+    input_lines = read_input_file(get_input_filename(1))
+    return int(input_lines[1].split()[2])
+
+def get_z_offset():
+    """Get the initial z-offset from the first input file."""
+    input_lines = read_input_file(get_input_filename(1))
+    return float(input_lines[7].split()[5])
 
 def get_lattice():
     """Get the lattice from the first input file as a list of lists."""
-    input = read_input_file(get_input_filename(1))
-    return [line.split() for line in input[9:]]
+    input_lines = read_input_file(get_input_filename(1))
+    return [line.split() for line in input_lines[9:]]
 
 def get_bpms(lattice, z_offset=None):
     """Get the location and file number of all BPMs as a list of tuples."""
@@ -53,13 +58,13 @@ def get_bunch_counts(bunch_list):
 
 def get_particle_count(filename):
     """Get the macroparticle count from a given input file."""
-    input = read_input_file(filename)
-    return int(input[2].split()[1])
+    input_lines = read_input_file(filename)
+    return int(input_lines[2].split()[1])
 
 def get_mass(filename):
     """Get the particle mass from a given input file."""
-    input = read_input_file(filename)
-    return float(input[8].split()[2])
+    input_lines = read_input_file(filename)
+    return float(input_lines[8].split()[2])
 
 def is_mass_matched(bunch_list):
     """Check whether the particle mass values are the same for given bunches."""
@@ -435,11 +440,12 @@ def add_plot_margins(axes, margin):
     axes.set_xlim(xmin - xmargin, xmax + xmargin)
     axes.set_ylim(ymin - ymargin, ymax + ymargin)
 
-def plot_all(bunch_list, z_offset=None):
+def plot_all(bunch_list):
     """Run and save all plots consecutively."""
     bunch_list, invalid_bunches = check_bunch_list(bunch_list)
     if invalid_bunches:
         print(f'! Skipping invalid bunches: {invalid_bunches}')
+    z_offset = get_z_offset()
     print('Loading experimental data...')
     try:
         experimental_results = load_experimental_results()
@@ -641,12 +647,4 @@ if __name__ == '__main__':
                 bunch_list = list(range(1, int(get_bunch_count()) + 1))
     else:
         bunch_list = list(range(1, int(get_bunch_count()) + 1))
-    if len(sys.argv) > 2:
-        z_offset = sys.argv[2]
-        try:
-            z_offset = float(z_offset)
-        except:
-            z_offset = None
-    else:
-        z_offset = None
-    plot_all(bunch_list, z_offset)
+    plot_all(bunch_list)

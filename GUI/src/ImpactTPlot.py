@@ -948,7 +948,11 @@ class PlotMultiBunchBaseFrame(PlotBaseFrame):
         self.offset_label = tk.Label(self.option_frame, text='z offset (mm):')
         self.offset_label.pack(side='left')
         self.offset_box = tk.Entry(self.option_frame, width=6)
-        self.offset_box.insert(0, '0')
+        try:
+            z_offset = MultiBunchPlot.get_z_offset()
+        except:
+            z_offset = 0
+        self.offset_box.insert(0, str(z_offset*1e3))
         self.offset_box.pack(fill='both', expand=1, side='left')
     def get_from_bunch(self):
         """Get branch selected in options frame."""
@@ -970,7 +974,11 @@ class PlotMultiBunchBaseFrame(PlotBaseFrame):
         if hasattr(self, "offset_box"):
             return float(self.offset_box.get())/1000
         else:
-            return None
+            try:
+                z_offset = MultiBunchPlot.get_z_offset()
+            except:
+                z_offset = None
+            return z_offset
 
 class PlotMBBeamSizeFrame(PlotMultiBunchBaseFrame):
     """Frame to plot rms beam sizes for selected bunches."""
