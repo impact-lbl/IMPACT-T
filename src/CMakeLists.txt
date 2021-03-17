@@ -10,11 +10,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # project name and language
 project(ImpactT LANGUAGES Fortran)
 
-# BUILD_SHARED_LIBS is a global flag offered by CMake
-# to toggle the behavior of add_library
-# With OFF it will create a static library
-set(BUILD_SHARED_LIBS OFF)
-
 option(USE_MPI "Activate MPI build" OFF)
 
 
