@@ -4,9 +4,6 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # Uncomment for VERBOSE Makefiles. Useful for debugging.
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# Needed as we generate mpif.h on the current directory
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 # project name and language
 project(ImpactT LANGUAGES Fortran)
 
@@ -52,20 +49,29 @@ list(APPEND _sources
 	Contrl/main.f90
 )
 
-set(OUTPUT_NAME "ImpactTexe")
-
 if(USE_MPI)
-    find_package(MPI REQUIRED)
-    add_definitions(${MPI_Fortran_COMPILE_FLAGS} -DUSE_MPI)
-    include_directories(${MPI_Fortran_INCLUDE_PATH})
     set(OUTPUT_NAME "ImpactTexe-mpi")
+    add_executable(${OUTPUT_NAME})
+
+    find_package(MPI REQUIRED)
+    target_compile_definitions(${OUTPUT_NAME} PUBLIC USE_MPI)
+    target_link_libraries(${OUTPUT_NAME} PUBLIC MPI::MPI_Fortran)
+    include_directories(${MPI_Fortran_INCLUDE_PATH})
 else()
-    configure_file(mpif_single.h mpif.h COPYONLY)
+    set(OUTPUT_NAME "ImpactTexe")
+    add_executable(${OUTPUT_NAME})
+
+    # Add mpistub to source list
     list(APPEND _sources mpistub.f90)
+
+    # Create mpif.h from mpif_single.h
+    configure_file(mpif_single.h ${ImpactT_BINARY_DIR}/include/mpif.h COPYONLY)
+    # Add include dir above into search path
+    target_include_directories(${OUTPUT_NAME} PRIVATE $<BUILD_INTERFACE:${ImpactT_BINARY_DIR}/include>)
 endif()
 
-add_executable(${OUTPUT_NAME} ${_sources})
-target_link_libraries(${OUTPUT_NAME} ${MPI_Fortran_LIBRARIES})
+# Associate source files with target
+target_sources(${OUTPUT_NAME} PRIVATE ${_sources})
 
 # Enables preprocessing
 target_compile_options(${OUTPUT_NAME} PRIVATE -cpp)
