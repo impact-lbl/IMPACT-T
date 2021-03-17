@@ -2,8 +2,9 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 # Uncomment for VERBOSE Makefiles. Useful for debugging.
-set(CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 
+# Needed as we generate mpif.h on the current directory
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # project name and language
