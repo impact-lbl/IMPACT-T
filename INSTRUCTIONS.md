@@ -34,6 +34,7 @@ cmake --build build
 # this command needs sudo if you install into system paths:
 cmake --build build --target install
 ```
+If you like to install IMPACT-T into another directory than the default, pass to the `cmake -S . -B build` line the additional argument `-DCMAKE_INSTALL_PREFIX=/your/custom/install/path`.
 
 ### Multi Processor Code:
 
