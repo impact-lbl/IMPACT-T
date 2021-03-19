@@ -49,18 +49,18 @@ list(APPEND _sources
     Contrl/main.f90
 )
 
+set(OUTPUT_NAME "ImpactTexe")
 if(USE_MPI)
     set(OUTPUT_NAME "ImpactTexe-mpi")
-    add_executable(${OUTPUT_NAME})
+endif()
+add_executable(${OUTPUT_NAME})
 
+if(USE_MPI)
     find_package(MPI REQUIRED)
     target_compile_definitions(${OUTPUT_NAME} PUBLIC USE_MPI)
     target_link_libraries(${OUTPUT_NAME} PUBLIC MPI::MPI_Fortran)
     include_directories(${MPI_Fortran_INCLUDE_PATH})
 else()
-    set(OUTPUT_NAME "ImpactTexe")
-    add_executable(${OUTPUT_NAME})
-
     # Add mpistub to source list
     list(APPEND _sources mpistub.f90)
 
