@@ -46,6 +46,12 @@ cmake --build build --target install
 
 ## Windows
 
+For Windows it will be necessary to use `NMake` to read and execute the generated makefiles.
+
+`NMake` is command-line tool included with Visual Studio that builds projects based on commands that are contained in a description file.
+
+More information on `NMake` can be found on the [NMAKE Reference](https://docs.microsoft.com/en-us/cpp/build/reference/nmake-reference?view=msvc-160) website.
+
 ### Single Processor Code:
 
 ```shell script
