@@ -38,11 +38,10 @@ cmake --build build --target install
 ### Multi Processor Code:
 
 ```shell script
-mkdir build
-cd build
-cmake ../src -DUSE_MPI=ON
-make
-make install
+# inside the IMPACT-T src/ directory:
+cmake -S . -B build -DUSE_MPI=ON
+cmake --build build
+cmake --build build --target install
 ```
 
 ## Windows
