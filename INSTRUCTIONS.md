@@ -26,11 +26,13 @@ If you just want to use CMake to build the project, jump into sections *1. Intro
 ### Single Processor Code:
 
 ```shell script
-mkdir build
-cd build
-cmake ../src
-make
-make install
+# inside the IMPACT-T src/ directory:
+cmake -S . -B build
+cmake --build build
+# the executable in now in build/bin/
+
+# this command needs sudo if you install into system paths:
+cmake --build build --target install
 ```
 
 ### Multi Processor Code:
