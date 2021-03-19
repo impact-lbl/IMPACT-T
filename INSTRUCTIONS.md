@@ -92,9 +92,9 @@ cmake --build build
 ```bash
 module swap craype-haswell craype-mic-knl
 module load openmpi # if using OpenMPI otherwise skip for MPICH
-mkdir build
-cd build
-cmake ../src -DUSE_MPI=ON
+cmake -S . -B build -DUSE_MPI=ON
+cmake --build build
+# find the executable in build/bin/
 ```
 
 ## Running at NERSC
