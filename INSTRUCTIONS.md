@@ -49,10 +49,9 @@ cmake --build build --target install
 ### Single Processor Code:
 
 ```shell script
-mkdir build
-cd build
-cmake -G "NMake Makefiles" ../src
-cmake --build .
+cmake -S . -B build -G "NMake Makefiles"
+cmake --build build
+cmake --build build --target install
 cmake --install
 ```
 
