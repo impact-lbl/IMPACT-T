@@ -13,6 +13,8 @@ conda install -c conda-forge impact-t=*=mpi_openmpi*
 # For MPICH
 conda install -c conda-forge impact-t=*=mpi_mpich*
 ```
+After these steps, the IMPACT-T executable `ImpactTexe` or `ImpactTexe-mpi`, respectively, will be in your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)) environment variable and is thus ready to use like any regular command-line command.
+
 # Compiling The Code
 
 ## Unix
@@ -94,4 +96,3 @@ cmake ../src -DUSE_MPI=ON
 
 There is one caveat with the conda-forge installed MPI version of the code.
 Instead of running with `srun -n <cores> ` you must use `mpirun -n <cores>`.
-
