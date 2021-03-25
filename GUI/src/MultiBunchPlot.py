@@ -25,6 +25,12 @@ def get_z_offset():
     input_lines = read_input_file(get_input_filename(1))
     return float(input_lines[7].split()[5])
 
+def get_target_range():
+    """Get the target energy range from the first input file."""
+    input_lines = read_input_file(get_input_filename(1))
+    if len(input_lines[2].split()) > 9 and int(input_lines[2].split()[7]) == 1:
+        return [float(item) for item in input_lines[2].split()[8:10]]
+
 def get_lattice():
     """Get the lattice from the first input file as a list of lists."""
     input_lines = read_input_file(get_input_filename(1))
@@ -459,12 +465,13 @@ def select_by_energy(data, target_range):
     selected = selected[selected.T[6] <= max_energy]
     return selected
 
-def plot_all(bunch_list, target_range=None):
+def plot_all(bunch_list):
     """Run and save all plots consecutively."""
     bunch_list, invalid_bunches = check_bunch_list(bunch_list)
     if invalid_bunches:
         print(f'! Skipping invalid bunches: {invalid_bunches}')
     z_offset = get_z_offset()
+    target_range = get_target_range()
     print('Loading experimental data...')
     try:
         experimental_results = load_experimental_results()
