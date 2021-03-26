@@ -204,13 +204,8 @@
               Flagmap,distparam,Ndistparam,Bcurr,Bkenergy,Bmass,Bcharge,&
         Bfreq,xrad,yrad,Perdlen,Nblem,npcol,nprow,Flagerr,Flagdiag,&
         Flagsubstep,phsini,dt,ntstep,Nbunch,FlagImage,Nemission,&
-        temission,zimage)
+        temission,zimage,FlagEnergyRange,filter_min,filter_max)
  
-        ! Hard-code energy range for testing - should be included in input file
-        FlagEnergyRange = 1
-        filter_min =  95.0e6  ! eV
-        filter_max = 105.0e6  ! eV
-
 !        print*,"Np: ",Np,dt,ntstep,Nx,Ny,Nz
 !        print*,"Bcurr: ",Bcurr,Bkenergy,Bmass,Bcharge,Bfreq
 !-------------------------------------------------------------------
