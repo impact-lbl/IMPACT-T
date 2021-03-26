@@ -63,9 +63,12 @@
         !! \# of beam elems, type of integrator.
         !! FlagImage: switch flag for image space-charge force calculation: "1" for yes, 
         !! otherwise for no. 
+        !! FlagEnergyRange: calculate distances for a specific subset of particles
+        !!                  based on energy range rather than for all particles
         !> @{
         integer :: Nx,Ny,Nz,Nxlocal,Nylocal,Nzlocal,Flagbc,&
                             Nblem,Flagmap,Flagdiag,FlagImage
+        integer :: FlagEnergyRange = 0
         !> @}
 
         !> @name                    
@@ -83,6 +86,12 @@
         !> @{
         double precision :: Bcurr,Bkenergy,Bmass,Bcharge,Bfreq,&
                                      Perdlen,dt,xrad,yrad
+        !> @}
+
+        !> @name
+        !! Energy range minimum and maximum for filtering large energy spread
+        !> @{
+        double precision :: filter_min, filter_max
         !> @}
 
         !> @name
@@ -197,6 +206,11 @@
         Flagsubstep,phsini,dt,ntstep,Nbunch,FlagImage,Nemission,&
         temission,zimage)
  
+        ! Hard-code energy range for testing - should be included in input file
+        FlagEnergyRange = 1
+        filter_min =  95.0e6  ! eV
+        filter_max = 105.0e6  ! eV
+
 !        print*,"Np: ",Np,dt,ntstep,Nx,Ny,Nz
 !        print*,"Bcurr: ",Bcurr,Bkenergy,Bmass,Bcharge,Bfreq
 !-------------------------------------------------------------------
@@ -679,6 +693,11 @@
         integer :: tmpflag,ib,ibb,ibunch,inib,nplctmp,nptmp,nptottmp
         double precision, allocatable, dimension(:) :: gammaz
         double precision, allocatable, dimension(:,:) :: brange
+        double precision :: fmin, fmax
+        double precision, allocatable, dimension(:,:) :: frange
+        double precision, dimension(6) :: fgrange
+        double precision :: fgammaz, fzcent
+        integer, allocatable, dimension(:) :: fnp
         double precision :: dGspread
         integer, dimension(Maxoverlap) :: tmpfile
         double precision :: tmpcur,totchrg,r0
@@ -1149,6 +1168,8 @@
 
         allocate(gammaz(Nbunch))
         allocate(brange(12,Nbunch))
+        allocate(frange(12,Nbunch))
+        allocate(fnp(Nbunch))
         !count the total current and # of particles and local # of particles for each 
         !bunch or bin
         curr = 0.0d0
@@ -1431,8 +1452,16 @@
           !only the bunch with zmax>0 is counted as an effective bunch 
           do ib = 1, ibunch
             !//find the range and center of each bunch/bin
-            call singlerange(Ebunch(ib)%Pts1,Nplocal(ib),Np(ib),&
-                             ptrange,sgcenter)
+            if(FlagEnergyRange == 1) then
+                fmin = sqrt((1.0d0 + filter_min/Ebunch(ib)%mass)**2 - 1.0d0)
+                fmax = sqrt((1.0d0 + filter_max/Ebunch(ib)%mass)**2 - 1.0d0)
+                call singlerange(Ebunch(ib)%Pts1, Nplocal(ib), Np(ib), &
+                                 ptrange, sgcenter, fmin, fmax, &
+                                 frange(1:6,ib), frange(7:12,ib), fnp(ib))
+            else
+                call singlerange(Ebunch(ib)%Pts1,Nplocal(ib),Np(ib),&
+                                ptrange,sgcenter)
+            endif
             !Ebunch(ib)%refptcl(5) = sgcenter(5) + zorgin
             Ebunch(ib)%refptcl(5) = sgcenter(5) 
             gammaz(ib) = sqrt(1.0+sgcenter(6)**2)!//gammaz from <gamma_i betaz_i>
@@ -1468,8 +1497,14 @@
 
 !          print*,"gamz: ",gammaz(1)
           !get the distance of the center of all effective bunches/bins
-          distance = zcent*Scxlt
-          dzz = sqrt(1.0d0-1.0d0/gammazavg**2)*Clight*dtless*Dt
+          if(FlagEnergyRange == 1) then
+            call globalrange(frange, fgrange, fgammaz, fzcent, fnp, ibunch)
+            distance = fzcent*Scxlt
+            dzz = sqrt(1.0d0-1.0d0/fgammaz**2)*Clight*dtless*Dt
+          else
+            distance = zcent*Scxlt
+            dzz = sqrt(1.0d0-1.0d0/gammazavg**2)*Clight*dtless*Dt
+          endif
           nptottmp = sum(Np)
           !exit if the beam is outside the beamline
           if(distance.gt.blnLength .or. distance.gt.tstop .or. nptottmp.lt.1) then
@@ -2560,6 +2595,8 @@
         deallocate(idrfile)
         deallocate(gammaz)
         deallocate(brange)
+        deallocate(frange)
+        deallocate(fnp)
         if(Flagbc.eq.3) then
           deallocate(besscoef)
           deallocate(bessnorm)

@@ -12,6 +12,9 @@
 !----------------------------------------------------------------
       module Rangerclass
         use Pgrid2dclass
+        interface singlerange
+          module procedure singlerange_standard, singlerange_filtered
+        end interface
         interface globalrange
           module procedure globalrange1,globalrange2,globalrange3,globalrange4
         end interface
@@ -21,7 +24,7 @@
       !> find the range (minimum and maxium of a single bunch) and the centroid
       !> of a single beam bunch.
       !--------------------------------------------------------------------------------------
-      subroutine singlerange(partcls,nplc,nptot,range,center)
+      subroutine singlerange_standard(partcls,nplc,nptot,range,center)
       implicit none
       include 'mpif.h'
       integer, intent(in) :: nplc, nptot
@@ -79,7 +82,118 @@
         enddo
       endif
 
-      end subroutine singlerange
+      end subroutine singlerange_standard
+
+    !--------------------------------------------------------------------------------------
+    !> @brief
+    !> find the range (minimum and maxium of a single bunch) and the centroid
+    !> of a single beam bunch, filtering for a certain momentum range.
+    !--------------------------------------------------------------------------------------
+    subroutine singlerange_filtered(partcls,nplc,nptot,range,center,&
+                                    fmin, fmax, frange, fcenter, fnptot)
+        implicit none
+        include 'mpif.h'
+        integer, intent(in) :: nplc, nptot
+        double precision, dimension(:,:) :: partcls
+        double precision, dimension(6), intent(out) :: range,center
+        double precision, intent(in) :: fmin, fmax
+        double precision, dimension(6), intent(out) :: frange, fcenter
+        integer, intent(out) :: fnptot
+        double precision, dimension(3) :: localrange1,localrange2,temp1,temp2
+        double precision, dimension(6) :: centerlc
+        double precision, dimension(3) :: frange_local_min, frange_local_max
+        double precision, dimension(6) :: fcenter_local
+        integer :: fnptot_local
+        integer :: i, j, ierr
+
+        do i = 1, 3
+            localrange1(i) =  1000000.0
+            localrange2(i) = -1000000.0
+            frange_local_min(i) =  1000000.0
+            frange_local_max(i) = -1000000.0
+            centerlc(2*i-1) = 0.0
+            centerlc(2*i) = 0.0
+            fcenter_local(2*i-1) = 0.0
+            fcenter_local(2*i) = 0.0
+        enddo
+        fnptot_local = 0
+
+        ! print*,"nplc, partcls: ",nplc,partcls
+        do i = 1, nplc
+            do j = 1, 3
+                if(localrange1(j) > partcls(2*j-1,i)) then
+                    localrange1(j) = partcls(2*j-1,i)
+                endif
+                if(localrange2(j) < partcls(2*j-1,i)) then
+                    localrange2(j) = partcls(2*j-1,i)
+                endif
+                centerlc(2*j-1) = centerlc(2*j-1) + partcls(2*j-1,i)
+                centerlc(2*j) = centerlc(2*j) + partcls(2*j,i)
+            enddo
+            if(partcls(6,i) >= fmin .and. partcls(6,i) <= fmax) then
+                fnptot_local = fnptot_local + 1
+                do j = 1, 3
+                    if(partcls(2*j-1,i) < frange_local_min(j)) then
+                        frange_local_min(j) = partcls(2*j-1,i)
+                    endif
+                    if(partcls(2*j-1,i) > frange_local_max(j)) then
+                        frange_local_max(j) = partcls(2*j-1,i)
+                    endif
+                    fcenter_local(2*j-1) = fcenter_local(2*j-1) + partcls(2*j-1,i)
+                    fcenter_local(2*j) = fcenter_local(2*j) + partcls(2*j,i)
+                enddo
+            endif
+        enddo
+
+        ! print*,"localrange1: ",localrange1
+        ! print*,"localrange2: ",localrange1
+        ! print*,"centerlc: ",centerlc
+
+        call MPI_ALLREDUCE(localrange1,temp1,3,MPI_DOUBLE_PRECISION,MPI_MIN,MPI_COMM_WORLD,&
+                           ierr);
+        call MPI_ALLREDUCE(localrange2,temp2,3,MPI_DOUBLE_PRECISION,MPI_MAX,MPI_COMM_WORLD,&
+                           ierr);
+        call MPI_ALLREDUCE(centerlc,center,6,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,&
+                           ierr);
+
+        if(nptot.gt.0) then
+            do i = 1, 3
+                range(2*i-1) = temp1(i)
+                range(2*i) = temp2(i)
+                center(2*i-1) = center(2*i-1)/nptot
+                center(2*i) = center(2*i)/nptot
+            enddo
+        else
+            do i = 1, 3
+                range(2*i-1) = temp1(i)
+                range(2*i) = temp2(i)
+                center(2*i-1) = center(2*i-1)
+                center(2*i) = center(2*i)
+            enddo
+        endif
+
+        call MPI_ALLREDUCE(frange_local_min, temp1, 3, MPI_DOUBLE_PRECISION, &
+                           MPI_MIN, MPI_COMM_WORLD, ierr);
+        call MPI_ALLREDUCE(frange_local_max, temp2, 3, MPI_DOUBLE_PRECISION, &
+                           MPI_MAX, MPI_COMM_WORLD, ierr);
+        call MPI_ALLREDUCE(fcenter_local, fcenter, 6, MPI_DOUBLE_PRECISION, &
+                           MPI_SUM, MPI_COMM_WORLD, ierr);
+        call MPI_ALLREDUCE(fnptot_local, fnptot, 1, MPI_INTEGER, &
+                           MPI_SUM, MPI_COMM_WORLD, ierr);
+
+        if(fnptot == 0) then
+            frange = 0.0d0
+            fcenter = 0.0d0
+        else
+            do i = 1, 3
+                frange(2*i-1) = temp1(i)
+                frange(2*i) = temp2(i)
+                fcenter(2*i-1) = fcenter(2*i-1)/fnptot
+                fcenter(2*i) = fcenter(2*i)/fnptot
+            enddo
+        end if
+
+    end subroutine singlerange_filtered
 
       !--------------------------------------------------------------------------------------
       !> @brief
