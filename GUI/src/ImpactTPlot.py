@@ -1081,6 +1081,23 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
         new_slice = [k for k,v in self.slice_list.items() if v == filenumber][0]
         self.slice_select['values'] = list(self.slice_list)
         self.slice_select.set(new_slice)
+    def create_energy_selector(self, text='target energy'):
+        """Add target energy range 'from' and 'to' boxes."""
+        try:
+            target_range = [val/1e6 for val in MultiBunchPlot.get_target_range()]
+        except:
+            target_range = ['', '']
+        self.from_energy_label = tk.Label(self.option_frame,
+                                          text=f'{text.capitalize()} from (MeV):')
+        self.from_energy_label.pack(side='left')
+        self.from_energy_box = tk.Entry(self.option_frame, width=6)
+        self.from_energy_box.insert(0, str(target_range[0]))
+        self.from_energy_box.pack(fill='both', expand=1, side='left')
+        self.to_energy_label = tk.Label(self.option_frame, text='to:')
+        self.to_energy_label.pack(side='left')
+        self.to_energy_box = tk.Entry(self.option_frame, width=6)
+        self.to_energy_box.insert(1, str(target_range[1]))
+        self.to_energy_box.pack(fill='both', expand=1, side='left')
     def create_bins_box(self):
         """Add text box to set number of bins for plot sampling."""
         self.bins_label = tk.Label(self.option_frame, text='Bins: ')
@@ -1099,6 +1116,24 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
     def get_filenumber(self):
         """Get the file number of the selected slice for plotting."""
         return self.slice_list[self.slice_select.get()]
+    def get_target_range(self):
+        """Get target range as set in options frame or from input file."""
+        if hasattr(self, "from_energy_box") and hasattr(self, "to_energy_box"):
+            lower = self.from_energy_box.get()
+            upper = self.to_energy_box.get()
+            if lower == '' and upper == '':
+                return None
+            elif lower == '':
+                lower = 0.0
+            elif upper == '':
+                upper = 1.0e100
+            return [float(lower)*1e6, float(upper)*1e6]
+        else:
+            try:
+                target_range = MultiBunchPlot.get_target_range()
+            except:
+                target_range = None
+            return target_range
     def get_bins(self):
         """Get the selected number of bins for plot sampling."""
         return int(self.bins.get())
@@ -1137,6 +1172,14 @@ class PlotMultiBunchParticleBaseFrame(PlotMultiBunchBaseFrame):
     def get_combined_data(self):
         """Return a combined dataset for the selected bunches."""
         return MultiBunchPlot.combine_phase_space_data(self.get_selected_data())
+    def get_filtered_data(self):
+        """Return dataset filtered by energy range."""
+        target_range = self.get_target_range()
+        if target_range is not None:
+            return MultiBunchPlot.select_by_energy(self.get_combined_data(),
+                                                   self.get_target_range())
+        else:
+            return self.get_combined_data()
 
 class PlotMBPhaseSpaceFrame(PlotMultiBunchParticleBaseFrame):
     """Frame to plot phase spaces for selected bunches together."""
@@ -1156,6 +1199,34 @@ class PlotMBPhaseSpaceFrame(PlotMultiBunchParticleBaseFrame):
             box = subfig.get_position()
             subfig.set_position([box.x0*1.1, box.y0*1.1,
                                  box.width, box.height*0.88])
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Add options (override base class to add target energy selector)."""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_slice_selector()
+        self.create_bunch_selector(Nbunch)
+        self.create_offset_selector()
+        self.create_bins_box()
+        self.create_plot_button()
+        # Create second row of controls
+        self.top_option_frame = self.option_frame
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_energy_selector(text='filter energy')
+        self.create_filter_toggle()
+    def create_filter_toggle(self):
+        """Creates toggle for filtering by energy."""
+        self.filtered = tk.StringVar()
+        self.filtered.set('OFF')
+        self.filter_toggle = tk.Checkbutton(self.option_frame,
+                                            onvalue='ON',
+                                            offvalue='OFF',
+                                            width=4,
+                                            indicatoron=False,
+                                            variable=self.filtered,
+                                            textvariable=self.filtered,
+                                            command=self.plot)
+        self.filter_toggle.pack(fill='both', expand=1, side='left')
     def get_title(self, filenumber):
         """Generate the plot title for a particular file number."""
         return self.build_title('phase space', filenumber)
@@ -1163,9 +1234,13 @@ class PlotMBPhaseSpaceFrame(PlotMultiBunchParticleBaseFrame):
         """Load and plot phase space data for selected bunches."""
         for subfig in self.subfig:
             subfig.cla()
+        if self.filtered.get() == 'ON':
+            this_data = self.get_filtered_data()
+        else:
+            this_data = self.get_combined_data()
         MultiBunchPlot.plot_phase_spaces(
             self.axes,
-            self.get_combined_data(),
+            this_data,
             self.get_bunch_list(),
             title=self.get_title(self.get_filenumber()),
             grid_size=self.get_bins())
@@ -1193,6 +1268,20 @@ class PlotMBTotalEnergyFrame(PlotMultiBunchParticleBaseFrame):
     """Frame to plot total energy spectrum for selected bunches combined."""
     def __init__(self, parent):
         PlotMultiBunchParticleBaseFrame.__init__(self, parent)
+    def create_option_frame(self, Nbunch, per_bunch=True):
+        """Add options (override base class to add target energy selector)."""
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_slice_selector()
+        self.create_bunch_selector(Nbunch)
+        self.create_offset_selector()
+        self.create_bins_box()
+        self.create_plot_button()
+        # Create second row of controls
+        self.top_option_frame = self.option_frame
+        self.option_frame = tk.Frame(self)
+        self.option_frame.pack()
+        self.create_energy_selector(text='target energy')
     def get_title(self, filenumber):
         """Generate the plot title for a particular file number."""
         return self.build_title('energy spectrum', filenumber)
@@ -1204,5 +1293,6 @@ class PlotMBTotalEnergyFrame(PlotMultiBunchParticleBaseFrame):
             self.get_combined_data(),
             self.get_bunch_list(),
             title=self.get_title(self.get_filenumber()),
-            bins=self.get_bins())
+            bins=self.get_bins(),
+            target_range=self.get_target_range())
         self.canvas.draw()
