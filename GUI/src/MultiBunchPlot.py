@@ -28,7 +28,7 @@ def get_z_offset():
 def get_target_range():
     """Get the target energy range from the first input file."""
     input_lines = read_input_file(get_input_filename(1))
-    if len(input_lines[2].split()) > 9 and int(input_lines[2].split()[7]) == 1:
+    if len(input_lines[2].split()) >= 10:
         return [float(item) for item in input_lines[2].split()[8:10]]
 
 def get_lattice():
