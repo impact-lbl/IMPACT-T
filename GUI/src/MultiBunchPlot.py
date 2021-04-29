@@ -257,18 +257,20 @@ def plot_beam_size(axes, data, bunch_list, xaxis='z', title=None,
         title = 'Beam sizes for ' + bunch_text(bunch_list)
     axes.figure.suptitle(title)
     axes.set_xlabel(get_xlabel(xaxis))
-    axes.set_ylabel('Beam size (mm)')
-    if combined_data is None:
-        combined_data = combine_bunch_values(data, bunch_list)
+    axes.set_ylabel('RMS beam size (mm)')
     if experiment_data is not None:
         plot_beam_size_experimental(axes, experiment_data)
-    for i in range(len(bunch_list)):
-        plot_beam_size_single(axes, data[i], xaxis, '--',
-                              label=f'Bunch {bunch_list[i]} rms')
-    if len(bunch_list) > 1:
+    if len(bunch_list) == 1:
+        plot_beam_size_single(axes, data[0], xaxis, 'r-', label=None)
+    else:
+        for i in range(len(bunch_list)):
+            plot_beam_size_single(axes, data[i], xaxis, '--',
+                                label=f'Bunch {bunch_list[i]}')
+        if combined_data is None:
+            combined_data = combine_bunch_values(data, bunch_list)
         plot_beam_size_single(axes, combined_data, xaxis, 'r-',
-                              label=f'Combined rms')
-    axes.legend(fontsize='x-small')
+                              label=f'Combined')
+        axes.legend(fontsize='x-small')
 
 def plot_beam_size_experimental(axes, data):
     """Plot experimental data points with error bars"""
@@ -293,17 +295,19 @@ def plot_emittance(axes, xdata, ydata, bunch_list, xaxis='t', title=None,
     axes.figure.suptitle(title)
     axes.set_xlabel(get_xlabel(xaxis))
     axes.set_ylabel('Normalised rms emittance (π mm mrad)')
-    for i in range(len(bunch_list)):
-        plot_emittance_single(axes, xdata[i], ydata[i], xaxis,
-                              '--', label=f'Bunch {bunch_list[i]}')
-    if len(bunch_list) > 1:
+    if len(bunch_list) == 1:
+        plot_emittance_single(axes, xdata[0], ydata[0], xaxis, 'r-', label=None)
+    else:
+        for i in range(len(bunch_list)):
+            plot_emittance_single(axes, xdata[i], ydata[i], xaxis,
+                                  '--', label=f'Bunch {bunch_list[i]}')
         if combined_xdata is None:
             combined_xdata = combine_bunch_values(xdata, bunch_list)
         if combined_ydata is None:
             combined_ydata = combine_bunch_values(ydata, bunch_list)
         plot_emittance_single(axes, combined_xdata, combined_ydata, xaxis,
                               'r-', label='Combined')
-    axes.legend(fontsize='x-small')
+        axes.legend(fontsize='x-small')
 
 def plot_emittance_single(axes, xdata, ydata, xaxis, fmt, label):
     """Plot the average x and y emittance onto the given axes."""
@@ -319,10 +323,13 @@ def plot_emittance_growth(axes, xdata, ydata, bunch_list, xaxis='t', title=None,
     axes.figure.suptitle(title)
     axes.set_xlabel(get_xlabel(xaxis))
     axes.set_ylabel('Average emittance growth in x and y (relative)')
-    for i in range(len(bunch_list)):
-        plot_emittance_growth_single(axes, xdata[i], ydata[i], xaxis,
-                                     '--', label=f'Bunch {bunch_list[i]}')
-    if len(bunch_list) > 1:
+    if len(bunch_list) == 1:
+        plot_emittance_growth_single(axes, xdata[0], ydata[0], xaxis,
+                                     'r-', label=None)
+    else:
+        for i in range(len(bunch_list)):
+            plot_emittance_growth_single(axes, xdata[i], ydata[i], xaxis,
+                                        '--', label=f'Bunch {bunch_list[i]}')
         if combined_xdata is None:
             combined_xdata = combine_bunch_values(xdata, bunch_list)
         if combined_ydata is None:
@@ -351,7 +358,8 @@ def plot_bunch_count(axes, data, bunch_list, xaxis='t', title=None):
     axes.set_xlim(left=0.0)
     axes.set_xlabel(xlabel)
     axes.set_ylabel('Number of macroparticles')
-    axes.legend()
+    if len(bunch_list) > 1:
+        axes.legend()
 
 def plot_phase_spaces(axes, data, bunch_list, title=None, grid_size=100):
     """Plot four phase spaces onto the given array of axes."""
@@ -412,18 +420,20 @@ def plot_bunch_energies(axes, data, bunch_list, title=None, bins=100):
     axes.figure.suptitle(title)
     non_empty_bunches, _ = check_bunches(data, bunch_list)
     W = [bunch.T[6]/1e6 for bunch in get_non_empty(data)]
-    if len(non_empty_bunches) > 1:
+    if len(non_empty_bunches) == 1:
+        axes.hist(W, bins=bins, histtype='stepfilled', linewidth=1.0, label=None)
+    else:
         axes.hist(numpy.concatenate(W), bins=bins, label='Total',
                   histtype='stepfilled', linewidth=1.0,
                   color='red', facecolor=(1,0,0,0.1), edgecolor=(1,0,0,1.0))
-    axes.hist(W, bins=bins, histtype='stepfilled', alpha=0.5,
-              label=[f'Bunch {bunch}' for bunch in non_empty_bunches])
+        axes.hist(W, bins=bins, histtype='stepfilled', alpha=0.5,
+                  label=[f'Bunch {bunch}' for bunch in non_empty_bunches])
+        handles, labels = axes.get_legend_handles_labels()
+        handles.reverse()
+        labels.reverse()
+        axes.legend(handles, labels, loc='upper right')
     axes.set_xlabel('Energy (MeV)')
     axes.set_ylabel('Number of macroparticles')
-    handles, labels = axes.get_legend_handles_labels()
-    handles.reverse()
-    labels.reverse()
-    axes.legend(handles, labels, loc='upper right')
 
 def plot_total_energy(axes, combined_data, bunch_list, title=None, bins=100,
                       target_range=None):
