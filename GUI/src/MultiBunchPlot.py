@@ -512,6 +512,15 @@ def plot_all(bunch_list):
         else:
             figure.savefig('beam-size')
         matplotlib.pyplot.close(figure)
+        figure, axes = matplotlib.pyplot.subplots(dpi=300)
+        try:
+            plot_beam_size(axes, xdata, bunch_list, combined_data=combined_xdata,
+                           xaxis='t')
+        except Exception as err:
+            print(f'! Error plotting beam size vs t: {err}')
+        else:
+            figure.savefig('beam-size-t')
+        matplotlib.pyplot.close(figure)
         if experimental_results is not None:
             figure, axes = matplotlib.pyplot.subplots(dpi=300)
             try:
