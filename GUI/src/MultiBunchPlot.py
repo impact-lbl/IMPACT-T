@@ -287,6 +287,29 @@ def plot_beam_size_single(axes, data, xaxis, fmt, label):
     rms = data.T[3]*1.0e3
     axes.plot(x, rms, fmt, linewidth=1, label=label)
 
+def plot_z(axes, data, bunch_list, title=None, combined_data=None):
+    """Create a plot of z vs t per bunch."""
+    if not title:
+        title = 'Bunch motion for ' + bunch_text(bunch_list)
+    axes.figure.suptitle(title)
+    axes.set_xlabel(get_xlabel('t'))
+    axes.set_ylabel(get_xlabel('z'))
+    if len(bunch_list) == 1:
+        plot_z_single(axes, data[0], 'r-', label=None)
+    else:
+        for i in range(len(bunch_list)):
+            plot_z_single(axes, data[i], '--', label=f'Bunch {bunch_list[i]}')
+        if combined_data is None:
+            combined_data = combine_bunch_values(data, bunch_list)
+        plot_z_single(axes, combined_data, 'r-', label=f'Combined')
+        axes.legend(fontsize='x-small')
+
+def plot_z_single(axes, data, fmt, label):
+    """Plot the average z-position against time."""
+    t = get_xdata(data, 't')
+    z = get_xdata(data, 'z')
+    axes.plot(t, z, fmt, linewidth=1, label=label)
+
 def plot_emittance(axes, xdata, ydata, bunch_list, xaxis='t', title=None,
                    combined_xdata=None, combined_ydata=None):
     """Create a plot of average x and y emittance per bunch."""
@@ -503,6 +526,15 @@ def plot_all(bunch_list):
             print(f'! Error calculating combined rms values: {err}')
             combined_xdata = None
             combined_ydata = None
+        print('Plotting bunch motion...')
+        figure, axes = matplotlib.pyplot.subplots(dpi=300)
+        try:
+            plot_z(axes, xdata, bunch_list, combined_data=combined_xdata)
+        except Exception as err:
+            print(f'! Error plotting bunch motion: {err}')
+        else:
+            figure.savefig('bunch-motion')
+        matplotlib.pyplot.close(figure)
         print('Plotting beam size...')
         figure, axes = matplotlib.pyplot.subplots(dpi=300)
         try:
