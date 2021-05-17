@@ -23,13 +23,13 @@ jobs:
         if: matrix.mpi == 'nompi'
         run: |
           cd src/
-          make CC=gfortran LINK=gfortran
+          make FC=gfortran LINK=gfortran
 
       - name: Build - MPI - ${{ matrix.mpi }}
         if: matrix.mpi != 'nompi'
         run: |
           cd src/
-          make CC=mpifort LINK=mpifort USE_MPI=1
+          make FC=mpifort LINK=mpifort USE_MPI=1
 
       - name: Test - No MPI
         if: matrix.mpi == 'nompi'
@@ -42,7 +42,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/examples/Sample1
           sed -i"" '5s/1 1/2 1/' ImpactT.in
-          mpirun -n 2 $GITHUB_WORKSPACE/src/ImpactTexe
+          mpirun -n 2 $GITHUB_WORKSPACE/src/ImpactTexe-mpi
 
 
   cmake:

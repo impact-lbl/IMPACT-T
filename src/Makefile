@@ -11,7 +11,7 @@ ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Uncomment for MPI build
 USE_MPI ?=
-CC ?= ifort
+FC ?= ifort
 LINK ?= ifort
 FFLAGS += -O3 -cpp
 
@@ -47,8 +47,11 @@ OBJS2 = \
 	Input.o Output.o AccSimulator.o main.o	
 #**************************************************************************
 # Change this line if you don't like 'a.out'.
-
+ifdef USE_MPI
+EXENAME = ImpactTexe-mpi
+else
 EXENAME = ImpactTexe
+endif
 
 #************************************************************************
 # disable predefined suffixes and define your own set of allowed suffixes
@@ -62,11 +65,11 @@ EXENAME = ImpactTexe
 #  $< = dependent name
 
 .f90.o:
-	$(CC) -c $(FFLAGS) $<
+	$(FC) -c $(FFLAGS) $<
 
 ifdef USE_MPI
 .PrepareMPI:
-	- rm mpif.h
+	- rm -f mpif.h
 else
 .PrepareMPI:
 	- cp mpif_single.h mpif.h
@@ -85,7 +88,7 @@ $(EXENAME):  $(OBJS)
 # or in some special way, then specify the target & dependency explicitly
 # the following line say Timer.o is depended on Timer.f90
 #Timer.o: Timer.f90
-#	$(CC) -c -O3 Timer.f90
+#	$(FC) -c -O3 Timer.f90
 
 	cp  AccSimulator.o main.o Input.o Output.o Contrl
 	cp  BPM.o CCL.o CCDTL.o DTL.o SC.o DriftTube.o Quadrupole.o \
