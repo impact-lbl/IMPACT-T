@@ -1,5 +1,7 @@
 # Using Anaconda
 
+Information about Anaconda, including install instructions, can be found on the [Conda Reference](https://docs.conda.io/projects/conda/en/latest/) website.
+
 IMPACT-T is available through conda-forge and can be installed via:
 ```bash
 conda create -n impact
