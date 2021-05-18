@@ -12,7 +12,9 @@
 !----------------------------------------------------------------
       module Dataclass
         use NumConstclass
+#if USE_MPI != 1
         use mpistub
+#endif
 !        save
 !-----------------------------------------------------------------------
 ! using the x-y-z field data (Ex,Ey,Ez,Bx,By,Bz) directly.

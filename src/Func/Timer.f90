@@ -13,7 +13,9 @@
 ! Comments:
 !----------------------------------------------------------------
       module Timerclass
+#if USE_MPI != 1
         use mpistub
+#endif
         double precision :: t_integ
         double precision :: t_map1
         double precision :: t_map2

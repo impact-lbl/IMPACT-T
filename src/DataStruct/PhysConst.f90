@@ -13,7 +13,9 @@
 ! Comments:
 !----------------------------------------------------------------
       module PhysConstclass
+#if USE_MPI != 1
         use mpistub
+#endif
         implicit none
       
         !physical parameters and constants ---------------------

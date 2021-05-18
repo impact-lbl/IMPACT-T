@@ -12,7 +12,9 @@
 ! Comments:
 !----------------------------------------------------------------
       module Pgrid2dclass
+#if USE_MPI != 1
         use mpistub
+#endif
         type Pgrid2d
           private
           integer comm_2d      !< comunicator for entire grid

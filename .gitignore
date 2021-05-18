@@ -1,2 +1,13 @@
+# IDE project files
+.idea
 
+# macOS attribute file
 .DS_Store
+
+# Temporary build files
+*.o
+*.mod
+mpif.h
+
+# Example artifacts
+examples/*/fort.*
