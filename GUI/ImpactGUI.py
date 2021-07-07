@@ -1,8 +1,11 @@
 #!/usr/bin/env python3 
 
 import sys; 
-if not "./src/" in sys.path:
-    sys.path.append("./src/") 
+import pathlib;
+
+src_path = pathlib.Path(__file__).parent.joinpath("src").absolute().as_posix()
+if not src_path in sys.path:
+    sys.path.append(src_path)
 if not 'ImpactMainWindow' in sys.modules:
     ImpactMainWindow = __import__('ImpactMainWindow')
 else:
