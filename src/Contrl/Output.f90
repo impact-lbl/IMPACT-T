@@ -20,11 +20,12 @@
       contains
         !> calculate <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
         !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance.
-        subroutine diagnostic1_Output(z,this)
+        subroutine diagnostic1_Output(z,this,file_offset)
         implicit none
         include 'mpif.h'
         double precision, intent(in) :: z
         type (BeamBunch), intent(inout) :: this
+        integer, intent(in) :: file_offset
         integer :: innp,nptot
         double precision:: den1,den2,sqsum1,sqsum2,sqsum3,sqsum4,&
                           epsx2,epsy2
@@ -45,7 +46,7 @@
         double precision:: qmc,xl,xt
         double precision, dimension(6) :: localmax, glmax
         double precision, dimension(27) :: tmplc,tmpgl
-        double precision :: t0,lcrmax,glrmax,z0gl,z0avg
+        double precision :: t0,lcrmax,glrmax,z0gl,z0avg,pz0gl,pz0avg
         integer :: npctmin,npctmax
 
         call starttime_Timer(t0)
@@ -64,12 +65,17 @@
         den2 = den1*den1
 
         z0lc = 0.0
+        pz0lc = 0.0
         do i = 1, innp
           z0lc = z0lc + this%Pts1(5,i)
+          pz0lc = pz0lc + this%Pts1(6,i)
         enddo
         call MPI_ALLREDUCE(z0lc,z0gl,1,MPI_DOUBLE_PRECISION,&
                         MPI_SUM,MPI_COMM_WORLD,ierr)
+        call MPI_ALLREDUCE(pz0lc, pz0gl, 1, MPI_DOUBLE_PRECISION, &
+                           MPI_SUM, MPI_COMM_WORLD, ierr)
         z0avg = z0gl*den1
+        pz0avg = pz0gl*den1
 
         x0lc = 0.0
         px0lc = 0.0
@@ -98,18 +104,10 @@
         pz0lc3 = 0.0
         pz0lc4 = 0.0
 
-        ! for cache optimization.
-        if(innp.ne.0) then
-          do i = 1, 6
-            localmax(i) = abs(this%Pts1(i,1))
-          enddo
-          lcrmax = this%Pts1(1,1)**2+this%Pts1(3,1)**2
-        else
-          do i = 1, 6
-            localmax(i) = 0.0
-          enddo
-          lcrmax = 0.0
-        endif
+        do i = 1, 6
+          localmax(i) = 0.0
+        enddo
+        lcrmax = 0.0
         do i = 1, innp
           x0lc = x0lc + this%Pts1(1,i)
           sqsum1local = sqsum1local + this%Pts1(1,i)*this%Pts1(1,i)
@@ -142,14 +140,17 @@
           pz0lc3 = pz0lc3 + this%Pts1(6,i)*this%Pts1(6,i)*this%Pts1(6,i)
           pz0lc4 = pz0lc4 + this%Pts1(6,i)*this%Pts1(6,i)*this%Pts1(6,i)*&
                             this%Pts1(6,i)
-          do j = 1, 6
+          do j = 1, 4
             if(localmax(j).lt.abs(this%Pts1(j,i))) then
                localmax(j) = abs(this%Pts1(j,i))
             endif
           enddo
-            if(localmax(5).lt.abs(this%Pts1(5,i)-z0avg)) then
-               localmax(5) = abs(this%Pts1(5,i)-z0avg)
-            endif
+          if(localmax(5).lt.abs(this%Pts1(5,i)-z0avg)) then
+            localmax(5) = abs(this%Pts1(5,i)-z0avg)
+          endif
+          if(localmax(6).lt.abs(this%Pts1(6,i)-pz0avg)) then
+            localmax(6) = abs(this%Pts1(6,i)-pz0avg)
+          endif
           if(lcrmax.lt.(this%Pts1(1,i)**2+this%Pts1(3,i)**2)) then
             lcrmax = this%Pts1(1,i)**2 + this%Pts1(3,i)**2
           endif
@@ -273,35 +274,36 @@
           gam = sqrt(1.0+px0**2+py0**2+pz0**2)
           energy = qmc*(gam-1.0)
           bet = sqrt(1.0-(1.0/gam)**2)
-          write(18,99)z,z0avg*xl,gam,energy,bet,sqrt(glrmax)*xl
+          write(18+file_offset,99)z,z0avg*xl,gam,energy,bet,sqrt(glrmax)*xl
 !          write(24,100)z,x0*xl,xrms*xl,px0,pxrms,-xpx/epx,epx*xl
 !          write(25,100)z,y0*xl,yrms*xl,py0,pyrms,-ypy/epy,epy*xl
 !          write(26,100)z,z0*xl,zrms*xl,pz0,pzrms,-zpz/epz,epz*xl
-          write(24,100)z,x0*xl,xrms*xl,px0,pxrms,-xpx,epx*xl
-          write(25,100)z,y0*xl,yrms*xl,py0,pyrms,-ypy,epy*xl
-          write(26,100)z,z0*xl,zrms*xl,pz0,pzrms,-zpz,epz*xl
+          write(24+file_offset,100)z,z0avg*xl,x0*xl,xrms*xl,px0,pxrms,-xpx*xl,epx*xl
+          write(25+file_offset,100)z,z0avg*xl,y0*xl,yrms*xl,py0,pyrms,-ypy*xl,epy*xl
+          write(26+file_offset,101)z,z0avg*xl,zrms*xl,pz0,pzrms,-zpz*xl,epz*xl
 
-          write(27,100)z,glmax(1)*xl,glmax(2),glmax(3)*xl,&
+          write(27+file_offset,100)z,z0avg*xl,glmax(1)*xl,glmax(2),glmax(3)*xl,&
                        glmax(4),glmax(5)*xl,glmax(6)
-          write(28,101)z,npctmin,npctmax,nptot
-          write(29,100)z,x03*xl,px03,y03*xl,py03,z03*xl,&
+          write(28+file_offset,102)z,z0avg*xl,npctmin,npctmax,nptot
+          write(29+file_offset,100)z,z0avg*xl,x03*xl,px03,y03*xl,py03,z03*xl,&
                        pz03
-          write(30,100)z,x04*xl,px04,y04*xl,py04,z04*xl,&
+          write(30+file_offset,100)z,z0avg*xl,x04*xl,px04,y04*xl,py04,z04*xl,&
                        pz04
 
-          call flush(18)
-          call flush(24)
-          call flush(25)
-          call flush(26)
-          call flush(27)
-          call flush(28)
-          call flush(29)
-          call flush(30)
+          call flush(18+file_offset)
+          call flush(24+file_offset)
+          call flush(25+file_offset)
+          call flush(26+file_offset)
+          call flush(27+file_offset)
+          call flush(28+file_offset)
+          call flush(29+file_offset)
+          call flush(30+file_offset)
         endif
 
-99      format(6(1x,e13.6))
-100      format(7(1x,e13.6))
-101     format(1x,e13.6,3I10)
+99      format(6(1x,e16.8))
+100     format(8(1x,e16.8))
+101     format(7(1x,e16.8))
+102     format(1x,e16.8,e16.8,3I10)
 
         t_diag = t_diag + elapsedtime_Timer(t0)
 
