@@ -944,6 +944,7 @@ class ImpactMainWindow(tk.Tk):
             elif np>1:
                 cmd = self.MPI_EXE.get()+' -n '+str(np)+' '+ImpactExe
             print(cmd)
+            cmd = cmd.split()
             p=subprocess.Popen(cmd,stdout=subprocess.PIPE,bufsize=1)
             for line in iter(p.stdout.readline,b''):
                 print(('>>{}'.format(line.rstrip())))
@@ -963,6 +964,7 @@ class ImpactMainWindow(tk.Tk):
             elif np>1:
                 cmd = self.MPI_EXE.get()+' -n '+str(np)+' '+ImpactExe
             print(cmd)
+            cmd = cmd.split()
             p=subprocess.Popen(cmd,stdout=subprocess.PIPE,bufsize=1)
             for line in iter(p.stdout.readline,b''):
                 print(('>>{}'.format(line.rstrip())))
