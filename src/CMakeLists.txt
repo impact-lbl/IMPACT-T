@@ -13,6 +13,15 @@ project(ImpactT LANGUAGES Fortran)
 
 option(USE_MPI "Activate MPI build" OFF)
 
+# Allow type mismatch for GCC 10
+# (Adapted from from: https://github.com/Unidata/netcdf-fortran/blob/main/CMakeLists.txt)
+# Check to see if compiler supports
+# -fallow-argument-mismatch-flag introduced in gcc 10.
+INCLUDE (CheckFortranCompilerFlag)
+check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+IF(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+  SET(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch")
+ENDIF(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
 
 list(APPEND _sources
     DataStruct/NumConst.f90
