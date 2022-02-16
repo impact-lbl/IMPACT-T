@@ -13,16 +13,6 @@ project(ImpactT LANGUAGES Fortran)
 
 option(USE_MPI "Activate MPI build" OFF)
 
-# Allow type mismatch for GCC 10
-# (Adapted from from: https://github.com/Unidata/netcdf-fortran/blob/main/CMakeLists.txt)
-# Check to see if compiler supports
-# -fallow-argument-mismatch-flag introduced in gcc 10.
-include(CheckFortranCompilerFlag)
-check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
-if(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch")
-endif(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
-
 list(APPEND _sources
     DataStruct/NumConst.f90
     DataStruct/PhysConst.f90
@@ -73,6 +63,17 @@ if(USE_MPI)
     target_compile_definitions(${OUTPUT_NAME} PUBLIC USE_MPI)
     target_link_libraries(${OUTPUT_NAME} PUBLIC MPI::MPI_Fortran)
     include_directories(${MPI_Fortran_INCLUDE_PATH})
+    
+    # Allow type mismatch for GCC 10
+    # (Adapted from from: https://github.com/Unidata/netcdf-fortran/blob/main/CMakeLists.txt)
+    # Check to see if compiler supports
+    # -fallow-argument-mismatch-flag introduced in gcc 10.
+    include(CheckFortranCompilerFlag)
+    check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+    if(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+        target_compile_options(${OUTPUT_NAME} PRIVATE "-fallow-argument-mismatch")
+    endif(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)    
+    
 else()
     # Add mpistub to source list
     list(APPEND _sources mpistub.f90)
