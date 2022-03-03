@@ -97,6 +97,7 @@ The instructions for Anaconda are the same as above.
 ### For Haswell
 ```bash
 module load openmpi # if using OpenMPI otherwise skip for MPICH
+module load cmake
 cmake -S . -B build -DUSE_MPI=ON
 cmake --build build
 # find the executable in build/bin/
@@ -106,6 +107,7 @@ cmake --build build
 ```bash
 module swap craype-haswell craype-mic-knl
 module load openmpi # if using OpenMPI otherwise skip for MPICH
+module load cmake
 cmake -S . -B build -DUSE_MPI=ON
 cmake --build build
 # find the executable in build/bin/
