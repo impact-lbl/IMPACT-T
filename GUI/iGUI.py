@@ -1,13 +1,13 @@
 def runGUI():
-  
-  import sys; 
+
+  import sys;
   if not "./src/" in sys.path:
-      sys.path.append("./src/") 
+      sys.path.append("./src/")
   if not 'ImpactMainWindow' in sys.modules:
       ImpactMainWindow = __import__('ImpactMainWindow')
   else:
       import ImpactMainWindow
-      #ImpactMainWindow = eval('reload(ImpactMainWindow)') 
+      #ImpactMainWindow = eval('reload(ImpactMainWindow)')
   root = ImpactMainWindow.ImpactMainWindow()
   ImpactMainWindow.MyMenu(root)
 
@@ -26,5 +26,3 @@ def runGUI():
   root.mainloop()
   root.console.stop()
   return root.beam,root.lattice
-  
-  
