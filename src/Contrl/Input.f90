@@ -43,20 +43,20 @@
         orstartflg,oflagmap,distparam,nparam,obcurr,obkenergy,obmass,&
         obcharge,obfreq,oxrad,oyrad,operdlen,onblem,onpcol,onprow,oflagerr,&
         oflagdiag,oflagsbstp,ophsini,odt,ontstep,onbunch,oflagimg,&
-        onemission,otemission,ozimage)
+        onemission,otemission,ozimage,oFlagRange,oRangeMin,oRangeMax)
 
         implicit none
         include 'mpif.h'
         integer, intent(out) :: odim,onp,onx,ony,onz,oflagbc,oflagdist
         integer, intent(out) :: orstartflg,oflagmap,onblem,onpcol,onprow 
         integer, intent(out) :: oflagerr,oflagdiag,oflagsbstp,ontstep,&
-                                onbunch,oflagimg,onemission
+                                onbunch,oflagimg,onemission,oFlagRange
         integer, intent(in) :: nparam
         double precision, dimension(nparam), intent(out) :: distparam
         double precision, intent(out) :: obcurr,obkenergy,obmass,odt
         double precision, intent(out) :: obcharge,obfreq,operdlen,&
                                          oxrad,oyrad,ophsini,&
-                                         otemission,ozimage
+                                         otemission,ozimage,oRangeMin,oRangeMax
         double precision :: xjunk
         integer :: my_rank,nproc,ierr,np,itot,njunk1,njunk2,njunk3
         character*1 comst
@@ -107,6 +107,7 @@
           else
             backspace(13,err=789)
             read(13,*)odim,onp,oflagmap,oflagerr,oflagdiag,oflagimg,ozimage 
+            call readbonusflags_Input(13, oFlagRange, oRangeMin, oRangeMax)
             ii = ii+1
           endif
 40        continue
@@ -245,6 +246,9 @@
                          ierr)
         call MPI_BCAST(ophsini,1,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,&
                          ierr)
+        call MPI_BCAST(oFlagRange, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
+        call MPI_BCAST(oRangeMin, 1, MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr)
+        call MPI_BCAST(oRangeMax, 1, MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr)
 
         end subroutine in1_Input
 
@@ -388,7 +392,7 @@
 
         end subroutine in2_Input
 
-        !> Input all parameters except beam line element parameters.
+        !> Input parameters for subsequent bunches.
         subroutine in3_Input(odim,onp,onx,ony,onz,oflagbc,oflagdist, &
         orstartflg,oflagmap,distparam,nparam,obcurr,obkenergy,obmass,&
         obcharge,obfreq,oxrad,oyrad,operdlen,onblem,onpcol,onprow,oflagerr,&
@@ -620,5 +624,59 @@
                          ierr)
 
         end subroutine in3_Input
-      end module Inputclass
+
+    !> Read in any bonus flags for additional modules that are not part of the
+    !> standard input file.
+    !> - This allows adding extra module flags without needing to
+    !>   change all existing input files, assisting backwards compatibility.
+    !> - This is called *after* the standard reading of the line with the
+    !>   main flags on, so starts by backing up the file and reading the
+    !>   line again.
+    !> - At the end of the routine, the file should be ready to continue
+    !>   reading as normal.
+    subroutine readbonusflags_Input(fileunit, flag_range, range_min, range_max)
+        ! Parameters
+        integer,          intent(in)  :: fileunit
+        integer,          intent(out) :: flag_range
+        double precision, intent(out) :: range_min, range_max
+        ! Variables
+        integer          :: dim_in, np_in, flagmap_in, flagerr_in, &
+                            flagdiag_in, flagimg_in
+        integer          :: dim_chk, np_chk, flagmap_chk
+        double precision :: zimage_in
+        integer          :: ierr
+
+        ! Read the last input line again with the bonus flags included
+        backspace(fileunit)
+        read(fileunit, *, iostat=ierr) dim_in, np_in, flagmap_in, flagerr_in, &
+                                        flagdiag_in, flagimg_in, zimage_in, &
+                                        flag_range, range_min, range_max
+
+        ! If we hit an error at this point, it's probably because
+        !  there are no bonus flags
+        if(ierr /= 0) then
+            flag_range = 0
+            range_min = 0.0d0
+            range_max = 0.0d0
+            backspace(fileunit)
+            return
+        endif
+
+        ! Read in the first few standard flags again and compare
+        !  - this is to check that we haven't moved to the next line
+        backspace(fileunit)
+        read(fileunit, *, iostat=ierr) dim_chk, np_chk, flagmap_chk
+        if((ierr /= 0).or.(dim_chk /= dim_in) &
+                        .or.(np_chk /= np_in)   &
+                        .or.(flagmap_chk /= flagmap_in)) then
+            flag_range = 0
+            range_min = 0.0d0
+            range_max = 0.0d0
+            backspace(fileunit)
+            return
+        endif
+
+    end subroutine readbonusflags_Input
+
+end module Inputclass
 
