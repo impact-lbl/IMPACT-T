@@ -90,6 +90,12 @@
         else if(flagdist.eq.5) then
           !transverse KV distribution and longitudinal uniform distribution
           call KV3d_Dist(this,nparam,distparam,grid)
+        else if(flagdist.eq.10) then
+          !transverse Parobolic and longitudinal Gaussian distribution
+          call ParobGauss_DistT(this,nparam,distparam,grid)
+        else if(flagdist.eq.15) then
+          !transverse Semicircle and longitudinal Gaussian distribution
+          call SemicirGauss_DistT(this,nparam,distparam,grid)
         else if(flagdist.eq.16) then
           !read in an initial distribution with format from IMPACT-T
           call read_Dist(this,nparam,distparam,ib)
@@ -1159,7 +1165,7 @@
           call random_number(x)
           sumtmp = sumtmp + x
         enddo
-        y = sumtmp - 6.0
+        y = sumtmp - 6.0d0
  
         end subroutine normdv1d
 
@@ -1470,6 +1476,16 @@
         else if(jj.eq.3) then
           cutz = distparam(18)
           call LongGaussz_Dist(tmptcl1,avgpts,sigz,xmu5,cutz)
+        else if(jj.eq.4) then
+          zflat = distparam(15)
+          zrise = distparam(18)/Scxlt
+          call LongTukey_Dist(tmptcl1,avgpts,avgpts0,zrise,zflat,xmu5,ib,Nb)
+          iptlc = avgpts
+          npt0 = this%Npt
+          call MPI_ALLREDUCE(iptlc,iptgl,1,MPI_INTEGER,MPI_SUM,MPI_COMM_WORLD,ierr)
+          this%Npt = iptgl
+          currtmp = this%Current
+          this%Current = currtmp*this%Npt/dble(npt0)
         else
           print*,"wrong initial distribution code in jj!"
           ierrdist = 1
@@ -1978,5 +1994,314 @@
         endif
  
         end subroutine normVecCut
+
+        !spatial parabolic transverse cylinder with double Gaussian distribution
+        !in the longitudinal direction; 0 temperature
+        subroutine ParobGauss_DistT(this,nparam,distparam,grid)
+        implicit none
+        include 'mpif.h'
+        type (BeamBunch), intent(inout) :: this
+        integer, intent(in) :: nparam
+        double precision, dimension(nparam) :: distparam
+        type (Pgrid2d), intent(in) :: grid
+        double precision  :: sigx,sigpx,muxpx,xscale,sigy,&
+        sigpy,muypy, yscale,sigz,sigpz,muzpz,zscale,pxscale,pyscale,pzscale
+        double precision :: xmu1,xmu2,xmu3,xmu4,xmu5,xmu6
+        double precision, dimension(2) :: gs
+        double precision :: sig1,sig2,sig3,sig4,sig5,sig6
+        double precision :: rootx,rooty,rootz,x1,x3,cs,ss
+        double precision, allocatable, dimension(:) :: r1,r2,r3 
+        integer :: totnp,npy,npx
+        integer :: avgpts,numpts
+        integer :: myid,myidx,myidy,i,ierr
+!        integer seedarray(1)
+        double precision :: t0,x11,twopi,tmpmax,tmpmaxgl,shiftz
+        double precision :: frac1,ztmp
+        integer :: ntmp1
+        real*8 :: vx,vy,r44,r4,sq1
+
+        call starttime_Timer(t0)
+
+        sigx = distparam(1)
+        sigpx = distparam(2)
+        muxpx = distparam(3)
+        xscale = distparam(4)
+        pxscale = distparam(5)
+        xmu1 = distparam(6)
+        xmu2 = distparam(7)
+        sigy = distparam(8)
+        sigpy = distparam(9)
+        muypy = distparam(10)
+        yscale = distparam(11)
+        pyscale = distparam(12)
+        xmu3 = distparam(13)
+        xmu4 = distparam(14)
+        sigz = distparam(15)
+        sigpz = distparam(16)
+        muzpz = distparam(17)
+        zscale = distparam(18)
+        pzscale = distparam(19)
+        xmu5 = distparam(20)
+        xmu6 = distparam(21)
+
+        call getsize_Pgrid2d(grid,totnp,npy,npx)
+
+        call getpost_Pgrid2d(grid,myid,myidy,myidx)
+!        seedarray(1)=(1001+myid)*(myid+7)
+!        write(6,*)'seedarray=',seedarray
+!        call random_seed(PUT=seedarray(1:1))
+        do i = 1, 3000
+          call random_number(x11)
+        enddo
+!        print*,myid,x11
+ 
+
+        avgpts = this%Npt/(npx*npy)
+
+        sig1 = sigx*xscale
+        sig2 = sigpx*pxscale
+        sig3 = sigy*yscale
+        sig4 = sigpy*pyscale
+        sig5 = sigz
+        sig6 = sigpz
+
+        rootx=sqrt(1.-muxpx*muxpx)
+        rooty=sqrt(1.-muypy*muypy)
+        rootz=sqrt(1.-muzpz*muzpz)
+
+        ! initial allocate 'avgpts' particles on each processor.
+        allocate(this%Pts1(6,avgpts))
+        this%Pts1 = 0.0
+        twopi = 4*dasin(1.0d0)
+        allocate(r1(avgpts))
+        call random_number(r1)
+        allocate(r2(avgpts))
+        call random_number(r2)
+        allocate(r3(avgpts))
+        call random_number(r3)
+
+        do numpts = 1, avgpts
+          !x1 = sig1*sqrt(1.0-(r1(numpts))**(2.0/3.0))
+          !x3 = sig3*sqrt(1.0-(r1(numpts))**(2.0/3.0))
+          !sq1 = 1.0d0-sqrt(1.0-(r1(numpts)))
+          !x1 = sig1*sq1*2*sqrt(3.0d0)
+          !x3 = sig3*sq1*2*sqrt(3.0d0)
+          sq1 = sqrt(1.0-sqrt(r1(numpts)))
+          x1 = sig1*sq1*sqrt(6.0d0)
+          x3 = sig3*sq1*sqrt(6.0d0)
+          cs = cos(r2(numpts)*twopi)
+          ss = sin(r2(numpts)*twopi)
+          this%Pts1(1,numpts) = xmu1 + x1*cs
+          call normdv1d(vx)
+          this%Pts1(2,numpts) = xmu2 + sig2*vx
+          this%Pts1(3,numpts) = xmu3 + x3*ss
+          call normdv1d(vy)
+          this%Pts1(4,numpts) = xmu4 + sig4*vy
+100       call normdv1d(ztmp)
+          if(abs(ztmp).gt.4.0d0) goto 100
+          this%Pts1(5,numpts) = xmu5+sig5*ztmp
+          !call random_number(r4)
+          !r44 = 2*r4 - 1.0
+          call normdv1d(r44)
+          this%Pts1(6,numpts) = xmu6 + sig6*abs(r44)
+        enddo
+!        print*,"inital max z location of particles: ",tmpmaxgl,frac1,ntmp1
+!        if(tmpmaxgl.lt.0.0) then 
+!          shiftz = -tmpmaxgl
+!          do numpts = 1, avgpts
+!            this%Pts1(5,numpts) = this%Pts1(5,numpts) + shiftz
+!          enddo
+!        endif
+          
+        this%Nptlocal = avgpts
+        deallocate(r1)
+        deallocate(r2)
+        deallocate(r3)
+       
+        t_kvdist = t_kvdist + elapsedtime_Timer(t0)
+
+        end subroutine ParobGauss_DistT
+
+        !spatial semi-circle transverse cylinder with double Gaussian distribution
+        !in the longitudinal direction; 0 temperature
+        subroutine SemicirGauss_DistT(this,nparam,distparam,grid)
+        implicit none
+        include 'mpif.h'
+        type (BeamBunch), intent(inout) :: this
+        integer, intent(in) :: nparam
+        double precision, dimension(nparam) :: distparam
+        type (Pgrid2d), intent(in) :: grid
+        double precision  :: sigx,sigpx,muxpx,xscale,sigy,&
+        sigpy,muypy, yscale,sigz,sigpz,muzpz,zscale,pxscale,pyscale,pzscale
+        double precision :: xmu1,xmu2,xmu3,xmu4,xmu5,xmu6
+        double precision, dimension(2) :: gs
+        double precision :: sig1,sig2,sig3,sig4,sig5,sig6
+        double precision :: rootx,rooty,rootz,x1,x3,cs,ss
+        double precision, allocatable, dimension(:) :: r1,r2,r3 
+        integer :: totnp,npy,npx
+        integer :: avgpts,numpts
+        integer :: myid,myidx,myidy,i,ierr
+!        integer seedarray(1)
+        double precision :: t0,x11,twopi,tmpmax,tmpmaxgl,shiftz
+        double precision :: frac1,ztmp
+        integer :: ntmp1
+        real*8 :: vx,vy,r44,r4,sq1
+
+        call starttime_Timer(t0)
+
+        sigx = distparam(1)
+        sigpx = distparam(2)
+        muxpx = distparam(3)
+        xscale = distparam(4)
+        pxscale = distparam(5)
+        xmu1 = distparam(6)
+        xmu2 = distparam(7)
+        sigy = distparam(8)
+        sigpy = distparam(9)
+        muypy = distparam(10)
+        yscale = distparam(11)
+        pyscale = distparam(12)
+        xmu3 = distparam(13)
+        xmu4 = distparam(14)
+        sigz = distparam(15)
+        sigpz = distparam(16)
+        muzpz = distparam(17)
+        zscale = distparam(18)
+        pzscale = distparam(19)
+        xmu5 = distparam(20)
+        xmu6 = distparam(21)
+
+        call getsize_Pgrid2d(grid,totnp,npy,npx)
+
+        call getpost_Pgrid2d(grid,myid,myidy,myidx)
+!        seedarray(1)=(1001+myid)*(myid+7)
+!        write(6,*)'seedarray=',seedarray
+!        call random_seed(PUT=seedarray(1:1))
+        do i = 1, 3000
+          call random_number(x11)
+        enddo
+!        print*,myid,x11
+ 
+
+        avgpts = this%Npt/(npx*npy)
+
+        sig1 = sigx*xscale
+        sig2 = sigpx*pxscale
+        sig3 = sigy*yscale
+        sig4 = sigpy*pyscale
+        sig5 = sigz
+        sig6 = sigpz
+
+        rootx=sqrt(1.-muxpx*muxpx)
+        rooty=sqrt(1.-muypy*muypy)
+        rootz=sqrt(1.-muzpz*muzpz)
+
+        ! initial allocate 'avgpts' particles on each processor.
+        allocate(this%Pts1(6,avgpts))
+        this%Pts1 = 0.0
+        twopi = 4*dasin(1.0d0)
+        allocate(r1(avgpts))
+        call random_number(r1)
+        allocate(r2(avgpts))
+        call random_number(r2)
+        allocate(r3(avgpts))
+        call random_number(r3)
+
+        do numpts = 1, avgpts
+          sq1 = sqrt(1.0-(r1(numpts))**(2.0/3.0))
+          x1 = sig1*sq1*sqrt(5.0d0)
+          x3 = sig3*sq1*sqrt(5.0d0)
+          cs = cos(r2(numpts)*twopi)
+          ss = sin(r2(numpts)*twopi)
+          this%Pts1(1,numpts) = xmu1 + x1*cs
+          call normdv1d(vx)
+          this%Pts1(2,numpts) = xmu2 + sig2*vx
+          this%Pts1(3,numpts) = xmu3 + x3*ss
+          call normdv1d(vy)
+          this%Pts1(4,numpts) = xmu4 + sig4*vy
+100       call normdv1d(ztmp)
+          if(abs(ztmp).gt.4.0d0) goto 100
+          this%Pts1(5,numpts) = xmu5+sig5*ztmp
+          !call random_number(r4)
+          !r44 = 2*r4 - 1.0
+          call normdv1d(r44)
+          this%Pts1(6,numpts) = xmu6 + sig6*abs(r44)
+        enddo
+!        print*,"inital max z location of particles: ",tmpmaxgl,frac1,ntmp1
+!        if(tmpmaxgl.lt.0.0) then 
+!          shiftz = -tmpmaxgl
+!          do numpts = 1, avgpts
+!            this%Pts1(5,numpts) = this%Pts1(5,numpts) + shiftz
+!          enddo
+!        endif
+          
+        this%Nptlocal = avgpts
+        deallocate(r1)
+        deallocate(r2)
+        deallocate(r3)
+       
+        t_kvdist = t_kvdist + elapsedtime_Timer(t0)
+
+        end subroutine SemicirGauss_DistT
+
+        !cosine function rise (Tukey function)
+        !rise time = alpha*Tot/2
+        subroutine LongTukey_Dist(ptz,avgpts,avgpts0,zscale,pzscale,xmu5,ib,Nb)
+        implicit none
+        include 'mpif.h'
+        integer, intent(in) :: avgpts0,ib,Nb
+        integer, intent(inout) :: avgpts
+        real*8, intent(out), dimension(avgpts0) :: ptz
+        real*8, intent(in) :: xmu5,zscale,pzscale
+        real*8, dimension(avgpts0) :: tmptcl
+        integer :: numpts,iptlc
+        real*8 :: zrise,zflat,totleng,deltaz,zminbin,zmaxbin,zmingl,z1,z2,z3
+        real*8 :: rr,zz,rr2,fvalue,ztmp
+  
+        zrise = zscale !linear rise part
+        zflat = pzscale !flat-top part
+
+        totleng = zflat + 2*zrise
+        deltaz = totleng/Nb
+        zminbin = -ib*deltaz
+        zmaxbin = -(ib-1)*deltaz
+        zmingl = -totleng
+        z1 = zmingl + zrise
+        z2 = z1 + zflat
+        z3 = 0.0d0
+        numpts = 0
+        iptlc = 0
+        tmptcl = 0.0d0
+
+        do
+10        call random_number(rr)
+          zz = -totleng*rr
+          if(zz.ge.zmingl .and. zz.lt.z1 ) then
+            ztmp = (zz-zmingl)/(z1-zmingl)
+            fvalue = 0.5d0*(1-cos(pi*ztmp))
+          else if( zz.ge.z1 .and. zz.lt.z2) then
+            fvalue = 1.0d0
+          else if( zz.ge.z2 .and. zz.le.z3) then
+            ztmp = 1.0d0 - (zz-z2)/(z3-z2)
+            fvalue = 0.5d0*(1-cos(pi*ztmp))
+          else
+          endif
+          call random_number(rr2)
+          if(rr2.gt.fvalue) goto 10
+          numpts = numpts + 1
+          if( (zz.le.zmaxbin) .and. (zz.gt.zminbin) ) then
+            iptlc = iptlc + 1
+            tmptcl(iptlc) = zz
+          endif
+          if(numpts.ge.avgpts0) exit
+        enddo
+
+        avgpts = iptlc
+
+        do numpts = 1, avgpts
+         ptz(numpts) = xmu5 + tmptcl(numpts)
+        enddo
+
+        end subroutine LongTukey_Dist
 
       end module Distributionclass

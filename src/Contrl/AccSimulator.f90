@@ -97,6 +97,7 @@
         !restart time and step
         double precision :: tend,dtlessend
         integer :: iend,ibchend,nfileout,ioutend,itszend,isteerend,isloutend
+        integer :: imapend,iheatend,irotzend,irstartend,icolend
 
         !beam line element array.
         type (BPM),target,dimension(Nbpmmax) :: beamln0
@@ -178,7 +179,7 @@
         if(myid.eq.0) then
           !print*,"Start simulation:"
           print*,"!-----------------------------------------------------------"
-          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: 2.1 beta version"
+          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V2.2"
           print*,"! Copyright of The Regents of the University of California"
           print*,"!-----------------------------------------------------------"
         endif
@@ -189,16 +190,8 @@
 !-------------------------------------------------------------------
 ! construct computational domain CompDom class and get local geometry 
 ! information on each processor.
-        !if(Rstartflg.eq.1) then
-        !  call ingeom_Output(1500,z,inb,jstp,nprow,npcol,Ageom,Nx,Ny,Nz,&
-        !                    myidx,myidy)
-        !  if(myid.eq.0) print*,"rstart at: ",z,inb,jstp
-        !  call MPI_BARRIER(MPI_COMM_WORLD,ierr)
-        !else
-          !xrad = 0.1363243029*0.2
-          call construct_CompDom(Ageom,distparam,Ndistparam,Flagdist,&
+        call construct_CompDom(Ageom,distparam,Ndistparam,Flagdist,&
                Nx,Ny,Nz,grid2d,nprow,npcol,Flagbc,xrad,yrad,Perdlen)
-        !endif
 
 !-------------------------------------------------------------------
 ! initialize Data class.
@@ -565,10 +558,15 @@
         ioutend = 0
         itszend = 0
         isteerend = 0
+        imapend = 0
+        iheatend = 0
+        irotzend = 0
+        irstartend = 0
+        icolend = 0
         if(Rstartflg.eq.1) then
           call inpoint_Output(nfileout+myid,Ebunch(1),tend,iend,ibchend,nprow,npcol,&
           Ageom,Nx,Ny,Nz,myidx,myidy,Np(1),ioutend,itszend,isteerend,isloutend,&
-          dtlessend)
+          dtlessend,imapend,iheatend,irotzend,irstartend,icolend)
           if(myid.eq.0) print*,"restart at: ",tend,iend,ib
         else
           !call sample_Dist(Ebunch(1),distparam,Ndistparam,Flagdist,Ageom,grid2d,Flagbc)
@@ -596,7 +594,8 @@
              call inpoint_Output(ib*nfileout+myid,Ebunch(ib),tend,iend,ibchend,&
                 nprow,npcol,&
                 Ageom,Nx,Ny,Nz,myidx,myidy,Np(ib),ioutend,itszend,isteerend,&
-                isloutend,dtlessend)
+                isloutend,dtlessend,imapend,iheatend,irotzend,&
+                irstartend,icolend)
           else
             !call sample_Dist(Ebunch(ib),distparam,Ndistparam,Flagdist,Ageom,grid2d,Flagbc)
             call sample_Dist(Ebunch(ib),distparam,Ndistparam,Flagdist,Ageom,grid2d,Flagbc,ib,Nbunch)
@@ -639,7 +638,6 @@
         double precision, allocatable, dimension(:,:) :: bessnorm,gml
         integer, allocatable, dimension(:) :: modth,pydisp
         integer :: nmod,k
-        !double precision :: sumtest, sumtest2, sumtest3
         double precision, dimension(8) :: drange
         double precision, dimension(3) :: al0,ga0,epson0
         double precision :: realSamplePeriod
@@ -667,8 +665,8 @@
         integer :: flagphout,iout
         !//switch for changing time step size: 0 - no change, 1 - change
         !// time step size after tszstart
-        integer :: flagtimesz
-        double precision :: trstart
+        integer :: flagtimesz,irstart
+        double precision, dimension(101) :: trstart
         integer, dimension(100) :: nsamp,nfileouttmp,nfileslout,nslout
         double precision, dimension(101) :: tszstart,dtnewsize
         double precision, dimension(101) :: tphout,tsteer,xoffset,yoffset,&
@@ -751,7 +749,7 @@
 
 
         twopi = 4*asin(1.0d0)
-        !zadjmax = 0.15 !30% increase of z domain
+        !zadjmax = 0.1d0 !20% increase of z domain
         zadjmax = 0.0d0 !0% increase of z domain
 
         ndatawkmax = 1000
@@ -889,6 +887,7 @@
         nwk = 0
         isteer = 0
         icol = 0
+        irstart = 0
 
         !idrfile is used to store the <element type>, <external data file name>,
         !and <id> for the internal data storage of each beamline element  
@@ -941,10 +940,11 @@
           endif
           if(bitype.eq.(-3)) then
             flagphout = 2
-            call getparam_BeamLineElem(Blnelem(i),3,trstart)
+            irstart = irstart+1
+            call getparam_BeamLineElem(Blnelem(i),3,trstart(irstart))
             nfileout = bmpstp 
 !            nsamp = bnseg
-            print*,"trstart: ",trstart
+            print*,"trstart: ",trstart(irstart)
           endif
           if(bitype.eq.(-4)) then
             flagtimesz = 1
@@ -1102,9 +1102,6 @@
           endif
         enddo
 
-!        Ebunch(1)%Pts1 = 1.0d0
-!        call phaseinadios(Ebunch(1))
-
         dtless = dtlessend !dimensionless time step size.
         t = tend
         distance = 0.0d0
@@ -1115,9 +1112,9 @@
         ibendold = 0
         iifile = 0
         islout = isloutend
-        imap = 0
-        iheat = 0
-        izrot = 0
+        imap = imapend
+        iheat = iheatend
+        izrot = irotzend
 
         allocate(gammaz(Nbunch))
         allocate(brange(12,Nbunch))
@@ -1142,14 +1139,11 @@
           call diagnostic1avgZtest_Output(t,Ebunch,Nbunch)
         else
         endif
-!        ibunch = 0
-!        iout = 0
-!        itsz = 0
-!        isteer = 0
         itspc = 0
         iout = ioutend
         itsz = itszend
         isteer = isteerend
+        irstart = irstartend 
 !        ibunch = 1
         ibunch = Nbunch
         tmpcur = curr
@@ -1157,7 +1151,7 @@
         flagstep = 1
         zorgin = 0.0d0
         idbd = 1
-        icol = 0
+        icol = icolend
         !particles behind the cathode will use this beta for emission.
         !betazini = sqrt(1.0-1.0/(1.0+distparam(21)**2))
         betazini = sqrt(1.0d0-1.0d0/(1.0d0+Bkenergy/Bmass)**2)
@@ -1172,6 +1166,7 @@
         zmin = 0.0d0
         call MPI_BARRIER(comm2d,ierr)
         !print*,"iout: ",iout,tphout(1)
+        nfileout = 1000
 !----------------------------------------------------------------------
 ! start looping through ntstep time step.
         !iend is the time step number from last simulation (used in
@@ -1186,7 +1181,8 @@
             flagbtw = 1
           endif
 
-          !steering the beam centroid to the given X, Px,Y, Py, Z, Pz values at given location
+          !steering the beam centroid to the given X and Y values at given location
+          !kick the beam in Px, Py, Pz, and Z values
           !if(t.le.tsteer(isteer+1) .and. (t+dtless*Dt).ge.tsteer(isteer+1)) then
           if(distance.le.tsteer(isteer+1) .and. (distance+dzz).ge.tsteer(isteer+1)) then
             isteer = isteer + 1
@@ -1196,11 +1192,15 @@
                              ptrange,sgcenter)
               do ipt = 1, Nplocal(ib)
                  Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt) - sgcenter(1) + xoffset(isteer)
-                 Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt) - sgcenter(2) + pxoffset(isteer)
+                 Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt) + pxoffset(isteer)
                  Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt) - sgcenter(3) + yoffset(isteer)
-                 Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt) - sgcenter(4) + pyoffset(isteer)
-                 Ebunch(ib)%Pts1(5,ipt) = Ebunch(ib)%Pts1(5,ipt) - sgcenter(5) + zoffset(isteer)
-                 Ebunch(ib)%Pts1(6,ipt) = Ebunch(ib)%Pts1(6,ipt) - sgcenter(6) + pzoffset(isteer)
+                 Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt) + pyoffset(isteer)
+                 Ebunch(ib)%Pts1(5,ipt) = Ebunch(ib)%Pts1(5,ipt) + zoffset(isteer)
+                 Ebunch(ib)%Pts1(6,ipt) = Ebunch(ib)%Pts1(6,ipt) + pzoffset(isteer)
+                 !Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt) - sgcenter(2) + pxoffset(isteer)
+                 !Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt) - sgcenter(4) + pyoffset(isteer)
+                 !Ebunch(ib)%Pts1(5,ipt) = Ebunch(ib)%Pts1(5,ipt) - sgcenter(5) + zoffset(isteer)
+                 !Ebunch(ib)%Pts1(6,ipt) = Ebunch(ib)%Pts1(6,ipt) - sgcenter(6) + pzoffset(isteer)
               enddo
             enddo
           endif
@@ -1415,13 +1415,16 @@
               brange(inib,ib) = ptrange(inib)
               brange(inib+6,ib) = sgcenter(inib)
             enddo
+            !print*,"ptrange:",i,ptrange
             !the longitudinal range for space-charge calculation has to be > 0
 !            if(flagpos.eq.1) then
 !J.Q. 10/27/08
               if(ptrange(5).gt.0) then
                 brange(5,ib) = ptrange(5)
-              else
+              else if(brange(6,ib).gt.0) then
                 brange(5,ib) = 0.0
+              else
+                brange(5,ib) = ptrange(5)
               endif
 
 !            else
@@ -1434,8 +1437,17 @@
           !get the global computational domain and center for all effective bunches/bins 
 !          print*,"brange: ",brange,Np
           call globalrange(brange,grange,gammazavg,zcent,Np,ibunch) 
-          if(grange(5).gt.0.0d0  .or. (flagcathode.eq.0) ) flagpos = 0
-          if(grange(5).gt.0.0d0) flagcathode = 0
+          !if(grange(5).gt.0.0d0  .or. (flagcathode.eq.0) ) flagpos = 0
+          if(grange(5).gt.0.0d0  .or. (flagcathode.eq.0) ) then
+             flagpos = 0
+          else
+             flagpos = 1
+          endif
+          if(grange(5).gt.0.0d0) then
+             flagcathode = 0
+          else
+             flagcathode = 1
+          endif
 !          print*,"zcent: ",zcent
 
 !          print*,"gamz: ",gammaz(1)
@@ -1547,6 +1559,8 @@
               if(isw.eq.1) then !readin new data
               if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
                 call read2tsol_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
+!              else if(idrfile(1,ii).eq.105) then !discrete description field
+!                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).lt.110) then !Fcoef coefficient description field
                 call read1t_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).eq.111) then !3D Cartesian coordinate of field
@@ -1896,6 +1910,7 @@
               if(distance.gt.zimage) FlagImage = 0
               !zshift = -(brange(5,ib)+brange(6,ib))*Scxlt
               zshift = -(range(5)+range(6))*gammaz(ib)*Scxlt
+              !print*,"zshift:",i,zshift,range(5),range(6),Flagbc,flagspc
               if((Flagbc.eq.1) .and. (flagspc.eq.1)) then
                 ! solve Poisson's equation using 3D isolated boundary condition.
                 ! the image space-charge potential with respect to z = 0 is calculated
@@ -1917,6 +1932,8 @@
               Potential%FieldQ,Ageom,grid2d,Flagbc,gammaz(ib),tmpflag,&
               exg,eyg,ezg,bxg,byg,bzg)
 
+              !print*,"sumexg1;",i,sum(exg),sum(eyg),sum(ezg),sum(bxg),sum(byg),sum(bzg)
+              !print*,"imgpot:",sum(tmppot)
               !find the E and B fields in the lab frame from the image potential of 
               !effective bunch/bin  
               if(FlagImage.eq.1) then
@@ -1924,6 +1941,7 @@
                 tmppot,Ageom,grid2d,Flagbc,gammaz(ib),FlagImage,&
                 exg,eyg,ezg,bxg,byg,bzg)
               endif
+              !print*,"sumexg2;",sum(exg),sum(eyg),sum(ezg),sum(bxg),sum(byg),sum(bzg)
               !add the E field from the wake to the space-charge field.
               if(flagwake.eq.1) then
                 !print*,"include wake: "
@@ -2002,6 +2020,8 @@
                 zBlnelem,idrfile,Nblem,ibinit,ibend,fldmp,Flagerr)
               endif
             enddo
+            !print*,"pstmom:",sum(Ebunch(1)%Pts1(2,:)),sum(Ebunch(1)%Pts1(4,:)),&
+            !        sum(Ebunch(1)%Pts1(6,:))
 
             else ! point-2-point space charge force
 
@@ -2353,6 +2373,7 @@
               call convExit_BeamBunch(Ebunch(ib),zorgin2)
             enddo
           endif
+
           if(distance.le.tphout(iout+1) .and. &
             (distance+dzz).ge.tphout(iout+1)) then
 
@@ -2433,10 +2454,13 @@
           endif
 
 !          if(t.le.trstart .and. (t+dtless*Dt).ge.trstart) then
-          if(distance.le.trstart .and. (distance+dzz).ge.trstart) then
+          if(distance.le.trstart(irstart+1) .and. &
+             (distance+dzz).ge.trstart(irstart+1)) then
+            irstart = irstart+1
             do ib = 1, Nbunch
               call outpoint_Output(ib*nfileout+myid,Ebunch(ib),t,&
-                        i,ib,npx,npy,Ageom,iout,itsz,isteer,islout,dtless)
+                   i,ib,npx,npy,Ageom,iout,itsz,isteer,islout,dtless,&
+                   imap,iheat,izrot,irstart,icol)
             enddo
           endif
 

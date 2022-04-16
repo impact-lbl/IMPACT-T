@@ -134,7 +134,7 @@
           py0lc4 = py0lc4 + this%Pts1(4,i)*this%Pts1(4,i)*this%Pts1(4,i)*&
                    this%Pts1(4,i)
           sqsum5local = sqsum5local + (this%Pts1(5,i)-z0avg)**2
-          z0lc3 = z0lc3 + abs((this%Pts1(5,i)-z0avg)**3)
+          z0lc3 = z0lc3 + ((this%Pts1(5,i)-z0avg)**3)
           z0lc4 = z0lc4 + (this%Pts1(5,i)-z0avg)**4
           zpzlocal = zpzlocal + (this%Pts1(5,i)-z0avg)*this%Pts1(6,i)
           pz0lc = pz0lc + this%Pts1(6,i)
@@ -453,12 +453,12 @@
             py0lc4 = py0lc4 + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*&
                      this(ib)%Pts1(4,i)
             sqsum5local = sqsum5local + (this(ib)%Pts1(5,i)-z0avg)**2
-            z0lc3 = z0lc3 + abs((this(ib)%Pts1(5,i)-z0avg)**3)
+            z0lc3 = z0lc3 + ((this(ib)%Pts1(5,i)-z0avg)**3)
             z0lc4 = z0lc4 + (this(ib)%Pts1(5,i)-z0avg)**4
             zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*(this(ib)%Pts1(6,i)-pz0avg)
             pz0lc = pz0lc + this(ib)%Pts1(6,i)
             sqsum6local = sqsum6local + (this(ib)%Pts1(6,i)-pz0avg)**2 
-            pz0lc3 = pz0lc3 + (abs(this(ib)%Pts1(6,i)-pz0avg)**3) 
+            pz0lc3 = pz0lc3 + ((this(ib)%Pts1(6,i)-pz0avg)**3) 
             pz0lc4 = pz0lc4 + (this(ib)%Pts1(6,i)-pz0avg)**4 
             do j = 1, 4
               if(localmax(j).lt.abs(this(ib)%Pts1(j,i))) then
@@ -789,12 +789,12 @@
             py0lc4 = py0lc4 + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*&
                      this(ib)%Pts1(4,i)
             sqsum5local = sqsum5local + (this(ib)%Pts1(5,i)-z0avg)**2
-            z0lc3 = z0lc3 + abs((this(ib)%Pts1(5,i)-z0avg)**3)
+            z0lc3 = z0lc3 + ((this(ib)%Pts1(5,i)-z0avg)**3)
             z0lc4 = z0lc4 + (this(ib)%Pts1(5,i)-z0avg)**4
             zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*(this(ib)%Pts1(6,i)-pz0avg)
             pz0lc = pz0lc + this(ib)%Pts1(6,i)
             sqsum6local = sqsum6local + (this(ib)%Pts1(6,i)-pz0avg)**2 
-            pz0lc3 = pz0lc3 + (abs(this(ib)%Pts1(6,i)-pz0avg)**3) 
+            pz0lc3 = pz0lc3 + ((this(ib)%Pts1(6,i)-pz0avg)**3) 
             pz0lc4 = pz0lc4 + (this(ib)%Pts1(6,i)-pz0avg)**4 
             do j = 1, 4
               if(localmax(j).lt.abs(this(ib)%Pts1(j,i))) then
@@ -1133,7 +1133,7 @@
             py0lc4 = py0lc4 + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*&
                      this(ib)%Pts1(4,i)
             sqsum5local = sqsum5local + (this(ib)%Pts1(5,i)-z0avg)**2
-            z0lc3 = z0lc3 + abs((this(ib)%Pts1(5,i)-z0avg)**3)
+            z0lc3 = z0lc3 + ((this(ib)%Pts1(5,i)-z0avg)**3)
             z0lc4 = z0lc4 + (this(ib)%Pts1(5,i)-z0avg)**4
             zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*this(ib)%Pts1(6,i)
             pz0lc = pz0lc + this(ib)%Pts1(6,i)
@@ -1947,7 +1947,8 @@
         end subroutine end_Output
 
         subroutine inpoint_Output(nfile,this,z,inb,jstp,nprocrow,nproccol,&
-               geom,nx,ny,nz,myidx,myidy,nptot,iout,itsz,isteer,islout,dtless)
+               geom,nx,ny,nz,myidx,myidy,nptot,iout,itsz,isteer,islout,&
+               dtless,imap,iheat,irotz,irstart,icol)
         implicit none
         include 'mpif.h'
         integer, intent(in) :: nfile
@@ -1956,6 +1957,7 @@
         type(CompDom), intent(inout) :: geom
         integer, intent(inout) :: inb,jstp
         integer, intent(inout) :: nptot,iout,itsz,isteer,islout
+        integer, intent(inout) :: imap,iheat,irotz,irstart,icol
         integer, intent(in) :: nprocrow,nproccol,nx,ny,nz,myidx,myidy
         integer, allocatable, dimension(:,:,:) :: Localnum
         double precision, allocatable, dimension(:,:,:) :: Localrange
@@ -2012,6 +2014,7 @@
 !        print*,"nfile: ",nfile
         read(9)z,dtless
         read(9)inb,jstp,iout,itsz,isteer,islout
+        read(9)imap,iheat,irotz,irstart,icol
         read(9)msize(1:3)
         read(9)range(1:6)
 !        print*,"zz: ",z,inb,jstp
@@ -2058,7 +2061,8 @@
         end subroutine inpoint_Output
 
         subroutine outpoint_Output(nfile,this,z,inb,jstp,nprocrow,nproccol,&
-                   geom,iout,itsz,isteer,islout,dtless)
+                   geom,iout,itsz,isteer,islout,dtless,&
+                   imap,iheat,irotz,irstart,icol)
         implicit none
         include 'mpif.h'
         integer, intent(in) :: nfile
@@ -2067,6 +2071,7 @@
         type(CompDom), intent(in) :: geom
         integer, intent(in) :: inb,jstp,nprocrow,nproccol,&
                                iout,itsz,isteer,islout
+        integer, intent(in) :: imap,iheat,irotz,irstart,icol
         integer, allocatable, dimension(:,:,:) :: Localnum
         double precision, allocatable, dimension(:,:,:) :: Localrange
         double precision, dimension(3) :: msize
@@ -2085,6 +2090,7 @@
 
         write(nfile)z,dtless
         write(nfile)inb,jstp,iout,itsz,isteer,islout
+        write(nfile)imap,iheat,irotz,irstart,icol
         write(nfile)msize(1:3)
         write(nfile)range(1:6)
         write(nfile)Localnum(1:2,0:nprocrow-1,0:nproccol-1)
