@@ -1181,8 +1181,8 @@
             flagbtw = 1
           endif
 
-          !steering the beam centroid to the given X and Y values at given location
-          !kick the beam in Px, Py, Pz, and Z values
+          !kick the beam centroid at given location
+          !by X, Px, Y, Py, Pz, and Z values
           !if(t.le.tsteer(isteer+1) .and. (t+dtless*Dt).ge.tsteer(isteer+1)) then
           if(distance.le.tsteer(isteer+1) .and. (distance+dzz).ge.tsteer(isteer+1)) then
             isteer = isteer + 1
@@ -1191,13 +1191,15 @@
               call singlerange(Ebunch(ib)%Pts1,Nplocal(ib),Np(ib),&
                              ptrange,sgcenter)
               do ipt = 1, Nplocal(ib)
-                 Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt) - sgcenter(1) + xoffset(isteer)
+                 Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt) + xoffset(isteer)
                  Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt) + pxoffset(isteer)
-                 Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt) - sgcenter(3) + yoffset(isteer)
+                 Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt) + yoffset(isteer)
                  Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt) + pyoffset(isteer)
                  Ebunch(ib)%Pts1(5,ipt) = Ebunch(ib)%Pts1(5,ipt) + zoffset(isteer)
                  Ebunch(ib)%Pts1(6,ipt) = Ebunch(ib)%Pts1(6,ipt) + pzoffset(isteer)
+                 !Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt) - sgcenter(1) + xoffset(isteer)
                  !Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt) - sgcenter(2) + pxoffset(isteer)
+                 !Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt) - sgcenter(3) + yoffset(isteer)
                  !Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt) - sgcenter(4) + pyoffset(isteer)
                  !Ebunch(ib)%Pts1(5,ipt) = Ebunch(ib)%Pts1(5,ipt) - sgcenter(5) + zoffset(isteer)
                  !Ebunch(ib)%Pts1(6,ipt) = Ebunch(ib)%Pts1(6,ipt) - sgcenter(6) + pzoffset(isteer)
