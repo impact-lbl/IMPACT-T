@@ -2554,32 +2554,32 @@
            endif
            ky=dky(l,m,e)
            kz=sqrt((kx*kx+ky*ky)/(deps-1)) ! omega/c
+           do k=1,Nz
+            z=(k-1)*hz
+            fs(k)=amp(l,m,e)*cos(kz*z)
+            fa(k)=amp(l,m,e)*sin(kz*z)
+            lam(k)=0
+            laa(k)=0
+            do n=1,Nx
+             x0=xmin+(n-1)*hx
+             do p=1,Ny
+              y0=ymin+(p-1)*hy
+              lam(k)=lam(k)+chgdens(n,p,k)*cosh(kx*y0)*cos(kx*x0)
+              laa(k)=laa(k)+chgdens(n,p,k)*sinh(kx*y0)*cos(kx*x0)
+             enddo ! p
+            enddo ! n
+           enddo ! k
+           if(e.eq.1)then
+            call dwakeConv_FieldQuant(Nz,lam,hz,fs,lams)
+            call dwakeConv_FieldQuant(Nz,lam,hz,fa,lama)
+           else
+            call dwakeConv_FieldQuant(Nz,laa,hz,fs,laas)
+            call dwakeConv_FieldQuant(Nz,laa,hz,fa,laaa)
+           endif
            do i=1,Nx
             x=xmin+(i-1)*hx
             do j=1,Ny
              y=ymin+(j-1)*hy
-             do k=1,Nz
-              z=(k-1)*hz
-              fs(k)=amp(l,m,e)*cos(kz*z)
-              fa(k)=amp(l,m,e)*sin(kz*z)
-              lam(k)=0
-              laa(k)=0
-              do n=1,Nx
-               x0=xmin+(n-1)*hx
-               do p=1,Ny
-                y0=ymin+(p-1)*hy
-                lam(k)=lam(k)+chgdens(n,p,k)*cosh(kx*y0)*cos(kx*x0)
-                laa(k)=laa(k)+chgdens(n,p,k)*sinh(kx*y0)*cos(kx*x0)
-               enddo ! p
-              enddo ! n
-             enddo ! k
-             if(e.eq.1)then
-              call dwakeConv_FieldQuant(Nz,lam,hz,fs,lams)
-              call dwakeConv_FieldQuant(Nz,lam,hz,fa,lama)
-             else
-              call dwakeConv_FieldQuant(Nz,laa,hz,fs,laas)
-              call dwakeConv_FieldQuant(Nz,laa,hz,fa,laaa)
-             endif
              do k=1,Nz
               if(par.eq.0.and.e.eq.1)then ! LSM-SYM
                dexwake(i,j,k)=dexwake(i,j,k)-lama(k)*sin(kx*x)*cosh(kx*y)&
@@ -2624,6 +2624,7 @@
           enddo ! m
          enddo ! l
         enddo ! e
+
        
        ! take care of units: V/m and T
         conv2V=dv*gammaz/lx/hz
@@ -2673,7 +2674,6 @@
        endif ! dtype
 
        end subroutine dwakefield_FieldQuant
-
 
        ! make convolution for d-wakefields
        subroutine dwakeConv_FieldQuant(Nz,weightz,&

@@ -984,7 +984,7 @@
         !> calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
         !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
         !> multiple bunch/bin at fixed z (i.e. bunch center).
-        subroutine diagnostic1avgZ_Output(z,this,Nbunch)
+        subroutine diagnostic1avgZold_Output(z,this,Nbunch)
         implicit none
         include 'mpif.h'
         double precision, intent(in) :: z
@@ -1313,6 +1313,428 @@
 100      format(7(1x,e16.8))
 101     format(1x,e16.8,e16.8,3I10)
 102      format(8(1x,e16.8))
+
+        t_diag = t_diag + elapsedtime_Timer(t0)
+
+        end subroutine diagnostic1avgZold_Output
+
+        !> calculate averaged <x^2>,<xp>,<px^2>,x emittance, <y^2>,<ypy>,
+        !> <py^2> and y emittance, <z^2>,<zp>,<pz^2>,z emittance from
+        !> multiple bunch/bin at fixed z (i.e. bunch center).
+	!> added 4x4 and 6x6 sigma matrix 
+        subroutine diagnostic1avgZ_Output(z,this,Nbunch)
+        implicit none
+        include 'mpif.h'
+        double precision, intent(in) :: z
+        type (BeamBunch), dimension(:), intent(inout) :: this
+        integer, intent(in) :: Nbunch
+        integer :: innp,nptot
+        double precision:: den1,den2,sqsum1,sqsum2,sqsum3,sqsum4,&
+                          epsx2,epsy2
+        double precision:: xpx,ypy,epx,epy,xrms,pxrms,yrms,pyrms,&
+                         xpxfac,ypyfac
+        double precision:: sqsum1local,sqsum2local,sqsum3local,sqsum4local
+        double precision:: xpxlocal,ypylocal,zpzlocal
+	!PP
+        double precision:: xylocal,xpylocal,ypxlocal,pxpylocal
+        double precision:: xy,xpy,ypx,pxpy
+        double precision:: xzlocal,xpzlocal,zpxlocal,pxpzlocal
+        double precision:: xz, xpz, zpx, pxpz 
+        double precision:: yzlocal,ypzlocal,zpylocal,pypzlocal
+        double precision:: yz, ypz, zpy, pypz 
+
+        double precision:: sqsum5,sqsum6,epsz2,zpz,epz,zrms,pzrms,zpzfac
+        double precision:: sqsum5local,sqsum6local
+        double precision:: x0lc,x0,px0lc,px0,y0lc,y0,py0lc,py0,z0lc,z0,&
+        pz0lc,pz0,x0lc3,x0lc4,px0lc3,px0lc4,y0lc3,y0lc4,py0lc3,py0lc4,&
+        z0lc3,z0lc4,pz0lc3,pz0lc4,x03,x04,px03,px04,y03,y04,py03,py04,&
+        z03,z04,pz03,pz04
+        double precision ::sqx,cubx,fthx,sqpx,cubpx,fthpx,sqy,cuby,fthy,&
+        sqpy,cubpy,fthpy,sqz,cubz,fthz,sqpz,cubpz,fthpz
+        double precision:: gam,energy,bet
+        integer :: i,my_rank,ierr,j
+        double precision:: qmc,xl,xt
+        double precision, dimension(6) :: localmax, glmax
+        double precision, dimension(41) :: tmplc,tmpgl
+        double precision :: t0,lcrmax,glrmax,z0gl,z0avg,testmax
+        double precision :: gamlc,gam2lc,gam2avg,tmpgam,gamdel
+        double precision :: tmpx,tmpy,deltat,recpgamma
+        integer :: npctmin,npctmax,ib,innpmb,i1,i2
+
+        call starttime_Timer(t0)
+
+        qmc = this(1)%Mass/1.0e6
+        xl = Scxlt
+        xt = Rad2deg
+
+        call MPI_COMM_RANK(MPI_COMM_WORLD,my_rank,ierr)
+
+        nptot = 0
+        innpmb = 0
+        z0lc = 0.0
+        do ib = 1, Nbunch
+          innp = this(ib)%Nptlocal
+          innpmb = innpmb + innp
+          nptot = nptot + this(ib)%Npt
+          do i = 1, innp
+            z0lc = z0lc + this(ib)%Pts1(5,i)
+          enddo
+        enddo
+        call MPI_ALLREDUCE(z0lc,z0gl,1,MPI_DOUBLE_PRECISION,&
+                        MPI_SUM,MPI_COMM_WORLD,ierr)
+        den1 = 1.0/dble(nptot)
+        den2 = den1*den1
+        z0avg = z0gl*den1
+
+        x0lc = 0.0
+        px0lc = 0.0
+        y0lc = 0.0
+        py0lc = 0.0
+        pz0lc = 0.0
+        sqsum1local = 0.0
+        sqsum2local = 0.0
+        sqsum3local = 0.0
+        sqsum4local = 0.0
+        sqsum5local = 0.0
+        sqsum6local = 0.0
+        xpxlocal = 0.0
+        ypylocal = 0.0
+        zpzlocal = 0.0
+
+!PP
+        xylocal   = 0.0
+        xpylocal  = 0.0
+        ypxlocal  = 0.0
+        pxpylocal = 0.0
+        xzlocal   = 0.0
+        xpzlocal  = 0.0
+        zpxlocal  = 0.0
+        pxpzlocal = 0.0
+        yzlocal   = 0.0
+        ypzlocal  = 0.0
+        zpylocal  = 0.0
+        pypzlocal = 0.0
+
+        x0lc3 = 0.0
+        x0lc4 = 0.0
+        px0lc3 = 0.0
+        px0lc4 = 0.0
+        y0lc3 = 0.0
+        y0lc4 = 0.0
+        py0lc3 = 0.0
+        py0lc4 = 0.0
+        z0lc3 = 0.0
+        z0lc4 = 0.0
+        pz0lc3 = 0.0
+        pz0lc4 = 0.0
+        ! for cache optimization.
+        if(innp.ne.0) then
+          do i = 1, 6
+            !localmax(i) = abs(this(1)%Pts1(i,1))
+            localmax(i) = 0.0
+          enddo
+          !lcrmax = this(1)%Pts1(1,1)**2+this(1)%Pts1(3,1)**2
+          lcrmax = 0.0
+        else
+          do i = 1, 6
+            localmax(i) = 0.0
+          enddo
+          lcrmax = 0.0
+        endif
+!        testmax = 0.0
+        gamlc = 0.0
+        gam2lc = 0.0
+        do ib = 1, Nbunch
+          innp = this(ib)%Nptlocal
+          do i = 1, innp
+            tmpgam = sqrt(1.0+this(ib)%Pts1(2,i)**2+&
+               this(ib)%Pts1(4,i)**2+this(ib)%Pts1(6,i)**2)
+            gamlc = gamlc + tmpgam  
+            gam2lc = gam2lc + tmpgam**2
+            recpgamma = 1.0/tmpgam
+            deltat = (this(ib)%Pts1(5,i)-z0avg)&
+                     /(recpgamma*this(ib)%Pts1(6,i))
+            !drift to the "fixed z" location
+            tmpx = this(ib)%Pts1(1,i)-recpgamma*this(ib)%Pts1(2,i)*deltat
+            x0lc = x0lc + tmpx
+            sqsum1local = sqsum1local + tmpx*tmpx
+            x0lc3 = x0lc3 + tmpx*tmpx*tmpx
+            x0lc4 = x0lc4 + tmpx*tmpx*tmpx*tmpx
+!            xpxlocal = xpxlocal + tmpx*this(ib)%Pts1(2,i)/this(ib)%Pts1(6,i)
+            xpxlocal = xpxlocal + tmpx*this(ib)%Pts1(2,i)
+!            x0lc = x0lc + this(ib)%Pts1(1,i)
+!            sqsum1local = sqsum1local + this(ib)%Pts1(1,i)*this(ib)%Pts1(1,i)
+!            x0lc3 = x0lc3 + this(ib)%Pts1(1,i)*this(ib)%Pts1(1,i)*this(ib)%Pts1(1,i)
+!            x0lc4 = x0lc4 + this(ib)%Pts1(1,i)*this(ib)%Pts1(1,i)*this(ib)%Pts1(1,i)*&
+!                    this(ib)%Pts1(1,i)
+!            xpxlocal = xpxlocal + this(ib)%Pts1(1,i)*this(ib)%Pts1(2,i)
+            px0lc = px0lc + this(ib)%Pts1(2,i)
+!            px0lc = px0lc + this(ib)%Pts1(2,i)/this(ib)%Pts1(6,i)
+            sqsum2local = sqsum2local + this(ib)%Pts1(2,i)*this(ib)%Pts1(2,i)
+!            sqsum2local = sqsum2local + (this(ib)%Pts1(2,i)/this(ib)%Pts1(6,i))**2
+            px0lc3 = px0lc3 + this(ib)%Pts1(2,i)*this(ib)%Pts1(2,i)*this(ib)%Pts1(2,i)
+            px0lc4 = px0lc4 + this(ib)%Pts1(2,i)*this(ib)%Pts1(2,i)*this(ib)%Pts1(2,i)*&
+                     this(ib)%Pts1(2,i)
+            !drift to the "fixed z" location
+            tmpy = this(ib)%Pts1(3,i)-recpgamma*this(ib)%Pts1(4,i)*deltat
+            y0lc = y0lc + tmpy
+            sqsum3local = sqsum3local + tmpy*tmpy
+            y0lc3 = y0lc3 + tmpy*tmpy*tmpy
+            y0lc4 = y0lc4 + tmpy*tmpy*tmpy*tmpy
+            ypylocal = ypylocal + tmpy*this(ib)%Pts1(4,i)
+!            y0lc = y0lc + this(ib)%Pts1(3,i)
+!            sqsum3local = sqsum3local + this(ib)%Pts1(3,i)*this(ib)%Pts1(3,i)
+!            y0lc3 = y0lc3 + this(ib)%Pts1(3,i)*this(ib)%Pts1(3,i)*this(ib)%Pts1(3,i)
+!            y0lc4 = y0lc4 + this(ib)%Pts1(3,i)*this(ib)%Pts1(3,i)*this(ib)%Pts1(3,i)*&
+!                    this(ib)%Pts1(3,i)
+!            ypylocal = ypylocal + this(ib)%Pts1(3,i)*this(ib)%Pts1(4,i)
+            py0lc = py0lc + this(ib)%Pts1(4,i)
+            sqsum4local = sqsum4local + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)
+            py0lc3 = py0lc3 + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)
+            py0lc4 = py0lc4 + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*&
+                     this(ib)%Pts1(4,i)
+!PP
+            xylocal   = xylocal   + this(ib)%Pts1(1,i)*this(ib)%Pts1(3,i)
+            xpylocal  = xpylocal  + this(ib)%Pts1(1,i)*this(ib)%Pts1(4,i)
+            ypxlocal  = ypxlocal  + this(ib)%Pts1(2,i)*this(ib)%Pts1(3,i)
+            pxpylocal = pxpylocal + this(ib)%Pts1(2,i)*this(ib)%Pts1(4,i)
+
+            xzlocal   = xzlocal   + this(ib)%Pts1(1,i)*this(ib)%Pts1(5,i)
+            xpzlocal  = xpzlocal  + this(ib)%Pts1(1,i)*this(ib)%Pts1(6,i)
+            zpxlocal  = zpxlocal  + this(ib)%Pts1(5,i)*this(ib)%Pts1(2,i)
+            pxpzlocal = pxpzlocal + this(ib)%Pts1(2,i)*this(ib)%Pts1(6,i)
+
+            yzlocal   = yzlocal   + this(ib)%Pts1(3,i)*this(ib)%Pts1(5,i)
+            ypzlocal  = ypzlocal  + this(ib)%Pts1(3,i)*this(ib)%Pts1(6,i)
+            zpylocal  = zpylocal  + this(ib)%Pts1(5,i)*this(ib)%Pts1(4,i)
+            pypzlocal = pypzlocal + this(ib)%Pts1(4,i)*this(ib)%Pts1(6,i)
+
+            sqsum5local = sqsum5local + (this(ib)%Pts1(5,i)-z0avg)**2
+            z0lc3 = z0lc3 + abs((this(ib)%Pts1(5,i)-z0avg)**3)
+            z0lc4 = z0lc4 + (this(ib)%Pts1(5,i)-z0avg)**4
+            zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*this(ib)%Pts1(6,i)
+            pz0lc = pz0lc + this(ib)%Pts1(6,i)
+            sqsum6local = sqsum6local + this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)
+            pz0lc3 = pz0lc3 + this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)
+            pz0lc4 = pz0lc4 + this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)*&
+                              this(ib)%Pts1(6,i)
+            do j = 1, 4
+              if(localmax(j).lt.abs(this(ib)%Pts1(j,i))) then
+                 localmax(j) = abs(this(ib)%Pts1(j,i))
+              endif
+            enddo
+            if(localmax(5).lt.abs(this(ib)%Pts1(5,i)-z0avg)) then
+               localmax(5) = abs(this(ib)%Pts1(5,i)-z0avg)
+               i1 = i
+            endif
+!            if(testmax .gt. this(ib)%Pts1(5,i) ) then
+!              testmax = this(ib)%Pts1(5,i)
+!              i2 = i
+!            endif
+            if(localmax(6).lt.abs(this(ib)%Pts1(6,i))) then
+                 localmax(6) = abs(this(ib)%Pts1(6,i))
+            endif
+            if(lcrmax.lt.(this(ib)%Pts1(1,i)**2+this(ib)%Pts1(3,i)**2)) then
+              lcrmax = this(ib)%Pts1(1,i)**2 + this(ib)%Pts1(3,i)**2
+            endif
+          enddo
+        enddo
+
+!        print*,"z0avg: ",z0avg*xl,localmax(5)*xl,testmax*xl,xl,&
+!               this(1)%Pts1(5,i1)*xl,this(1)%Pts1(5,i2)*xl
+        tmplc(1) = x0lc
+        tmplc(2) = px0lc
+        tmplc(3) = y0lc
+        tmplc(4) = py0lc
+        tmplc(5) = z0lc
+        tmplc(6) = pz0lc
+        tmplc(7) = sqsum1local
+        tmplc(8) = sqsum2local
+        tmplc(9) = sqsum3local
+        tmplc(10) = sqsum4local
+        tmplc(11) = sqsum5local
+        tmplc(12) = sqsum6local
+        tmplc(13) = xpxlocal
+        tmplc(14) = ypylocal
+        tmplc(15) = zpzlocal
+        tmplc(16) = x0lc3
+        tmplc(17) = x0lc4
+        tmplc(18) = px0lc3
+        tmplc(19) = px0lc4
+        tmplc(20) = y0lc3
+        tmplc(21) = y0lc4
+        tmplc(22) = py0lc3
+        tmplc(23) = py0lc4
+        tmplc(24) = z0lc3
+        tmplc(25) = z0lc4
+        tmplc(26) = pz0lc3
+        tmplc(27) = pz0lc4
+        tmplc(28) = gamlc
+        tmplc(29) = gam2lc
+        tmplc(30) = xylocal
+        tmplc(31) = xpylocal
+        tmplc(32) = ypxlocal
+        tmplc(33) = pxpylocal
+        tmplc(34) = xzlocal
+        tmplc(35) = xpzlocal
+        tmplc(36) = zpxlocal
+        tmplc(37) = pxpzlocal
+        tmplc(38) = yzlocal
+        tmplc(39) = ypzlocal
+        tmplc(40) = zpylocal
+        tmplc(41) = pypzlocal
+        
+        call MPI_REDUCE(tmplc,tmpgl,41,MPI_DOUBLE_PRECISION,&
+                        MPI_SUM,0,MPI_COMM_WORLD,ierr)
+        call MPI_REDUCE(localmax,glmax,6,MPI_DOUBLE_PRECISION,MPI_MAX,0,&
+                        MPI_COMM_WORLD,ierr)
+        call MPI_REDUCE(lcrmax,glrmax,1,MPI_DOUBLE_PRECISION,MPI_MAX,0,&
+                        MPI_COMM_WORLD,ierr)
+        call MPI_REDUCE(innpmb,npctmin,1,MPI_INTEGER,MPI_MIN,0,&
+                        MPI_COMM_WORLD,ierr)
+        call MPI_REDUCE(innpmb,npctmax,1,MPI_INTEGER,MPI_MAX,0,&
+                        MPI_COMM_WORLD,ierr)
+
+        if(my_rank.eq.0) then
+          x0 = tmpgl(1)*den1
+          px0 = tmpgl(2)*den1
+          y0 = tmpgl(3)*den1
+          py0 = tmpgl(4)*den1
+          z0 = tmpgl(5)*den1
+          pz0 = tmpgl(6)*den1
+          sqx = tmpgl(7)*den1
+          sqsum1 = sqx - x0*x0
+          sqpx = tmpgl(8)*den1
+          sqsum2 = sqpx - px0*px0
+          sqy = tmpgl(9)*den1
+          sqsum3 = sqy - y0*y0
+          sqpy = tmpgl(10)*den1
+          sqsum4 = sqpy - py0*py0
+          sqz = tmpgl(11)*den1
+!          sqsum5 = sqz - z0*z0
+          sqsum5 = sqz 
+          sqpz = tmpgl(12)*den1
+          sqsum6 = sqpz - pz0*pz0
+          xpx = tmpgl(13)*den1 - x0*px0
+          ypy = tmpgl(14)*den1 - y0*py0
+
+!PP
+          xy   = tmpgl(30)*den1 - x0*y0
+          xpy  = tmpgl(31)*den1 - x0*py0
+          ypx  = tmpgl(32)*den1 - y0*px0
+          pxpy = tmpgl(33)*den1 - px0*py0
+          xz   = tmpgl(34)*den1 - x0*z0
+          xpz  = tmpgl(35)*den1 - x0*pz0
+          zpx  = tmpgl(36)*den1 - z0*px0
+          pxpz = tmpgl(37)*den1 - px0*pz0
+          yz   = tmpgl(38)*den1 - y0*z0
+          ypz  = tmpgl(39)*den1 - y0*pz0
+          zpy  = tmpgl(40)*den1 - z0*py0
+          pypz = tmpgl(41)*den1 - py0*pz0
+
+!          zpz = tmpgl(15)*den1 - z0*pz0
+          zpz = tmpgl(15)*den1 
+          cubx = tmpgl(16)*den1
+          fthx = tmpgl(17)*den1
+          x03 = (abs(cubx-3*sqx*x0+2*x0*x0*x0))**(1.0/3.0)
+          x04 = sqrt(sqrt(abs(fthx-4*cubx*x0+6*sqx*x0*x0-3*x0*x0*x0*x0)))
+          cubpx = tmpgl(18)*den1
+          fthpx = tmpgl(19)*den1
+          px03 = (abs(cubpx-3*sqpx*px0+2*px0*px0*px0))**(1.0/3.0)
+          px04 = sqrt(sqrt(abs(fthpx-4*cubpx*px0+6*sqpx*px0*px0-&
+                 3*px0*px0*px0*px0)))
+          cuby = tmpgl(20)*den1
+          fthy = tmpgl(21)*den1
+          y03 = (abs(cuby-3*sqy*y0+2*y0*y0*y0))**(1.0/3.0)
+          y04 = sqrt(sqrt(abs(fthy-4*cuby*y0+6*sqy*y0*y0-3*y0*y0*y0*y0)))
+          cubpy = tmpgl(22)*den1
+          fthpy = tmpgl(23)*den1
+          py03 = (abs(cubpy-3*sqpy*py0+2*py0*py0*py0))**(1.0/3.0)
+          py04 = sqrt(sqrt(abs(fthpy-4*cubpy*py0+6*sqpy*py0*py0-&
+                 3*py0*py0*py0*py0)))
+          cubz = tmpgl(24)*den1
+          fthz = tmpgl(25)*den1
+!          z03 = (abs(cubz-3*sqz*z0+2*z0*z0*z0))**(1.0/3.0)
+          z03 = cubz**(1.0/3.0)
+!          z04 = sqrt(sqrt(abs(fthz-4*cubz*z0+6*sqz*z0*z0-3*z0*z0*z0*z0)))
+          z04 = sqrt(sqrt(fthz))
+          cubpz = tmpgl(26)*den1
+          fthpz = tmpgl(27)*den1
+          pz03 = (abs(cubpz-3*sqpz*pz0+2*pz0*pz0*pz0))**(1.0/3.0)
+          pz04 = sqrt(sqrt(abs(fthpz-4*cubpz*pz0+6*sqpz*pz0*pz0-&
+                 3*pz0*pz0*pz0*pz0)))
+          epsx2 = (sqsum1*sqsum2-xpx*xpx)
+          epsy2 = (sqsum3*sqsum4-ypy*ypy)
+          epsz2 = (sqsum5*sqsum6-zpz*zpz)
+          epx = sqrt(max(epsx2,0.0d0))
+          epy = sqrt(max(epsy2,0.0d0))
+          epz = sqrt(max(epsz2,0.0d0))
+          xrms = sqrt(abs(sqsum1))
+          pxrms = sqrt(abs(sqsum2))
+          yrms = sqrt(abs(sqsum3))
+          pyrms = sqrt(abs(sqsum4))
+          zrms = sqrt(abs(sqsum5))
+          pzrms = sqrt(abs(sqsum6))
+          xpxfac = 0.0
+          ypyfac = 0.0
+          zpzfac = 0.0
+          if(xrms.ne.0.0 .and. pxrms.ne.0.0)xpxfac=1.0/(xrms*pxrms)
+          if(yrms.ne.0.0 .and. pyrms.ne.0.0)ypyfac=1.0/(yrms*pyrms)
+          if(zrms.ne.0.0 .and. pzrms.ne.0.0)zpzfac=1.0/(zrms*pzrms)
+          gam = tmpgl(28)*den1
+!          gam = sqrt(1.0+px0**2+py0**2+pz0**2)
+          energy = qmc*(gam-1.0)
+          bet = sqrt(1.0-(1.0/gam)**2)
+          gam2avg = tmpgl(29)*den1
+          gamdel = sqrt(abs(gam2avg - gam**2))
+          write(18,100)z,z0avg*xl,gam,energy,bet,sqrt(glrmax)*xl,gamdel
+!          write(24,100)z,x0*xl,xrms*xl,px0,pxrms,-xpx/epx,epx*xl
+!          write(25,100)z,y0*xl,yrms*xl,py0,pyrms,-ypy/epy,epy*xl
+!          write(26,100)z,z0*xl,zrms*xl,pz0,pzrms,-zpz/epz,epz*xl
+          write(24,102)z,z0*xl,x0*xl,xrms*xl,px0,pxrms,-xpx*xl,epx*xl
+          write(25,102)z,z0*xl,y0*xl,yrms*xl,py0,pyrms,-ypy*xl,epy*xl
+          write(26,100)z,z0*xl,zrms*xl,pz0,pzrms,-zpz*xl,epz*xl
+
+          write(27,102)z,z0*xl,glmax(1)*xl,glmax(2),glmax(3)*xl,&
+                       glmax(4),glmax(5)*xl,glmax(6)
+          write(28,101)z,z0*xl,npctmin,npctmax,nptot
+          write(29,102)z,z0*xl,x03*xl,px03,y03*xl,py03,z03*xl,&
+                       pz03
+          write(30,102)z,z0*xl,x04*xl,px04,y04*xl,py04,z04*xl,&
+                       pz04
+	  !PP save correlation between x-y phase space (TODO: need to expand to 6D)	       
+          write(31,103)z,z0avg*xl,xl,&
+                       sqsum1,xpx,xy,xpy,&
+                       sqsum2,ypx,pxpy,&
+                       sqsum3,ypy, &
+		       sqsum4
+		       
+          write(32,103)z,z0avg*xl,xl,&
+                       sqsum1, xpx,    xy,  xpy,    xz,  xpz, &
+                            sqsum2,   ypx,  pxpy,  zpx,  pxpz, &
+                                    sqsum3, ypy,    yz,  ypz, &
+				           sqsum4, zpy,  pypz, &  
+				                  sqsum5,  zpz, &  
+				                          sqsum6  
+		       
+          call flush(18)
+          call flush(24)
+          call flush(25)
+          call flush(26)
+          call flush(27)
+          call flush(28)
+          call flush(29)
+          call flush(30)
+          call flush(31)
+          call flush(32)
+        endif
+
+99      format(6(1x,e16.8))
+100     format(7(1x,e16.8))
+101     format(1x,e16.8,e16.8,3I10)
+102     format(8(1x,e16.8))
+103     format(13(1x,e16.8))
+104     format(24(1x,e16.8))
 
         t_diag = t_diag + elapsedtime_Timer(t0)
 
