@@ -1798,6 +1798,8 @@
            
             !//sum up the space-charge fields from all bunches/bins
             do ib = 1, ibunch
+              ! Skip any empty or neutral bunches
+              if ((Np(ib) == 0) .or. (abs(Ebunch(ib)%Charge) < 0.1d-10)) cycle 
               ! deposit particles onto grid to obtain charge density of each bunch/bin.
               if(flagazmuth.eq.1) then
                 call chgdenstest_Depositor(Ebunch(ib),chgdens,Ageom,grid2d,&
