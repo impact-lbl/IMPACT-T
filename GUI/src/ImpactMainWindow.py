@@ -89,9 +89,9 @@ class ImpactMainWindow(tk.Tk):
         "This is a beta version of the IMPACT user interface..."
         ]
 
-    PLOTTYPE = {'Centriod location' :2,
+    PLOTTYPE = {'Centroid location' :2,
                 'Rms size'          :3,
-                'Centriod momentum' :4,
+                'Centroid momentum' :4,
                 'Rms momentum'      :5,
                 'Twiss'             :6,
                 'Emittance'         :7}
@@ -944,6 +944,7 @@ class ImpactMainWindow(tk.Tk):
             elif np>1:
                 cmd = self.MPI_EXE.get()+' -n '+str(np)+' '+ImpactExe
             print(cmd)
+            cmd = cmd.split()
             p=subprocess.Popen(cmd,stdout=subprocess.PIPE,bufsize=1)
             for line in iter(p.stdout.readline,b''):
                 print(('>>{}'.format(line.rstrip())))
@@ -963,6 +964,7 @@ class ImpactMainWindow(tk.Tk):
             elif np>1:
                 cmd = self.MPI_EXE.get()+' -n '+str(np)+' '+ImpactExe
             print(cmd)
+            cmd = cmd.split()
             p=subprocess.Popen(cmd,stdout=subprocess.PIPE,bufsize=1)
             for line in iter(p.stdout.readline,b''):
                 print(('>>{}'.format(line.rstrip())))

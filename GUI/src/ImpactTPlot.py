@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk,filedialog
 import time,os,sys
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter 
 from scipy.stats import gaussian_kde
@@ -22,9 +22,9 @@ import ParticlePlot, SlicePlot
 _height=300
 _width =200
 
-IMPACT_T_ADVANCED_PLOT_TYPE= {'Centriod location (mm)'    :2,
+IMPACT_T_ADVANCED_PLOT_TYPE= {'Centroid location (mm)'    :2,
                      'Rms size (mm)'             :3,
-                     'Centriod momentum (MC)'    :4,
+                     'Centroid momentum (MC)'    :4,
                      'Rms momentum (MC)'         :5,
                      'Twiss'                     :6,
                      'Emittance (mm-mrad)'       :7}
@@ -341,10 +341,10 @@ class PlotBaseFrame(tk.Frame):
         self.subfig = self.fig.add_subplot(111)
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -362,7 +362,7 @@ class PlotFrame(tk.Frame):
         try:
             fin = open(PlotFileName,'r')
         except:
-            print(( "  ERRPR! Can't open file '" + PlotFileName + "'"))
+            print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
             return
         
         linesList  = fin.readlines()
@@ -371,16 +371,16 @@ class PlotFrame(tk.Frame):
         x   = np.array([float(xrt[xl]) for xrt in linesList])
         y   = np.array([float(xrt[yl]) for xrt in linesList])
         
-        if labelY in ['Centriod location (mm)','Rms size (mm)','Rmax (mm)']:
+        if labelY in ['Centroid location (mm)','Rms size (mm)','Rmax (mm)']:
             y = y*1.0e3       # unit convert from m to mm
         elif labelY in ['Emittance (mm-mrad)']:
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
         
         fig = Figure(figsize=(7,5), dpi=100)
-        subfig = fig.add_subplot(111)
-        subfig.plot(x,y)
-        subfig.set_xlabel('Z (m)')
-        subfig.set_ylabel(labelY)
+        self.subfig = fig.add_subplot(111)
+        self.subfig.plot(x,y)
+        self.subfig.set_xlabel('Z (m)')
+        self.subfig.set_ylabel(labelY)
 
         xMax = np.max(x)
         xMin = np.min(x)
@@ -393,14 +393,14 @@ class PlotFrame(tk.Frame):
         
         #xmajorFormatter = FormatStrFormatter('%2.2E')
         #subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = subfig.get_position()
-        subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
+        box = self.subfig.get_position()
+        self.subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
         
         canvas = FigureCanvasTkAgg(fig, self)
-        canvas.show()
+        canvas.draw()
         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar = NavigationToolbar2Tk(canvas, self)
         toolbar.update()
         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
@@ -419,10 +419,10 @@ class OverallFrame(tk.Frame):
         self.subfig.append(self.fig.add_subplot(224))
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -442,28 +442,28 @@ class OverallFrame(tk.Frame):
         labelList[0]    = ['rms.X','max.X']
         xdataList[0]    = [xl,xl]
         ydataList[0]    = [4,3]
-        xyLabelList[0]  = ['z drection (m)','beam size in X (mm)']
+        xyLabelList[0]  = ['z direction (m)','beam size in X (mm)']
         
         saveName.append('sizeY')
         fileList[1]     = ['fort.25','fort.27']
         labelList[1]    = ['rms.Y','max.Y']
         xdataList[1]    = [xl,xl]
         ydataList[1]    = [4,5]
-        xyLabelList[1]  = ['z drection (m)','beam size in Y (mm)']
+        xyLabelList[1]  = ['z direction (m)','beam size in Y (mm)']
         
         saveName.append('sizeZ')
         fileList[2]     = ['fort.26','fort.27']
         labelList[2]    = ['rms.Z','max.Z']
         xdataList[2]    = [xl,xl]
         ydataList[2]    = [3,7]
-        xyLabelList[2]  = ['z drection (m)','beam size in Z (mm)']
+        xyLabelList[2]  = ['z direction (m)','beam size in Z (mm)']
         
         saveName.append('emitXY')
         fileList[3]     = ['fort.24','fort.25']
         labelList[3]    = ['emit.nor.X','emit.nor.Y']
         xdataList[3]    = [xl,xl]
         ydataList[3]    = [8,8]
-        xyLabelList[3]  = ['z drection (m)','emittance at X and Y (mm*mrad)']
+        xyLabelList[3]  = ['z direction (m)','emittance at X and Y (mm*mrad)']
         
         lineType = ['r-','b--']
 
@@ -472,7 +472,7 @@ class OverallFrame(tk.Frame):
                 try:
                     fin = open(fileList[i][j],'r')
                 except:
-                    print("ERRPR Can't open file ' " + fileList[i][j] + "'")
+                    print("ERROR Can't open file ' " + fileList[i][j] + "'")
                     return
                 linesList  = fin.readlines()
                 fin .close()
@@ -520,12 +520,12 @@ class EmitGrowthFrame(PlotBaseFrame):
         try:
             fin1 = open(fileList[0],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[0] + "'")
+            print("  ERROR! Can't open file '" + fileList[0] + "'")
             return
         try:
             fin2 = open(fileList[1],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[1] + "'")
+            print("  ERROR! Can't open file '" + fileList[1] + "'")
             return
         linesList1  = fin1.readlines()
         linesList2  = fin2.readlines()
@@ -542,7 +542,7 @@ class EmitGrowthFrame(PlotBaseFrame):
                 start=1.0e-16
             y   = [(float(linesList1[k][yId]) + float(linesList2[k][yId]))/2 / start -1 for k in range(len(linesList1))]
         except:
-            print("  ERRPR! Can't read data '" + fileList[1] + "'")
+            print("  ERROR! Can't read data '" + fileList[1] + "'")
         
         self.subfig.cla()
         self.subfig.plot(x, y, lineType[0], linewidth=2, label='emit.growth')
@@ -574,7 +574,7 @@ class TemperatureFrame(PlotBaseFrame):
             try:
                 fin = open(arg[i],'r')
             except:
-                print( "  ERRPR! Can't open file '" + arg[i] + "'")
+                print( "  ERROR! Can't open file '" + arg[i] + "'")
                 return
     
             linesList  = fin.readlines()
@@ -649,10 +649,10 @@ class PlotHighOrderBaseFrame(tk.Frame):
         self.subfig.set_position([box.x0*1.4, box.y0, box.width, box.height])
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -723,6 +723,6 @@ def axis_format_T(xData,yData,subfig):
     yMax = np.max(yData)
     yMin = np.min(yData)
     if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-        subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
     if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-        subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
