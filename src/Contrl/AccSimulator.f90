@@ -2271,6 +2271,10 @@
                   byg = 0.0
                   bzg = 0.0
                   !find the E and B fields in the lab frame from the effective bunch/bin
+                  call gradEB_FieldQuant(Nxlocal,Nylocal,Nzlocal,&
+                  Potential%FieldQ,Ageom,grid2d,Flagbc,gammazavg,tmpflag,&
+                  exg,eyg,ezg,bxg,byg,bzg)
+
                   if(flagcsr.eq.1) then
                     call getrange_CompDom(Ageom,grange)
                     hzwake = (grange(6)-grange(5))*1.0000001/(Nz-1) !avoid over index
