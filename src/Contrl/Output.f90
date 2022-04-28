@@ -1510,7 +1510,7 @@
             pypzlocal = pypzlocal + this(ib)%Pts1(4,i)*this(ib)%Pts1(6,i)
 
             sqsum5local = sqsum5local + (this(ib)%Pts1(5,i)-z0avg)**2
-            z0lc3 = z0lc3 + abs((this(ib)%Pts1(5,i)-z0avg)**3)
+            z0lc3 = z0lc3 + ((this(ib)%Pts1(5,i)-z0avg)**3)
             z0lc4 = z0lc4 + (this(ib)%Pts1(5,i)-z0avg)**4
             zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*this(ib)%Pts1(6,i)
             pz0lc = pz0lc + this(ib)%Pts1(6,i)
@@ -1709,7 +1709,7 @@
                        sqsum3,ypy, &
 		       sqsum4
 		       
-          write(32,103)z,z0avg*xl,xl,&
+          write(32,104)z,z0avg*xl,xl,&
                        sqsum1, xpx,    xy,  xpy,    xz,  xpz, &
                             sqsum2,   ypx,  pxpy,  zpx,  pxpz, &
                                     sqsum3, ypy,    yz,  ypz, &
