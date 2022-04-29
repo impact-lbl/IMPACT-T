@@ -13,12 +13,12 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 import numpy as np
 
 class SliceBaseFrame(tk.Frame):
-    SlicePlotDirec={'Number of macroparticle per cell':             0,
-                    'Current':                                      1,
-                    'X slice emittance (m-rad)':                   2,
-                    'Y slice emittance (m-rad)':                   3,
-                    'Energy spread per cell - Correlated (eV)':     4,
-                    'Energy spread per cell - Uncorrelated (eV)':   5}
+    SlicePlotDirec={'Number of macroparticle per cell':             1,
+                    'Current':                                      2,
+                    'X slice emittance (m-rad)':                   3,
+                    'Y slice emittance (m-rad)':                   4,
+                    'Energy spread per cell - Correlated (eV)':     5,
+                    'Energy spread per cell - Uncorrelated (eV)':   6}
     
     sciFormatter = FormatStrFormatter('%2.1E')
     sciMaxLimit  = 99999 *2
