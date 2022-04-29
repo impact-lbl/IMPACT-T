@@ -27,9 +27,9 @@ import ParticlePlot, SlicePlot
 _height=300
 _width =200
 
-IMPACT_T_ADVANCED_PLOT_TYPE= {'Centriod location (mm)'    :2,
+IMPACT_T_ADVANCED_PLOT_TYPE= {'Centroid location (mm)'    :2,
                      'RMS size (mm)'             :3,
-                     'Centriod momentum (MC)'    :4,
+                     'Centroid momentum (MC)'    :4,
                      'RMS momentum (MC)'         :5,
                      'Twiss'                     :6,
                      'Emittance (mm-mrad)'       :7}
@@ -367,7 +367,7 @@ class PlotFrame(tk.Frame):
         try:
             fin = open(PlotFileName,'r')
         except:
-            print(( "  ERRPR! Can't open file '" + PlotFileName + "'"))
+            print(( "  ERROR! Can't open file '" + PlotFileName + "'"))
             return
         
         linesList  = fin.readlines()
@@ -376,7 +376,7 @@ class PlotFrame(tk.Frame):
         x   = np.array([float(xrt[xl]) for xrt in linesList])
         y   = np.array([float(xrt[yl]) for xrt in linesList])
         
-        if labelY in ['Centriod location (mm)','RMS size (mm)','Rmax (mm)']:
+        if labelY in ['Centroid location (mm)','RMS size (mm)','Rmax (mm)']:
             y = y*1.0e3       # unit convert from m to mm
         elif labelY in ['Emittance (mm-mrad)']:
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
@@ -392,9 +392,9 @@ class PlotFrame(tk.Frame):
         yMax = np.max(y)
         yMin = np.min(y)
         if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-            self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+            subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
         if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-            self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+            subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
         
         #xmajorFormatter = FormatStrFormatter('%2.2E')
         #subfig.yaxis.set_major_formatter(xmajorFormatter)
@@ -477,7 +477,7 @@ class OverallFrame(tk.Frame):
                 try:
                     fin = open(fileList[i][j],'r')
                 except:
-                    print("ERRPR Can't open file ' " + fileList[i][j] + "'")
+                    print("ERROR Can't open file ' " + fileList[i][j] + "'")
                     return
                 linesList  = fin.readlines()
                 fin .close()
@@ -525,12 +525,12 @@ class EmitGrowthFrame(PlotBaseFrame):
         try:
             fin1 = open(fileList[0],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[0] + "'")
+            print("  ERROR! Can't open file '" + fileList[0] + "'")
             return
         try:
             fin2 = open(fileList[1],'r')
         except:
-            print("  ERRPR! Can't open file '" + fileList[1] + "'")
+            print("  ERROR! Can't open file '" + fileList[1] + "'")
             return
         linesList1  = fin1.readlines()
         linesList2  = fin2.readlines()
@@ -547,7 +547,7 @@ class EmitGrowthFrame(PlotBaseFrame):
                 start=1.0e-16
             y   = [(float(linesList1[k][yId]) + float(linesList2[k][yId]))/2 / start -1 for k in range(len(linesList1))]
         except:
-            print("  ERRPR! Can't read data '" + fileList[1] + "'")
+            print("  ERROR! Can't read data '" + fileList[1] + "'")
         
         self.subfig.cla()
         self.subfig.plot(x, y, lineType[0], linewidth=2, label='emit.growth')
@@ -579,7 +579,7 @@ class TemperatureFrame(PlotBaseFrame):
             try:
                 fin = open(arg[i],'r')
             except:
-                print( "  ERRPR! Can't open file '" + arg[i] + "'")
+                print( "  ERROR! Can't open file '" + arg[i] + "'")
                 return
     
             linesList  = fin.readlines()
