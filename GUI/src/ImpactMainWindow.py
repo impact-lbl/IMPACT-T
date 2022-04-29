@@ -89,9 +89,9 @@ class ImpactMainWindow(tk.Tk):
         "This is a beta version of the IMPACT user interface..."
         ]
 
-    PLOTTYPE = {'Centriod location' :2,
+    PLOTTYPE = {'Centroid location' :2,
                 'Rms size'          :3,
-                'Centriod momentum' :4,
+                'Centroid momentum' :4,
                 'Rms momentum'      :5,
                 'Twiss'             :6,
                 'Emittance'         :7}
