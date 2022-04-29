@@ -89,9 +89,9 @@ class ImpactMainWindow(tk.Tk):
         "This is a beta version of the IMPACT user interface..."
         ]
 
-    PLOTTYPE = {'Centroid location' :2,
+    PLOTTYPE = {'Centriod location' :2,
                 'Rms size'          :3,
-                'Centroid momentum' :4,
+                'Centriod momentum' :4,
                 'Rms momentum'      :5,
                 'Twiss'             :6,
                 'Emittance'         :7}
@@ -153,6 +153,8 @@ class ImpactMainWindow(tk.Tk):
         
         vcmd = (self.register(self.validate),
                 '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+
+        
         self.label_noc1 = tk.Label(self.frame_CPU, text="# of cores at Y",pady=1)
         self.entry_noc1 = tk.Entry(self.frame_CPU, 
                                    validate = 'key',
@@ -170,10 +172,15 @@ class ImpactMainWindow(tk.Tk):
         self.entry_noc2.insert(0, '1')
         self.label_noc2.pack(side='left')
         self.entry_noc2.pack(side='left')
+
+        
+        
         
         self.GPUflag   = tk.IntVar()
         self.check_GPU  = tk.Checkbutton(self.frame_CPU, text="GPU", variable=self.GPUflag)
         self.check_GPU.pack(side='left')
+        
+        
         '''
         self.label_dic = tk.Label(self.frame_input1, text="Work Dictionary",pady=1)
         self.label_dic.pack(side='left')
@@ -182,7 +189,31 @@ class ImpactMainWindow(tk.Tk):
         #self.entry_dic.insert(0, os.path.dirname(os.path.abspath(__file__)))
         self.entry_dic.insert(0, sys.path[0])
         self.entry_dic.pack(side='left')
+        # pack_forget is used to hide dictionary directory; comment out to display it 
+        self.entry_dic.pack_forget()
         
+        '''self.button_dic = tk.Button(self.frame_input1)
+        self.button_dic["text"]        = "..."
+        self.button_dic["command"]     = lambda: self.changeDic()
+        self.button_dic.pack(side = 'left') '''
+
+        self.frame_input = tk.Frame(self.frame_input1,borderwidth=0, highlightthickness=0)
+        ## self.frame_input.grid(row=1,column=0,columnspan=2,sticky='w')
+
+        # path for exe copied over from ImpactTSet.py
+
+        # Main window file path is now for Exe path, instead of dictionart path
+        # Dictionary path is now hidden from the user
+
+        self.label_exePat    = tk.Label(self.frame_input1, text="Exe:")
+        self.label_exePat.pack(side='left')
+        self.entry_exePath = tk.Entry(self.frame_input1, width=45,textvariable='ImpactTexe')
+        self.IMPACT_T_EXE = self.entry_exePath 
+        self.entry_exePath.insert(0, sys.path[0])
+        self.entry_exePath.pack(side='left')
+
+
+        # button for changing file location, but currently only allows folder, not file, selection 
         self.button_dic = tk.Button(self.frame_input1)
         self.button_dic["text"]        = "..."
         self.button_dic["command"]     = lambda: self.changeDic()
@@ -190,6 +221,8 @@ class ImpactMainWindow(tk.Tk):
         
         self.button_dic.bind("<Enter>", lambda event, h=self.button_dic: h.configure(bg="#00CD00"))
         self.button_dic.bind("<Leave>", lambda event, h=self.button_dic: h.configure(bg="#FFFFFF"))
+
+        
         
         """Frame2: Time step"""
         self.frame1 = tk.Frame(self.frame_left, 
@@ -399,7 +432,7 @@ class ImpactMainWindow(tk.Tk):
         
         '''Advanced Setting'''
         self.MPI_EXE      =tk.StringVar(value=_MPINAME)
-        self.IMPACT_T_EXE =tk.StringVar(value=os.path.join(sys.path[0],'src',_IMPACT_T_NAME))
+        ## self.IMPACT_T_EXE =tk.StringVar(value=os.path.join(sys.path[0],'src',_IMPACT_T_NAME))
         self.IMPACT_Z_EXE =tk.StringVar(value=os.path.join(sys.path[0],'src',_IMPACT_Z_NAME))
         
         self.Nbunch      = tk.StringVar(value='1')
@@ -944,7 +977,6 @@ class ImpactMainWindow(tk.Tk):
             elif np>1:
                 cmd = self.MPI_EXE.get()+' -n '+str(np)+' '+ImpactExe
             print(cmd)
-            cmd = cmd.split()
             p=subprocess.Popen(cmd,stdout=subprocess.PIPE,bufsize=1)
             for line in iter(p.stdout.readline,b''):
                 print(('>>{}'.format(line.rstrip())))
@@ -964,7 +996,6 @@ class ImpactMainWindow(tk.Tk):
             elif np>1:
                 cmd = self.MPI_EXE.get()+' -n '+str(np)+' '+ImpactExe
             print(cmd)
-            cmd = cmd.split()
             p=subprocess.Popen(cmd,stdout=subprocess.PIPE,bufsize=1)
             for line in iter(p.stdout.readline,b''):
                 print(('>>{}'.format(line.rstrip())))
