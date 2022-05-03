@@ -1,0 +1,157 @@
+Official User Instructions
+
+For Windows Operating System:
+
+Install the latest version of Python from the official website (https://www.python.org/downloads/)
+
+Install Anaconda (https://www.anaconda.com/products/distribution)
+
+You will need various packages to run the program 
+
+Open Windows power shell, use 
+py -m pip 
+to install pip, which will allow you to install these required modules, then use
+
+py -m pip install __package name____
+
+for the packages:
+-	numpy 
+-	matplotlib
+-	scipy
+
+Next, you need to generate the executable using Anaconda, or compiling the code using CMake. Anaconda is 
+recommended as the simpler and quicker option. 
+
+Using Anaconda:
+
+Open the Anaconda Prompt (included when Anaconda is downloaded) and use commands:
+
+conda create -n impact
+source activate impact # or conda activate impact
+conda install -c conda-forge impact-t
+
+Your executable will be found in C:\Users\__username__\anaconda3\envs\impact, under the name "ImpactTexe"
+
+You may choose move ImpactTexe to the same directory as the GUI, but this is not necessary. Simply specify
+the absolute path of the executable on the GUI.
+
+Once you have your executable, you are ready to run ImpactT. 
+
+Open your Anaconda Prompt (the executable cannot be run using Windows Powershell) and navigate to the /GUI directory.
+
+Use command:
+
+activate impact
+
+if you are not already in the "impact" environment
+
+Run the GUI with the command:
+
+py ImpactGUI.py
+
+
+
+
+For Linux:
+
+Install the latest version of Python from the official website (https://www.python.org/downloads/)
+
+Install Anaconda (https://www.anaconda.com/products/distribution)
+
+You will need various packages to run the program 
+
+Open the terminal, use 
+python -m pip
+
+or, if "python" is not recognized
+
+python3 -m pip 
+
+to install pip, which will allow you to install these required modules, then use
+
+python -m pip install __package name____
+
+or (must match the one you installed pip with)
+
+python3 -m pip install __package name____
+
+for the packages:
+-	numpy 
+-	matplotlib
+-	scipy
+
+Next, you need to generate the executable using Anaconda, or compiling the code using CMake. Anaconda is 
+recommended as the simpler and quicker option. 
+
+Using Anaconda:
+
+Open the Anaconda Prompt (included when Anaconda is downloaded) and use commands:
+
+conda create -n impact
+source activate impact # or conda activate impact
+conda install -c conda-forge impact-t
+
+Your executable will be found in C:\Users\__username__\anaconda3\envs\impact, under the name "ImpactTexe"
+
+You may choose move ImpactTexe to the same directory as the GUI, but this is not necessary. Simply specify
+the absolute path of the executable on the GUI.
+
+Once you have your executable, you are ready to run ImpactT. 
+
+Navigate to the /GUI directory, and use command:
+
+python ImpactGUI.py
+
+or
+
+python3 ImpactGUI.py
+
+
+For NERSC:
+
+Clone the repository onto your own file library.
+
+All python packages needed are already included in NERSC, simply activate them using the command:
+
+module load python
+
+Next, you need to generate the executable using Anaconda, or compiling the code using CMake. Anaconda is 
+recommended as the simpler and quicker option. 
+
+Anaconda is already included in the loaded Python modules, so simply use commands:
+
+conda create -n impact
+conda activate impact
+conda install -c conda-forge impact-t
+
+Your executable will be found in /global/homes/i/__your_username__/.conda/envs/impact/bin, 
+under the name "ImpactTexe"
+
+You may choose move ImpactTexe to the same directory as the GUI, but this is not necessary. Simply specify
+the absolute path of the executable on the GUI.
+
+Once you have your executable, you are ready to run ImpactT. 
+
+Navigate to the /GUI directory, and use command:
+
+python ImpactGUI.py
+
+For Mac:
+
+Please note that various issues have been found with running IMPACT-T on Mac that are not present on other
+operating systems. Known issues include, but are not limited to:
+
+- Modules necessary for running IMPACT-T cannot be correctly installed when running Python 3.10 or above, 
+as of current, only Python 3.9 can potentially IMPACT-T on Mac without error
+
+When successfully download, potential issues include:
+
+- pre-processing causing "IndexOutofBounds" error
+- the run process randomly repeats or skips over certain numbers
+
+Install latest version of python through the official website
+
+Errors:
+When trying to install numpy
+It is suggested that using python 3.8 may work
+However, a different scientist suggested on Github that the python packages used for this program will not be supported on Mac, due to the use of Fortran

@@ -33,16 +33,20 @@ class AdvancedSetFrame(tk.Toplevel):
         
         self.frame_input = tk.Frame(self.frame_exe,borderwidth=0, highlightthickness=0)
         self.frame_input.grid(row=1,column=0,columnspan=2,sticky='w')
+        '''
         
         self.label_exePat    = tk.Label(self.frame_input, text="Exe:")
         self.label_exePat.pack(side='left')
         self.entry_exePath = tk.Entry(self.frame_input, width=45,textvariable=master.IMPACT_T_EXE)
         self.entry_exePath.pack(side='left')
+        '''
+
         
         self.button_exePath = tk.Button(self.frame_input)
         self.button_exePath["text"]        = "..."
         self.button_exePath["command"]     = lambda: self.changeExe(master.IMPACT_T_EXE)
         self.button_exePath.pack(side = 'left')
+        
         
         self.button_exePath.bind("<Enter>", lambda event, h=self.button_exePath: h.configure(bg="#00CD00"))
         self.button_exePath.bind("<Leave>", lambda event, h=self.button_exePath: h.configure(bg="#FFFFFF"))
