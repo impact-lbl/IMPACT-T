@@ -15,8 +15,8 @@ import numpy as np
 class SliceBaseFrame(tk.Frame):
     SlicePlotDirec={'Number of macroparticle per cell':             1,
                     'Current':                                      2,
-                    'X slice emmittance (m-rad)':                   3,
-                    'Y slice emmittance (m-rad)':                   4,
+                    'X slice emittance (m-rad)':                   3,
+                    'Y slice emittance (m-rad)':                   4,
                     'Energy spread per cell - Correlated (eV)':     5,
                     'Energy spread per cell - Uncorrelated (eV)':   6}
     

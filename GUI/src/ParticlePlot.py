@@ -466,7 +466,7 @@ class ParticleDensityFrame2D_slow(ParticleBaseFrame):
         idx = z.argsort()
         x, y, z = xData[idx], yData[idx], z[idx]        
         
-        self.subfig.scatter(x, y, c=z, s=10, edgecolor='')
+        self.subfig.scatter(x, y, c=z, s=10, edgecolor='none')
 
         xMax = np.max(xData)
         xMin = np.min(xData)

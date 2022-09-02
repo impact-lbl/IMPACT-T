@@ -4,6 +4,11 @@
 #Output: figures about beam size and emittance
 # plots are saved at '/post'
 
+''' imports from matplotlib.backends.backend_tkagg have been modified to fit current
+naming and syntax standards, previous code caused errors, making the program impossible
+to run on Python versions 3.8 and above. Python versions 3.6 and 3.7 were not tested'''
+
+
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -23,9 +28,9 @@ _height=300
 _width =200
 
 IMPACT_T_ADVANCED_PLOT_TYPE= {'Centroid location (mm)'    :2,
-                     'Rms size (mm)'             :3,
+                     'RMS size (mm)'             :3,
                      'Centroid momentum (MC)'    :4,
-                     'Rms momentum (MC)'         :5,
+                     'RMS momentum (MC)'         :5,
                      'Twiss'                     :6,
                      'Emittance (mm-mrad)'       :7}
 
@@ -59,7 +64,7 @@ class AdvancedPlotControlFrame(tk.Toplevel):
                                            text="Z", value=2)
         self.frame_radio.z.pack(side='left')
         
-        self.plotTypeComx = tk.StringVar(self.frame_plotButton,'Rms size (mm)')
+        self.plotTypeComx = tk.StringVar(self.frame_plotButton,'RMS size (mm)')
         self.plotType = ttk.Combobox(self.frame_plotButton,text=self.plotTypeComx,
                                      width = 20,
                                      values=list(IMPACT_T_ADVANCED_PLOT_TYPE.keys()))
@@ -99,8 +104,8 @@ class AdvancedPlotControlFrame(tk.Toplevel):
         self.button_rmax            = tk.Button(self.frame2,text='Rmax',
                                                 command = lambda: self.energyPlot(5,'Rmax (mm)'))
         self.button_rmax            .grid(row = rowN, column=0, pady=5 ,padx=5, sticky="nswe")
-        self.button_dw              = tk.Button(self.frame2,text='Rms delta E',
-                                                command = lambda: self.energyPlot(6,'Rms delta E (MC^2)'))
+        self.button_dw              = tk.Button(self.frame2,text='RMS delta E',
+                                                command = lambda: self.energyPlot(6,'RMS delta E (MC^2)'))
         self.button_dw              .grid(row = rowN, column=1, pady=5 ,padx=5, sticky="nswe")
         rowN+=1
         
@@ -371,30 +376,30 @@ class PlotFrame(tk.Frame):
         x   = np.array([float(xrt[xl]) for xrt in linesList])
         y   = np.array([float(xrt[yl]) for xrt in linesList])
         
-        if labelY in ['Centroid location (mm)','Rms size (mm)','Rmax (mm)']:
+        if labelY in ['Centroid location (mm)','RMS size (mm)','Rmax (mm)']:
             y = y*1.0e3       # unit convert from m to mm
         elif labelY in ['Emittance (mm-mrad)']:
             y = y*1.0e6       # unit convert from (m-rad) to (mm-mrad)
         
         fig = Figure(figsize=(7,5), dpi=100)
-        self.subfig = fig.add_subplot(111)
-        self.subfig.plot(x,y)
-        self.subfig.set_xlabel('Z (m)')
-        self.subfig.set_ylabel(labelY)
+        subfig = fig.add_subplot(111)
+        subfig.plot(x,y)
+        subfig.set_xlabel('Z (m)')
+        subfig.set_ylabel(labelY)
 
         xMax = np.max(x)
         xMin = np.min(x)
         yMax = np.max(y)
         yMin = np.min(y)
         if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-            self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+            subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
         if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-            self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+            subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
         
         #xmajorFormatter = FormatStrFormatter('%2.2E')
         #subfig.yaxis.set_major_formatter(xmajorFormatter)
-        box = self.subfig.get_position()
-        self.subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
+        box = subfig.get_position()
+        subfig.set_position([box.x0*1.45, box.y0*1.1, box.width, box.height])
         
         canvas = FigureCanvasTkAgg(fig, self)
         canvas.draw()
@@ -723,6 +728,6 @@ def axis_format_T(xData,yData,subfig):
     yMax = np.max(yData)
     yMin = np.min(yData)
     if (xMax-xMin)>IMPACT_T_sciMaxLimit or (xMax-xMin)<IMPACT_T_sciMinLimit:
-        self.subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        subfig.xaxis.set_major_formatter(IMPACT_T_SciFormatter)
     if (yMax-yMin)>IMPACT_T_sciMaxLimit or (yMax-yMin)<IMPACT_T_sciMinLimit:
-        self.subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
+        subfig.yaxis.set_major_formatter(IMPACT_T_SciFormatter)
