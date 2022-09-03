@@ -421,11 +421,358 @@
 
         end subroutine getfld_SolRF
 
+        !get external field without displacement and rotation errors.
+        subroutine  getfldt_SolRFT(pos,extfld,this,fldata)
+        implicit none
+        include 'mpif.h'
+        double precision, dimension(4), intent(in) :: pos
+        type (SolRFT), intent(in) :: this
+        type (fielddata), intent(in) :: fldata
+        double precision, dimension(6), intent(out) :: extfld
+        double precision :: zedge,escale,theta0,ww,len,tt,xl,xlrep
+        double precision :: ez1,ezp1,ezpp1,f1,clite,tmpsin,tmpcos,pi
+        double precision :: tmpex,tmpey,tmpez,tmpbx,tmpby,tmpbz
+        double precision:: zz,bgrad,b0,zmid,rr,zstart1,zend1,zlength1,&
+                   zstart2,zend2,zlength2,zlen,f1p,r2,zlc,ezppp,bscale
+        integer :: i,ntmp,numpar1,numpar2
+        real*8 :: eps,hz,aa
+        integer :: i0,iz,iz1,nzl
+
+        clite = 299792458.e0
+        pi = 2*asin(1.0)
+
+        zedge = this%Param(1)
+        escale = this%Param(2)
+        len = this%Length
+!        print*,"zedge: ",zedge,len,pos(3)
+    
+        ez1 = 0.0
+        ezp1 = 0.0
+        ezpp1 = 0.0
+        ezppp = 0.0
+        if((pos(3).ge.zedge).and.(pos(3).le.(zedge+len))) then
+          ww = this%Param(3)*2*pi
+!          xl = clite/ww  !real frequency has to be used here
+          xlrep = ww/clite  !real frequency has to be used here
+          theta0 = this%Param(4)*asin(1.0)/90
+          !move into the tank local coordinate.
+          zlc=pos(3)-zedge
+          numpar1 = fldata%Fcoeftdata(1,1)+0.1
+          !//Here, zstart1 is the starting RF field location with 
+          !//respect to the "zedge " as origin.
+          !zstart1 can be negative
+          zstart1 = fldata%Fcoeftdata(2,1)
+          zend1 = fldata%Fcoeftdata(3,1)
+          zlength1 = zend1-zstart1
+          !for TWS, zlength1 is only one cell field.
+          !the field in other cells are periodic repeat of the
+          !1st cell.
+          if(zlength1.gt.1.0d-8) then
+            !here,eps is used to avoid some particle right
+            !on the edge of zlength1 but counted as 0.0.
+            !This may cause particles tinny beyond zlength1
+            !to be counted 
+            !eps = 1.0e-5*zlength1
+            eps = 1.0e-15*zlength1
+            nzl = (zlc-zstart1-eps)/zlength1
+            zlc = zlc - nzl*zlength1
+          endif
+          if(numpar1.gt.1) then
+            hz = zlength1/(numpar1-1)
+          else
+            hz = 1.0
+          endif
+
+          extfld = 0.0
+
+          if( (zlc.ge.zstart1).and.(zlc.le.zend1)) then
+            i0 = 1 !1st line is not data
+            iz = (zlc-zstart1)/hz + 1 
+            if(iz.lt.0) iz = 1 
+            iz1 = iz + 1 
+            if(iz1.gt.numpar1) iz1 = numpar1 
+            aa = (iz*hz-(zlc-zstart1))/hz
+            ez1 = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
+            ezp1 = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
+            ezpp1 = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
+            ezppp = fldata%Fcoeftdata(4,iz+i0)*aa+fldata%Fcoeftdata(4,iz1+i0)*(1.0d0-aa)
+            ez1=ez1*escale
+            ezp1=ezp1*escale
+            ezpp1=ezpp1*escale
+            ezppp = ezppp*escale
+            tt = pos(4)
+            tmpcos = cos(ww*tt+theta0)
+            tmpsin = sin(ww*tt+theta0)
+            f1 = -(ezpp1+ez1*xlrep*xlrep)/4
+            f1p = -(ezppp+ezp1*xlrep*xlrep)/4
+!test purpose
+!            f1 = 0.0d0
+!            f1p = 0.0d0
+            r2 = pos(1)**2+pos(2)**2
+            tmpex = -pos(1)*(ezp1/2+f1p*r2/4)*tmpcos
+            tmpey = -pos(2)*(ezp1/2+f1p*r2/4)*tmpcos
+!            tmpex = 0.0d0
+!            tmpey = 0.0d0
+            tmpez = (ez1+f1*r2)*tmpcos
+            tmpbx = pos(2)*xlrep/clite*(ez1/2+f1*r2/4)*tmpsin
+            tmpby = -pos(1)*xlrep/clite*(ez1/2+f1*r2/4)*tmpsin
+!            tmpbx = 0.0d0
+!            tmpby = 0.0d0
+            tmpbz = 0.0
+            extfld(1) = extfld(1) + tmpex
+            extfld(2) = extfld(2) + tmpey
+            extfld(3) = extfld(3) + tmpez
+            extfld(4) = extfld(4) + tmpbx
+            extfld(5) = extfld(5) + tmpby
+            extfld(6) = extfld(6) + tmpbz
+          else
+            extfld = 0.0
+          endif
+
+!          print*,"strange",zlc,ez1,ezp1,ezpp1,tmpez,tmpcos,tmpsin,ww,tt,theta0
+!          write(10,101)pos(3),zlc,ez1/escale,ezp1,ezpp1,tmpez,tmpcos,tmpsin,tt,theta0
+!          write(10,101)pos(3),zlc,ez1/escale,ezp1,ezpp1,ezppp,tmpcos,tmpsin,tt,theta0
+!101       format(10(1x,e14.5))
+!          call flush(10)
+
+          i0 = numpar1 + 1
+          !//# of parameters for solenoid B fields.
+          numpar2 = fldata%Fcoeftdata(1,i0+1) + 0.1
+          !zstart2 can be negative
+          zstart2 = fldata%Fcoeftdata(2,i0+1)
+          zend2 = fldata%Fcoeftdata(3,i0+1) 
+          bscale = this%Param(12)
+          if(numpar2.gt.1) then
+            hz = (zend2-zstart2)/(numpar2-1)
+          else
+            hz = 1.0
+          endif
+ 
+          i0 = numpar1+2 !1st line is not data
+          if( (zlc.ge.zstart2) .and. (zlc.le.zend2) ) then
+            iz = (zlc-zstart2)/hz + 1
+            if(iz.lt.0) iz = 1
+            iz1 = iz + 1
+            if(iz1.gt.numpar2) iz1 = numpar2
+            aa = (iz*hz-(zlc-zstart2))/hz
+            ez1 = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
+            ezp1 = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
+            ezpp1 = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
+            ezppp = fldata%Fcoeftdata(4,iz+i0)*aa+fldata%Fcoeftdata(4,iz1+i0)*(1.0d0-aa)
+            r2 = pos(1)*pos(1)+pos(2)*pos(2)
+            extfld(4) = extfld(4)-bscale*ezp1/2*pos(1)+bscale*ezppp*pos(1)*r2/16  
+            extfld(5) = extfld(5)-bscale*ezp1/2*pos(2)+bscale*ezppp*pos(2)*r2/16  
+            extfld(6) = extfld(6)+bscale*ez1-bscale*ezpp1*r2/4
+!            write(11,102)pos(3),zlc,ez1*bscale,ezp1*bscale,ezpp1,ezppp
+!!            write(11,102)pos(3),zlc,ez1,ezp1*bscale,ezpp1,ezppp
+!102         format(6(1x,e14.5))
+!            call flush(11)
+          else
+!            extfld = 0.0
+          endif
+!          print*,zlc,extfld
+        else
+          extfld = 0.0
+        endif
+
+        end subroutine getfldt_SolRFT
+
+        !get external field without displacement and rotation errors.
+        subroutine  getflderrt_SolRFT(pos,extfld,this,fldata)
+        implicit none
+        include 'mpif.h'
+        double precision, dimension(4), intent(in) :: pos
+        type (SolRFT), intent(in) :: this
+        type (fielddata), intent(in) :: fldata
+        double precision, dimension(6), intent(out) :: extfld
+        double precision :: zedge,escale,theta0,ww,len,tt,xl,xlrep
+        double precision :: ez1,ezp1,ezpp1,f1,clite,tmpsin,tmpcos,pi
+        double precision :: tmpex,tmpey,tmpez,tmpbx,tmpby,tmpbz
+        double precision:: zz,bgrad,b0,zmid,rr,zstart1,zend1,zlength1,&
+                   zstart2,zend2,zlength2,zlen,f1p,r2,zlc,ezppp,bscale
+        integer :: i,ntmp,numpar1,numpar2
+        real*8 :: eps,hz,aa
+        integer :: i0,iz,iz1,nzl
+        double precision :: dx,dy,anglex,angley,anglez
+        double precision, dimension(3) :: temp,tmp 
+
+        clite = 299792458.e0
+        pi = 2*asin(1.0)
+
+        zedge = this%Param(1)
+        escale = this%Param(2)
+        len = this%Length
+        dx = this%Param(7) 
+        dy = this%Param(8)
+        anglex = this%Param(9)
+        angley = this%Param(10)
+        anglez = this%Param(11)
+
+!        print*,"zedge: ",zedge,len,pos(3)
+    
+        ez1 = 0.0
+        ezp1 = 0.0
+        ezpp1 = 0.0
+        ezppp = 0.0
+        if((pos(3).ge.zedge).and.(pos(3).le.(zedge+len))) then
+          ww = this%Param(3)*2*pi
+!          xl = clite/ww  !real frequency has to be used here
+          xlrep = ww/clite  !real frequency has to be used here
+          theta0 = this%Param(4)*asin(1.0)/90
+          !move into the tank local coordinate.
+!          zlc=pos(3)-zedge
+          temp(1) = pos(1) - dx
+          temp(2) = pos(2) - dy
+          tmp(1) = temp(1)*cos(anglez) + temp(2)*sin(anglez)
+          tmp(2) = -temp(1)*sin(anglez) + temp(2)*cos(anglez)
+          tmp(3) = pos(3) - zedge
+          temp(1) = tmp(1)*cos(angley)+tmp(3)*sin(angley)
+          temp(2) = tmp(2)
+          temp(3) = -tmp(1)*sin(angley)+tmp(3)*cos(angley)
+          tmp(1) = temp(1)
+          tmp(2) = temp(2)*cos(anglex)+temp(3)*sin(anglex)
+          tmp(3) = -temp(2)*sin(anglex)+temp(3)*cos(anglex)
+          zlc = tmp(3)
+
+          numpar1 = fldata%Fcoeftdata(1,1)+0.1
+          !//Here, zstart1 is the starting RF field location with 
+          !//respect to the "zedge " as origin.
+	  !tzstart1 can be negative
+          zstart1 = fldata%Fcoeftdata(2,1)
+          zend1 = fldata%Fcoeftdata(3,1)
+          zlength1 = zend1-zstart1
+          !for TWS, zlength1 is only one cell field.
+          !the field in other cells are periodic repeat of the
+          !1st cell.
+          if(zlength1.gt.1.0d-8) then
+            !here,eps is used to avoid some particle right
+            !on the edge of zlength1 but counted as 0.0.
+            !This may cause particles tinny beyond zlength1
+            !to be counted 
+            !eps = 1.0e-5*zlength1
+            eps = 1.0e-15*zlength1
+            nzl = (zlc-zstart1-eps)/zlength1
+            zlc = zlc - nzl*zlength1
+          endif
+          if(numpar1.gt.1) then
+            hz = zlength1/(numpar1-1)
+          else
+            hz = 1.0
+          endif
+
+          extfld = 0.0
+
+          if( (zlc.ge.zstart1).and.(zlc.le.zend1)) then
+            i0 = 1 !1st line is not data
+            iz = (zlc-zstart1)/hz + 1 
+            if(iz.lt.0) iz = 1 
+            iz1 = iz + 1 
+            if(iz1.gt.numpar1) iz1 = numpar1 
+            aa = (iz*hz-(zlc-zstart1))/hz
+            ez1 = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
+            ezp1 = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
+            ezpp1 = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
+            ezppp = fldata%Fcoeftdata(4,iz+i0)*aa+fldata%Fcoeftdata(4,iz1+i0)*(1.0d0-aa)
+            ez1=ez1*escale
+            ezp1=ezp1*escale
+            ezpp1=ezpp1*escale
+            ezppp = ezppp*escale
+            tt = pos(4)
+            tmpcos = cos(ww*tt+theta0)
+            tmpsin = sin(ww*tt+theta0)
+            f1 = -(ezpp1+ez1*xlrep*xlrep)/4
+            f1p = -(ezppp+ezp1*xlrep*xlrep)/4
+            !r2 = pos(1)**2+pos(2)**2
+            r2 = tmp(1)**2+tmp(2)**2
+            tmpex = -tmp(1)*(ezp1/2+f1p*r2/4)*tmpcos
+            tmpey = -tmp(2)*(ezp1/2+f1p*r2/4)*tmpcos
+            tmpez = (ez1+f1*r2)*tmpcos
+            tmpbx = tmp(2)*xlrep/clite*(ez1/2+f1*r2/4)*tmpsin
+            tmpby = -tmp(1)*xlrep/clite*(ez1/2+f1*r2/4)*tmpsin
+            tmpbz = 0.0
+            extfld(1) = extfld(1) + tmpex
+            extfld(2) = extfld(2) + tmpey
+            extfld(3) = extfld(3) + tmpez
+            extfld(4) = extfld(4) + tmpbx
+            extfld(5) = extfld(5) + tmpby
+            extfld(6) = extfld(6) + tmpbz
+          else
+            extfld = 0.0
+          endif
+
+!          print*,"strange",zlc,ez1,ezp1,ezpp1,tmpez,tmpcos,tmpsin,ww,tt,theta0
+!          write(10,101)pos(3),zlc,ez1/escale,ezp1,ezpp1,tmpez,tmpcos,tmpsin,tt,theta0
+!          write(10,101)pos(3),zlc,ez1/escale,ezp1,ezpp1,ezppp,tmpcos,tmpsin,tt,theta0
+!101       format(10(1x,e14.5))
+!          call flush(10)
+
+          i0 = numpar1 + 1
+          !//# of parameters for solenoid B fields.
+          numpar2 = fldata%Fcoeftdata(1,i0+1) + 0.1
+          !zstart2 can be negative
+          zstart2 = fldata%Fcoeftdata(2,i0+1)
+          zend2 = fldata%Fcoeftdata(3,i0+1) 
+          bscale = this%Param(12)
+          if(numpar2.gt.1) then
+            hz = (zend2-zstart2)/(numpar2-1)
+          else
+            hz = 1.0
+          endif
+ 
+          i0 = numpar1+2 !1st line is not data
+          if( (zlc.ge.zstart2) .and. (zlc.le.zend2) ) then
+            iz = (zlc-zstart2)/hz + 1
+            if(iz.lt.0) iz = 1
+            iz1 = iz + 1
+            if(iz1.gt.numpar2) iz1 = numpar2
+            aa = (iz*hz-(zlc-zstart2))/hz
+            ez1 = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
+            ezp1 = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
+            ezpp1 = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
+            ezppp = fldata%Fcoeftdata(4,iz+i0)*aa+fldata%Fcoeftdata(4,iz1+i0)*(1.0d0-aa)
+            r2 = tmp(1)*tmp(1)+tmp(2)*tmp(2)
+            extfld(4) = extfld(4)-bscale*ezp1/2*tmp(1)+bscale*ezppp*tmp(1)*r2/16  
+            extfld(5) = extfld(5)-bscale*ezp1/2*tmp(2)+bscale*ezppp*tmp(2)*r2/16  
+            extfld(6) = extfld(6)+bscale*ez1-bscale*ezpp1*r2/4
+!            write(11,102)pos(3),zlc,ez1*bscale,ezp1*bscale,ezpp1,ezppp
+!!            write(11,102)pos(3),zlc,ez1,ezp1*bscale,ezpp1,ezppp
+!102         format(6(1x,e14.5))
+!            call flush(11)
+          else
+!            extfld = 0.0
+          endif
+!          print*,zlc,extfld
+          !for E field
+          tmp(1) = extfld(1)
+          tmp(2) = extfld(2)*cos(anglex)-extfld(3)*sin(anglex)
+          tmp(3) = extfld(2)*sin(anglex)+extfld(3)*cos(anglex)
+          temp(1) = tmp(1)*cos(angley)-tmp(3)*sin(angley)
+          temp(2) = tmp(2)
+          temp(3) = tmp(1)*sin(angley)+tmp(3)*cos(angley)
+          extfld(1) = temp(1)*cos(anglez) - temp(2)*sin(anglez)
+          extfld(2) = temp(1)*sin(anglez) + temp(2)*cos(anglez)
+          extfld(3) = temp(3)
+          !for B field
+          tmp(1) = extfld(4)
+          tmp(2) = extfld(5)*cos(anglex)-extfld(6)*sin(anglex)
+          tmp(3) = extfld(5)*sin(anglex)+extfld(6)*cos(anglex)
+          temp(1) = tmp(1)*cos(angley)-tmp(3)*sin(angley)
+          temp(2) = tmp(2)
+          temp(3) = tmp(1)*sin(angley)+tmp(3)*cos(angley)
+          extfld(4) = temp(1)*cos(anglez) - temp(2)*sin(anglez)
+          extfld(5) = temp(1)*sin(anglez) + temp(2)*cos(anglez)
+          extfld(6) = temp(3)
+        else
+          extfld = 0.0
+        endif
+
+        end subroutine getflderrt_SolRFT
+
         !--------------------------------------------------------------------------------------
         !> @brief
         !> get external field without displacement and rotation errors.
         !--------------------------------------------------------------------------------------
-        subroutine  getfldt_SolRF(pos,extfld,this,fldata)
+        subroutine  getfldtfour_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
         double precision, dimension(4), intent(in) :: pos
@@ -584,13 +931,13 @@
           extfld = 0.0
         endif
 
-        end subroutine getfldt_SolRF
+        end subroutine getfldtfour_SolRF
 
         !--------------------------------------------------------------------------------------
         !> @brief
         !> get external field with displacement and rotation errors.
         !--------------------------------------------------------------------------------------
-        subroutine  getflderrt_SolRF(pos,extfld,this,fldata)
+        subroutine  getflderrtfour_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
         double precision, dimension(4), intent(in) :: pos
@@ -793,7 +1140,7 @@
           extfld = 0.0
         endif
 
-        end subroutine getflderrt_SolRF
+        end subroutine getflderrtfour_SolRF
 
         !--------------------------------------------------------------------------------------
         !> @brief

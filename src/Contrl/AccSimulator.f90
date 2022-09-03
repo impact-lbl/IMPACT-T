@@ -1561,8 +1561,8 @@
               if(isw.eq.1) then !readin new data
               if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
                 call read2tsol_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
-!              else if(idrfile(1,ii).eq.105) then !discrete description field
-!                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
+              else if(idrfile(1,ii).eq.105) then !discrete description field
+                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).lt.110) then !Fcoef coefficient description field
                 call read1t_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).eq.111) then !3D Cartesian coordinate of field
