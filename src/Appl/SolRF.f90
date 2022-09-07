@@ -422,11 +422,11 @@
         end subroutine getfld_SolRF
 
         !get external field without displacement and rotation errors.
-        subroutine  getfldt_SolRFT(pos,extfld,this,fldata)
+        subroutine  getfldt_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
         double precision, dimension(4), intent(in) :: pos
-        type (SolRFT), intent(in) :: this
+        type (SolRF), intent(in) :: this
         type (fielddata), intent(in) :: fldata
         double precision, dimension(6), intent(out) :: extfld
         double precision :: zedge,escale,theta0,ww,len,tt,xl,xlrep
@@ -575,14 +575,14 @@
           extfld = 0.0
         endif
 
-        end subroutine getfldt_SolRFT
+        end subroutine getfldt_SolRF
 
         !get external field without displacement and rotation errors.
-        subroutine  getflderrt_SolRFT(pos,extfld,this,fldata)
+        subroutine  getflderrt_SolRF(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
         double precision, dimension(4), intent(in) :: pos
-        type (SolRFT), intent(in) :: this
+        type (SolRF), intent(in) :: this
         type (fielddata), intent(in) :: fldata
         double precision, dimension(6), intent(out) :: extfld
         double precision :: zedge,escale,theta0,ww,len,tt,xl,xlrep
@@ -766,7 +766,7 @@
           extfld = 0.0
         endif
 
-        end subroutine getflderrt_SolRFT
+        end subroutine getflderrt_SolRF
 
         !--------------------------------------------------------------------------------------
         !> @brief
