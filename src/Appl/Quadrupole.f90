@@ -201,6 +201,11 @@
           extfld(6) = extfld(6)*cos(phs)
         endif
 
+        if(FlagFieldPrint.eq.1) then
+          write(99,900)pos(3),0.0,0.0,0.0,bgrad,bgradp,bgradpp
+900       format(7(1x,e16.8))
+        endif
+
         end subroutine getflderr_Quadrupole
         
         !get external field without displacement and rotation errors.
@@ -263,6 +268,11 @@
           extfld(4) = extfld(4)*cos(phs)
           extfld(5) = extfld(5)*cos(phs)
           extfld(6) = extfld(6)*cos(phs)
+        endif
+
+        if(FlagFieldPrint.eq.1) then
+          write(99,900)pos(3),0.0,0.0,0.0,bgrad,bgradp,bgradpp
+900       format(7(1x,e16.8))
         endif
 
         end subroutine getfld_Quadrupole

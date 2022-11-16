@@ -437,6 +437,7 @@
         integer :: i,ntmp,numpar1,numpar2
         real*8 :: eps,hz,aa
         integer :: i0,iz,iz1,nzl
+        real*8 :: bz1,bzp1,bzpp1,bzppp
 
         clite = 299792458.e0
         pi = 2*asin(1.0)
@@ -548,6 +549,10 @@
             hz = 1.0
           endif
  
+          bz1 = 0.0d0
+          bzp1 = 0.0d0
+          bzpp1 = 0.0d0
+          bzppp = 0.0d0
           i0 = numpar1+2 !1st line is not data
           if( (zlc.ge.zstart2) .and. (zlc.le.zend2) ) then
             iz = (zlc-zstart2)/hz + 1
@@ -555,24 +560,30 @@
             iz1 = iz + 1
             if(iz1.gt.numpar2) iz1 = numpar2
             aa = (iz*hz-(zlc-zstart2))/hz
-            ez1 = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
-            ezp1 = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
-            ezpp1 = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
-            ezppp = fldata%Fcoeftdata(4,iz+i0)*aa+fldata%Fcoeftdata(4,iz1+i0)*(1.0d0-aa)
+            bz1 = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
+            bzp1 = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
+            bzpp1 = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
+            bzppp = fldata%Fcoeftdata(4,iz+i0)*aa+fldata%Fcoeftdata(4,iz1+i0)*(1.0d0-aa)
             r2 = pos(1)*pos(1)+pos(2)*pos(2)
-            extfld(4) = extfld(4)-bscale*ezp1/2*pos(1)+bscale*ezppp*pos(1)*r2/16  
-            extfld(5) = extfld(5)-bscale*ezp1/2*pos(2)+bscale*ezppp*pos(2)*r2/16  
-            extfld(6) = extfld(6)+bscale*ez1-bscale*ezpp1*r2/4
+            extfld(4) = extfld(4)-bscale*bzp1/2*pos(1)+bscale*bzppp*pos(1)*r2/16  
+            extfld(5) = extfld(5)-bscale*bzp1/2*pos(2)+bscale*bzppp*pos(2)*r2/16  
+            extfld(6) = extfld(6)+bscale*bz1-bscale*bzpp1*r2/4
 !            write(11,102)pos(3),zlc,ez1*bscale,ezp1*bscale,ezpp1,ezppp
 !!            write(11,102)pos(3),zlc,ez1,ezp1*bscale,ezpp1,ezppp
 !102         format(6(1x,e14.5))
 !            call flush(11)
+
           else
 !            extfld = 0.0
           endif
 !          print*,zlc,extfld
         else
           extfld = 0.0
+        endif
+
+        if(FlagFieldPrint.eq.1) then
+          write(99,900)pos(3),ez1,ezp1,ezpp1,bz1,bzp1,bzpp1
+900       format(7(1x,e16.8))
         endif
 
         end subroutine getfldt_SolRF

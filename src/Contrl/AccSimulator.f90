@@ -747,6 +747,8 @@
         double precision, dimension(50) :: dkx
         double precision :: dtype1,da1,db1,deps1,dLx1,dnkx1,dnky1,hx,xmi,ymi
 
+        real*8 :: zprint
+
 
         twopi = 4*asin(1.0d0)
         !zadjmax = 0.1d0 !20% increase of z domain
@@ -765,6 +767,7 @@
           FlagImage = 0
         endif
         !flagazmuth = 0
+        FlagPrintField = 0
 !-------------------------------------------------------------------
 ! prepare initial parameters, allocate temporary array.
         !ibalend = 0
@@ -1095,6 +1098,14 @@
             call getparam_BeamLineElem(Blnelem(i),1,tzrot(izrot))
             call getparam_BeamLineElem(Blnelem(i),2,zrotang(izrot))
           endif
+
+          if(bitype.eq.(-18)) then !instant rotation along z-axis
+            call getparam_BeamLineElem(Blnelem(i),1,zprint)
+            if(zprint>0) then
+              FlagPrintField = 1
+            endif
+          endif
+
 
           if(bitype.eq.(-99)) then
             call getparam_BeamLineElem(Blnelem(i),3,tstop)
