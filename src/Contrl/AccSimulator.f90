@@ -767,7 +767,7 @@
           FlagImage = 0
         endif
         !flagazmuth = 0
-        FlagPrintField = 0
+        FlagFieldPrint = 0
 !-------------------------------------------------------------------
 ! prepare initial parameters, allocate temporary array.
         !ibalend = 0
@@ -1102,7 +1102,7 @@
           if(bitype.eq.(-18)) then !instant rotation along z-axis
             call getparam_BeamLineElem(Blnelem(i),1,zprint)
             if(zprint>0) then
-              FlagPrintField = 1
+              FlagFieldPrint = 1
             endif
           endif
 
