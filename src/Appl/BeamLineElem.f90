@@ -844,7 +844,8 @@
         double precision, dimension(6), intent(out) :: extfld
 
         if(associated(this%pquad)) then
-          call getfld_Quadrupole(pos,extfld,this%pquad)
+          !call getfld_Quadrupole(pos,extfld,this%pquad)
+          print*,"not availabe:"
         elseif(associated(this%pdrift)) then
           call getfld_DriftTube(pos,extfld,this%pdrift)
         elseif(associated(this%pccl)) then
@@ -1003,7 +1004,7 @@
         type (fielddata), intent(in) :: fldata
 
         if(associated(this%pquad)) then
-          call getfld_Quadrupole(pos,extfld,this%pquad)
+          call getfld_Quadrupole(pos,extfld,this%pquad,fldata)
         elseif(associated(this%pdrift)) then
           call getfld_DriftTube(pos,extfld,this%pdrift)
         elseif(associated(this%pccl)) then
@@ -1049,7 +1050,7 @@
         type (fielddata), intent(in) :: fldata
 
         if(associated(this%pquad)) then
-          call getflderrt_Quadrupole(pos,extfld,this%pquad)
+          call getflderrt_Quadrupole(pos,extfld,this%pquad,fldata)
         elseif(associated(this%pdrift)) then
           call getfld_DriftTube(pos,extfld,this%pdrift)
         elseif(associated(this%pccl)) then

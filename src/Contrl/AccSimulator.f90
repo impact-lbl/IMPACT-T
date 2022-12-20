@@ -748,6 +748,7 @@
         double precision :: dtype1,da1,db1,deps1,dLx1,dnkx1,dnky1,hx,xmi,ymi
 
         real*8 :: zprint
+        real*8 :: xquad
 
 
         twopi = 4*asin(1.0d0)
@@ -901,6 +902,7 @@
           call getparam_BeamLineElem(Blnelem(i),blength,bnseg,bmpstp,&
                                      bitype)
           idrfile(1,i) = bitype
+          call getparam_BeamLineElem(Blnelem(i),3,xquad)
           !get external file id for each rf beam line element.
           if(bitype.gt.100) then
             call getparam_BeamLineElem(Blnelem(i),5,rfile)
@@ -911,6 +913,9 @@
             idrfile(2,i) = int(rfile + 0.1)
           else if(bitype.eq.4) then
             call getparam_BeamLineElem(Blnelem(i),4,rfile)
+            idrfile(2,i) = int(rfile + 0.1)
+          else if(bitype.eq.1 .and. xquad.ge.100.0d0) then
+            call getparam_BeamLineElem(Blnelem(i),3,rfile)
             idrfile(2,i) = int(rfile + 0.1)
           endif
           if(bitype.eq.(-1)) then
@@ -947,7 +952,7 @@
             call getparam_BeamLineElem(Blnelem(i),3,trstart(irstart))
             nfileout = bmpstp 
 !            nsamp = bnseg
-            print*,"trstart: ",trstart(irstart)
+            print*,"trstart: ",trstart(irstart),nfileout
           endif
           if(bitype.eq.(-4)) then
             flagtimesz = 1
@@ -1113,6 +1118,10 @@
           endif
         enddo
 
+!        print*,"idfile1:",idrfile(1,:)
+!        print*,"idfile2:",idrfile(2,:)
+!        print*,"idfile3:",idrfile(3,:)
+
         dtless = dtlessend !dimensionless time step size.
         t = tend
         distance = 0.0d0
@@ -1177,7 +1186,7 @@
         zmin = 0.0d0
         call MPI_BARRIER(comm2d,ierr)
         !print*,"iout: ",iout,tphout(1)
-        nfileout = 1000
+        !nfileout = 1000
 !----------------------------------------------------------------------
 ! start looping through ntstep time step.
         !iend is the time step number from last simulation (used in
@@ -1532,12 +1541,12 @@
             ibstart = ibinit
           endif
 
-!          print*,"ibinit: ",ibinit,ibend,ibstart,ibend,ibendold
+          !print*,"ibinit: ",ibinit,ibend,ibstart,ibend,ibendold
           idbend = 0
           do ii = ibstart,ibend
             !for element type > 100 or solenoid
             if((idrfile(1,ii).gt.100).or.(idrfile(1,ii).eq.3).or.&
-               (idrfile(1,ii).eq.4)) then 
+               (idrfile(1,ii).eq.4) .or. (idrfile(1,ii).eq.1)) then 
               isw = 1
               !check whether the new element is in the old elements range,
               !which already been read in. 
@@ -1570,7 +1579,9 @@
               tmpfile(idrfile(3,ii)) = idrfile(2,ii)
 !              print*,"idrfile: ",ii,idrfile(2,ii),idrfile(3,ii),iifile,Maxiifile
               if(isw.eq.1) then !readin new data
-              if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
+              if(idrfile(1,ii).eq.1) then !numerical data for soft quadrupole.
+                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
+              else if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
                 call read2tsol_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).eq.105) then !discrete description field
                 call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
