@@ -1783,12 +1783,12 @@
             deallocate(dbxwake)
             deallocate(dbywake)
             deallocate(dbzwake)
-            allocate(dexwake(Nxlocal,Nylocal,Nzlocal))
-            allocate(deywake(Nxlocal,Nylocal,Nzlocal))
-            allocate(dezwake(Nxlocal,Nylocal,Nzlocal))
-            allocate(dbxwake(Nxlocal,Nylocal,Nzlocal))
-            allocate(dbywake(Nxlocal,Nylocal,Nzlocal))
-            allocate(dbzwake(Nxlocal,Nylocal,Nzlocal))
+            allocate(dexwake(Nx,Ny,Nz))
+            allocate(deywake(Nx,Ny,Nz))
+            allocate(dezwake(Nx,Ny,Nz))
+            allocate(dbxwake(Nx,Ny,Nz))
+            allocate(dbywake(Nx,Ny,Nz))
+            allocate(dbzwake(Nx,Ny,Nz))
             dexwake = 0.0
             deywake = 0.0
             dezwake = 0.0
