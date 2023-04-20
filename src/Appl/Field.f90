@@ -2544,16 +2544,16 @@
        if(dtyp.eq.0)then
         lx=PI/dkx(1)
         do e=1,2
-         do l=1,nint(dnkx)
-          kx=dkx(l)
-          do m=1,nint(dnky)
+         do m=1,nint(dnky)
            if(2*((m-1)/2).eq.m-1)then
             par=0
            else
             par=1
            endif
-           ky=dky(l,m,e)
-           kz=sqrt((kx*kx+ky*ky)/(deps-1)) ! omega/c
+           do l=1,nint(dnkx)
+            kx=dkx(l)
+            ky=dky(l,m,e)
+            kz=sqrt((kx*kx+ky*ky)/(deps-1)) ! omega/c
            do k=1,Nz
             z=(k-1)*hz
             fs(k)=amp(l,m,e)*cos(kz*z)
@@ -2570,17 +2570,17 @@
             enddo ! n
            enddo ! k
            if(e.eq.1)then
-            call dwakeConv_FieldQuant(Nz,lam,hz,fs,lams)
-            call dwakeConv_FieldQuant(Nz,lam,hz,fa,lama)
+              call dwakeConv_FieldQuant(Nz,lam,hz,fs,lams)
+              call dwakeConv_FieldQuant(Nz,lam,hz,fa,lama)
            else
-            call dwakeConv_FieldQuant(Nz,laa,hz,fs,laas)
-            call dwakeConv_FieldQuant(Nz,laa,hz,fa,laaa)
+              call dwakeConv_FieldQuant(Nz,laa,hz,fs,laas)
+              call dwakeConv_FieldQuant(Nz,laa,hz,fa,laaa)
            endif
-           do i=1,Nx
-            x=xmin+(i-1)*hx
+           do k=1,Nz
             do j=1,Ny
              y=ymin+(j-1)*hy
-             do k=1,Nz
+             do i=1,Nx
+              x=xmin+(i-1)*hx
               if(par.eq.0.and.e.eq.1)then ! LSM-SYM
                dexwake(i,j,k)=dexwake(i,j,k)-lama(k)*sin(kx*x)*cosh(kx*y)&
                *kx/kz
@@ -2618,13 +2618,12 @@
                *(kx*kx+kz*kz)/kx/kz
                dbzwake(i,j,k)=dbzwake(i,j,k)+laas(k)*sin(kx*x)*cosh(kx*y)
               endif
-             enddo ! k (z)
+             enddo ! i (x)
             enddo ! j (y)
-           enddo ! i (x)
-          enddo ! m
-         enddo ! l
+           enddo ! k (z)
+          enddo ! l
+         enddo ! m
         enddo ! e
-
        
        ! take care of units: V/m and T
         conv2V=dv*gammaz/lx/hz
