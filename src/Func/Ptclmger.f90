@@ -29,7 +29,7 @@
 !        double precision, dimension(pdim,npmax) :: Ptsl
         double precision, dimension(:),intent(in) :: lcrange
         integer, parameter :: nptmv = 100000
-        double precision, dimension(6,3*nptmv) :: left,right,up,down
+        double precision, dimension(9,3*nptmv) :: left,right,up,down
         double precision, allocatable, dimension(:,:) :: temp1,recv
         integer :: myid,myidx,myidy,totnp,npy,npx, &
                    comm2d,commcol,commrow
@@ -188,8 +188,8 @@
 
         nmv0 = 0
         nout = ileft+iright+iup+idown
-        allocate(recv(6,nmv0))
-        allocate(temp1(6,nmv0))
+        allocate(recv(9,nmv0))
+        allocate(temp1(9,nmv0))
         ij = 0
         call MPI_BARRIER(comm2d,ierr)
 
@@ -235,7 +235,7 @@
 !        endif
 
         deallocate(recv)
-        allocate(recv(6,numbuf+nmv0))
+        allocate(recv(9,numbuf+nmv0))
         do i = 1, nmv0
           recv(:,i) = temp1(:,i)
         enddo
@@ -243,28 +243,28 @@
 
         nst = nmv0 + 1
         !send outgoing particles to left neibhoring processor.
-        jleft = 6*jleft
-        ileft = 6*ileft
+        jleft = 9*jleft
+        ileft = 9*ileft
         call MPI_IRECV(recv(1,nst),jleft,MPI_DOUBLE_PRECISION,myright,&
                        0,commrow,msid,ierr)
         call MPI_SEND(left(1,1),ileft,MPI_DOUBLE_PRECISION,myleft,&
                       0,commrow,ierr)
         call MPI_WAIT(msid,status,ierr) 
-        ileft = ileft/6
-        jleft = jleft/6
+        ileft = ileft/9
+        jleft = jleft/9
         nmv0 = nmv0+jleft
         
         nst = nmv0 + 1
         !send outgoing particles to right neibhoring processor.
-        jright = 6*jright
-        iright = 6*iright
+        jright = 9*jright
+        iright = 9*iright
         call MPI_IRECV(recv(1,nst),jright,MPI_DOUBLE_PRECISION,myleft,&
                         0,commrow,msid,ierr)
         call MPI_SEND(right(1,1),iright,MPI_DOUBLE_PRECISION,myright,&
                       0,commrow,ierr)
         call MPI_WAIT(msid,status,ierr) 
-        iright = iright/6
-        jright = jright/6
+        iright = iright/9
+        jright = jright/9
         nmv0 = nmv0 + jright
 
         call MPI_BARRIER(commrow,ierr)
@@ -274,28 +274,28 @@
 
         nst = nmv0 + 1
         !send outgoing particles to down neibhoring processor.
-        jdown = 6*jdown
-        idown = 6*idown
+        jdown = 9*jdown
+        idown = 9*idown
         call MPI_IRECV(recv(1,nst),jdown,MPI_DOUBLE_PRECISION,myup,&
                         0,commcol,msid,ierr)
         call MPI_SEND(down(1,1),idown,MPI_DOUBLE_PRECISION,mydown,&
                         0,commcol,ierr)
         call MPI_WAIT(msid,status,ierr)
-        idown = idown/6
-        jdown = jdown/6
+        idown = idown/9
+        jdown = jdown/9
         nmv0 = nmv0 + jdown
 
         nst = nmv0 + 1
         !send outgoing particles to up neibhoring processor.
-        jup = 6*jup
-        iup = 6*iup
+        jup = 9*jup
+        iup = 9*iup
         call MPI_IRECV(recv(1,nst),jup,MPI_DOUBLE_PRECISION,mydown,&
                       0,commcol,msid,ierr)
         call MPI_SEND(up(1,1),iup,MPI_DOUBLE_PRECISION,myup,&
                       0,commcol,ierr)
         call MPI_WAIT(msid,status,ierr)
-        iup = iup/6
-        jup = jup/6
+        iup = iup/9
+        jup = jup/9
         nmv0 = nmv0 + jup
  
         call MPI_BARRIER(commcol,ierr)
@@ -379,7 +379,7 @@
         endif
 
         ic = 0
-        allocate(temp1(6,nmv0+numbuf-nmv))
+        allocate(temp1(9,nmv0+numbuf-nmv))
         do i = 1, nmv0
           temp1(:,i) = recv(:,i)
         enddo
@@ -399,19 +399,19 @@
 
         !copy the remaining local particles into a temporary array.
         numpts = Nptlocal-nout
-        allocate(temp1(6,numpts))
+        allocate(temp1(9,numpts))
         ic = 0
         do i = 1, Nptlocal0-nout0
           if(msk(i)) then
             ic = ic + 1
-            do j = 1, 6
+            do j = 1, 9
               temp1(j,ic) = Ptsl(j,i)
             enddo
           endif
         enddo
         do i = Nptlocal0-nout0+1, Nptlocal
           ii = i-nout
-          do j = 1, 6
+          do j = 1, 9
             temp1(j,ii) = Ptsl(j,i)
           enddo
         enddo
@@ -421,16 +421,16 @@
         !a new size now.
         Nptlocal = numpts+nmv0 
         deallocate(Ptsl)
-        allocate(Ptsl(6,Nptlocal))
+        allocate(Ptsl(9,Nptlocal))
         do i = 1, numpts
-          do j = 1, 6
+          do j = 1, 9
             Ptsl(j,i) = temp1(j,i)
           enddo
         enddo
         deallocate(temp1)
         do i = 1, nmv0
           ii = i + numpts
-          do j = 1, 6
+          do j = 1, 9
             Ptsl(j,ii) = recv(j,i)
           enddo
         enddo

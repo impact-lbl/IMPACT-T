@@ -2110,51 +2110,6 @@
           else if(Flagdiag.eq.3) then
             call diagnostic1avgZtest_Output(t,Ebunch,Nbunch)
           else if(Flagdiag.eq.105) then
-            nplocalmax = 0
-            do ib = 1, Nbunch
-              if(nplocalmax.le.Nplocal(ib)) then
-                nplocalmax = Nplocal(ib)
-              endif
-            enddo
-            allocate(tmpptsb(6,nplocalmax,Nbunch))
-            do ib = 1, Nbunch
-              do ipt = 1, Nplocal(ib)
-                tmpptsb(:,ipt,ib) = Ebunch(ib)%Pts1(:,ipt)
-              enddo
-            enddo
-            do ib = 1, Nbunch
-              do ipt = 1, Nplocal(ib)
-                pos(1)= Ebunch(ib)%Pts1(1,ipt)*Scxlt
-                pos(2)= Ebunch(ib)%Pts1(3,ipt)*Scxlt
-                zz = Ebunch(ib)%Pts1(5,ipt)*Scxlt
-                pos(3)= zz
-                pos(4) = t
-                do ii = 1, Nblem
-                  if( (zz.ge.zBlnelem(1,ii)) .and. &
-                      (zz.le.zBlnelem(2,ii)) ) then
-                    call getparam_BeamLineElem(Blnelem(ii),blength,bnseg,&
-                                  bmpstp,bitype)
-                    call getparam_BeamLineElem(Blnelem(ii),12,rfile)
-                         
-                    if((bitype.eq.105).and.(abs(rfile).gt.0.0)) then
-                      call getvecAt_SolRF(pos,tmpfld,Blnelem(ii)%pslrf,&
-                      fldmp(idrfile(3,ii)))
-                      Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt)+&
-                        tmpfld(1)*Clight/Ebunch(ib)%Mass*Ebunch(ib)%Charge 
-                      Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt)+&
-                        tmpfld(2)*Clight/Ebunch(ib)%Mass*Ebunch(ib)%Charge 
-                    endif
-                  endif
-                enddo
-              enddo
-            enddo
-            call diagnostic1avg_Output(t,Ebunch,Nbunch)
-            do ib = 1, Nbunch
-              do ipt = 1, Nplocal(ib)
-                Ebunch(ib)%Pts1(:,ipt)=tmpptsb(:,ipt,ib)
-              enddo
-            enddo
-            deallocate(tmpptsb)
           endif
 
           endif
@@ -2407,68 +2362,10 @@
           if(distance.le.tphout(iout+1) .and. &
             (distance+dzz).ge.tphout(iout+1)) then
 
-            !convert mechanic momentum into mechanic momentum in solenoid
-            if(Flagdiag.eq.105) then 
-
-            nplocalmax = 0
-            do ib = 1, Nbunch
-              if(nplocalmax.le.Nplocal(ib)) then
-                nplocalmax = Nplocal(ib)
-              endif
-            enddo
-            allocate(tmpptsb(6,nplocalmax,Nbunch))
-            do ib = 1, Nbunch
-              do ipt = 1, Nplocal(ib)
-                tmpptsb(:,ipt,ib) = Ebunch(ib)%Pts1(:,ipt)
-              enddo
-            enddo
-
-            do ib = 1, Nbunch
-              do ipt = 1, Nplocal(ib)
-                pos(1)= Ebunch(ib)%Pts1(1,ipt)*Scxlt
-                pos(2)= Ebunch(ib)%Pts1(3,ipt)*Scxlt
-                zz = Ebunch(ib)%Pts1(5,ipt)*Scxlt
-                pos(3)= zz
-                pos(4) = t
-                do ii = 1, Nblem
-                  if( (zz.ge.zBlnelem(1,ii)) .and. &
-                      (zz.le.zBlnelem(2,ii)) ) then
-                    call getparam_BeamLineElem(Blnelem(ii),blength,bnseg,&
-                                  bmpstp,bitype)
-                    call getparam_BeamLineElem(Blnelem(ii),12,rfile)
-                    if((bitype.eq.105).and.(abs(rfile).gt.0.0)) then
-                      call getvecAt_SolRF(pos,tmpfld,Blnelem(ii)%pslrf,&
-                      fldmp(idrfile(3,ii)))
-                      Ebunch(ib)%Pts1(2,ipt) = Ebunch(ib)%Pts1(2,ipt)+&
-                        tmpfld(1)*Clight/Ebunch(ib)%Mass*Ebunch(ib)%Charge
-                      Ebunch(ib)%Pts1(4,ipt) = Ebunch(ib)%Pts1(4,ipt)+&
-                        tmpfld(2)*Clight/Ebunch(ib)%Mass*Ebunch(ib)%Charge
-                    endif
-                  endif
-                enddo
-              enddo
-            enddo
-
             iout = iout + 1
             do ib = 1, Nbunch
               call phase_Output(nfileouttmp(iout)+ib-1,Ebunch(ib),nsamp(iout))
             enddo
-
-            do ib = 1, Nbunch
-              do ipt = 1, Nplocal(ib)
-                Ebunch(ib)%Pts1(:,ipt)=tmpptsb(:,ipt,ib)
-              enddo
-            enddo
-            deallocate(tmpptsb)
-
-            else
-
-            iout = iout + 1
-            do ib = 1, Nbunch
-              call phase_Output(nfileouttmp(iout)+ib-1,Ebunch(ib),nsamp(iout))
-            enddo
-
-            endif
 
           endif
 
@@ -2516,12 +2413,12 @@
                nptottmp = nptottmp+Np(ib)
                tmpcur = tmpcur + Ebunch(ib)%Current
              enddo
-             allocate(tmppts(6,Nplocal(1)))
+             allocate(tmppts(9,Nplocal(1)))
              do ipt = 1, Nplocal(1)
                tmppts(:,ipt) = Ebunch(1)%Pts1(:,ipt)
              enddo
              deallocate(Ebunch(1)%Pts1)
-             allocate(Ebunch(1)%Pts1(6,nplctmp))
+             allocate(Ebunch(1)%Pts1(9,nplctmp))
              do ipt = 1, Nplocal(1)
                Ebunch(1)%Pts1(:,ipt) = tmppts(:,ipt) 
              enddo
@@ -2690,7 +2587,7 @@
 
         !//copy the particles to the new bin stored by a temporary array
         do i = 1, ibunch
-          allocate(tmppts(6,nbinlc(i),i))
+          allocate(tmppts(9,nbinlc(i),i))
         enddo
         nbinlc = 0
         do ib = 1, Nbunch
@@ -2700,7 +2597,7 @@
             ibin = (gami-gammamin)/hgam + 1
             if(ibin.ge.ibunch) ibin = ibunch
             nbinlc(ibin) = nbinlc(ibin) + 1
-            do j = 1, 6
+            do j = 1, 9
               tmppts(j,nbinlc(ibin),ibin) = this(ib)%Pts1(j,i)
             enddo
           enddo
@@ -2709,14 +2606,14 @@
         !release the memory held by Ebunch
         do i = 1, Nbunch
           deallocate(Ebunch(i)%Pts1)
-          allocate(Ebunch(i)%Pts1(6,1))
+          allocate(Ebunch(i)%Pts1(9,1))
         enddo
 
         !//copy the particles back to Ebunch with new bin
         do i = 1, ibunch
-          allocate(Ebunch(i)%Pts1(6,nbinlc(i)))
+          allocate(Ebunch(i)%Pts1(9,nbinlc(i)))
           do j = 1, nbinlc(i)
-            do k = 1, 6
+            do k = 1, 9
               Ebunch(i)%Pts1(k,j) = tmppts(k,j,i)
             enddo 
           enddo

@@ -69,7 +69,8 @@
            pchg = pbunch%Charge
            pcurr = pbunch%Current
 !           tmp1 = pcurr/Scfreq*pchg/abs(pchg)*float(nppos)/npglb
-           tmp1 = pcurr/Scfreq*pchg/abs(pchg)/npglb
+!           tmp1 = pcurr/Scfreq*pchg/abs(pchg)/npglb
+           tmp1 = 1.0d0
            call getmsize_CompDom(ptsgeom,msize)
            hxi = 1.0d0/msize(1)
            hyi = 1.0d0/msize(2)
@@ -106,7 +107,7 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: innp,innx,inny,innz,npx,npy,myidx,myidy
-        double precision, intent (in), dimension (6, innp) :: rays
+        double precision, intent (in), dimension (9,innp) :: rays
         double precision, intent (out), dimension (innx,inny,innz) :: rho
 !        logical, intent (in), dimension (innp) :: msk
         integer :: ix,jx,kx,ix1,jx1,kx1
@@ -120,6 +121,7 @@
         double precision, dimension(3) :: msize
         double precision, dimension(6) :: range
         type (CompDom) :: ptsgeom
+        real*8 :: ww
 
         call starttime_Timer( t0 )
 
@@ -181,22 +183,23 @@
             print*,"dep - kx: ",kx,rays(5,i),zmin
             stop
           endif
+          ww = rays(8,i)
           ! (i,j,k):
-          rho(ix,jx,kx) = rho(ix,jx,kx) + ab*cd*ef
+          rho(ix,jx,kx) = rho(ix,jx,kx) + ab*cd*ef*ww
           ! (i,j+1,k):
-          rho(ix,jx1,kx) = rho(ix,jx1,kx) + ab*(1.0d0-cd)*ef
+          rho(ix,jx1,kx) = rho(ix,jx1,kx) + ab*(1.0d0-cd)*ef*ww
           ! (i,j+1,k+1):
-          rho(ix,jx1,kx1) = rho(ix,jx1,kx1)+ab*(1.0d0-cd)*(1.0d0-ef)
+          rho(ix,jx1,kx1) = rho(ix,jx1,kx1)+ab*(1.0d0-cd)*(1.0d0-ef)*ww
           ! (i,j,k+1):
-          rho(ix,jx,kx1) = rho(ix,jx,kx1)+ab*cd*(1.0d0-ef)
+          rho(ix,jx,kx1) = rho(ix,jx,kx1)+ab*cd*(1.0d0-ef)*ww
           ! (i+1,j,k+1):
-          rho(ix1,jx,kx1) = rho(ix1,jx,kx1)+(1.0d0-ab)*cd*(1.0d0-ef)
+          rho(ix1,jx,kx1) = rho(ix1,jx,kx1)+(1.0d0-ab)*cd*(1.0d0-ef)*ww
           ! (i+1,j+1,k+1):
-          rho(ix1,jx1,kx1) = rho(ix1,jx1,kx1)+(1.0d0-ab)*(1.0d0-cd)*(1.0d0-ef)
+          rho(ix1,jx1,kx1) = rho(ix1,jx1,kx1)+(1.0d0-ab)*(1.0d0-cd)*(1.0d0-ef)*ww
           ! (i+1,j+1,k):
-          rho(ix1,jx1,kx) = rho(ix1,jx1,kx)+(1.0d0-ab)*(1.0d0-cd)*ef
+          rho(ix1,jx1,kx) = rho(ix1,jx1,kx)+(1.0d0-ab)*(1.0d0-cd)*ef*ww
           ! (i+1,j,k):
-          rho(ix1,jx,kx) = rho(ix1,jx,kx)+(1.0d0-ab)*cd*ef
+          rho(ix1,jx,kx) = rho(ix1,jx,kx)+(1.0d0-ab)*cd*ef*ww
         enddo
 
         t_rhofas = t_rhofas + elapsedtime_Timer( t0 )
@@ -212,7 +215,7 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: innp,innx,inny,innz,npx,npy,myidx,myidy
-        double precision, intent (in), dimension (6, innp) :: rays
+        double precision, intent (in), dimension (9,innp) :: rays
         double precision, intent (out), dimension (innx,inny,innz) :: rho
 !        logical, intent (in), dimension (innp) :: msk
         integer :: ix,jx,kx,ix1,jx1,kx1
@@ -226,6 +229,7 @@
         double precision, dimension(3) :: msize
         double precision, dimension(6) :: range
         type (CompDom) :: ptsgeom
+        real*8 :: ww
 
         call starttime_Timer( t0 )
 
@@ -288,22 +292,23 @@
             print*,"dep - kx: ",kx,rays(5,i),zmin
             stop
           endif
+          ww = rays(8,i)
           ! (i,j,k):
-          rho(ix,jx,kx) = rho(ix,jx,kx) + ab*cd*ef
+          rho(ix,jx,kx) = rho(ix,jx,kx) + ab*cd*ef*ww
           ! (i,j+1,k):
-          rho(ix,jx1,kx) = rho(ix,jx1,kx) + ab*(1.0d0-cd)*ef
+          rho(ix,jx1,kx) = rho(ix,jx1,kx) + ab*(1.0d0-cd)*ef*ww
           ! (i,j+1,k+1):
-          rho(ix,jx1,kx1) = rho(ix,jx1,kx1)+ab*(1.0d0-cd)*(1.0d0-ef)
+          rho(ix,jx1,kx1) = rho(ix,jx1,kx1)+ab*(1.0d0-cd)*(1.0d0-ef)*ww
           ! (i,j,k+1):
-          rho(ix,jx,kx1) = rho(ix,jx,kx1)+ab*cd*(1.0d0-ef)
+          rho(ix,jx,kx1) = rho(ix,jx,kx1)+ab*cd*(1.0d0-ef)*ww
           ! (i+1,j,k+1):
-          rho(ix1,jx,kx1) = rho(ix1,jx,kx1)+(1.0d0-ab)*cd*(1.0d0-ef)
+          rho(ix1,jx,kx1) = rho(ix1,jx,kx1)+(1.0d0-ab)*cd*(1.0d0-ef)*ww
           ! (i+1,j+1,k+1):
-          rho(ix1,jx1,kx1) = rho(ix1,jx1,kx1)+(1.0d0-ab)*(1.0d0-cd)*(1.0d0-ef)
+          rho(ix1,jx1,kx1) = rho(ix1,jx1,kx1)+(1.0d0-ab)*(1.0d0-cd)*(1.0d0-ef)*ww
           ! (i+1,j+1,k):
-          rho(ix1,jx1,kx) = rho(ix1,jx1,kx)+(1.0d0-ab)*(1.0d0-cd)*ef
+          rho(ix1,jx1,kx) = rho(ix1,jx1,kx)+(1.0d0-ab)*(1.0d0-cd)*ef*ww
           ! (i+1,j,k):
-          rho(ix1,jx,kx) = rho(ix1,jx,kx)+(1.0d0-ab)*cd*ef
+          rho(ix1,jx,kx) = rho(ix1,jx,kx)+(1.0d0-ab)*cd*ef*ww
 
           endif
         enddo
@@ -363,7 +368,8 @@
            pchg = pbunch%Charge
            pcurr = pbunch%Current
 !           tmp1 = pcurr/Scfreq*pchg/abs(pchg)*float(nppos)/npglb
-           tmp1 = pcurr/Scfreq*pchg/abs(pchg)/npglb
+           !tmp1 = pcurr/Scfreq*pchg/abs(pchg)/npglb
+           tmp1 = 1.0d0
            call getmsize_CompDom(ptsgeom,msize)
            hxi = 1.0d0/msize(1)
            hyi = 1.0d0/msize(2)
@@ -401,7 +407,7 @@
         include 'mpif.h'
         integer, intent(in) :: innp,innx,inny,innz,npx,npy,myidx,myidy,&
                                nytot,commcol
-        double precision, intent (in), dimension (6, innp) :: rays
+        double precision, intent (in), dimension (9,innp) :: rays
         double precision, intent (out), dimension (innx,inny,innz) :: rho
         integer :: ix,jx,kx,ix1,jx1,kx1
         integer, dimension(2,0:npx-1,0:npy-1) :: table
@@ -418,6 +424,7 @@
         double precision :: lcxmin,lcxmax,lcymin,lcymax,xtmp,ytmp,rmax,&
                             rr,htheta,hr,hr2,hri,xx,yy
         integer :: inxinz,ierr
+        real*8 :: ww
 
         call starttime_Timer( t0 )
 
@@ -498,14 +505,15 @@
             print*,"dep - kx: ",kx,rays(5,i),zmin
             stop
           endif
+          ww = rays(8,i)
           ! (i,k):
-          rhotmp(ix,kx) = rhotmp(ix,kx) + ab*ef
+          rhotmp(ix,kx) = rhotmp(ix,kx) + ab*ef*ww
           ! (i,k+1):
-          rhotmp(ix,kx1) = rhotmp(ix,kx1)+ab*(1.0d0-ef)
+          rhotmp(ix,kx1) = rhotmp(ix,kx1)+ab*(1.0d0-ef)*ww
           ! (i+1,k):
-          rhotmp(ix1,kx) = rhotmp(ix1,kx)+(1.0d0-ab)*ef
+          rhotmp(ix1,kx) = rhotmp(ix1,kx)+(1.0d0-ab)*ef*ww
           ! (i+1,k+1):
-          rhotmp(ix1,kx1) = rhotmp(ix1,kx1)+(1.0d0-ab)*(1.0d0-ef)
+          rhotmp(ix1,kx1) = rhotmp(ix1,kx1)+(1.0d0-ab)*(1.0d0-ef)*ww
 
           endif
         enddo

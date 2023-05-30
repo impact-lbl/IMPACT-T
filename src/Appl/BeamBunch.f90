@@ -571,7 +571,7 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: innp,innx,inny,innz,npx,npy,myidx,myidy,nbeamln
-        double precision, intent (inout), dimension(6,innp) :: rays
+        double precision, intent (inout), dimension(9,innp) :: rays
         double precision, intent (in), dimension(innx,inny,innz) :: exg,eyg,ezg 
         double precision, intent (in) :: dt,mass,chge,tg
         double precision, intent (in) :: gammaz
@@ -654,6 +654,8 @@
           ix1 = ix + 1
           jx1 = jx + 1
           kx1 = kx + 1
+
+          coefLz = rays(7,n)*Scxlt
 
           exn = (exg(ix,jx,kx)*ab*cd*ef  &
                   +exg(ix,jx1,kx)*ab*(1.0d0-cd)*ef &
@@ -761,7 +763,7 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: innp,nbeamln,ibinit,ibend,flagerr
-        double precision, intent (inout), dimension(6,innp) :: rays
+        double precision, intent (inout), dimension(9,innp) :: rays
         double precision, intent (in) :: dt,mass,chge,tg
         type (BeamLineElem), dimension(:), intent(in) :: beamelem
         double precision, dimension(:,:), intent(in) :: zbeamelem
@@ -802,6 +804,8 @@
           pos(2) = rays(3,n)*Scxlt
           pos(3) = zz
           pos(4) = tg
+
+          coefLz = rays(7,n)*Scxlt
           !get external field from all overlaped fields at one location
           extfld = 0.0
 !          print*,"noverlap: ",noverlap
@@ -872,7 +876,7 @@
         include 'mpif.h'
         integer, intent(in) :: innp,innx,inny,innz,npx,npy,myidx,myidy,&
                               nbeamln,flagerr
-        double precision, intent (inout), dimension(6,innp) :: rays
+        double precision, intent (inout), dimension(9,innp) :: rays
         double precision, intent (in), dimension(innx,inny,innz) :: exg,eyg,ezg 
         double precision, intent (in), dimension(innx,inny,innz) :: bxg,byg,bzg 
         double precision, intent (in) :: dt,mass,chge,tg
@@ -1038,6 +1042,8 @@
           pos(2) = rays(3,n)*Scxlt
           pos(3) = zz
           pos(4) = tg
+
+          coefLz = rays(7,n)*Scxlt
           !get external field from all overlaped fields at one location
           extfld = 0.0
           if(flagerr.eq.1) then 
@@ -1267,13 +1273,13 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: nptlc,nbeamln,ibinit,ibend,npttot,nptrue
-        double precision, intent (inout), dimension(6,nptlc) :: rays
+        double precision, intent (inout), dimension(9,nptlc) :: rays
         double precision, intent (in) :: dt,mass,chge,tg,totchrg,r0
         type (BeamLineElem), dimension(:), intent(in) :: beamelem
         double precision, dimension(:,:), intent(in) :: zbeamelem
         type (fielddata), dimension(:), intent(in) :: fldmap
         integer, dimension(:,:), intent(in) :: idrfile
-        double precision, dimension(6,npttot) :: ptstot
+        double precision, dimension(9,npttot) :: ptstot
         integer :: n,i
         double precision :: t0
         double precision, dimension(4) :: pos
@@ -1305,8 +1311,8 @@
         coefE = 1.0d0/(4*Pi*Epsilon0*Scxlt*Scxlt)*sgn*totchrg/nptrue
     
         !collect all particles from the other processors to the local processor.
-        sixnpt = nptlc*6
-        sixnpttot = nptlc*6
+        sixnpt = nptlc*9
+        sixnpttot = nptlc*9
         call MPI_ALLGATHER(rays,sixnpt,MPI_DOUBLE_PRECISION,ptstot,&
              sixnpttot,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierr)
 
@@ -1345,6 +1351,7 @@
           pos(2) = rays(3,n)*Scxlt
           pos(3) = zz
           pos(4) = tg
+          coefLz = rays(7,n)*Scxlt
           !get external field from all overlaped fields at one location
           extfld = 0.0
 !          print*,"noverlap: ",noverlap
@@ -1642,13 +1649,13 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: nptlc,nbeamln,ibinit,ibend,npttot,nptrue
-        double precision, intent (inout), dimension(6,nptlc) :: rays
+        double precision, intent (inout), dimension(9,nptlc) :: rays
         double precision, intent (in) :: dt,mass,chge,tg,totchrg,r0
         type (BeamLineElem), dimension(:), intent(in) :: beamelem
         double precision, dimension(:,:), intent(in) :: zbeamelem
         type (fielddata), dimension(:), intent(in) :: fldmap
         integer, dimension(:,:), intent(in) :: idrfile
-        double precision, dimension(6,npttot) :: ptstot
+        double precision, dimension(9,npttot) :: ptstot
         integer :: n,i
         double precision :: t0
         double precision, dimension(4) :: pos
@@ -1679,9 +1686,9 @@
         coefE = 1.0d0/(4*Pi*Epsilon0*Scxlt*Scxlt)*sgn*totchrg/nptrue
     
         !collect all particles from the other processors to the local processor.
-        sixnpt = nptlc*6
+        sixnpt = nptlc*9
         !sixnpttot = npttot*6
-        sixnpttot = nptlc*6
+        sixnpttot = nptlc*9
         !print*,"before all gather in kick: ",sixnpt,nptlc,npttot
         call MPI_ALLGATHER(rays,sixnpt,MPI_DOUBLE_PRECISION,ptstot,&
              sixnpttot,MPI_DOUBLE_PRECISION,MPI_COMM_WORLD,ierr)
@@ -2079,6 +2086,7 @@
 !          by = extfld(5)
 !          bz = extfld(6)
 
+          coefLz = rays(7,n)*Scxlt
           !//advance the momenta of particles using implicit central
           !//difference scheme from Birdall and Longdon's book.
           umx = rays(2,n) + coefLz*ex*0.5d0*dt
@@ -2403,7 +2411,7 @@
         include 'mpif.h'
         integer, intent(in) :: innp,innx,inny,innz,npx,npy,myidx,&
                                myidy,nbeamln,idbd
-        double precision, intent (inout), dimension(6,innp) :: rays
+        double precision, intent (inout), dimension(9,innp) :: rays
         double precision, intent (in), dimension(innx,inny,innz) :: exg,eyg,ezg 
         double precision, intent (in), dimension(innx,inny,innz) :: bxg,byg,bzg 
         double precision, intent (in) :: dt,mass,chge,tg
@@ -2596,6 +2604,8 @@
           pos(3) = (-ss*rays(1,n) + cs*rays(5,n))*Scxlt
           pos(4) = tg
 
+          coefLz = rays(7,n)*Scxlt
+
           !get external field from all overlaped fields at one location
           call getfldt_BeamLineElem(beamelem(idbd),pos,&
           extfld,fldmap(idrfile(3,idbd)))
@@ -2642,7 +2652,7 @@
         implicit none
         include 'mpif.h'
         integer, intent(in) :: innp,nbeamln,idbd
-        double precision, intent (inout), dimension(6,innp) :: rays
+        double precision, intent (inout), dimension(9,innp) :: rays
         double precision, intent (in) :: dt,mass,chge,tg
         type (BeamLineElem), dimension(:), intent(in) :: beamelem
         double precision, dimension(:,:), intent(in) :: zbeamelem
@@ -2714,6 +2724,8 @@
           pos(2) = rays(3,n)*Scxlt
           pos(3) = (-ss*rays(1,n) + cs*rays(5,n))*Scxlt
           pos(4) = tg
+
+          coefLz = rays(7,n)*Scxlt
 
           !get external field from all overlaped fields at one location
           call getfldt_BeamLineElem(beamelem(idbd),pos,&

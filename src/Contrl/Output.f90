@@ -1764,13 +1764,13 @@
 
         allocate(nptlist(0:np-1))
         nptlist = 0
-        allocate(recvbuf(6,mnpt))
-        sixnpt = 6*this%Nptlocal
+        allocate(recvbuf(9,mnpt))
+        sixnpt = 9*this%Nptlocal
 
         call MPI_GATHER(this%Nptlocal,1,MPI_INTEGER,nptlist,1,&
                         MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
 
-        nptlist = 6*nptlist
+        nptlist = 9*nptlist
 
         if(my_rank.eq.0) then
           open(nfile,status='unknown')
@@ -1780,7 +1780,8 @@
             write(nfile,100)this%Pts1(1,i)*Scxlt,this%Pts1(2,i),&
                             this%Pts1(3,i)*Scxlt,&
                             this%Pts1(4,i),this%Pts1(5,i)*Scxlt,&
-                            this%Pts1(6,i)
+                            this%Pts1(6,i),this%Pts1(7,i),this%Pts1(8,i),&
+                            this%Pts1(9,i)
           enddo
           do i = 1, np-1
             call MPI_RECV(recvbuf(1,1),nptlist(i),MPI_DOUBLE_PRECISION,&
@@ -1791,7 +1792,8 @@
 !                              recvbuf(4,j),recvbuf(5,j),recvbuf(6,j)
               write(nfile,100)recvbuf(1,j)*Scxlt,recvbuf(2,j),&
                               recvbuf(3,j)*Scxlt,&
-                              recvbuf(4,j),recvbuf(5,j)*Scxlt,recvbuf(6,j)
+                              recvbuf(4,j),recvbuf(5,j)*Scxlt,recvbuf(6,j),&
+                              recvbuf(7,j),recvbuf(8,j),recvbuf(9,j)
             enddo
           enddo
           close(nfile)
@@ -1802,7 +1804,7 @@
         endif
 
 !100     format(6(1x,e17.9))
-100     format(6(1x,e20.12))
+100     format(9(1x,e20.12))
 
         deallocate(nptlist)
         deallocate(recvbuf)
@@ -2445,8 +2447,8 @@
 
         read(9)this%Nptlocal
         read(9)this%refptcl(1:6)
-        allocate(this%Pts1(6,this%Nptlocal))
-        read(9)this%Pts1(1:6,1:this%Nptlocal)
+        allocate(this%Pts1(9,this%Nptlocal))
+        read(9)this%Pts1(1:9,1:this%Nptlocal)
 
         close(9)
 
@@ -2523,7 +2525,7 @@
 
         write(nfile)this%Nptlocal
         write(nfile)this%refptcl(1:6)
-        write(nfile)this%Pts1(1:6,1:this%Nptlocal)
+        write(nfile)this%Pts1(1:9,1:this%Nptlocal)
 
         close(nfile)
 
