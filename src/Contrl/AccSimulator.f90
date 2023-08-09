@@ -1432,7 +1432,7 @@
             gammaz(ib) = sqrt(1.0+sgcenter(6)**2)!//gammaz from <gamma_i betaz_i>
             !for test
             !gammaz(ib) = Bkenergy/Bmass+1.0d0
-            Ebunch(ib)%refptcl(6) = -gammaz(ib)
+            Ebunch(ib)%refptcl(6) = sgcenter(6)
             do inib = 1, 6
               brange(inib,ib) = ptrange(inib)
               brange(inib+6,ib) = sgcenter(inib)
@@ -1952,7 +1952,11 @@
               endif
 
               !find the E and B fields in the lab frame from the effective bunch/bin  
-              tmpflag = 0
+              if(Ebunch(ib)%refptcl(6).gt.0) then
+                tmpflag = 0
+              else
+                tmpflag = 1
+              endif
 
               call gradEB_FieldQuant(Nxlocal,Nylocal,Nzlocal,&
               Potential%FieldQ,Ageom,grid2d,Flagbc,gammaz(ib),tmpflag,&

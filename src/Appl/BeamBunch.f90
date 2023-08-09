@@ -54,7 +54,7 @@
 
         this%refptcl = 0.0d0
         this%refptcl(5) = phasini
-        this%refptcl(6) = -(inkin/this%Mass + 1.0d0)
+        this%refptcl(6) = sqrt((inkin/this%Mass + 1.0d0)**2-1.0d0)
 
         end subroutine construct_BeamBunch
 
@@ -260,7 +260,7 @@
         curr = this%Current
         innp = this%Nptlocal
         tg = this%refptcl(5)
-        gam = -this%refptcl(6)
+        gam = sqrt(this%refptcl(6)**2+1.0d0)
         mass = this%Mass
         chge = this%Charge
 
@@ -554,7 +554,7 @@
           endif
         endif
 
-        this%refptcl(6) = -gam
+        this%refptcl(6) = sqrt(gam**2-1.0d0)
 
         !call MPI_BARRIER(comm2d,ierr)
         !if(myid.eq.0) then
@@ -2228,7 +2228,7 @@
         integer :: i
         double precision :: gam
  
-        gam = -this%refptcl(6)
+        gam = sqrt(this%refptcl(6)**2+1.0d0)
  
         !go to the local Cartesian coordinates at the beginning of bend
         do i = 1, this%Nptlocal
@@ -2284,8 +2284,8 @@
         this%refptcl(5) = 0.0 + zorgin/Scxlt
         this%refptcl(6) = sqrt(temp(2)**2 + temp(6)**2)
 
-        gamma0 = sqrt(1.0d0+this%refptcl(6)**2)
-        this%refptcl(6) = -gamma0
+        !gamma0 = sqrt(1.0d0+this%refptcl(6)**2)
+        !this%refptcl(6) = -gamma0
  
         end subroutine convExit_BeamBunch
 
@@ -2328,8 +2328,8 @@
         this%refptcl(5) = 0.0
         this%refptcl(6) = sqrt(temp(2)**2 + temp(6)**2)
 
-        gamma0 = sqrt(1.0d0+this%refptcl(6)**2)
-        this%refptcl(6) = -gamma0
+        !gamma0 = sqrt(1.0d0+this%refptcl(6)**2)
+        !this%refptcl(6) = -gamma0
  
         end subroutine convExitold_BeamBunch
 

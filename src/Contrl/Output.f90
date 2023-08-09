@@ -194,7 +194,7 @@
         call MPI_REDUCE(innp,npctmax,1,MPI_INTEGER,MPI_MAX,0,&
                         MPI_COMM_WORLD,ierr)
 
-        gam = -this%refptcl(6)
+        gam = sqrt(this%refptcl(6)**2+1.0d0)
         gambet = sqrt(gam**2-1.0)
         bet = sqrt(gam**2-1.0)/gam
         energy = (gam-1.)*qmc
