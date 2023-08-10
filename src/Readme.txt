@@ -30,3 +30,13 @@ in order to use it correctly.
 3)The subroutines in FFT.f90: realft, four1, and sinft,
 can be replaced with functions from the Numerical Recipe or some 
 equavilent 1D FFT functions.
+4) There are two backup Makefiles (MakefileS_backup and MakefileP_backup)
+using "make" in case the "cmake" does not work.
+To use the parallel version Makefile, one needs comment out "use mpistub" in 5 
+source files:
+(Contrl/Input.f90:        use mpistub 
+DataStruct/Data.f90:        use mpistub
+DataStruct/Pgrid.f90:        use mpistub
+DataStruct/PhysConst.f90:        use mpistub
+Func/Timer.f90:        use mpistub)
+and rename the mpif.h file as mpif.hh.

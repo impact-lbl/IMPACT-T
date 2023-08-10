@@ -86,6 +86,15 @@ ImpactTexe
 # Execute MPI
 mpirun -n <cores> ImpactTexe-mpi
 ```
+# Compiling the code using make
+
+There are two backup Makefiles (MakefileS_backup and MakefileP_backup)
+using "make" in case the "cmake" does not work.
+To use the parallel version Makefile, one needs comment out "use mpistub" in five 
+source files:
+(Contrl/Input.f90, DataStruct/Data.f90, DataStruct/Pgrid.f90, DataStruct/PhysConst.f90, 
+and Func/Timer.f90)       
+and rename the mpif.h file as mpif.hh.
 
 # Using at NERSC
 
