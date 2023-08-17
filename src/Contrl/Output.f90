@@ -1787,7 +1787,7 @@
             call MPI_RECV(recvbuf(1,1),nptlist(i),MPI_DOUBLE_PRECISION,&
                           i,1,MPI_COMM_WORLD,status,ierr) 
         
-            do j = 1, nptlist(i)/6,samplePeriod
+            do j = 1, nptlist(i)/9,samplePeriod
 !              write(nfile,100)recvbuf(1,j),recvbuf(2,j),recvbuf(3,j),&
 !                              recvbuf(4,j),recvbuf(5,j),recvbuf(6,j)
               write(nfile,100)recvbuf(1,j)*Scxlt,recvbuf(2,j),&
