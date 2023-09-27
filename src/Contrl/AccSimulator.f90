@@ -18,7 +18,7 @@
 !****************************
 !
 ! AccSimulatorclass: Linear accelerator simulator class in CONTROL layer.
-! Version: 2.1
+! Version: 3.0-beta
 ! Author: Ji Qiang
 ! Description: This class defines functions to set up the initial beam 
 !              particle distribution, field information, computational
@@ -179,7 +179,7 @@
         if(myid.eq.0) then
           !print*,"Start simulation:"
           print*,"!-----------------------------------------------------------"
-          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V2.2"
+          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V3.0-beta"
           print*,"! Copyright of The Regents of the University of California"
           print*,"!-----------------------------------------------------------"
         endif
@@ -1561,8 +1561,8 @@
               if(isw.eq.1) then !readin new data
               if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
                 call read2tsol_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
-!              else if(idrfile(1,ii).eq.105) then !discrete description field
-!                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
+              else if(idrfile(1,ii).eq.105) then !discrete description field
+                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).lt.110) then !Fcoef coefficient description field
                 call read1t_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).eq.111) then !3D Cartesian coordinate of field
