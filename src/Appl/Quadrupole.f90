@@ -464,7 +464,7 @@
           !call getfldfrg_Quadrupole(zz,this,bgrad)
           call getfldfrgAna2_Quadrupole(zz,this,bgrad,bgradp,bgradpp)
         else if(this%Param(3).ge.100.0d0) then
-          call getfldfrgAna3_Quadrupole(zz,this,bgrad,bgradp,bgradpp,fldata)
+          call getfldfrgAna3_Quadrupole(pos(3),this,bgrad,bgradp,bgradpp,fldata)
         else
           bgrad = this%Param(2)
         endif
