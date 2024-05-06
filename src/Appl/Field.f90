@@ -771,11 +771,13 @@
         double complex, dimension(2*nz,nsizexy) :: tmp3
         double complex, allocatable, dimension(:,:,:) :: x1
         double complex, allocatable, dimension(:,:,:) :: x0
-        double precision :: rr,aa,bb,cc,dd,ee,ff,ss
+        double precision :: aa,bb,cc,dd,ee,ff,ss
         double complex :: gg,gg2
         double complex :: ggrr
         double precision, dimension(2) :: xx,yy,zz
-        double precision, dimension(3) :: vv
+        real*16, dimension(3) :: vv
+        real*16 :: rr
+
         integer :: n,i0,j0,k0
         double precision :: recfourpi
 
@@ -956,11 +958,13 @@
         double complex, dimension(2*nz,nsizexy) :: tmp3
         double complex, allocatable, dimension(:,:,:) :: x1,x2
         double complex, allocatable, dimension(:,:,:) :: x0
-        double precision :: rr,aa,bb,cc,dd,ee,ff,ss
+        double precision :: aa,bb,cc,dd,ee,ff,ss
         double complex :: gg,gg2
         double complex :: ggrr
         double precision, dimension(2) :: xx,yy,zz
-        double precision, dimension(3) :: vv
+        real*16, dimension(3) :: vv
+        real*16 :: rr
+
         integer :: n,i0,j0,k0
         double precision :: recfourpi
 
