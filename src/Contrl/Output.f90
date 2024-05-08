@@ -1360,6 +1360,7 @@
         double precision :: gamlc,gam2lc,gam2avg,tmpgam,gamdel
         double precision :: tmpx,tmpy,deltat,recpgamma
         integer :: npctmin,npctmax,ib,innpmb,i1,i2
+        real*8, dimension(6) :: tmplc0,tmpgl0
 
         call starttime_Timer(t0)
 
@@ -1371,7 +1372,7 @@
 
         nptot = 0
         innpmb = 0
-        z0lc = 0.0
+        z0lc = 0.0d0
         do ib = 1, Nbunch
           innp = this(ib)%Nptlocal
           innpmb = innpmb + innp
@@ -1382,76 +1383,108 @@
         enddo
         call MPI_ALLREDUCE(z0lc,z0gl,1,MPI_DOUBLE_PRECISION,&
                         MPI_SUM,MPI_COMM_WORLD,ierr)
-        den1 = 1.0/dble(nptot)
+        den1 = 1.0d0/dble(nptot)
         den2 = den1*den1
         z0avg = z0gl*den1
 
-        x0lc = 0.0
-        px0lc = 0.0
-        y0lc = 0.0
-        py0lc = 0.0
-        pz0lc = 0.0
-        sqsum1local = 0.0
-        sqsum2local = 0.0
-        sqsum3local = 0.0
-        sqsum4local = 0.0
-        sqsum5local = 0.0
-        sqsum6local = 0.0
-        xpxlocal = 0.0
-        ypylocal = 0.0
-        zpzlocal = 0.0
+        tmplc0 = 0.0d0
+        do ib = 1, Nbunch
+          do i = 1, this(ib)%Nptlocal
+            tmpgam = sqrt(1.0d0+this(ib)%Pts1(2,i)**2+&
+               this(ib)%Pts1(4,i)**2+this(ib)%Pts1(6,i)**2)
+            recpgamma = 1.0d0/tmpgam
+            deltat = (this(ib)%Pts1(5,i)-z0avg)&
+                     /(recpgamma*this(ib)%Pts1(6,i))
+            !drift to the "fixed z" location
+            tmpx = this(ib)%Pts1(1,i)-recpgamma*this(ib)%Pts1(2,i)*deltat
+            tmplc0(1) = tmplc0(1) + tmpx
+            tmplc0(2) = tmplc0(2) + this(ib)%Pts1(2,i)
+            tmpy = this(ib)%Pts1(3,i)-recpgamma*this(ib)%Pts1(4,i)*deltat
+            tmplc0(3) = tmplc0(3) + tmpy
+            tmplc0(4) = tmplc0(4) + this(ib)%Pts1(4,i)
+            tmplc0(5) = tmplc0(5) + this(ib)%Pts1(5,i)
+            tmplc0(6) = tmplc0(6) + this(ib)%Pts1(6,i)
+          enddo
+        enddo
+
+        call MPI_ALLREDUCE(tmplc0,tmpgl0,6,MPI_DOUBLE_PRECISION,&
+                        MPI_SUM,MPI_COMM_WORLD,ierr)
+
+        x0 = tmpgl0(1)*den1
+        px0 = tmpgl0(2)*den1
+        y0 = tmpgl0(3)*den1
+        py0 = tmpgl0(4)*den1
+        z0 = tmpgl0(5)*den1
+        pz0 = tmpgl0(6)*den1
+        z0avg = tmpgl0(5)*den1
+
+        x0lc = 0.0d0
+        px0lc = 0.0d0
+        y0lc = 0.0d0
+        py0lc = 0.0d0
+        pz0lc = 0.0d0
+        sqsum1local = 0.0d0
+        sqsum2local = 0.0d0
+        sqsum3local = 0.0d0
+        sqsum4local = 0.0d0
+        sqsum5local = 0.0d0
+        sqsum6local = 0.0d0
+        xpxlocal = 0.0d0
+        ypylocal = 0.0d0
+        zpzlocal = 0.0d0
 
 !PP
-        xylocal   = 0.0
-        xpylocal  = 0.0
-        ypxlocal  = 0.0
-        pxpylocal = 0.0
-        xzlocal   = 0.0
-        xpzlocal  = 0.0
-        zpxlocal  = 0.0
-        pxpzlocal = 0.0
-        yzlocal   = 0.0
-        ypzlocal  = 0.0
-        zpylocal  = 0.0
-        pypzlocal = 0.0
+!JQ
+        xylocal   = 0.0d0
+        xpylocal  = 0.0d0
+        ypxlocal  = 0.0d0
+        pxpylocal = 0.0d0
+        xzlocal   = 0.0d0
+        xpzlocal  = 0.0d0
+        zpxlocal  = 0.0d0
+        pxpzlocal = 0.0d0
+        yzlocal   = 0.0d0
+        ypzlocal  = 0.0d0
+        zpylocal  = 0.0d0
+        pypzlocal = 0.0d0
 
-        x0lc3 = 0.0
-        x0lc4 = 0.0
-        px0lc3 = 0.0
-        px0lc4 = 0.0
-        y0lc3 = 0.0
-        y0lc4 = 0.0
-        py0lc3 = 0.0
-        py0lc4 = 0.0
-        z0lc3 = 0.0
-        z0lc4 = 0.0
-        pz0lc3 = 0.0
-        pz0lc4 = 0.0
+        x0lc3 = 0.0d0
+        x0lc4 = 0.0d0
+        px0lc3 = 0.0d0
+        px0lc4 = 0.0d0
+        y0lc3 = 0.0d0
+        y0lc4 = 0.0d0
+        py0lc3 = 0.0d0
+        py0lc4 = 0.0d0
+        z0lc3 = 0.0d0
+        z0lc4 = 0.0d0
+        pz0lc3 = 0.0d0
+        pz0lc4 = 0.0d0
         ! for cache optimization.
         if(innp.ne.0) then
           do i = 1, 6
             !localmax(i) = abs(this(1)%Pts1(i,1))
-            localmax(i) = 0.0
+            localmax(i) = 0.0d0
           enddo
           !lcrmax = this(1)%Pts1(1,1)**2+this(1)%Pts1(3,1)**2
-          lcrmax = 0.0
+          lcrmax = 0.0d0
         else
           do i = 1, 6
-            localmax(i) = 0.0
+            localmax(i) = 0.0d0
           enddo
-          lcrmax = 0.0
+          lcrmax = 0.0d0
         endif
 !        testmax = 0.0
-        gamlc = 0.0
-        gam2lc = 0.0
+        gamlc = 0.0d0
+        gam2lc = 0.0d0
         do ib = 1, Nbunch
           innp = this(ib)%Nptlocal
           do i = 1, innp
-            tmpgam = sqrt(1.0+this(ib)%Pts1(2,i)**2+&
+            tmpgam = sqrt(1.0d0+this(ib)%Pts1(2,i)**2+&
                this(ib)%Pts1(4,i)**2+this(ib)%Pts1(6,i)**2)
             gamlc = gamlc + tmpgam  
             gam2lc = gam2lc + tmpgam**2
-            recpgamma = 1.0/tmpgam
+            recpgamma = 1.0d0/tmpgam
             deltat = (this(ib)%Pts1(5,i)-z0avg)&
                      /(recpgamma*this(ib)%Pts1(6,i))
             !drift to the "fixed z" location
@@ -1494,30 +1527,36 @@
             py0lc4 = py0lc4 + this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*this(ib)%Pts1(4,i)*&
                      this(ib)%Pts1(4,i)
 !PP
-            xylocal   = xylocal   + this(ib)%Pts1(1,i)*this(ib)%Pts1(3,i)
-            xpylocal  = xpylocal  + this(ib)%Pts1(1,i)*this(ib)%Pts1(4,i)
-            ypxlocal  = ypxlocal  + this(ib)%Pts1(2,i)*this(ib)%Pts1(3,i)
-            pxpylocal = pxpylocal + this(ib)%Pts1(2,i)*this(ib)%Pts1(4,i)
+!JQ
+            !xylocal   = xylocal   + (this(ib)%Pts1(1,i)-x0)*(this(ib)%Pts1(3,i)-y0)
+            xylocal   = xylocal   + (tmpx-x0)*(tmpy-y0)
+            xpylocal  = xpylocal  + (tmpx-x0)*(this(ib)%Pts1(4,i)-py0)
+            !ypxlocal  = ypxlocal  + (this(ib)%Pts1(2,i)-px0)*(this(ib)%Pts1(3,i)-y0)
+            ypxlocal  = ypxlocal  + (this(ib)%Pts1(2,i)-px0)*(tmpy-y0)
+            pxpylocal = pxpylocal + (this(ib)%Pts1(2,i)-px0)*(this(ib)%Pts1(4,i)-py0)
 
-            xzlocal   = xzlocal   + this(ib)%Pts1(1,i)*this(ib)%Pts1(5,i)
-            xpzlocal  = xpzlocal  + this(ib)%Pts1(1,i)*this(ib)%Pts1(6,i)
-            zpxlocal  = zpxlocal  + this(ib)%Pts1(5,i)*this(ib)%Pts1(2,i)
-            pxpzlocal = pxpzlocal + this(ib)%Pts1(2,i)*this(ib)%Pts1(6,i)
+            !xzlocal   = xzlocal   + (this(ib)%Pts1(1,i)-x0)*(this(ib)%Pts1(5,i)-z0)
+            !xpzlocal  = xpzlocal  + (this(ib)%Pts1(1,i)-x0)*(this(ib)%Pts1(6,i)-pz0)
+            xzlocal   = xzlocal   + (tmpx-x0)*(this(ib)%Pts1(5,i)-z0)
+            xpzlocal  = xpzlocal  + (tmpx-x0)*(this(ib)%Pts1(6,i)-pz0)
+            zpxlocal  = zpxlocal  + (this(ib)%Pts1(5,i)-z0)*(this(ib)%Pts1(2,i)-px0)
+            pxpzlocal = pxpzlocal + (this(ib)%Pts1(2,i)-px0)*(this(ib)%Pts1(6,i)-pz0)
 
-            yzlocal   = yzlocal   + this(ib)%Pts1(3,i)*this(ib)%Pts1(5,i)
-            ypzlocal  = ypzlocal  + this(ib)%Pts1(3,i)*this(ib)%Pts1(6,i)
-            zpylocal  = zpylocal  + this(ib)%Pts1(5,i)*this(ib)%Pts1(4,i)
-            pypzlocal = pypzlocal + this(ib)%Pts1(4,i)*this(ib)%Pts1(6,i)
+            !yzlocal   = yzlocal   + (this(ib)%Pts1(3,i)-y0)*(this(ib)%Pts1(5,i)-z0)
+            !ypzlocal  = ypzlocal  + (this(ib)%Pts1(3,i)-y0)*(this(ib)%Pts1(6,i)-pz0)
+            yzlocal   = yzlocal   + (tmpy-y0)*(this(ib)%Pts1(5,i)-z0)
+            ypzlocal  = ypzlocal  + (tmpy-y0)*(this(ib)%Pts1(6,i)-pz0)
+            zpylocal  = zpylocal  + (this(ib)%Pts1(5,i)-z0)*(this(ib)%Pts1(4,i)-py0)
+            pypzlocal = pypzlocal + (this(ib)%Pts1(4,i)-py0)*(this(ib)%Pts1(6,i)-pz0)
 
             sqsum5local = sqsum5local + (this(ib)%Pts1(5,i)-z0avg)**2
             z0lc3 = z0lc3 + ((this(ib)%Pts1(5,i)-z0avg)**3)
             z0lc4 = z0lc4 + (this(ib)%Pts1(5,i)-z0avg)**4
-            zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*this(ib)%Pts1(6,i)
+            zpzlocal = zpzlocal + (this(ib)%Pts1(5,i)-z0avg)*(this(ib)%Pts1(6,i)-pz0)
             pz0lc = pz0lc + this(ib)%Pts1(6,i)
-            sqsum6local = sqsum6local + this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)
-            pz0lc3 = pz0lc3 + this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)
-            pz0lc4 = pz0lc4 + this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)*this(ib)%Pts1(6,i)*&
-                              this(ib)%Pts1(6,i)
+            sqsum6local = sqsum6local + (this(ib)%Pts1(6,i)-pz0)**2
+            pz0lc3 = pz0lc3 + (this(ib)%Pts1(6,i)-pz0)**3
+            pz0lc4 = pz0lc4 + (this(ib)%Pts1(6,i)-pz0)**4
             do j = 1, 4
               if(localmax(j).lt.abs(this(ib)%Pts1(j,i))) then
                  localmax(j) = abs(this(ib)%Pts1(j,i))
@@ -1534,8 +1573,10 @@
             if(localmax(6).lt.abs(this(ib)%Pts1(6,i))) then
                  localmax(6) = abs(this(ib)%Pts1(6,i))
             endif
-            if(lcrmax.lt.(this(ib)%Pts1(1,i)**2+this(ib)%Pts1(3,i)**2)) then
-              lcrmax = this(ib)%Pts1(1,i)**2 + this(ib)%Pts1(3,i)**2
+            !if(lcrmax.lt.(this(ib)%Pts1(1,i)**2+this(ib)%Pts1(3,i)**2)) then
+            !  lcrmax = this(ib)%Pts1(1,i)**2 + this(ib)%Pts1(3,i)**2
+            if(lcrmax.lt.(tmpx**2+tmpy**2)) then
+              lcrmax = tmpx**2 + tmpy**2
             endif
           enddo
         enddo
@@ -1614,55 +1655,53 @@
 !          sqsum5 = sqz - z0*z0
           sqsum5 = sqz 
           sqpz = tmpgl(12)*den1
-          sqsum6 = sqpz - pz0*pz0
+!          sqsum6 = sqpz - pz0*pz0
+          sqsum6 = sqpz
           xpx = tmpgl(13)*den1 - x0*px0
           ypy = tmpgl(14)*den1 - y0*py0
 
 !PP
-          xy   = tmpgl(30)*den1 - x0*y0
-          xpy  = tmpgl(31)*den1 - x0*py0
-          ypx  = tmpgl(32)*den1 - y0*px0
-          pxpy = tmpgl(33)*den1 - px0*py0
-          xz   = tmpgl(34)*den1 - x0*z0
-          xpz  = tmpgl(35)*den1 - x0*pz0
-          zpx  = tmpgl(36)*den1 - z0*px0
-          pxpz = tmpgl(37)*den1 - px0*pz0
-          yz   = tmpgl(38)*den1 - y0*z0
-          ypz  = tmpgl(39)*den1 - y0*pz0
-          zpy  = tmpgl(40)*den1 - z0*py0
-          pypz = tmpgl(41)*den1 - py0*pz0
+!JQ
+          xy   = tmpgl(30)*den1 
+          xpy  = tmpgl(31)*den1 
+          ypx  = tmpgl(32)*den1 
+          pxpy = tmpgl(33)*den1 
+          xz   = tmpgl(34)*den1 
+          xpz  = tmpgl(35)*den1 
+          zpx  = tmpgl(36)*den1 
+          pxpz = tmpgl(37)*den1 
+          yz   = tmpgl(38)*den1 
+          ypz  = tmpgl(39)*den1 
+          zpy  = tmpgl(40)*den1 
+          pypz = tmpgl(41)*den1 
 
-!          zpz = tmpgl(15)*den1 - z0*pz0
           zpz = tmpgl(15)*den1 
           cubx = tmpgl(16)*den1
           fthx = tmpgl(17)*den1
-          x03 = (abs(cubx-3*sqx*x0+2*x0*x0*x0))**(1.0/3.0)
+          x03 = ((cubx-3*sqx*x0+2*x0*x0*x0))**(1.0/3.0)
           x04 = sqrt(sqrt(abs(fthx-4*cubx*x0+6*sqx*x0*x0-3*x0*x0*x0*x0)))
           cubpx = tmpgl(18)*den1
           fthpx = tmpgl(19)*den1
-          px03 = (abs(cubpx-3*sqpx*px0+2*px0*px0*px0))**(1.0/3.0)
-          px04 = sqrt(sqrt(abs(fthpx-4*cubpx*px0+6*sqpx*px0*px0-&
+          px03 = ((cubpx-3*sqpx*px0+2*px0*px0*px0))**(1.0/3.0)
+          px04 = sqrt(sqrt((fthpx-4*cubpx*px0+6*sqpx*px0*px0-&
                  3*px0*px0*px0*px0)))
           cuby = tmpgl(20)*den1
           fthy = tmpgl(21)*den1
-          y03 = (abs(cuby-3*sqy*y0+2*y0*y0*y0))**(1.0/3.0)
-          y04 = sqrt(sqrt(abs(fthy-4*cuby*y0+6*sqy*y0*y0-3*y0*y0*y0*y0)))
+          y03 = ((cuby-3*sqy*y0+2*y0*y0*y0))**(1.0/3.0)
+          y04 = sqrt(sqrt((fthy-4*cuby*y0+6*sqy*y0*y0-3*y0*y0*y0*y0)))
           cubpy = tmpgl(22)*den1
           fthpy = tmpgl(23)*den1
-          py03 = (abs(cubpy-3*sqpy*py0+2*py0*py0*py0))**(1.0/3.0)
-          py04 = sqrt(sqrt(abs(fthpy-4*cubpy*py0+6*sqpy*py0*py0-&
+          py03 = ((cubpy-3*sqpy*py0+2*py0*py0*py0))**(1.0/3.0)
+          py04 = sqrt(sqrt((fthpy-4*cubpy*py0+6*sqpy*py0*py0-&
                  3*py0*py0*py0*py0)))
           cubz = tmpgl(24)*den1
           fthz = tmpgl(25)*den1
-!          z03 = (abs(cubz-3*sqz*z0+2*z0*z0*z0))**(1.0/3.0)
-          z03 = cubz**(1.0/3.0)
-!          z04 = sqrt(sqrt(abs(fthz-4*cubz*z0+6*sqz*z0*z0-3*z0*z0*z0*z0)))
+          z03 = cubz**(1.0d0/3.0d0)
           z04 = sqrt(sqrt(fthz))
           cubpz = tmpgl(26)*den1
           fthpz = tmpgl(27)*den1
-          pz03 = (abs(cubpz-3*sqpz*pz0+2*pz0*pz0*pz0))**(1.0/3.0)
-          pz04 = sqrt(sqrt(abs(fthpz-4*cubpz*pz0+6*sqpz*pz0*pz0-&
-                 3*pz0*pz0*pz0*pz0)))
+          pz03 = cubpz**(1.0d0/3.0d0)
+          pz04 = sqrt(sqrt(fthpz))
           epsx2 = (sqsum1*sqsum2-xpx*xpx)
           epsy2 = (sqsum3*sqsum4-ypy*ypy)
           epsz2 = (sqsum5*sqsum6-zpz*zpz)
@@ -1675,16 +1714,16 @@
           pyrms = sqrt(abs(sqsum4))
           zrms = sqrt(abs(sqsum5))
           pzrms = sqrt(abs(sqsum6))
-          xpxfac = 0.0
-          ypyfac = 0.0
-          zpzfac = 0.0
-          if(xrms.ne.0.0 .and. pxrms.ne.0.0)xpxfac=1.0/(xrms*pxrms)
-          if(yrms.ne.0.0 .and. pyrms.ne.0.0)ypyfac=1.0/(yrms*pyrms)
-          if(zrms.ne.0.0 .and. pzrms.ne.0.0)zpzfac=1.0/(zrms*pzrms)
+          xpxfac = 0.0d0
+          ypyfac = 0.0d0
+          zpzfac = 0.0d0
+          if(xrms.ne.0.0d0 .and. pxrms.ne.0.0d0)xpxfac=1.0d0/(xrms*pxrms)
+          if(yrms.ne.0.0d0 .and. pyrms.ne.0.0d0)ypyfac=1.0d0/(yrms*pyrms)
+          if(zrms.ne.0.0d0 .and. pzrms.ne.0.0d0)zpzfac=1.0d0/(zrms*pzrms)
           gam = tmpgl(28)*den1
 !          gam = sqrt(1.0+px0**2+py0**2+pz0**2)
-          energy = qmc*(gam-1.0)
-          bet = sqrt(1.0-(1.0/gam)**2)
+          energy = qmc*(gam-1.0d0)
+          bet = sqrt(1.0d0-(1.0d0/gam)**2)
           gam2avg = tmpgl(29)*den1
           gamdel = sqrt(abs(gam2avg - gam**2))
           write(18,100)z,z0avg*xl,gam,energy,bet,sqrt(glrmax)*xl,gamdel
