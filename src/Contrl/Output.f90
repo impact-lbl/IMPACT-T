@@ -911,7 +911,7 @@
         tmplc(34) = zpylocal
         tmplc(35) = pypzlocal
         
-        call MPI_REDUCE(tmplc,tmpgl,41,MPI_DOUBLE_PRECISION,&
+        call MPI_REDUCE(tmplc,tmpgl,35,MPI_DOUBLE_PRECISION,&
                         MPI_SUM,0,MPI_COMM_WORLD,ierr)
         call MPI_REDUCE(localmax,glmax,6,MPI_DOUBLE_PRECISION,MPI_MAX,0,&
                         MPI_COMM_WORLD,ierr)
