@@ -179,7 +179,7 @@
         if(myid.eq.0) then
           !print*,"Start simulation:"
           print*,"!-----------------------------------------------------------"
-          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V2.2"
+          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V2.3.1"
           print*,"! Copyright of The Regents of the University of California"
           print*,"!-----------------------------------------------------------"
         endif
