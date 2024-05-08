@@ -930,8 +930,8 @@
           sqsum4 = tmpgl(4)*den1
           sqsum5= tmpgl(5)*den1
           sqsum6 = tmpgl(6)*den1
-          xpx = tmpgl(13)*den1 
-          ypy = tmpgl(14)*den1 
+          xpx = tmpgl(7)*den1 
+          ypy = tmpgl(8)*den1 
 
 !PP
 !JQ
