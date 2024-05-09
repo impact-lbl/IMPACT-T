@@ -1465,7 +1465,7 @@
           else
              flagpos = 1
           endif
-          if(grange(5).gt.0.0d0) then
+          if(grange(5).gt.0.0d0 .or. Nemission.le.0) then
              flagcathode = 0
           else
              flagcathode = 1
