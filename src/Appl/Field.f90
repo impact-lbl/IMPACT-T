@@ -775,8 +775,8 @@
         double complex :: gg,gg2
         double complex :: ggrr
         double precision, dimension(2) :: xx,yy,zz
-        real*16, dimension(3) :: vv
-        real*16 :: rr
+        real*8, dimension(3) :: vv
+        real*8 :: rr
 
         integer :: n,i0,j0,k0
         double precision :: recfourpi
@@ -962,8 +962,8 @@
         double complex :: gg,gg2
         double complex :: ggrr
         double precision, dimension(2) :: xx,yy,zz
-        real*16, dimension(3) :: vv
-        real*16 :: rr
+        real*8, dimension(3) :: vv
+        real*8 :: rr
 
         integer :: n,i0,j0,k0
         double precision :: recfourpi
