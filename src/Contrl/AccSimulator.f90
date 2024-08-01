@@ -1459,6 +1459,9 @@
           nptottmp = sum(Np)
           !exit if the beam is outside the beamline
           if(distance.gt.blnLength .or. distance.gt.tstop .or. nptottmp.lt.1) then
+            if(nptottmp.lt.1) then
+              print*,"Warning: total # of particles is less than 1!! ",nptottmp
+            endif
             exit
           endif
 
