@@ -858,6 +858,10 @@
         sum2 = 0.0
  
           read(12,*)nptot
+          if(nptot.ne.this%Npt) then
+            print*,"Error: Total particle # in the partcl.data file is different from that in the ImpactT.in file."
+            stop
+          endif
           avgpts = nptot/nproc
           nleft = nptot - avgpts*nproc
           if(myid.lt.nleft) then
