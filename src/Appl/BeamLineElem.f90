@@ -579,7 +579,8 @@
         elseif(associated(this%psc)) then
           call getparam_SC(this%psc,6,piperadius)
         elseif(associated(this%pbpm)) then
-          call getparam_BPM(this%pbpm,2,piperadius)
+          piperadius = 1e8
+          !call getparam_BPM(this%pbpm,2,piperadius)
         elseif(associated(this%pcf)) then
           call getparam_ConstFoc(this%pcf,5,piperadius)
         elseif(associated(this%pslrf)) then

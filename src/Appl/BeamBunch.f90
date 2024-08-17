@@ -1123,8 +1123,9 @@
 
         end subroutine kick2t_BeamBunch
 
-        !check the particles outside the computational domain for each bunch/bin
-        subroutine lost_BeamBunch(this,xrad,yrad,zleng,zcent,nplc,nptot)
+        !------------------------------------------------------------------
+        !revised by C-H. Huang
+        subroutine lostREC_BeamBunch(this,xrad,yrad,zleng,zcent,nplc,nptot)
         implicit none
         include 'mpif.h'
         type (BeamBunch), intent(inout) :: this
@@ -1154,9 +1155,9 @@
           this%Pts1(5,i) = this%Pts1(5,i0)
           this%Pts1(6,i) = this%Pts1(6,i0)
           rr = this%Pts1(1,i0)**2+this%Pts1(3,i0)**2
-          if(rr.ge.rrap) then
-            ilost = ilost + 1
-          else if(this%Pts1(1,i0).le.ptrange(1)) then
+          !if(rr.ge.rrap) then
+          !  ilost = ilost + 1
+          if(this%Pts1(1,i0).le.ptrange(1)) then
             ilost = ilost + 1
           else if(this%Pts1(1,i0).ge.ptrange(2)) then
             ilost = ilost + 1
@@ -1189,7 +1190,76 @@
         this%Current = this%Current*nptot/this%Npt
         this%Npt = nptot
  
-        end subroutine lost_BeamBunch
+        end subroutine lostREC_BeamBunch
+
+
+        !check the particles outside the computational domain for each bunch/bin
+        subroutine lostDFO_BeamBunch(this,xrad,yrad,zleng,zcent,nplc,nptot)
+        implicit none
+        include 'mpif.h'
+        type (BeamBunch), intent(inout) :: this
+        double precision, intent(in) :: xrad,yrad,zleng,zcent
+        integer, intent(out) :: nplc,nptot
+        integer :: i
+        integer :: ilost,i0,ierr
+        double precision, dimension(6) :: ptrange
+        double precision :: rr,rrap
+ 
+        ptrange(1) = -xrad/Scxlt
+        ptrange(2) = xrad/Scxlt
+        ptrange(3) = -yrad/Scxlt
+        ptrange(4) = yrad/Scxlt
+        !ptrange(5) = zcent-0.5d0*zleng/Scxlt
+        !ptrange(6) = zcent+0.5d0*zleng/Scxlt
+        ptrange(5) = 0.0
+        ptrange(6) = zleng/Scxlt
+        rrap = ptrange(1)**2 
+        ilost = 0
+        do i0 = 1, this%Nptlocal
+          i = i0 - ilost
+          this%Pts1(1,i) = this%Pts1(1,i0)
+          this%Pts1(2,i) = this%Pts1(2,i0)
+          this%Pts1(3,i) = this%Pts1(3,i0)
+          this%Pts1(4,i) = this%Pts1(4,i0)
+          this%Pts1(5,i) = this%Pts1(5,i0)
+          this%Pts1(6,i) = this%Pts1(6,i0)
+          rr = this%Pts1(1,i0)**2+this%Pts1(3,i0)**2
+          if(rr.ge.rrap) then
+            ilost = ilost + 1
+          !if(this%Pts1(1,i0).le.ptrange(1)) then
+          !  ilost = ilost + 1
+          !else if(this%Pts1(1,i0).ge.ptrange(2)) then
+          !  ilost = ilost + 1
+          !else if(this%Pts1(3,i0).le.ptrange(3)) then
+          !  ilost = ilost + 1
+          !else if(this%Pts1(3,i0).ge.ptrange(4)) then
+          !  ilost = ilost + 1
+          else if(this%Pts1(5,i0).le.ptrange(5) .and. &
+                  this%Pts1(6,i0).lt.0.0) then
+            ilost = ilost + 1
+          else if(this%Pts1(5,i0).ge.ptrange(6)) then
+            ilost = ilost + 1
+!          else if(this%Pts1(6,i0).lt.0.0) then !this does not allow particles move in negative direction
+!            ilost = ilost + 1
+          else
+          endif
+        enddo
+        do i = this%Nptlocal - ilost + 1, this%Nptlocal
+          this%Pts1(1,i) = 0.0
+          this%Pts1(2,i) = 0.0
+          this%Pts1(3,i) = 0.0
+          this%Pts1(4,i) = 0.0
+          this%Pts1(5,i) = -1.0e5
+          this%Pts1(6,i) = 0.0
+        enddo
+        this%Nptlocal = this%Nptlocal - ilost
+        nplc = this%Nptlocal
+        call MPI_ALLREDUCE(nplc,nptot,1,MPI_INTEGER,&
+                           MPI_SUM,MPI_COMM_WORLD,ierr)
+        this%Current = this%Current*nptot/this%Npt
+        this%Npt = nptot
+ 
+        end subroutine lostDFO_BeamBunch
 
 
         !check the particles outside the computational domain for each bunch/bin
@@ -1249,6 +1319,54 @@
         this%Npt = nptot
  
         end subroutine lostXY_BeamBunch
+        
+        
+        subroutine lostROUND_BeamBunch(this,xradmin,xradmax,yradmin,yradmax,nplc,nptot)
+        implicit none
+        include 'mpif.h'
+        type (BeamBunch), intent(inout) :: this
+        double precision, intent(in) :: xradmin,xradmax,yradmin,yradmax
+        integer, intent(out) :: nplc,nptot
+        integer :: i
+        integer :: ilost,i0,ierr
+        double precision, dimension(6) :: ptrange
+        double precision :: rr,rrap
+        ptrange(1) = xradmin/Scxlt
+        ptrange(2) = xradmax/Scxlt
+        ptrange(3) = yradmin/Scxlt
+        ptrange(4) = yradmax/Scxlt 
+        rrap = ptrange(1)**2 
+        ilost = 0
+        do i0 = 1, this%Nptlocal
+          i = i0 - ilost
+          this%Pts1(1,i) = this%Pts1(1,i0)
+          this%Pts1(2,i) = this%Pts1(2,i0)
+          this%Pts1(3,i) = this%Pts1(3,i0)
+          this%Pts1(4,i) = this%Pts1(4,i0)
+          this%Pts1(5,i) = this%Pts1(5,i0)
+          this%Pts1(6,i) = this%Pts1(6,i0)
+          if((this%Pts1(1,i0)**2 + this%Pts1(3,i0)**2).ge.rrap) then
+            ilost = ilost + 1  
+          else
+          endif
+        enddo
+        do i = this%Nptlocal - ilost + 1, this%Nptlocal
+          this%Pts1(1,i) = 0.0
+          this%Pts1(2,i) = 0.0
+          this%Pts1(3,i) = 0.0
+          this%Pts1(4,i) = 0.0
+          this%Pts1(5,i) = -1.0e15
+          this%Pts1(6,i) = 0.0
+        enddo
+        this%Nptlocal = this%Nptlocal - ilost
+        nplc = this%Nptlocal
+        call MPI_ALLREDUCE(nplc,nptot,1,MPI_INTEGER,&
+                           MPI_SUM,MPI_COMM_WORLD,ierr)
+        this%Current = this%Current*nptot/this%Npt
+        this%Npt = nptot
+ 
+        end subroutine lostROUND_BeamBunch
+        !------------------------------------------------------------------
 
         !//Calculate the space-charge E and B forces from point-to-point
         !//summation including relativistic effects, and update the particle

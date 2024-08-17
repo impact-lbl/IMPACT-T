@@ -644,7 +644,7 @@
         integer :: nsubstep,integerSamplePeriod
         double precision :: zcent,distance,blnLength,dzz
         integer, allocatable, dimension(:,:) :: idrfile
-        integer :: ibend,ibstart,isw,ibinit,ibendold,iifile,ii,ibinitold,idbeamln
+        integer :: ibend,ibstart,isw,ibinit,ibendold,iifile,ii,ibinitold,idbeamln,ibel
         double precision :: zmax,t,dtless,zshift,gammazavg,curr
         integer :: tmpflag,ib,ibb,ibunch,inib,nplctmp,nptmp,nptottmp
         double precision, allocatable, dimension(:) :: gammaz
@@ -656,6 +656,8 @@
         double precision :: zz,zorgin,zorgin2,vref,gamin,gam
         double precision, dimension(6) :: ptref
         integer :: idbd,idbend,flagbctmp
+        double precision :: radmin,piperadius
+        integer :: iflagdmshp
         integer :: npttmplc,npttmp
         double precision :: ztmp1,ztmp2,deltaz
         integer :: ipt,iptnew
@@ -717,8 +719,8 @@
         integer :: totnpts
         real*8 :: qchg 
 !for collimator
-        integer :: icol
-        real*8, dimension(101) :: tcol,xradmin,xradmax,yradmin,yradmax
+        integer :: icol,iflagcol
+        real*8, dimension(101) :: tcol,xradmin,xradmax,yradmin,yradmax,flagcol
 !for instant applying linear transfer matrix to the beam
         real*8, dimension(101) :: tmap
         integer :: imap
@@ -888,6 +890,7 @@
         isteer = 0
         icol = 0
         irstart = 0
+        iflagdmshp = 0
 
         !idrfile is used to store the <element type>, <external data file name>,
         !and <id> for the internal data storage of each beamline element  
@@ -1039,6 +1042,7 @@
             call getparam_BeamLineElem(Blnelem(i),4,xradmax(icol))
             call getparam_BeamLineElem(Blnelem(i),5,yradmin(icol))
             call getparam_BeamLineElem(Blnelem(i),6,yradmax(icol))
+            call getparam_BeamLineElem(Blnelem(i),7,flagcol(icol))
           endif
 
 !transfer matrix information
@@ -1464,18 +1468,35 @@
             endif
             exit
           endif
-
-          !check the particles outside the computational domain
-          do ib = 1, ibunch
-            call lost_BeamBunch(Ebunch(ib),xrad,yrad,Perdlen,zcent,&
-                                nplctmp,nptmp)
-            Nplocal(ib) = nplctmp
-            Np(ib) = nptmp
+          !**
+          !check the particles outside the computational domain   
+          !do ib = 1, ibunch
+          !  call lostREC_BeamBunch(Ebunch(ib),xrad,yrad,Perdlen,zcent,&
+          !              nplctmp,nptmp)
+          !  Nplocal(ib) = nplctmp
+          !  Np(ib) = nptmp
 !!            print*,"npt: ",ib,myid,nplctmp,nptmp
-          enddo 
+          !enddo
+
+!          if(iflagdmshp.eq.0) then
+!            do ib = 1, ibunch
+!              call lostREC_BeamBunch(Ebunch(ib),xrad,yrad,Perdlen,zcent,&
+!                                  nplctmp,nptmp)
+!              Nplocal(ib) = nplctmp
+!              Np(ib) = nptmp 
+!            enddo
+!          else if(iflagdmshp.eq.1) then
+!            do ib = 1, ibunch
+!              call lostDFO_BeamBunch(Ebunch(ib),xrad,yrad,Perdlen,zcent,&
+!                                  nplctmp,nptmp)
+!              Nplocal(ib) = nplctmp
+!              Np(ib) = nptmp 
+!            enddo
+!          endif
 
           totnpts = sum(Np)
           if(totnpts.le.0) exit
+          !**
 
           !find the beginning and end beam line elements that the effective
           !bunch particles occupy
@@ -1603,6 +1624,69 @@
           enddo 
           ibinitold = ibinit
           ibendold = ibend
+
+          !-------------------------------------------------
+          !modified by C-H. Huang
+          radmin = xrad
+          !print*, 'ibinit',ibinit
+          !print*, 'ibend',ibend
+          do ibel = ibinit,ibend
+            call getradius_BeamLineElem(Blnelem(ibel),piperadius)
+            if(piperadius.le.1e-8) then
+              piperadius = xrad
+            endif
+            if(abs(piperadius).lt.radmin) then
+              radmin = abs(piperadius)
+!              write(97,*) radmin
+            endif 
+          end do
+
+          !collimation 
+          if(distance.le.tcol(icol+1) .and. (distance+dzz).ge.tcol(icol+1)) then
+            icol = icol + 1
+            iflagcol = flagcol(icol)+0.0001
+            if (iflagcol.le.10) then
+              do ib = 1, ibunch
+                call lostXY_BeamBunch(Ebunch(ib),xradmin(icol),xradmax(icol),&
+                     yradmin(icol),yradmax(icol),nplctmp,nptmp)
+                Nplocal(ib) = nplctmp
+                Np(ib) = nptmp
+                iflagdmshp = 0
+              enddo
+            !else if (iflagcol.gt.10) then
+            else 
+              do ib = 1, ibunch
+                call lostROUND_BeamBunch(Ebunch(ib),xradmin(icol),xradmax(icol),&
+                        yradmin(icol),yradmax(icol),nplctmp,nptmp)
+                Nplocal(ib) = nplctmp
+                Np(ib) = nptmp
+                iflagdmshp = 1
+              enddo
+            !else
+            endif
+          endif
+
+          !check the particles outside the computational domain
+          if(iflagdmshp.eq.0) then
+            do ib = 1, ibunch
+              call lostREC_BeamBunch(Ebunch(ib),radmin,radmin,Perdlen,zcent,&
+                                  nplctmp,nptmp)
+              Nplocal(ib) = nplctmp
+              Np(ib) = nptmp
+              !print*, 'Nplocal', nplctmp
+              !print*, 'Np', nptmp
+            enddo
+          else if(iflagdmshp.eq.1) then
+            do ib = 1, ibunch
+              call lostDFO_BeamBunch(Ebunch(ib),radmin,radmin,Perdlen,zcent,&
+                                  nplctmp,nptmp)
+              Nplocal(ib) = nplctmp
+              Np(ib) = nptmp
+              !print*, 'Nplocal', nplctmp
+              !print*, 'Np', nptmp
+            enddo
+          endif
+          !-------------------------------------------------
 
           if(idbend.ne.1) then !not bending magnet
 
@@ -2475,17 +2559,7 @@
             enddo
           endif
 
-          !collimation
-          if(distance.le.tcol(icol+1) .and. (distance+dzz).ge.tcol(icol+1)) then
-            icol = icol + 1
-            do ib = 1, ibunch
-              call lostXY_BeamBunch(Ebunch(ib),xradmin(icol),xradmax(icol),&
-                   yradmin(icol),yradmax(icol),nplctmp,nptmp)
-              Nplocal(ib) = nplctmp
-              Np(ib) = nptmp
-            enddo
-          endif
-         
+                  
           !meager multiple bins into one bin
           !if(t.le.tmger .and. (t+dtless*Dt).ge.tmger) then
           if(distance.le.tmger .and. (distance+dzz).ge.tmger) then
