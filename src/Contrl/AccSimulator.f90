@@ -1468,16 +1468,7 @@
             endif
             exit
           endif
-          !**
-          !check the particles outside the computational domain   
-          !do ib = 1, ibunch
-          !  call lostREC_BeamBunch(Ebunch(ib),xrad,yrad,Perdlen,zcent,&
-          !              nplctmp,nptmp)
-          !  Nplocal(ib) = nplctmp
-          !  Np(ib) = nptmp
-!!            print*,"npt: ",ib,myid,nplctmp,nptmp
-          !enddo
-
+          
           if(iflagdmshp.eq.0) then
             do ib = 1, ibunch
               call lostREC_BeamBunch(Ebunch(ib),xrad,yrad,Perdlen,zcent,&
@@ -1671,17 +1662,13 @@
                                   nplctmp,nptmp)
               Nplocal(ib) = nplctmp
               Np(ib) = nptmp
-              !print*, 'Nplocal', nplctmp
-              !print*, 'Np', nptmp
             enddo
           else if(iflagdmshp.eq.1) then
             do ib = 1, ibunch
               call lostDFO_BeamBunch(Ebunch(ib),radmin,radmin,Perdlen,zcent,&
                                   nplctmp,nptmp)
               Nplocal(ib) = nplctmp
-              Np(ib) = nptmp
-              !print*, 'Nplocal', nplctmp
-              !print*, 'Np', nptmp
+              Np(ib) = nptmp 
             enddo
           endif
 
