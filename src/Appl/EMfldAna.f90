@@ -1068,7 +1068,8 @@
         double precision, dimension(6), intent(out) :: extfld
         integer :: i,itype
 
-        itype = this%Param(5)+0.000001
+        !itype = this%Param(5)+0.000001
+        itype = this%Param(10)+0.000001
 
         if(itype.eq.-1) then
           !alpha magnet
@@ -1297,6 +1298,7 @@
         integer :: faceid
         real*8 :: dd,s1,s2,s3,s4,tmpz,tmp1,bb,bbp,bbpp,dd1,dd2
         real*8, dimension(8) :: cc
+        integer :: iflag
  
         !half width of the fringe field region
         dd1 = fldata%Fcoeft(11)/2
@@ -1320,73 +1322,139 @@
 !                  Fcoef(2),Fcoef(3),Fcoef(4),Fcoef(5),Fcoef(6),zz
  
         faceid = fldata%Fcoeft(1)+0.01 !switch id of pole face
+        iflag = this%Param(7) !swith for vertical or horizontal deflector
         !The pole face is characterized by z = a x + b
         !Fcoef(2) is the gamma of the reference particle
         !Fcoef(3)-(10) are the coeficients for the geometry of bend
         extfld = 0.0d0
-        z1 = fldata%Fcoeft(3)*pos(1) + fldata%Fcoeft(4)
-        z2 = fldata%Fcoeft(5)*pos(1) + fldata%Fcoeft(6)
-        z3 = fldata%Fcoeft(7)*pos(1) + fldata%Fcoeft(8)
-        z4 = fldata%Fcoeft(9)*pos(1) + fldata%Fcoeft(10)
-        !dd = 2*this%Param(5)
-        dd = 2*this%Param(6)
-        if((zz.ge.z1).and.(zz.le.z2)) then
-          !inside fringe field region of entrance
-          k1 = fldata%Fcoeft(3)
-          !this angle may have opposite sign as the conventional used one.
-          alpha = atan(k1)
-          xx1 = (pos(1)+pos(3)*k1-fldata%Fcoeft(4)*k1)/(1.0+k1*k1)
-          zz1 = k1*xx1+fldata%Fcoeft(4)
-          !distance from point to L1
-          ss = sqrt((xx1-pos(1))**2+(zz1-pos(3))**2)
-          !tmpz = -(ss-2.5*dd)/dd !shift 2.5 is due to c0 and c1 used
-          tmpz = -(ss-dd1)/dd !shift 2.5 is due to c0 and c1 used
-          s1 = cc(1)+cc(2)*tmpz+cc(3)*tmpz**2+cc(4)*tmpz**3+cc(5)*tmpz**4+&
+        if(iflag.gt.0) then !vertical deflector
+          z1 = fldata%Fcoeft(3)*pos(2) + fldata%Fcoeft(4)
+          z2 = fldata%Fcoeft(5)*pos(2) + fldata%Fcoeft(6)
+          z3 = fldata%Fcoeft(7)*pos(2) + fldata%Fcoeft(8)
+          z4 = fldata%Fcoeft(9)*pos(2) + fldata%Fcoeft(10)
+          !dd = 2*this%Param(5)
+          dd = 2*this%Param(6)
+          if((zz.ge.z1).and.(zz.le.z2)) then
+            !inside fringe field region of entrance
+            k1 = fldata%Fcoeft(3)
+            !this angle may have opposite sign as the conventional used one.
+            alpha = atan(k1)
+            xx1 = (pos(2)+pos(3)*k1-fldata%Fcoeft(4)*k1)/(1.0+k1*k1)
+            zz1 = k1*xx1+fldata%Fcoeft(4)
+            !distance from point to L1
+            ss = sqrt((xx1-pos(2))**2+(zz1-pos(3))**2)
+            !tmpz = -(ss-2.5*dd)/dd !shift 2.5 is due to c0 and c1 used
+            tmpz = -(ss-dd1)/dd !shift 2.5 is due to c0 and c1 used
+            s1 = cc(1)+cc(2)*tmpz+cc(3)*tmpz**2+cc(4)*tmpz**3+cc(5)*tmpz**4+&
                cc(6)*tmpz**5+cc(7)*tmpz**6+cc(8)*tmpz**7
-          bb = 1./(1.0+exp(s1))
-          !first derivative of s1
-          s2 = -(cc(2)+2*cc(3)*tmpz+3*cc(4)*tmpz**2+4*cc(5)*tmpz**3+ &
+            bb = 1./(1.0+exp(s1))
+            !first derivative of s1
+            s2 = -(cc(2)+2*cc(3)*tmpz+3*cc(4)*tmpz**2+4*cc(5)*tmpz**3+ &
                  5*cc(6)*tmpz**4+6*cc(7)*tmpz**5+7*cc(8)*tmpz**6)/dd 
-          tmp1 = exp(s1)*s2
-          bbp = -tmp1/(1.0+exp(s1))**2
-          !second derivative of s1
-          s3 = (2*cc(3)+6*cc(4)*tmpz+12*cc(5)*tmpz**2+&
+            tmp1 = exp(s1)*s2
+            bbp = -tmp1/(1.0+exp(s1))**2
+            !second derivative of s1
+            s3 = (2*cc(3)+6*cc(4)*tmpz+12*cc(5)*tmpz**2+&
                 20*cc(6)*tmpz**3+30*cc(7)*tmpz**4+42*cc(8)*tmpz**5)/dd/dd 
-          s4 = exp(s1)*(s3+s2*s2)
-          bbpp = (-s4/(1.0+exp(s1))**2+2*tmp1*tmp1/(1.0+exp(s1))**3)
-
-          extfld(4) = -this%Param(3)*(bbp*pos(2))*sin(alpha)
-          extfld(5) = this%Param(3)*(bb-bbpp/2*pos(2)*pos(2))
-          extfld(6) = this%Param(3)*(bbp*pos(2))*cos(alpha)
-        else if((zz.gt.z2).and.(zz.lt.z3)) then
+            s4 = exp(s1)*(s3+s2*s2)
+            bbpp = (-s4/(1.0+exp(s1))**2+2*tmp1*tmp1/(1.0+exp(s1))**3)
+            extfld(4) = this%Param(3)*(bb-bbpp/2*pos(1)*pos(1))
+            extfld(5) = -this%Param(3)*(bbp*pos(1))*sin(alpha)
+            extfld(6) = this%Param(3)*(bbp*pos(1))*cos(alpha)
+          else if((zz.gt.z2).and.(zz.lt.z3)) then
           !inside the constant field region
-          extfld(5) = this%Param(3)
-        else if((zz.ge.z3).and.(zz.le.z4)) then
-          !inside fringe field region of exit
-          k1 = fldata%Fcoeft(7)
-          !this angle may have opposite sign as the conventional used one.
-          alpha = atan(k1)
-          xx1 = (pos(1)+pos(3)*k1-fldata%Fcoeft(8)*k1)/(1.0+k1*k1)
-          zz1 = k1*xx1+fldata%Fcoeft(8)
-          !distance from point to L3
-          ss = sqrt((xx1-pos(1))**2+(zz1-pos(3))**2)
-          !tmpz = (ss-2.5*dd)/dd !shift 2.5 is due to c0 and c1
-          tmpz = (ss-dd2)/dd !shift 2.5 is due to c0 and c1
-          s1 = cc(1)+cc(2)*tmpz+cc(3)*tmpz**2+cc(4)*tmpz**3+cc(5)*tmpz**4+&
+            extfld(4) = this%Param(3)
+          else if((zz.ge.z3).and.(zz.le.z4)) then
+            !inside fringe field region of exit
+            k1 = fldata%Fcoeft(7)
+            !this angle may have opposite sign as the conventional used one.
+            alpha = atan(k1)
+            xx1 = (pos(2)+pos(3)*k1-fldata%Fcoeft(8)*k1)/(1.0+k1*k1)
+            zz1 = k1*xx1+fldata%Fcoeft(8)
+            !distance from point to L3
+            ss = sqrt((xx1-pos(2))**2+(zz1-pos(3))**2)
+            !tmpz = (ss-2.5*dd)/dd !shift 2.5 is due to c0 and c1
+            tmpz = (ss-dd2)/dd !shift 2.5 is due to c0 and c1
+            s1 = cc(1)+cc(2)*tmpz+cc(3)*tmpz**2+cc(4)*tmpz**3+cc(5)*tmpz**4+&
                cc(6)*tmpz**5+cc(7)*tmpz**6+cc(8)*tmpz**7
-          bb = 1.0d0/(1.0+exp(s1))
-          s2 = (cc(2)+2*cc(3)*tmpz+3*cc(4)*tmpz**2+4*cc(5)*tmpz**3+ &
+            bb = 1.0d0/(1.0+exp(s1))
+            s2 = (cc(2)+2*cc(3)*tmpz+3*cc(4)*tmpz**2+4*cc(5)*tmpz**3+ &
                  5*cc(6)*tmpz**4+6*cc(7)*tmpz**5+7*cc(8)*tmpz**6)/dd 
-          tmp1 = exp(s1)*s2
-          bbp = -tmp1/(1.0+exp(s1))**2
-          s3 = (2*cc(3)+6*cc(4)*tmpz+12*cc(5)*tmpz**2+&
+            tmp1 = exp(s1)*s2
+            bbp = -tmp1/(1.0+exp(s1))**2
+            s3 = (2*cc(3)+6*cc(4)*tmpz+12*cc(5)*tmpz**2+&
                 20*cc(6)*tmpz**3+30*cc(7)*tmpz**4+42*cc(8)*tmpz**5)/dd/dd 
-          s4 = exp(s1)*(s3 + s2*s2)
-          bbpp = (-s4/(1.0+exp(s1))**2+2*tmp1*tmp1/(1.0+exp(s1))**3)
+            s4 = exp(s1)*(s3 + s2*s2)
+            bbpp = (-s4/(1.0+exp(s1))**2+2*tmp1*tmp1/(1.0+exp(s1))**3)
  
-          extfld(4) = -this%Param(3)*(bbp*pos(2))*sin(alpha)
-          extfld(5) = this%Param(3)*(bb-bbpp/2*pos(2)*pos(2))
-          extfld(6) = this%Param(3)*(bbp*pos(2))*cos(alpha)
+            extfld(4) = this%Param(3)*(bb-bbpp/2*pos(1)*pos(1))
+            extfld(5) = -this%Param(3)*(bbp*pos(1))*sin(alpha)
+            extfld(6) = this%Param(3)*(bbp*pos(1))*cos(alpha)
+          endif
+        else !horizontal deflector
+          z1 = fldata%Fcoeft(3)*pos(1) + fldata%Fcoeft(4)
+          z2 = fldata%Fcoeft(5)*pos(1) + fldata%Fcoeft(6)
+          z3 = fldata%Fcoeft(7)*pos(1) + fldata%Fcoeft(8)
+          z4 = fldata%Fcoeft(9)*pos(1) + fldata%Fcoeft(10)
+          !dd = 2*this%Param(5)
+          dd = 2*this%Param(6)
+          if((zz.ge.z1).and.(zz.le.z2)) then
+            !inside fringe field region of entrance
+            k1 = fldata%Fcoeft(3)
+            !this angle may have opposite sign as the conventional used one.
+            alpha = atan(k1)
+            xx1 = (pos(1)+pos(3)*k1-fldata%Fcoeft(4)*k1)/(1.0+k1*k1)
+            zz1 = k1*xx1+fldata%Fcoeft(4)
+            !distance from point to L1
+            ss = sqrt((xx1-pos(1))**2+(zz1-pos(3))**2)
+            !tmpz = -(ss-2.5*dd)/dd !shift 2.5 is due to c0 and c1 used
+            tmpz = -(ss-dd1)/dd !shift 2.5 is due to c0 and c1 used
+            s1 = cc(1)+cc(2)*tmpz+cc(3)*tmpz**2+cc(4)*tmpz**3+cc(5)*tmpz**4+&
+               cc(6)*tmpz**5+cc(7)*tmpz**6+cc(8)*tmpz**7
+            bb = 1./(1.0+exp(s1))
+            !first derivative of s1
+            s2 = -(cc(2)+2*cc(3)*tmpz+3*cc(4)*tmpz**2+4*cc(5)*tmpz**3+ &
+                 5*cc(6)*tmpz**4+6*cc(7)*tmpz**5+7*cc(8)*tmpz**6)/dd 
+            tmp1 = exp(s1)*s2
+            bbp = -tmp1/(1.0+exp(s1))**2
+            !second derivative of s1
+            s3 = (2*cc(3)+6*cc(4)*tmpz+12*cc(5)*tmpz**2+&
+                20*cc(6)*tmpz**3+30*cc(7)*tmpz**4+42*cc(8)*tmpz**5)/dd/dd 
+            s4 = exp(s1)*(s3+s2*s2)
+            bbpp = (-s4/(1.0+exp(s1))**2+2*tmp1*tmp1/(1.0+exp(s1))**3)
+            extfld(4) = -this%Param(3)*(bbp*pos(2))*sin(alpha)
+            extfld(5) = this%Param(3)*(bb-bbpp/2*pos(2)*pos(2))
+            extfld(6) = this%Param(3)*(bbp*pos(2))*cos(alpha)
+          else if((zz.gt.z2).and.(zz.lt.z3)) then
+          !inside the constant field region
+            extfld(5) = this%Param(3)
+          else if((zz.ge.z3).and.(zz.le.z4)) then
+            !inside fringe field region of exit
+            k1 = fldata%Fcoeft(7)
+            !this angle may have opposite sign as the conventional used one.
+            alpha = atan(k1)
+            xx1 = (pos(1)+pos(3)*k1-fldata%Fcoeft(8)*k1)/(1.0+k1*k1)
+            zz1 = k1*xx1+fldata%Fcoeft(8)
+            !distance from point to L3
+            ss = sqrt((xx1-pos(1))**2+(zz1-pos(3))**2)
+            !tmpz = (ss-2.5*dd)/dd !shift 2.5 is due to c0 and c1
+            tmpz = (ss-dd2)/dd !shift 2.5 is due to c0 and c1
+            s1 = cc(1)+cc(2)*tmpz+cc(3)*tmpz**2+cc(4)*tmpz**3+cc(5)*tmpz**4+&
+               cc(6)*tmpz**5+cc(7)*tmpz**6+cc(8)*tmpz**7
+            bb = 1.0d0/(1.0+exp(s1))
+            s2 = (cc(2)+2*cc(3)*tmpz+3*cc(4)*tmpz**2+4*cc(5)*tmpz**3+ &
+                 5*cc(6)*tmpz**4+6*cc(7)*tmpz**5+7*cc(8)*tmpz**6)/dd 
+            tmp1 = exp(s1)*s2
+            bbp = -tmp1/(1.0+exp(s1))**2
+            s3 = (2*cc(3)+6*cc(4)*tmpz+12*cc(5)*tmpz**2+&
+                20*cc(6)*tmpz**3+30*cc(7)*tmpz**4+42*cc(8)*tmpz**5)/dd/dd 
+            s4 = exp(s1)*(s3 + s2*s2)
+            bbpp = (-s4/(1.0+exp(s1))**2+2*tmp1*tmp1/(1.0+exp(s1))**3)
+ 
+            extfld(4) = -this%Param(3)*(bbp*pos(2))*sin(alpha)
+            extfld(5) = this%Param(3)*(bb-bbpp/2*pos(2)*pos(2))
+            extfld(6) = this%Param(3)*(bbp*pos(2))*cos(alpha)
+          endif
         endif
  
         end subroutine getfldtdipole_EMfldAna
