@@ -1079,7 +1079,7 @@
         elseif(associated(this%pemfldana)) then
           call getfldt_EMfldAna(pos,extfld,this%pemfldana,fldata)
         elseif(associated(this%pemfldcart)) then
-          call getfldt_EMfldCart(pos,extfld,this%pemfldcart,fldata)
+          call getflderrt_EMfldCart(pos,extfld,this%pemfldcart,fldata)
         elseif(associated(this%pemfldcyl)) then
           call getfldt_EMfldCyl(pos,extfld,this%pemfldcyl,fldata)
         elseif(associated(this%pmult)) then

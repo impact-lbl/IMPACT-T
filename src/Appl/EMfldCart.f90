@@ -1156,4 +1156,154 @@
 !        call flush_(9)
 
         end subroutine getfldt_EMfldCart
+
+        !> get the discrete Ex,Ey,Ez, Bx, By, Bz at given x, y, z, t with errors. 
+        !--------------------------------------------------------------------------------------
+        subroutine  getflderrt_EMfldCart(pos,extfld,this,fldata)
+        implicit none
+        include 'mpif.h'
+        double precision, dimension(4), intent(in) :: pos
+        type (EMfldCart), intent(in) :: this
+        type (fielddata), intent(in) :: fldata
+        double precision, dimension(6), intent(out) :: extfld
+        double precision :: hx,hy,hz,zz,ab,cd,ef
+        integer :: ix,jx,kx,ix1,jx1,kx1
+        double precision :: escale,ww,theta0,tt,tmpcos,tmpsin,z
+        double complex :: tmptime
+        real*8, dimension(3) :: poss,tmp,temp
+        real*8 :: dx,dy,anglex,angley,anglez,zedge
+
+        zedge = this%Param(1)
+        dx = this%Param(7)
+        dy = this%Param(8)
+        anglex = this%Param(9)
+        angley = this%Param(10)
+        anglez = this%Param(11)
+        z = pos(3)
+        temp(1) = pos(1) - dx
+        temp(2) = pos(2) - dy
+        tmp(1) = temp(1)*cos(anglez) + temp(2)*sin(anglez)
+        tmp(2) = -temp(1)*sin(anglez) + temp(2)*cos(anglez)
+        tmp(3) = pos(3) - zedge
+        temp(1) = tmp(1)*cos(angley)+tmp(3)*sin(angley)
+        temp(2) = tmp(2)
+        temp(3) = -tmp(1)*sin(angley)+tmp(3)*cos(angley)
+        tmp(1) = temp(1)
+        tmp(2) = temp(2)*cos(anglex)+temp(3)*sin(anglex)
+        tmp(3) = -temp(2)*sin(anglex)+temp(3)*cos(anglex)
+        poss(1:3) = tmp(1:3)
+        !z = tmp(3)
+
+        if((z.gt.this%Param(1)).and.(z.lt.(this%Param(1)+this%Length))) then 
+          escale = this%Param(2)
+          ww = this%Param(3)*4*asin(1.0)
+          theta0 = this%Param(4)*asin(1.0)/90
+          tt = pos(4)
+!          tmpcos = cos(ww*tt+theta0)*escale
+          !tmpsin = sin(ww*tt+theta0)*escale
+!          tmpsin = -sin(ww*tt+theta0)*escale
+          tmptime = dcmplx(cos(ww*tt+theta0),sin(ww*tt+theta0))*escale
+          hx = (fldata%XmaxRfgt-fldata%XminRfgt)/fldata%NxIntvRfgt
+          ix = (poss(1)-fldata%XminRfgt)/hx + 1
+          ab = ((fldata%XminRfgt-poss(1))+ix*hx)/hx
+          hy = (fldata%YmaxRfgt-fldata%YminRfgt)/fldata%NyIntvRfgt
+          jx = (poss(2)-fldata%YminRfgt)/hy + 1
+          cd = ((fldata%YminRfgt-poss(2))+jx*hy)/hy
+          hz = (fldata%ZmaxRfgt-fldata%ZminRfgt)/fldata%NzIntvRfgt
+          zz = poss(3)-this%Param(1)+fldata%ZminRfgt
+          kx = (zz-fldata%ZminRfgt)/hz + 1
+          ef = ((fldata%ZminRfgt-zz)+kx*hz)/hz
+          ix1 = ix + 1
+          jx1 = jx + 1
+          kx1 = kx + 1
+
+!          print*,"EMCART, ix,jx,kx: ",ix,jx,kx
+
+          extfld(1) = dreal((fldata%Exgridt(ix,jx,kx)*ab*cd*ef  &
+                  +fldata%Exgridt(ix,jx1,kx)*ab*(1.d0-cd)*ef &
+                  +fldata%Exgridt(ix,jx1,kx1)*ab*(1.d0-cd)*(1.d0-ef) &
+                  +fldata%Exgridt(ix,jx,kx1)*ab*cd*(1.d0-ef) &
+                  +fldata%Exgridt(ix1,jx,kx1)*(1.d0-ab)*cd*(1.d0-ef) &
+                  +fldata%Exgridt(ix1,jx1,kx1)*(1.d0-ab)*(1.d0-cd)*(1.d0-ef)&
+                  +fldata%Exgridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
+                  +fldata%Exgridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
+ 
+          extfld(2) = dreal((fldata%Eygridt(ix,jx,kx)*ab*cd*ef  &
+                  +fldata%Eygridt(ix,jx1,kx)*ab*(1.d0-cd)*ef &
+                  +fldata%Eygridt(ix,jx1,kx1)*ab*(1.d0-cd)*(1.d0-ef) &
+                  +fldata%Eygridt(ix,jx,kx1)*ab*cd*(1.d0-ef) &
+                  +fldata%Eygridt(ix1,jx,kx1)*(1.d0-ab)*cd*(1.d0-ef) &
+                  +fldata%Eygridt(ix1,jx1,kx1)*(1.d0-ab)*(1.d0-cd)*(1.d0-ef)&
+                  +fldata%Eygridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
+                  +fldata%Eygridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
+ 
+          extfld(3) = dreal((fldata%Ezgridt(ix,jx,kx)*ab*cd*ef  &
+                  +fldata%Ezgridt(ix,jx1,kx)*ab*(1.d0-cd)*ef &
+                  +fldata%Ezgridt(ix,jx1,kx1)*ab*(1.d0-cd)*(1.d0-ef) &
+                  +fldata%Ezgridt(ix,jx,kx1)*ab*cd*(1.d0-ef) &
+                  +fldata%Ezgridt(ix1,jx,kx1)*(1.d0-ab)*cd*(1.d0-ef) &
+                  +fldata%Ezgridt(ix1,jx1,kx1)*(1.d0-ab)*(1.d0-cd)*(1.d0-ef)&
+                  +fldata%Ezgridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
+                  +fldata%Ezgridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
+
+          extfld(4) = dreal((fldata%Bxgridt(ix,jx,kx)*ab*cd*ef  &
+                  +fldata%Bxgridt(ix,jx1,kx)*ab*(1.d0-cd)*ef &
+                  +fldata%Bxgridt(ix,jx1,kx1)*ab*(1.d0-cd)*(1.d0-ef) &
+                  +fldata%Bxgridt(ix,jx,kx1)*ab*cd*(1.d0-ef) &
+                  +fldata%Bxgridt(ix1,jx,kx1)*(1.d0-ab)*cd*(1.d0-ef) &
+                  +fldata%Bxgridt(ix1,jx1,kx1)*(1.d0-ab)*(1.d0-cd)*(1.d0-ef)&
+                  +fldata%Bxgridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
+                  +fldata%Bxgridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
+ 
+          extfld(5) = dreal((fldata%Bygridt(ix,jx,kx)*ab*cd*ef  &
+                  +fldata%Bygridt(ix,jx1,kx)*ab*(1.d0-cd)*ef &
+                  +fldata%Bygridt(ix,jx1,kx1)*ab*(1.d0-cd)*(1.d0-ef) &
+                  +fldata%Bygridt(ix,jx,kx1)*ab*cd*(1.d0-ef) &
+                  +fldata%Bygridt(ix1,jx,kx1)*(1.d0-ab)*cd*(1.d0-ef) &
+                  +fldata%Bygridt(ix1,jx1,kx1)*(1.d0-ab)*(1.d0-cd)*(1.d0-ef)&
+                  +fldata%Bygridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
+                  +fldata%Bygridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
+ 
+          extfld(6) = dreal((fldata%Bzgridt(ix,jx,kx)*ab*cd*ef  &
+                  +fldata%Bzgridt(ix,jx1,kx)*ab*(1.d0-cd)*ef &
+                  +fldata%Bzgridt(ix,jx1,kx1)*ab*(1.d0-cd)*(1.d0-ef) &
+                  +fldata%Bzgridt(ix,jx,kx1)*ab*cd*(1.d0-ef) &
+                  +fldata%Bzgridt(ix1,jx,kx1)*(1.d0-ab)*cd*(1.d0-ef) &
+                  +fldata%Bzgridt(ix1,jx1,kx1)*(1.d0-ab)*(1.d0-cd)*(1.d0-ef)&
+                  +fldata%Bzgridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
+                  +fldata%Bzgridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
+
+                  !transform
+          !for E field
+          tmp(1) = extfld(1)
+          tmp(2) = extfld(2)*cos(anglex)-extfld(3)*sin(anglex)
+          tmp(3) = extfld(2)*sin(anglex)+extfld(3)*cos(anglex)
+          temp(1) = tmp(1)*cos(angley)-tmp(3)*sin(angley)
+          temp(2) = tmp(2)
+          temp(3) = tmp(1)*sin(angley)+tmp(3)*cos(angley)
+          extfld(1) = temp(1)*cos(anglez) - temp(2)*sin(anglez)
+          extfld(2) = temp(1)*sin(anglez) + temp(2)*cos(anglez)
+          extfld(3) = temp(3)
+
+          !for B field
+          tmp(1) = extfld(4)
+          tmp(2) = extfld(5)*cos(anglex)-extfld(6)*sin(anglex)
+          tmp(3) = extfld(5)*sin(anglex)+extfld(6)*cos(anglex)
+          temp(1) = tmp(1)*cos(angley)-tmp(3)*sin(angley)
+          temp(2) = tmp(2)
+          temp(3) = tmp(1)*sin(angley)+tmp(3)*cos(angley)
+          extfld(4) = temp(1)*cos(anglez) - temp(2)*sin(anglez)
+          extfld(5) = temp(1)*sin(anglez) + temp(2)*cos(anglez)
+          extfld(6) = temp(3)
+
+        else
+          extfld = 0.0
+        endif
+!        write(9,100)pos(1),pos(2),pos(3),ix*1.0,jx*1.0,kx*1.0,&
+!                    extfld(1:6),fldata%Exgridt(ix,jx,kx),fldata%Eygridt(ix,jx,kx),&
+!                    fldata%Ezgridt(ix,jx,kx)
+!100     format(15(1x,e14.6))
+!        call flush_(9)
+
+        end subroutine getflderrt_EMfldCart
       end module EMfldCartclass
