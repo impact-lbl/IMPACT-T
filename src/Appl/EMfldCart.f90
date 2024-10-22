@@ -1192,7 +1192,8 @@
         tmp(2) = temp(2)*cos(anglex)+temp(3)*sin(anglex)
         tmp(3) = -temp(2)*sin(anglex)+temp(3)*cos(anglex)
         poss(1:3) = tmp(1:3)
-        !z = tmp(3)
+        poss(3) = poss(3) + zedge
+        z = poss(3)
 
         if((z.gt.this%Param(1)).and.(z.lt.(this%Param(1)+this%Length))) then 
           escale = this%Param(2)
@@ -1273,7 +1274,7 @@
                   +fldata%Bzgridt(ix1,jx1,kx)*(1.d0-ab)*(1.d0-cd)*ef &
                   +fldata%Bzgridt(ix1,jx,kx)*(1.d0-ab)*cd*ef)*tmptime)
 
-                  !transform
+          !transform
           !for E field
           tmp(1) = extfld(1)
           tmp(2) = extfld(2)*cos(anglex)-extfld(3)*sin(anglex)
