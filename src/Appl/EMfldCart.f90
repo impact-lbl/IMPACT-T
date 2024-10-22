@@ -1084,7 +1084,8 @@
           jx = (pos(2)-fldata%YminRfgt)/hy + 1
           cd = ((fldata%YminRfgt-pos(2))+jx*hy)/hy
           hz = (fldata%ZmaxRfgt-fldata%ZminRfgt)/fldata%NzIntvRfgt
-          zz = pos(3)-this%Param(1)+fldata%ZminRfgt
+          !zz = pos(3)-this%Param(1)+fldata%ZminRfgt
+          zz = pos(3)-this%Param(1)
           kx = (zz-fldata%ZminRfgt)/hz + 1
           ef = ((fldata%ZminRfgt-zz)+kx*hz)/hz
           ix1 = ix + 1
@@ -1211,7 +1212,8 @@
           jx = (poss(2)-fldata%YminRfgt)/hy + 1
           cd = ((fldata%YminRfgt-poss(2))+jx*hy)/hy
           hz = (fldata%ZmaxRfgt-fldata%ZminRfgt)/fldata%NzIntvRfgt
-          zz = poss(3)-this%Param(1)+fldata%ZminRfgt
+          !zz = poss(3)-this%Param(1)+fldata%ZminRfgt
+          zz = poss(3)-this%Param(1)
           kx = (zz-fldata%ZminRfgt)/hz + 1
           ef = ((fldata%ZminRfgt-zz)+kx*hz)/hz
           ix1 = ix + 1
