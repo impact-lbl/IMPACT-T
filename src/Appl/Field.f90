@@ -1572,14 +1572,15 @@
        !> readin longitudinal and transverse wake functions
        !--------------------------------------------------------------------------------------
        subroutine wakereadin_FieldQuant(Nz,xwakez,ywakez,recvdensz,exwake,eywake,ezwake,&
-                          hz,leng,ndatawk,wklong,wktran)
+                          hz,leng,ndatawk,wklong,wktranx,wktrany)
        implicit none
        include 'mpif.h'
        integer, intent(in) :: Nz,ndatawk
        double precision, intent(in) :: hz, leng
        double precision, dimension(Nz,2), intent(in) :: recvdensz
        double precision, dimension(Nz), intent(in) :: xwakez,ywakez
-       double precision, dimension(ndatawk), intent(in) :: wklong,wktran
+       double precision, dimension(ndatawk), intent(in) :: wklong,wktranx,&
+                                                           wktrany
        double precision, dimension(Nz), intent(out) :: exwake,ezwake,eywake
        double precision, dimension(2*Nz,1) :: densz2n,densz2nout,&
                          greenwake,greenwakeout
@@ -1666,7 +1667,7 @@
        scale = 1.
        call fftrclocal2_FFT(ksign,scale,densz2n,twonz,one,densz2nout)
  
-       !tranverse wakefield
+       !tranverse wakefield x
        do kz = 1, Nz+1
          zz = (kz-1)*hz*Scxlt
          iz = zz/hzwake + 1
@@ -1676,7 +1677,7 @@
            iz1 = ndatawk
          endif
          zziz = (iz-1)*hzwake
-         greenwake(kz,1) = wktran(iz)+(wktran(iz1)-wktran(iz))*(zz-zziz)/hzwake
+         greenwake(kz,1) = wktranx(iz)+(wktranx(iz1)-wktranx(iz))*(zz-zziz)/hzwake
        enddo
        do kz = Nz+2, 2*Nz
          greenwake(kz,1) = greenwake(twonz-kz+2,1)
@@ -1721,6 +1722,32 @@
        ksign = 1
        scale = 1.
        call fftrclocal2_FFT(ksign,scale,densz2n,twonz,one,densz2nout)
+
+
+       !tranverse wakefield y
+       do kz = 1, Nz+1
+         zz = (kz-1)*hz*Scxlt
+         iz = zz/hzwake + 1
+         iz1 = iz + 1
+         if(iz1.gt.ndatawk) then
+           iz = ndatawk - 1
+           iz1 = ndatawk
+         endif
+         zziz = (iz-1)*hzwake
+         greenwake(kz,1) = wktrany(iz)+(wktrany(iz1)-wktrany(iz))*(zz-zziz)/hzwake
+       enddo
+       do kz = Nz+2, 2*Nz
+         greenwake(kz,1) = greenwake(twonz-kz+2,1)
+       enddo
+       do kz = 1, Nz
+         greenwake(kz,1) = 0.0
+       enddo
+
+       ksign = 1
+       scale = 1.
+       call fftrclocal2_FFT(ksign,scale,greenwake,twonz,one,&
+                greenwakeout)
+
  
        do kz = 1, 2
           greenwake(kz,1) = densz2nout(kz,1)*greenwakeout(kz,1)

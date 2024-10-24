@@ -704,8 +704,8 @@
         integer :: ldsg,nlsg,nrsg,npsg,msg,ncoefreal,iz
         !//for readin wake function
         integer :: ndatawk,ndatawkmax,itmp
-        real*8, allocatable, dimension(:,:) :: wklong2d,wktran2d
-        real*8, allocatable, dimension(:) :: wklong,wktran
+        real*8, allocatable, dimension(:,:) :: wklong2d,wktran2dx,wktran2dy
+        real*8, allocatable, dimension(:) :: wklong,wktranx,wktrany
         integer :: flagstep,flagspc,itspc
         double precision, dimension(101) :: tspcstart,vspc
         real*8, dimension(3) :: tmpfld
@@ -838,13 +838,17 @@
         allocate(eywake(Nz))
         allocate(ezwake(Nz))
         allocate(wklong2d(ndatawkmax,100)) 
-        allocate(wktran2d(ndatawkmax,100)) 
-        allocate(wktran(ndatawkmax)) 
+        allocate(wktran2dx(ndatawkmax,100)) 
+        allocate(wktran2dy(ndatawkmax,100)) 
+        allocate(wktranx(ndatawkmax)) 
+        allocate(wktrany(ndatawkmax)) 
         allocate(wklong(ndatawkmax)) 
         wklong2d = 0.0
         wklong = 0.0
-        wktran2d = 0.0
-        wktran = 0.0
+        wktran2dx = 0.0
+        wktran2dy = 0.0
+        wktranx = 0.0
+        wktrany = 0.0
         exwake = 0.0
         eywake = 0.0
         ezwake = 0.0
@@ -980,7 +984,8 @@
               !count the number of data points in wake function
               aawk(nwk) = 0.0
               do itmp = 1, ndatawkmax
-                read(bmpstp,*,end=111)wklong2d(itmp,nwk),wktran2d(itmp,nwk)
+                read(bmpstp,*,end=111)wklong2d(itmp,nwk),wktran2dx(itmp,nwk),&
+                                      wktran2dy(itmp,nwk)
                 aawk(nwk) = aawk(nwk) + 1
               enddo
 111           continue
@@ -1340,7 +1345,8 @@
               if(ggwk1.le.0.0) then 
                 ndatawk = aawk(iwk) + 0.1
                 wklong(:) = wklong2d(:,iwk)
-                wktran(:) = wktran2d(:,iwk)
+                wktranx(:) = wktran2dx(:,iwk)
+                wktrany(:) = wktran2dy(:,iwk)
               endif
               exit
             else
@@ -1975,7 +1981,7 @@
                      hzwake,aawk1,ggwk1,lengwk1,flagbtw)
                 else
                   call wakereadin_FieldQuant(Nz,xwakez,ywakez,recvdensz,exwake,eywake,ezwake,&
-                     hzwake,lengwk1,ndatawk,wklong,wktran)
+                     hzwake,lengwk1,ndatawk,wklong,wktranx,wktrany)
                 endif
 
               endif
@@ -2666,8 +2672,10 @@
         deallocate(ywakelc)
         deallocate(ywakez)
         deallocate(wklong2d)
-        deallocate(wktran2d)
-        deallocate(wktran)
+        deallocate(wktran2dx)
+        deallocate(wktran2dy)
+        deallocate(wktranx)
+        deallocate(wktrany)
         deallocate(wklong)
 
 !!! DWA
