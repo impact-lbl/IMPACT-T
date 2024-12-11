@@ -1926,39 +1926,45 @@
                   ywakelc(iizz1) = ywakelc(iizz1) + Ebunch(ib)%Pts1(3,ipt)*(1.-eeff)
                 enddo
                 call MPI_ALLREDUCE(denszlc,densz,Nz,MPI_DOUBLE_PRECISION,&
-                                   MPI_SUM,commcol,ierr) 
+                                   MPI_SUM,comm2d,ierr) 
                 call MPI_ALLREDUCE(xwakelc,xwakez,Nz,MPI_DOUBLE_PRECISION,&
-                                   MPI_SUM,commcol,ierr) 
+                                   MPI_SUM,comm2d,ierr) 
                 call MPI_ALLREDUCE(ywakelc,ywakez,Nz,MPI_DOUBLE_PRECISION,&
-                                   MPI_SUM,commcol,ierr) 
+                                   MPI_SUM,comm2d,ierr) 
+!                call MPI_ALLREDUCE(xwakelc,xwakez,Nz,MPI_DOUBLE_PRECISION,&
+!                                   MPI_SUM,commcol,ierr) 
+!                call MPI_ALLREDUCE(ywakelc,ywakez,Nz,MPI_DOUBLE_PRECISION,&
+!                                   MPI_SUM,commcol,ierr) 
+!                call MPI_ALLREDUCE(denszlc,densz,Nz,MPI_DOUBLE_PRECISION,&
+!                                   MPI_SUM,commcol,ierr) 
 
-                do kz = 1, Nz
-                  sendensz(kz,1) = xwakez(kz)
-                enddo
-                do kz = 1, Nz
-                  sendensz(kz,2) = ywakez(kz)
-                enddo
-
-                Nz2 = 2*Nz
-                call MPI_ALLREDUCE(sendensz,recvdensz,Nz2,MPI_DOUBLE_PRECISION,&
-                                   MPI_SUM,commrow,ierr) 
- 
-                do kz = 1, Nz
-                  xwakez(kz) = recvdensz(kz,1)
-                enddo
-                do kz = 1, Nz
-                  ywakez(kz) = recvdensz(kz,2)
-                enddo
-
-                do kz = 1, Nz
-                  sendensz(kz,1) = densz(kz)
-                enddo
-                call MPI_ALLREDUCE(sendensz,recvdensz,Nz,MPI_DOUBLE_PRECISION,&
-                                   MPI_SUM,commrow,ierr) 
-
-                do kz = 1, Nz
-                  densz(kz) = recvdensz(kz,1)
-                enddo
+!                do kz = 1, Nz
+!                  sendensz(kz,1) = xwakez(kz)
+!                enddo
+!                do kz = 1, Nz
+!                  sendensz(kz,2) = ywakez(kz)
+!                enddo
+!
+!                Nz2 = 2*Nz
+!                call MPI_ALLREDUCE(sendensz,recvdensz,Nz2,MPI_DOUBLE_PRECISION,&
+!                                   MPI_SUM,commrow,ierr) 
+! 
+!                do kz = 1, Nz
+!                  xwakez(kz) = recvdensz(kz,1)
+!                enddo
+!                do kz = 1, Nz
+!                  ywakez(kz) = recvdensz(kz,2)
+!                enddo
+!
+!                do kz = 1, Nz
+!                  sendensz(kz,1) = densz(kz)
+!                enddo
+!                call MPI_ALLREDUCE(sendensz,recvdensz,Nz,MPI_DOUBLE_PRECISION,&
+!                                   MPI_SUM,commrow,ierr) 
+!
+!                do kz = 1, Nz
+!                  densz(kz) = recvdensz(kz,1)
+!                enddo
 
                 !get the line charge density along z
                 do kz = 1, Nz
@@ -2607,16 +2613,16 @@
 ! final output.
         call MPI_BARRIER(comm2d,ierr)
         !drift back half time step
-        do ib = 1, Nbunch   
-          call drifthalf_BeamBunch(Ebunch(ib),t,-dtless,betazini)
-          do ipt = 1, Nplocal(ib)
-            deltaz = blnLength/Scxlt - Ebunch(ib)%Pts1(5,ipt)
-            Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt)+&
-                     Ebunch(ib)%Pts1(2,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
-            Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt)+&
-                     Ebunch(ib)%Pts1(4,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
-          enddo
-        enddo   
+!        do ib = 1, Nbunch   
+!          call drifthalf_BeamBunch(Ebunch(ib),t,-dtless,betazini)
+!          do ipt = 1, Nplocal(ib)
+!            deltaz = blnLength/Scxlt - Ebunch(ib)%Pts1(5,ipt)
+!            Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt)+&
+!                     Ebunch(ib)%Pts1(2,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
+!            Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt)+&
+!                     Ebunch(ib)%Pts1(4,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
+!          enddo
+!        enddo   
         !output six 2-D phase projections.
         !call phase2dold_Output(30,Ebunch,Np)
         !output all particles in 6d phase space at given location blnLength.
