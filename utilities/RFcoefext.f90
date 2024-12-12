@@ -4,7 +4,7 @@
 ! Author: Ji Qiang
 ! Description: find the Fourier coefficients of RF data on axis.
 ! The input data has been extended to make a symmetric data for Fourier expansion
-! Input: rfdata.in: Ez vs. z
+! Input: rfdata.in: Ez vs. z (m)
 ! Output: rfdata.out: reconstruct the field from the Fourier coefficients.
 !         rfdatax: is the one to be used for the IMPACT-T
 !         simulation.
@@ -14,6 +14,7 @@
       double precision, dimension(Ndata) :: zdata,edata
       double precision, dimension(Ncoef) :: Fcoef,Fcoef2
 
+      print*,"Note: in rfdata.in file, z must be in unit of meter!!!!"
       open(3,file="rfdata.in",status="old")
       n = 0
 10    continue
