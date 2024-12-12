@@ -27,6 +27,8 @@ taken from
 
 https://github.com/ChristopherMayes/openPMD-beamphysics
 
+Lucas Malin @ ASU
+
 """
 
 import numpy as np
