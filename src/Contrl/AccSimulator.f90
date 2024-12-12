@@ -2447,16 +2447,16 @@
 ! final output.
         call MPI_BARRIER(comm2d,ierr)
         !drift back half time step
-        do ib = 1, Nbunch   
-          call drifthalf_BeamBunch(Ebunch(ib),t,-dtless,betazini)
-          do ipt = 1, Nplocal(ib)
-            deltaz = blnLength/Scxlt - Ebunch(ib)%Pts1(5,ipt)
-            Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt)+&
-                     Ebunch(ib)%Pts1(2,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
-            Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt)+&
-                     Ebunch(ib)%Pts1(4,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
-          enddo
-        enddo   
+!        do ib = 1, Nbunch   
+!          call drifthalf_BeamBunch(Ebunch(ib),t,-dtless,betazini)
+!          do ipt = 1, Nplocal(ib)
+!            deltaz = blnLength/Scxlt - Ebunch(ib)%Pts1(5,ipt)
+!            Ebunch(ib)%Pts1(1,ipt) = Ebunch(ib)%Pts1(1,ipt)+&
+!                     Ebunch(ib)%Pts1(2,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
+!            Ebunch(ib)%Pts1(3,ipt) = Ebunch(ib)%Pts1(3,ipt)+&
+!                     Ebunch(ib)%Pts1(4,ipt)/Ebunch(ib)%Pts1(6,ipt)*deltaz
+!          enddo
+!        enddo   
         !output six 2-D phase projections.
         !call phase2dold_Output(30,Ebunch,Np)
         !output all particles in 6d phase space at given location blnLength.
