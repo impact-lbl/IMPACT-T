@@ -136,11 +136,14 @@
 
         zedge = this%Param(1)
         !if(this%Param(3).gt.1.0e-5) then
-        if(this%Param(3).gt.0.0) then
+        if(this%Param(3).gt.0.0d0 .and. this%Param(3).lt.100.0d0) then
           zz = pos(3)-zedge
           !call getfldfrg_Quadrupole(zz,this,bgrad)
           !call getfldfrgAna_Quadrupole(zz,this,bgrad)
           call getfldfrgAna2_Quadrupole(zz,this,bgrad,bgradp,bgradpp)
+        else if(this%Param(3).ge.100.0d0) then
+          print*,"not available in quadrupole"
+!          call getfldfrgAna3_Quadrupole(zz,this,bgrad,bgradp,bgradpp,fldata)
         else
           bgrad = this%Param(2)
         endif
@@ -201,29 +204,41 @@
           extfld(6) = extfld(6)*cos(phs)
         endif
 
+        if(FlagFieldPrint.eq.1) then
+          write(99,900)pos(3),0.0,0.0,0.0,bgrad,bgradp,bgradpp
+900       format(7(1x,e16.8))
+        endif
+
         end subroutine getflderr_Quadrupole
         
         !get external field without displacement and rotation errors.
         !here, the skew quad can can be modeled with nonzero anglez
-        subroutine getfld_Quadrupole(pos,extfld,this)
+        subroutine getfld_Quadrupole(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
         double precision, dimension(4), intent(in) :: pos
         type (Quadrupole), intent(in) :: this
+        type (fielddata), intent(in) :: fldata
         double precision, dimension(6), intent(out) :: extfld
         double precision:: zz,bgrad,zedge,bgradp,bgradpp,anglez
         real*8, dimension(2) :: tmp
         real*8, dimension(3) :: temp
         real*8 :: eps,twopi,phs
 
+!        print*,"into quad:",this%Param(3)
+
         zedge = this%Param(1)
         zz=pos(3)-zedge
-        if(this%Param(3).gt.0.0) then
+        !if(this%Param(3).gt.0.0) then
+        if(this%Param(3).gt.0.0d0 .and. this%Param(3).lt.100.0d0) then
           !call getfldfrg_Quadrupole(zz,this,bgrad)
           !call getfldfrgAna_Quadrupole(zz,this,bgrad)
           call getfldfrgAna2_Quadrupole(zz,this,bgrad,bgradp,bgradpp)
           !bgradp = 0.0
           !bgradpp = 0.0
+        else if(this%Param(3).ge.100.0d0) then
+          call getfldfrgAna3_Quadrupole(pos(3),this,bgrad,bgradp,bgradpp,fldata)
+!          print*,"into Ana3:",pos(3),bgrad
         else
           bgrad = this%Param(2)
         endif
@@ -263,6 +278,11 @@
           extfld(4) = extfld(4)*cos(phs)
           extfld(5) = extfld(5)*cos(phs)
           extfld(6) = extfld(6)*cos(phs)
+        endif
+
+        if(FlagFieldPrint.eq.1) then
+          write(99,900)pos(3),0.0,0.0,0.0,bgrad,bgradp,bgradpp
+900       format(7(1x,e16.8))
         endif
 
         end subroutine getfld_Quadrupole
@@ -371,12 +391,66 @@
  
         end subroutine getfldfrgAna2_Quadrupole
 
+        subroutine getfldfrgAna3_Quadrupole(zz,this,bgrad,bgradp,bgradpp,fldata)
+        implicit none
+        include 'mpif.h'
+        type (Quadrupole), intent(in) :: this
+        double precision, intent(in) :: zz
+        type (fielddata), intent(in) :: fldata
+        double precision, intent(out) :: bgrad
+        double precision :: bgradp,bgradpp
+        double precision :: bb,dd,z10,z20,z3,z4,tmpz
+        double precision :: c1,c2,s1,s2,s3,s4
+        double precision :: tmp1,zedge,aa,len,hz
+        real*8 :: zstart1,zend1,zlength1,zlc
+        integer :: i0,numpar1,iz,iz1
+ 
+        zedge = this%Param(1)
+        bb = this%Param(2)
+        len = this%Length
+        bgrad = 0.0d0
+        bgradp = 0.0d0
+        bgradpp = 0.0d0
+        if((zz.ge.zedge).and.(zz.le.(zedge+len))) then
+
+          zlc=zz-zedge
+          numpar1 = fldata%Fcoeftdata(1,1)+0.1
+          zstart1 = fldata%Fcoeftdata(2,1)
+          zend1 = fldata%Fcoeftdata(3,1)
+          zlength1 = zend1-zstart1
+          if(numpar1.gt.1) then
+            hz = zlength1/(numpar1-1)
+          else
+            hz = 1.0
+          endif
+
+          if( (zlc.ge.zstart1).and.(zlc.le.zend1)) then
+            i0 = 1 !1st line is not data
+            iz = (zlc-zstart1)/hz + 1
+            if(iz.lt.0) iz = 1
+            iz1 = iz + 1
+            if(iz1.gt.numpar1) iz1 = numpar1
+            aa = (iz*hz-(zlc-zstart1))/hz
+            bgrad = fldata%Fcoeftdata(1,iz+i0)*aa+fldata%Fcoeftdata(1,iz1+i0)*(1.0d0-aa)
+            bgradp = fldata%Fcoeftdata(2,iz+i0)*aa+fldata%Fcoeftdata(2,iz1+i0)*(1.0d0-aa)
+            bgradpp = fldata%Fcoeftdata(3,iz+i0)*aa+fldata%Fcoeftdata(3,iz1+i0)*(1.0d0-aa)
+            bgrad=bgrad*bb
+            bgradp=bgradp*bb
+            bgradpp=bgradpp*bb
+          endif
+        endif
+
+        !write(1,*)zz,bgrad,bgradp,bgradpp
+ 
+        end subroutine getfldfrgAna3_Quadrupole
+
         !get external field with displacement and rotation errors.
-        subroutine  getflderrt_Quadrupole(pos,extfld,this)
+        subroutine  getflderrt_Quadrupole(pos,extfld,this,fldata)
         implicit none
         include 'mpif.h'
         double precision, dimension(4), intent(in) :: pos
         type (Quadrupole), intent(in) :: this
+        type (fielddata), intent(in) :: fldata
         double precision :: dx,dy,anglex,angley,anglez
         double precision, dimension(6), intent(out) :: extfld
         double precision:: zz,bgrad,zedge,bgradp,bgradpp
@@ -384,10 +458,13 @@
         real*8 :: eps,twopi,phs
 
         zedge = this%Param(1)
-        if(this%Param(3).gt.0.0) then
+        !if(this%Param(3).gt.0.0) then
+        if(this%Param(3).gt.0.0d0 .and. this%Param(3).lt.100.0d0) then
           zz = pos(3)-zedge
           !call getfldfrg_Quadrupole(zz,this,bgrad)
           call getfldfrgAna2_Quadrupole(zz,this,bgrad,bgradp,bgradpp)
+        else if(this%Param(3).ge.100.0d0) then
+          call getfldfrgAna3_Quadrupole(pos(3),this,bgrad,bgradp,bgradpp,fldata)
         else
           bgrad = this%Param(2)
         endif

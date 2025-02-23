@@ -18,7 +18,7 @@
 !****************************
 !
 ! AccSimulatorclass: Linear accelerator simulator class in CONTROL layer.
-! Version: 2.1
+! Version: 3.0
 ! Author: Ji Qiang
 ! Description: This class defines functions to set up the initial beam 
 !              particle distribution, field information, computational
@@ -49,6 +49,7 @@
         integer :: Dim, Flagdist,Rstartflg,Flagerr,&
                             Flagsubstep,ntstep 
         integer, dimension(Nbunchmax) :: Np, Nplocal
+        real*8, dimension(Nbunchmax) :: gbetz
         !# of num. total x, total and local y mesh pts., type of BC, 
         !# of beam elems, type of integrator.
         !FlagImage: switch flag for image space-charge force calculation: "1" for yes, 
@@ -179,7 +180,7 @@
         if(myid.eq.0) then
           !print*,"Start simulation:"
           print*,"!-----------------------------------------------------------"
-          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V2.3.1"
+          print*,"! IMPACT-T Parallel Beam Dynamics Tracking Code: V3.0"
           print*,"! Copyright of The Regents of the University of California"
           print*,"!-----------------------------------------------------------"
         endif
@@ -749,6 +750,8 @@
         double precision, dimension(50) :: dkx
         double precision :: dtype1,da1,db1,deps1,dLx1,dnkx1,dnky1,hx,xmi,ymi
 
+        real*8 :: zprint
+        real*8 :: xquad
 
         twopi = 4*asin(1.0d0)
         !zadjmax = 0.1d0 !20% increase of z domain
@@ -767,6 +770,7 @@
           FlagImage = 0
         endif
         !flagazmuth = 0
+        FlagFieldPrint = 0
 !-------------------------------------------------------------------
 ! prepare initial parameters, allocate temporary array.
         !ibalend = 0
@@ -905,6 +909,7 @@
           call getparam_BeamLineElem(Blnelem(i),blength,bnseg,bmpstp,&
                                      bitype)
           idrfile(1,i) = bitype
+          call getparam_BeamLineElem(Blnelem(i),3,xquad)
           !get external file id for each rf beam line element.
           if(bitype.gt.100) then
             call getparam_BeamLineElem(Blnelem(i),5,rfile)
@@ -915,6 +920,9 @@
             idrfile(2,i) = int(rfile + 0.1)
           else if(bitype.eq.4) then
             call getparam_BeamLineElem(Blnelem(i),4,rfile)
+            idrfile(2,i) = int(rfile + 0.1)
+          else if(bitype.eq.1 .and. xquad.ge.100.0d0) then
+            call getparam_BeamLineElem(Blnelem(i),3,rfile)
             idrfile(2,i) = int(rfile + 0.1)
           endif
           if(bitype.eq.(-1)) then
@@ -1103,6 +1111,13 @@
             izrot = izrot + 1
             call getparam_BeamLineElem(Blnelem(i),1,tzrot(izrot))
             call getparam_BeamLineElem(Blnelem(i),2,zrotang(izrot))
+          endif
+
+          if(bitype.eq.(-18)) then !output on-axis field
+            call getparam_BeamLineElem(Blnelem(i),1,zprint)
+            if(zprint>0) then
+              FlagFieldPrint = 1
+            endif
           endif
 
           if(bitype.eq.(-99)) then
@@ -1423,6 +1438,7 @@
             !for test
             !gammaz(ib) = Bkenergy/Bmass+1.0d0
             Ebunch(ib)%refptcl(6) = -gammaz(ib)
+            gbetz(ib) = sgcenter(6)
             do inib = 1, 6
               brange(inib,ib) = ptrange(inib)
               brange(inib+6,ib) = sgcenter(inib)
@@ -1556,7 +1572,7 @@
           do ii = ibstart,ibend
             !for element type > 100 or solenoid
             if((idrfile(1,ii).gt.100).or.(idrfile(1,ii).eq.3).or.&
-               (idrfile(1,ii).eq.4)) then 
+               (idrfile(1,ii).eq.4) .or. (idrfile(1,ii).eq.1)) then 
               isw = 1
               !check whether the new element is in the old elements range,
               !which already been read in. 
@@ -1589,10 +1605,12 @@
               tmpfile(idrfile(3,ii)) = idrfile(2,ii)
 !              print*,"idrfile: ",ii,idrfile(2,ii),idrfile(3,ii),iifile,Maxiifile
               if(isw.eq.1) then !readin new data
-              if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
+              if(idrfile(1,ii).eq.1 .and. idrfile(2,ii).ge.100) then
+                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
+              else if(idrfile(1,ii).eq.3) then !numerical data for solenoid.
                 call read2tsol_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
-!              else if(idrfile(1,ii).eq.105) then !discrete description field
-!                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
+              else if((idrfile(1,ii).eq.105).and.idrfile(2,ii)>1000) then !discrete description field
+                call read1tdata_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).lt.110) then !Fcoef coefficient description field
                 call read1t_Data(fldmp(idrfile(3,ii)),idrfile(2,ii))
               else if(idrfile(1,ii).eq.111) then !3D Cartesian coordinate of field
@@ -1931,40 +1949,6 @@
                                    MPI_SUM,comm2d,ierr) 
                 call MPI_ALLREDUCE(ywakelc,ywakez,Nz,MPI_DOUBLE_PRECISION,&
                                    MPI_SUM,comm2d,ierr) 
-!                call MPI_ALLREDUCE(xwakelc,xwakez,Nz,MPI_DOUBLE_PRECISION,&
-!                                   MPI_SUM,commcol,ierr) 
-!                call MPI_ALLREDUCE(ywakelc,ywakez,Nz,MPI_DOUBLE_PRECISION,&
-!                                   MPI_SUM,commcol,ierr) 
-!                call MPI_ALLREDUCE(denszlc,densz,Nz,MPI_DOUBLE_PRECISION,&
-!                                   MPI_SUM,commcol,ierr) 
-
-!                do kz = 1, Nz
-!                  sendensz(kz,1) = xwakez(kz)
-!                enddo
-!                do kz = 1, Nz
-!                  sendensz(kz,2) = ywakez(kz)
-!                enddo
-!
-!                Nz2 = 2*Nz
-!                call MPI_ALLREDUCE(sendensz,recvdensz,Nz2,MPI_DOUBLE_PRECISION,&
-!                                   MPI_SUM,commrow,ierr) 
-! 
-!                do kz = 1, Nz
-!                  xwakez(kz) = recvdensz(kz,1)
-!                enddo
-!                do kz = 1, Nz
-!                  ywakez(kz) = recvdensz(kz,2)
-!                enddo
-!
-!                do kz = 1, Nz
-!                  sendensz(kz,1) = densz(kz)
-!                enddo
-!                call MPI_ALLREDUCE(sendensz,recvdensz,Nz,MPI_DOUBLE_PRECISION,&
-!                                   MPI_SUM,commrow,ierr) 
-!
-!                do kz = 1, Nz
-!                  densz(kz) = recvdensz(kz,1)
-!                enddo
 
                 !get the line charge density along z
                 do kz = 1, Nz
@@ -2029,7 +2013,13 @@
               endif
 
               !find the E and B fields in the lab frame from the effective bunch/bin  
-              tmpflag = 0
+              !tmpflag = 0
+              if(gbetz(ib).gt.0.0d0) then
+                tmpflag = 0
+              else
+                tmpflag = 1
+              endif
+
 
               call gradEB_FieldQuant(Nxlocal,Nylocal,Nzlocal,&
               Potential%FieldQ,Ageom,grid2d,Flagbc,gammaz(ib),tmpflag,&
@@ -2583,12 +2573,12 @@
                nptottmp = nptottmp+Np(ib)
                tmpcur = tmpcur + Ebunch(ib)%Current
              enddo
-             allocate(tmppts(6,Nplocal(1)))
+             allocate(tmppts(9,Nplocal(1)))
              do ipt = 1, Nplocal(1)
                tmppts(:,ipt) = Ebunch(1)%Pts1(:,ipt)
              enddo
              deallocate(Ebunch(1)%Pts1)
-             allocate(Ebunch(1)%Pts1(6,nplctmp))
+             allocate(Ebunch(1)%Pts1(9,nplctmp))
              do ipt = 1, Nplocal(1)
                Ebunch(1)%Pts1(:,ipt) = tmppts(:,ipt) 
              enddo
@@ -2759,7 +2749,7 @@
 
         !//copy the particles to the new bin stored by a temporary array
         do i = 1, ibunch
-          allocate(tmppts(6,nbinlc(i),i))
+          allocate(tmppts(9,nbinlc(i),i))
         enddo
         nbinlc = 0
         do ib = 1, Nbunch
@@ -2769,7 +2759,7 @@
             ibin = (gami-gammamin)/hgam + 1
             if(ibin.ge.ibunch) ibin = ibunch
             nbinlc(ibin) = nbinlc(ibin) + 1
-            do j = 1, 6
+            do j = 1, 9
               tmppts(j,nbinlc(ibin),ibin) = this(ib)%Pts1(j,i)
             enddo
           enddo
@@ -2778,14 +2768,14 @@
         !release the memory held by Ebunch
         do i = 1, Nbunch
           deallocate(Ebunch(i)%Pts1)
-          allocate(Ebunch(i)%Pts1(6,1))
+          allocate(Ebunch(i)%Pts1(9,1))
         enddo
 
         !//copy the particles back to Ebunch with new bin
         do i = 1, ibunch
-          allocate(Ebunch(i)%Pts1(6,nbinlc(i)))
+          allocate(Ebunch(i)%Pts1(9,nbinlc(i)))
           do j = 1, nbinlc(i)
-            do k = 1, 6
+            do k = 1, 9
               Ebunch(i)%Pts1(k,j) = tmppts(k,j,i)
             enddo 
           enddo

@@ -845,7 +845,8 @@
         double precision, dimension(6), intent(out) :: extfld
 
         if(associated(this%pquad)) then
-          call getfld_Quadrupole(pos,extfld,this%pquad)
+          !call getfld_Quadrupole(pos,extfld,this%pquad)
+          print*,"not availabe:"
         elseif(associated(this%pdrift)) then
           call getfld_DriftTube(pos,extfld,this%pdrift)
         elseif(associated(this%pccl)) then
@@ -1002,9 +1003,10 @@
         double precision, dimension(4), intent(in) :: pos
         double precision, dimension(6), intent(out) :: extfld
         type (fielddata), intent(in) :: fldata
+        real*8 :: tmp
 
         if(associated(this%pquad)) then
-          call getfld_Quadrupole(pos,extfld,this%pquad)
+          call getfld_Quadrupole(pos,extfld,this%pquad,fldata)
         elseif(associated(this%pdrift)) then
           call getfld_DriftTube(pos,extfld,this%pdrift)
         elseif(associated(this%pccl)) then
@@ -1022,7 +1024,12 @@
         elseif(associated(this%pcf)) then
           call getfld_ConstFoc(pos,extfld,this%pcf)
         elseif(associated(this%pslrf)) then
-          call getfldt_SolRF(pos,extfld,this%pslrf,fldata)
+          call getparam_SolRF(this%pslrf,5,tmp)
+          if(tmp>1000.0d0) then
+            call getfldt_SolRF(pos,extfld,this%pslrf,fldata)
+          else
+            call getfldtfour_SolRF(pos,extfld,this%pslrf,fldata)
+          endif
         elseif(associated(this%psl)) then
           call getfldt_Sol(pos,extfld,this%psl,fldata)
         elseif(associated(this%pdipole)) then
@@ -1048,9 +1055,10 @@
         double precision, dimension(4), intent(in) :: pos
         double precision, dimension(6), intent(out) :: extfld
         type (fielddata), intent(in) :: fldata
+        real*8 :: tmp
 
         if(associated(this%pquad)) then
-          call getflderrt_Quadrupole(pos,extfld,this%pquad)
+          call getflderrt_Quadrupole(pos,extfld,this%pquad,fldata)
         elseif(associated(this%pdrift)) then
           call getfld_DriftTube(pos,extfld,this%pdrift)
         elseif(associated(this%pccl)) then
@@ -1068,7 +1076,12 @@
         elseif(associated(this%pcf)) then
           call getfld_ConstFoc(pos,extfld,this%pcf)
         elseif(associated(this%pslrf)) then
-          call getflderrt_SolRF(pos,extfld,this%pslrf,fldata)
+          call getparam_SolRF(this%pslrf,5,tmp)
+          if(tmp>1000.0d0) then
+            call getflderrt_SolRF(pos,extfld,this%pslrf,fldata)
+          else
+            call getflderrtfour_SolRF(pos,extfld,this%pslrf,fldata)
+          endif
         elseif(associated(this%psl)) then
           call getfldt_Sol(pos,extfld,this%psl,fldata)
         elseif(associated(this%pdipole)) then
@@ -1079,7 +1092,7 @@
         elseif(associated(this%pemfldana)) then
           call getfldt_EMfldAna(pos,extfld,this%pemfldana,fldata)
         elseif(associated(this%pemfldcart)) then
-          call getflderrt_EMfldCart(pos,extfld,this%pemfldcart,fldata)
+          call getfldt_EMfldCart(pos,extfld,this%pemfldcart,fldata)
         elseif(associated(this%pemfldcyl)) then
           call getfldt_EMfldCyl(pos,extfld,this%pemfldcyl,fldata)
         elseif(associated(this%pmult)) then

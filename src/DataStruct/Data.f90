@@ -22,6 +22,8 @@
         integer :: NxIntvRfg = 1
         integer :: NyIntvRfg = 1
         integer :: NzIntvRfg = 1
+! flag to output field or field gradient (Ex, Ey, Ez, Bx, By, Bz) on-axis
+        integer :: FlagFieldPrint = 0
         !range in x, y, and zdirections.
         double precision :: XmaxRfg,XminRfg,YmaxRfg,YminRfg,ZmaxRfg,ZminRfg
         ! discrete Ex(x,y,z), Ey(x,y,z), Ez(x,y,z) and Bx(x,y,z), By(x,y,z), and 

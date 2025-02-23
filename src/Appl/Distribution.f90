@@ -97,6 +97,9 @@
           !transverse Semicircle and longitudinal Gaussian distribution
           call SemicirGauss_DistT(this,nparam,distparam,grid)
         else if(flagdist.eq.16) then
+          !read in an initial distribution with format from old IMPACT-T
+          call readold_Dist(this,nparam,distparam,ib)
+        else if(flagdist.eq.166) then
           !read in an initial distribution with format from IMPACT-T
           call read_Dist(this,nparam,distparam,ib)
         else if(flagdist.eq.24) then
@@ -182,7 +185,7 @@
         numpts0 = avgpts
 
         ! initial allocate 'avgpts' particles on each processor.
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
 !        print*,"avgpts: ",avgpts
     
@@ -209,6 +212,13 @@
 
         this%Nptlocal = numpts0
 
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
 !        call MPI_BARRIER(comm2d,ierr)
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
@@ -233,7 +243,7 @@
         double precision, allocatable, dimension(:,:) :: x1,x2,x3 
         integer :: totnp,npy,npx
         integer :: avgpts,numpts
-        integer :: myid,myidx,myidy,i,j,k,intvsamp
+        integer :: myid,myidx,myidy,i,j,k,intvsamp,jj
 !        integer seedarray(1)
         double precision :: t0,x11
 
@@ -292,7 +302,7 @@
         if(flagalloc.eq.1) then
           this%Pts1 = 0.0
         else
-          allocate(this%Pts1(6,avgpts))
+          allocate(this%Pts1(9,avgpts))
           this%Pts1 = 0.0
         endif
 
@@ -337,7 +347,14 @@
         deallocate(x3)
 
         this%Nptlocal = avgpts
-       
+
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
         end subroutine Gauss3_Dist
@@ -405,7 +422,7 @@
         double precision :: r3,r4,r5,r6,x3,x4,x5,x6
         integer :: totnp,npy,npx
         integer :: avgpts,numpts,isamz,isamy
-        integer :: myid,myidx,myidy,iran,intvsamp
+        integer :: myid,myidx,myidy,iran,intvsamp,j,jj
 !        integer seedarray(2)
         double precision :: t0,x11
         double precision, allocatable, dimension(:) :: ranum6
@@ -465,7 +482,7 @@
         if(flagalloc.eq.1) then
           this%Pts1 = 0.0
         else
-          allocate(this%Pts1(6,avgpts))
+          allocate(this%Pts1(9,avgpts))
           this%Pts1 = 0.0
         endif
         numpts = 0
@@ -529,6 +546,13 @@
        
 !        print*,avgpts,isamz,isamy
 
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
         end subroutine Waterbag_Dist
@@ -553,7 +577,7 @@
         double precision :: r3,r4,r5,r6,x3,x4,x5,x6
         integer :: totnp,npy,npx
         integer :: avgpts,numpts
-        integer :: myid,myidx,myidy
+        integer :: myid,myidx,myidy,j,jj
 !        integer seedarray(1)
         double precision :: t0,x11,twopi
 
@@ -604,7 +628,7 @@
         rootz=sqrt(1.-muzpz*muzpz)
 
         ! initial allocate 'avgpts' particles on each processor.
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
         twopi = 4*asin(1.0d0)
 
@@ -647,6 +671,14 @@
         enddo
           
         this%Nptlocal = avgpts
+
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
        
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
@@ -720,7 +752,7 @@
         numpts0 = 0
 
         ! initial allocate 'avgpts' particles on each processor.
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
         do ii = 1, avgpts
           ! rejection sample.
@@ -769,6 +801,14 @@
         this%Nptlocal = numpts0
 !        print*,"numpts0: ",numpts0
 
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
+
 !        call MPI_BARRIER(comm2d,ierr)
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
@@ -815,12 +855,114 @@
         integer, intent(in) :: nparam,ib
         double precision, dimension(nparam) :: distparam
         integer :: i,j,jlow,jhigh,avgpts,myid,nproc,ierr,nptot,nleft
-        double precision, dimension(6) :: tmptcl
+        double precision, dimension(9) :: tmptcl
         double precision :: sum1,sum2
         character*12 name1
         character*13 name2
         character*14 name3
         integer :: k,l
+ 
+        call MPI_COMM_RANK(MPI_COMM_WORLD,myid,ierr)
+        call MPI_COMM_SIZE(MPI_COMM_WORLD,nproc,ierr)
+
+        name1 = 'partclx.data'
+        name2 = 'partclxx.data'
+        name3 = 'partclxxx.data'
+
+         if(ib.eq.1) then
+            open(unit=12,file='partcl.data',status='old')
+         else if(ib.lt.10) then
+            name1(7:7) = char(ib+48)
+            open(unit=12,file=name1,status='old')
+         else if(ib.lt.100) then
+            i = ib/10
+            j = ib - 10*i
+            name2(7:7) = char(i+48)
+            name2(8:8) = char(j+48)
+            open(unit=12,file=name2,status='old')
+         else if(ib.lt.1000) then
+            i = ib/100
+            j = ib - 100*i
+            k = j/10
+            l = j - 10*k
+            name3(7:7) = char(i+48)
+            name3(8:8) = char(k+48)
+            name3(9:9) = char(l+48)
+            open(unit=12,file=name3,status='old')
+          else
+            print*,"over maximum # of input particle files:...."
+            stop
+          endif
+ 
+        sum1 = 0.0
+        sum2 = 0.0
+ 
+          read(12,*)nptot
+
+          if(nptot.ne.this%Npt) then
+            print*,"Error: Total particle # in the partcl.data file is different from that in the ImpactT.in file."
+            stop
+          endif
+
+          avgpts = nptot/nproc
+          nleft = nptot - avgpts*nproc
+          if(myid.lt.nleft) then
+            avgpts = avgpts+1
+            jlow = myid*avgpts + 1
+            jhigh = (myid+1)*avgpts
+          else
+            jlow = myid*avgpts + 1 + nleft
+            jhigh = (myid+1)*avgpts + nleft
+          endif
+          allocate(this%Pts1(9,avgpts))
+          this%Pts1 = 0.0
+          !jlow = myid*avgpts + 1
+          !jhigh = (myid+1)*avgpts
+          print*,"avgpts, jlow, and jhigh: ",avgpts,jlow,jhigh
+          do j = 1, nptot
+            read(12,*)tmptcl(1:9)
+            sum1 = sum1 + tmptcl(1)
+            sum2 = sum2 + tmptcl(3)
+            if( (j.ge.jlow).and.(j.le.jhigh) ) then
+              i = j - jlow + 1
+              this%Pts1(1:9,i) = tmptcl(1:9)
+            endif
+!            if(myid.eq.0) print*,i,sum1,sum2
+          enddo
+          print*,"sumx1,sumy1: ",sum1/nptot,sum2/nptot
+ 
+          close(12)
+ 
+          this%Nptlocal = avgpts
+          !change length to the dimensionless unit
+          do i = 1, avgpts
+            this%Pts1(1,i) = this%Pts1(1,i)/Scxlt + distparam(6)
+            this%Pts1(2,i) = this%Pts1(2,i) + distparam(7)
+            this%Pts1(3,i) = this%Pts1(3,i)/Scxlt + distparam(13)
+            this%Pts1(4,i) = this%Pts1(4,i) + distparam(14)
+            this%Pts1(5,i) = this%Pts1(5,i)/Scxlt + distparam(20)
+            this%Pts1(6,i) = this%Pts1(6,i)  + distparam(21)
+          enddo
+ 
+        end subroutine read_Dist
+
+        !--------------------------------------------------------------------------------------
+        !> @brief
+        !> read in an initial distribution with format (x(m), px/mc, y(m), py/mc,...)
+        !--------------------------------------------------------------------------------------
+        subroutine readold_Dist(this,nparam,distparam,ib)
+        implicit none
+        include 'mpif.h'
+        type (BeamBunch), intent(inout) :: this
+        integer, intent(in) :: nparam,ib
+        double precision, dimension(nparam) :: distparam
+        integer :: i,j,jlow,jhigh,avgpts,myid,nproc,ierr,nptot,nleft
+        double precision, dimension(6) :: tmptcl
+        double precision :: sum1,sum2
+        character*12 name1
+        character*13 name2
+        character*14 name3
+        integer :: k,l,jj
  
         call MPI_COMM_RANK(MPI_COMM_WORLD,myid,ierr)
         call MPI_COMM_SIZE(MPI_COMM_WORLD,nproc,ierr)
@@ -872,7 +1014,7 @@
             jlow = myid*avgpts + 1 + nleft
             jhigh = (myid+1)*avgpts + nleft
           endif
-          allocate(this%Pts1(6,avgpts))
+          allocate(this%Pts1(9,avgpts))
           this%Pts1 = 0.0
           !jlow = myid*avgpts + 1
           !jhigh = (myid+1)*avgpts
@@ -901,8 +1043,15 @@
             this%Pts1(5,i) = this%Pts1(5,i)/Scxlt + distparam(20)
             this%Pts1(6,i) = this%Pts1(6,i)  + distparam(21)
           enddo
+
+          do j = 1, avgpts
+            jj = j + myid*avgpts
+            this%Pts1(7,j) = this%Charge/this%Mass
+            this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+            this%Pts1(9,j) = jj
+          enddo
  
-        end subroutine read_Dist
+        end subroutine readold_Dist
 
         subroutine readParmela_Dist(this,nparam,distparam,geom,grid,Flagbc)
         implicit none
@@ -925,7 +1074,7 @@
         double precision :: xscale,xmu1,xmu2,yscale,xmu3,xmu4,zscale,&
         xmu5,xmu6,sumx,sumy,pxscale,pyscale,pzscale,ri,thi,pi
         real*8 :: beta0,sumeng
-        integer :: jlow,jhigh,nleft,avgpts
+        integer :: jlow,jhigh,nleft,avgpts,jj
 
         pi = 2*asin(1.0d0)
         xscale = distparam(4)
@@ -1001,7 +1150,7 @@
             jhigh = (myid+1)*avgpts + nleft
         endif
 
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
 
         do j = 1, inipts
@@ -1028,6 +1177,14 @@
 
         deallocate(Ptcl)
 
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
+
         end subroutine readParmela_Dist
 
         subroutine readElegant_Dist(this,nparam,distparam,geom,grid,Flagbc)
@@ -1051,7 +1208,7 @@
         double precision :: xscale,xmu1,xmu2,yscale,xmu3,xmu4,zscale,&
         xmu5,xmu6,sumx,sumy,pxscale,pyscale,pzscale,ri,thi,pi
         real*8 :: beta0,sumeng
-        integer :: jlow,jhigh,nleft,avgpts
+        integer :: jlow,jhigh,nleft,avgpts,jj
 
         pi = 2*asin(1.0d0)
         xscale = distparam(4)
@@ -1126,7 +1283,7 @@
             jhigh = (myid+1)*avgpts + nleft
         endif
 
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
 
         do j = 1, inipts
@@ -1154,6 +1311,13 @@
         enddo
 
         deallocate(Ptcl)
+
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
 
         end subroutine readElegant_Dist
 
@@ -1195,7 +1359,7 @@
         real*8 :: vx,vy,r44,vr1,vr2,vzmax,r,fvalue
         integer :: isamz
 !for quiet start of the modulated uniform current profile in z
-        integer :: nptsob,k,ilow,ihigh,Nmax,iseed,ndim
+        integer :: nptsob,k,ilow,ihigh,Nmax,iseed,ndim,j,jj
         real*8 :: eps,epsilon,xz,xmod,rk,psi
         real*8, dimension(6) :: xtmp
 
@@ -1261,7 +1425,7 @@
         rootz=sqrt(1.-muzpz*muzpz)
 
         ! initial allocate 'avgpts' particles on each processor.
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         twopi = 4*asin(1.0d0)
 
         xmod = muzpz
@@ -1297,6 +1461,12 @@
         enddo
         
         this%Nptlocal = avgpts
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
        
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
@@ -1411,7 +1581,7 @@
         real*8, allocatable, dimension(:,:) :: tmptcl2
         real*8, allocatable, dimension(:,:) :: tmptcl3
         real*8 :: currtmp,zflat,zrise,zrisehalf,cutx,cuty,cutz
-        integer :: iptgl,iptlc,npt0,ii,jj,kk,ierrdist
+        integer :: iptgl,iptlc,npt0,ii,jj,kk,ierrdist,j
         real*8 :: emax,emass,wkf,Eph,Ef,Tem,Ewk
 
         call starttime_Timer(t0)
@@ -1532,7 +1702,7 @@
 
         this%Nptlocal = avgpts
         if(ierrdist.ne.1) then
-          allocate(this%Pts1(6,avgpts))
+          allocate(this%Pts1(9,avgpts))
           do i = 1, avgpts
             this%Pts1(1,i) = tmptcl2(1,i)
             this%Pts1(2,i) = tmptcl3(1,i)
@@ -1549,6 +1719,13 @@
         deallocate(tmptcl1)
         deallocate(tmptcl2)
         deallocate(tmptcl3)
+
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
 
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
@@ -2021,7 +2198,7 @@
 !        integer seedarray(1)
         double precision :: t0,x11,twopi,tmpmax,tmpmaxgl,shiftz
         double precision :: frac1,ztmp
-        integer :: ntmp1
+        integer :: ntmp1,j,jj
         real*8 :: vx,vy,r44,r4,sq1
 
         call starttime_Timer(t0)
@@ -2074,7 +2251,7 @@
         rootz=sqrt(1.-muzpz*muzpz)
 
         ! initial allocate 'avgpts' particles on each processor.
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
         twopi = 4*dasin(1.0d0)
         allocate(r1(avgpts))
@@ -2121,6 +2298,13 @@
         deallocate(r1)
         deallocate(r2)
         deallocate(r3)
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
        
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
@@ -2148,7 +2332,7 @@
 !        integer seedarray(1)
         double precision :: t0,x11,twopi,tmpmax,tmpmaxgl,shiftz
         double precision :: frac1,ztmp
-        integer :: ntmp1
+        integer :: ntmp1,j,jj
         real*8 :: vx,vy,r44,r4,sq1
 
         call starttime_Timer(t0)
@@ -2201,7 +2385,7 @@
         rootz=sqrt(1.-muzpz*muzpz)
 
         ! initial allocate 'avgpts' particles on each processor.
-        allocate(this%Pts1(6,avgpts))
+        allocate(this%Pts1(9,avgpts))
         this%Pts1 = 0.0
         twopi = 4*dasin(1.0d0)
         allocate(r1(avgpts))
@@ -2243,7 +2427,13 @@
         deallocate(r1)
         deallocate(r2)
         deallocate(r3)
-       
+        do j = 1, avgpts
+          jj = j + myid*avgpts
+          this%Pts1(7,j) = this%Charge/this%Mass
+          this%Pts1(8,j) = this%Current/Scfreq/this%Npt*this%Charge/abs(this%Charge)
+          this%Pts1(9,j) = jj
+        enddo
+
         t_kvdist = t_kvdist + elapsedtime_Timer(t0)
 
         end subroutine SemicirGauss_DistT
