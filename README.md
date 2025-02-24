@@ -30,6 +30,33 @@ If you are new to CMake, [this short tutorial](https://hsf-training.github.io/hs
 
 If you just want to use CMake to build the project, jump into sections *1. Introduction*, *2. Building with CMake* and *9. Finding Packages*.
 
+## Using conda to compile IMPACT-T
+
+`conda-forge` has all of the necessary compilers and dependencies to build IMPACT-T from source.
+
+Create a build environment like so:
+
+```bash
+conda create -n impactt-build -c conda-forge compilers cmake openmpi
+conda activate impactt-build
+```
+
+Then to build the non-parallel version:
+
+```bash
+cmake -S src/ -B build-single
+cmake --build build-single -j 4
+ls build-single/ImpactTexe
+```
+
+And to build the MPI-parallelized version with OpenMPI:
+
+```bash
+cmake -S src/ -B build-mpi -DUSE_MPI=ON
+cmake --build build-mpi -j 4
+ls build-mpi/ImpactTexe-mpi
+```
+
 ## Unix
 
 ### Single Processor Code:

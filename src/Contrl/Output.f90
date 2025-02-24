@@ -2248,8 +2248,7 @@
                         MPI_COMM_WORLD,ierr)
         endif
 
-!100     format(6(1x,e17.9))
-100     format(9(1x,e20.12))
+100     format(9(g0,1x))
 
         deallocate(nptlist)
         deallocate(recvbuf)
