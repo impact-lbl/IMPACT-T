@@ -5,7 +5,7 @@ IMPACT-T is a fully three-dimensional program to track relativistic charged part
 
 Main contact: Ji Qiang (jqiang@lbl.gov), Lawrence Berkeley National Laboratory
 
-# Citation:
+Citation:
 J. Qiang, S. Lidia, R. D. Ryne, C. Limborg-Deprey, Phys. Rev. Special Topics - Accel. Beams 9, 044204, (2006).
 
 # Installation using Anaconda
