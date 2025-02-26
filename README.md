@@ -28,7 +28,7 @@ conda install -c conda-forge impact-t=*=mpi_mpich*
 ```
 After these steps, the IMPACT-T executable `ImpactTexe` or `ImpactTexe-mpi`, respectively, will be in your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)) environment variable and is thus ready to use like any regular command-line command.
 
-# Compiling The Code
+# Compiling the Code
 
 If you are new to CMake, [this short tutorial](https://hsf-training.github.io/hsf-training-cmake-webpage/) from the HEP Software foundation is the perfect place to get started with it.
 
