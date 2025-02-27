@@ -69,7 +69,7 @@ ls build-mpi/ImpactTexe-mpi
 # inside the IMPACT-T src/ directory:
 cmake -S . -B build
 cmake --build build
-# the executable in now in build/bin/
+# the executable in now in build/
 
 # this command needs sudo if you install into system paths:
 cmake --build build --target install
