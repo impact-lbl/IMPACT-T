@@ -3011,14 +3011,14 @@
       t1=s*b
       t2=s*a
       da=s*a/sb
-      jderiv1=(BESJ0(t2+da)-BESJ0(t2))/da
-      yderiv1=(BESY0(t2+da)-BESY0(t2))/da
-      jderiv2=-(BESJ0(t2-da)-BESJ0(t2))/da
-      yderiv2=-(BESY0(t2-da)-BESY0(t2))/da
+      jderiv1=(BESSEL_J0(t2+da)-BESSEL_J0(t2))/da
+      yderiv1=(BESSEL_Y0(t2+da)-BESSEL_Y0(t2))/da
+      jderiv2=-(BESSEL_J0(t2-da)-BESSEL_J0(t2))/da
+      yderiv2=-(BESSEL_Y0(t2-da)-BESSEL_Y0(t2))/da
       jderiv=(jderiv1+jderiv2)/2
       yderiv=(yderiv1+yderiv2)/2
-      calcR0P=BESY0(t1)*jderiv-BESJ0(t1)*yderiv
-      calcR0=BESY0(t1)*BESJ0(t2)-BESJ0(t1)*BESY0(t2)
+      calcR0P=BESSEL_Y0(t1)*jderiv-BESSEL_J0(t1)*yderiv
+      calcR0=BESSEL_Y0(t1)*BESSEL_J0(t2)-BESSEL_J0(t1)*BESSEL_Y0(t2)
       calcLFS=calcR0P+s*a*calcR0/eps/2.0
       return
       end function calcLFS
@@ -3028,7 +3028,7 @@
       real t1,t2
       t1=s*b
       t2=s*a
-      calcR0=BESY0(t1)*BESJ0(t2)-BESJ0(t1)*BESY0(t2)
+      calcR0=BESSEL_Y0(t1)*BESSEL_J0(t2)-BESSEL_J0(t1)*BESSEL_Y0(t2)
       return
       end function calcR0
 
