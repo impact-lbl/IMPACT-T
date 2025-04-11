@@ -796,15 +796,17 @@
         include 'mpif.h'
         integer, intent(in) :: ifile
         type (fielddata), intent(inout) :: this
-        integer :: myrank,ierr,i,ii,jj,kk,ll,n,i1,ntmp
+        integer :: myrank,ierr,i,ii,jj,kk,ll,n,i1,ntmp,mm,nn
         double precision :: tmp1,tmp2,tmp3
         character*7 name1
         character*8 name2
         character*9 name3
+        character*10 name4
 
         name1 = 'rfdatax'
         name2 = 'rfdataxx'
         name3 = 'rfdataxxx'
+        name4 = 'rfdataxxxx'
 
         call MPI_COMM_RANK(MPI_COMM_WORLD,myrank,ierr)
 
@@ -827,8 +829,20 @@
             name3(8:8) = char(kk+48)
             name3(9:9) = char(ll+48)
             open(14,file=name3,status='old')
+          else if((ifile.ge.1000).and.(ifile.le.9999)) then
+            ii = ifile/1000
+            jj = ifile - 1000*ii
+            kk = jj/100
+            ll = jj - 100*kk
+            mm = ll/10
+            nn = ll - mm*10
+            name4(7:7) = char(ii+48)
+            name4(8:8) = char(kk+48)
+            name4(9:9) = char(mm+48)
+            name4(10:10) = char(nn+48)
+            open(14,file=name4,status='old')
           else
-            print*,"out of the range of maximum 999 files!!!!"
+            print*,"out of the range of maximum 9999 files!!!!"
           endif
 
           print*,"name: ",name1,name2,name3
