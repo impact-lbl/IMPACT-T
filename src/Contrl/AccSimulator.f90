@@ -542,7 +542,7 @@
         call random_seed(SIZE=seedsize)
         allocate(seedarray(seedsize))
         do i = 1, seedsize
-            seedarray(i) = 10.0d0 + myid*Dim*20+i*1.0d0*myid
+            seedarray(i) = 10.0d0 + myid*Dim*20+i*1.0d0*myid + 17*Dim
         enddo
         call random_seed(PUT=seedarray)
         do i = 1, 3000
