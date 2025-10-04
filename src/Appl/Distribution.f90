@@ -102,6 +102,9 @@
         else if(flagdist.eq.166) then
           !read in an initial distribution with format from IMPACT-T
           call read_Dist(this,nparam,distparam,ib)
+        else if(flagdist.eq.167) then
+          !read in an initial distribution with format from IMPACT-T
+          call readimpz_Dist(this,nparam,distparam,ib)
         else if(flagdist.eq.24) then
           call readParmela_Dist(this,nparam,distparam,geom,grid,Flagbc)
         else if(flagdist.eq.25) then
@@ -1052,6 +1055,117 @@
           enddo
  
         end subroutine readold_Dist
+
+        subroutine readimpz_Dist(this,nparam,distparam,ib)
+        implicit none
+        include 'mpif.h'
+        type (BeamBunch), intent(inout) :: this
+        integer, intent(in) :: nparam,ib
+        double precision, dimension(nparam) :: distparam
+        integer :: i,j,jlow,jhigh,avgpts,myid,nproc,ierr,nptot,nleft
+        double precision, dimension(9) :: tmptcl
+        double precision :: sum1,sum2
+        character*12 name1
+        character*13 name2
+        character*14 name3
+        integer :: k,l
+        real*8 :: rcpgammai,xl,gam0,betai
+ 
+        call MPI_COMM_RANK(MPI_COMM_WORLD,myid,ierr)
+        call MPI_COMM_SIZE(MPI_COMM_WORLD,nproc,ierr)
+
+        name1 = 'partclx.data'
+        name2 = 'partclxx.data'
+        name3 = 'partclxxx.data'
+
+         if(ib.eq.1) then
+            open(unit=12,file='partcl.data',status='old')
+         else if(ib.lt.10) then
+            name1(7:7) = char(ib+48)
+            open(unit=12,file=name1,status='old')
+         else if(ib.lt.100) then
+            i = ib/10
+            j = ib - 10*i
+            name2(7:7) = char(i+48)
+            name2(8:8) = char(j+48)
+            open(unit=12,file=name2,status='old')
+         else if(ib.lt.1000) then
+            i = ib/100
+            j = ib - 100*i
+            k = j/10
+            l = j - 10*k
+            name3(7:7) = char(i+48)
+            name3(8:8) = char(k+48)
+            name3(9:9) = char(l+48)
+            open(unit=12,file=name3,status='old')
+          else
+            print*,"over maximum # of input particle files:...."
+            stop
+          endif
+ 
+        sum1 = 0.0
+        sum2 = 0.0
+ 
+          read(12,*)nptot,gam0,xl
+
+          if(nptot.ne.this%Npt) then
+            print*,"Error: Total particle # in the partcl.data file is different from that in the ImpactT.in file."
+            stop
+          endif
+
+          avgpts = nptot/nproc
+          nleft = nptot - avgpts*nproc
+          if(myid.lt.nleft) then
+            avgpts = avgpts+1
+            jlow = myid*avgpts + 1
+            jhigh = (myid+1)*avgpts
+          else
+            jlow = myid*avgpts + 1 + nleft
+            jhigh = (myid+1)*avgpts + nleft
+          endif
+          allocate(this%Pts1(9,avgpts))
+          this%Pts1 = 0.0
+          !jlow = myid*avgpts + 1
+          !jhigh = (myid+1)*avgpts
+          print*,"avgpts, jlow, and jhigh: ",avgpts,jlow,jhigh
+          do j = 1, nptot
+            read(12,*)tmptcl(1:9)
+            rcpgammai = 1.0d0/(gam0-tmptcl(6))
+            betai = sqrt(1.0d0-rcpgammai*rcpgammai*(1+tmptcl(2)**2 + &
+                        tmptcl(4)**2) )
+
+            sum1 = sum1 + tmptcl(1)
+            sum2 = sum2 + tmptcl(3)
+            if( (j.ge.jlow).and.(j.le.jhigh) ) then
+              i = j - jlow + 1
+              this%Pts1(1,i) = (tmptcl(1)-tmptcl(2)*tmptcl(5)*rcpgammai)*xl
+              this%Pts1(2,i) = tmptcl(2)
+              this%Pts1(3,i) = (tmptcl(3)-tmptcl(4)*tmptcl(5)*rcpgammai)*xl
+              this%Pts1(4,i) = tmptcl(4)
+              this%Pts1(5,i) = -betai*tmptcl(5)*xl
+              this%Pts1(6,i) = betai/rcpgammai
+              this%Pts1(7,i) = tmptcl(7)
+              this%Pts1(8,i) = tmptcl(8)
+              this%Pts1(9,i) = tmptcl(9)
+            endif
+!            if(myid.eq.0) print*,i,sum1,sum2
+          enddo
+          print*,"sumx1,sumy1: ",sum1/nptot,sum2/nptot
+ 
+          close(12)
+ 
+          this%Nptlocal = avgpts
+          !change length to the dimensionless unit
+          do i = 1, avgpts
+            this%Pts1(1,i) = this%Pts1(1,i)/Scxlt + distparam(6)
+            this%Pts1(2,i) = this%Pts1(2,i) + distparam(7)
+            this%Pts1(3,i) = this%Pts1(3,i)/Scxlt + distparam(13)
+            this%Pts1(4,i) = this%Pts1(4,i) + distparam(14)
+            this%Pts1(5,i) = this%Pts1(5,i)/Scxlt + distparam(20)
+            this%Pts1(6,i) = this%Pts1(6,i)  + distparam(21)
+          enddo
+ 
+        end subroutine readimpz_Dist
 
         subroutine readParmela_Dist(this,nparam,distparam,geom,grid,Flagbc)
         implicit none
