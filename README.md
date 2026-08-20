@@ -5,7 +5,7 @@ IMPACT-T is a fully three-dimensional program to track relativistic multi-type c
 
 This code can be integrated together with a parallel multi-objective optimizer: (https://github.com/qianglbl/PVPmoo) for applications such as photoinjector beam dynamics optimization.
 
-There is a sister parallel beam dynamics tracking code, IMPACT-Z, (https://github.com/impact-lbl/IMPACT-Z) using longitudinal distance "z" as independent variable.
+Additionally, there is a sister parallel beam dynamics tracking code, IMPACT-Z, (https://github.com/impact-lbl/IMPACT-Z) using longitudinal distance "z" as the independent variable.
 
 Main contact: Ji Qiang (jqiang@lbl.gov), Lawrence Berkeley National Laboratory
 
