@@ -1,0 +1,6 @@
+# Generated at build time from ../../src/Func by the Makefile.
+fftpack_backend.f90
+fftw_backend.f90
+fftbench
+*.mod
+*.o

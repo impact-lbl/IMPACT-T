@@ -1,4 +1,3 @@
-
 # IMPACT-T
 
 IMPACT-T is a fully three-dimensional program to track relativistic multi-type charged particles taking into account space charge forces, short-range longitudinal and transverse wakefields, coherent synchrotron radiation (CSR) wakefield in accelerators. The IMPACT-T code can run on both massive parallel supercomputers and single processor computers such as Windows PC, Mac, and Linux systems. It is one of the few codes used in the photoinjector community that has a parallel implementation, making it very useful for high statistics simulations of beam halos and beam diagnostics. It has a comprehensive set of beamline elements, and furthermore allows arbitrary overlap of their fields, which gives IMPACT-T the capability to model both standing wave structures and traveling wave structures. It includes mean-field space-charge solvers based on an integrated Green function to efficiently and accurately treat beams with large aspect ratio, and a shifted Green function to efficiently treat image charge effects of a cathode. It is also unique in its inclusion of energy binning in the space-charge calculation to model beams with large energy spread. It also has a direct N-body solver to calculate stochastic space-charge forces. IMPACT-T has a flexible data structure that allows particles to be stored in containers with common characteristics; for photoinjector simulations the containers represent multiple slices, but in other applications they could correspond, e.g., to particles of different species. Together, all these features make IMPACT-T a powerful and versatile tool for modeling beams in photoinjectors and other systems. 
@@ -7,7 +6,7 @@ This code can be integrated together with a parallel multi-objective optimizer: 
 
 Additionally, there is a sister parallel beam dynamics tracking code, IMPACT-Z, (https://github.com/impact-lbl/IMPACT-Z) using longitudinal distance "z" as the independent variable.
 
-Main contact: Ji Qiang (jqiang@lbl.gov), Lawrence Berkeley National Laboratory
+Main contact: Ji Qiang (<jqiang@lbl.gov>), Lawrence Berkeley National Laboratory
 
 Citation:
 J. Qiang, S. Lidia, R. D. Ryne, C. Limborg-Deprey, "A Three-Dimensional Quasi-Static Model for High Brightnees Beam Dynamics Simulation",
@@ -18,6 +17,7 @@ Phys. Rev. Special Topics - Accel. Beams 9, 044204, (2006).
 Information about Anaconda, including install instructions, can be found on the [Conda Reference](https://docs.conda.io/projects/conda/en/latest/) website.
 
 IMPACT-T is available through conda-forge and can be installed via:
+
 ```bash
 conda create -n impact
 source activate impact # or conda activate impact
@@ -30,13 +30,14 @@ conda install -c conda-forge impact-t=*=mpi_openmpi*
 # For MPICH
 conda install -c conda-forge impact-t=*=mpi_mpich*
 ```
-After these steps, the IMPACT-T executable `ImpactTexe` or `ImpactTexe-mpi`, respectively, will be in your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)) environment variable and is thus ready to use like any regular command-line command.
+
+After these steps, the IMPACT-T executable `ImpactTexe` or `ImpactTexe-mpi`, respectively, will be in your [PATH](<https://en.wikipedia.org/wiki/PATH_(variable)>) environment variable and is thus ready to use like any regular command-line command.
 
 # Compiling the Code
 
 If you are new to CMake, [this short tutorial](https://hsf-training.github.io/hsf-training-cmake-webpage/) from the HEP Software foundation is the perfect place to get started with it.
 
-If you just want to use CMake to build the project, jump into sections *1. Introduction*, *2. Building with CMake* and *9. Finding Packages*.
+If you just want to use CMake to build the project, jump into sections _1. Introduction_, _2. Building with CMake_ and _9. Finding Packages_.
 
 ## Using conda to compile IMPACT-T
 
@@ -45,7 +46,7 @@ If you just want to use CMake to build the project, jump into sections *1. Intro
 Create a build environment like so:
 
 ```bash
-conda create -n impactt-build -c conda-forge compilers cmake openmpi
+conda create -n impactt-build -c conda-forge compilers cmake openmpi 'fftw=*=mpi_openmpi*'
 conda activate impactt-build
 ```
 
@@ -65,9 +66,31 @@ cmake --build build-mpi -j 4
 ls build-mpi/ImpactTexe-mpi
 ```
 
+An MPI-parallelized version with FFTW support:
+
+```bash
+cmake -S src/ -B build-fftw -DUSE_MPI=ON -DUSE_FFTW=ON
+cmake --build build-fftw -j 4
+ls build-fftw/ImpactTexe-mpi
+```
+
+For compiling on high core count machines, you should consider setting `-march=native`
+in order to take advantage of single instruction, multiple data (SIMD) instructions.
+These can have a large, beneficial impact on IMPACT-T's performance.
+
+```bash
+# Check your FFLAGS first of course!
+# Remove any -march or -mtune options that exist.
+FFLAGS=$(echo "$FFLAGS" | sed -E 's/-m(arch|tune)=[^ ]+//g')
+
+cmake -S src/ -B build-fftw -DUSE_MPI=ON -DUSE_FFTW=ON -DCMAKE_Fortran_FLAGS="$FFLAGS -march=native -mtune=native"
+cmake --build build-fftw -j 4
+ls build-fftw/ImpactTexe-mpi
+```
+
 ## Unix
 
-### Single Processor Code:
+### Single Processor Code
 
 ```shell script
 # inside the IMPACT-T src/ directory:
@@ -78,9 +101,10 @@ cmake --build build
 # this command needs sudo if you install into system paths:
 cmake --build build --target install
 ```
+
 If you like to install IMPACT-T into another directory than the default, pass to the `cmake -S . -B build` line the additional argument `-DCMAKE_INSTALL_PREFIX=/your/custom/install/path`.
 
-### Multi Processor Code:
+### Multi Processor Code
 
 ```shell script
 # inside the IMPACT-T src/ directory:
@@ -97,7 +121,7 @@ For Windows it will be necessary to use `NMake` to read and execute the generate
 
 More information on `NMake` can be found on the [NMAKE Reference](https://docs.microsoft.com/en-us/cpp/build/reference/nmake-reference?view=msvc-160) website.
 
-### Single Processor Code:
+### Single Processor Code
 
 ```shell script
 cmake -S . -B build -G "NMake Makefiles"
@@ -106,10 +130,9 @@ cmake --build build --target install
 cmake --install
 ```
 
-### Multi Processor Code:
+### Multi Processor Code
 
 **Not Tested**
-
 
 ## Testing
 
@@ -125,30 +148,32 @@ mpirun -n <cores> ImpactTexe-mpi
 
 ### Using WSL on Windows computer
 
-1) Install WSL under Windows PC's PowerShell terminal using: wsl --install
-2) After installing WSL, restart the PC
-3) Under Windows PowerShell terminal type: wsl
-4) Install Ubuntu under WSL: 
+1. Install WSL under Windows PC's PowerShell terminal using: wsl --install
+2. After installing WSL, restart the PC
+3. Under Windows PowerShell terminal type: wsl
+4. Install Ubuntu under WSL:
 
        wsl.exe --install Ubuntu
-   
+
        sudo add-apt-repository universe
 
-       sudo apt update 
-6) Install cmake using: 
-        sudo apt install cmake
-7) Install Fortran90 compiler using: 
-         sudo apt install gfortran
-8) Make a local directory, e.g.: ImpT
-9) Go to website: https://github.com/impact-lbl/IMPACT-T/releases
-10) Download source code (zip) into that local ImpT directory
-11) Under Windows File Explorer, extract all files from the zip file.
-12) Go to the IMPACT-T-3.1.4 directory
-13) Go to the src directory
+       sudo apt update
 
-          cmake -S . -B build
+5. Install cmake using:
+   sudo apt install cmake
+6. Install Fortran90 compiler using:
+   sudo apt install gfortran
+7. Make a local directory, e.g.: ImpT
+8. Go to website: <https://github.com/impact-lbl/IMPACT-T/releases>
+9. Download source code (zip) into that local ImpT directory
+10. Under Windows File Explorer, extract all files from the zip file.
+11. Go to the IMPACT-T-3.1.4 directory
+12. Go to the src directory
 
-          cmake --build build
+    ```bash
+    cmake -S . -B build
+    cmake --build build
+    ```
 
 Now the executable ImpactTexe is in build/
 
@@ -156,12 +181,12 @@ You can move that executable to the location where you want to run the simulatio
 When you run a simulation, all input files and the executable must be in the same directory.
 
 For multi-core/processor simulation, install the OpenMPI package in the WSL terminal.
-  
-   sudo apt install -y openmpi-bin libopenmpi-dev  
-   
-   cmake -S . -B build -DUSE_MPI=ON
-   
-   cmake --build build
+
+```bash
+sudo apt install -y openmpi-bin libopenmpi-dev
+cmake -S . -B build -DUSE_MPI=ON
+cmake --build build
+```
 
 Now the executable ImpactTexe-mpi is in build/
 
@@ -173,6 +198,7 @@ The instructions for Anaconda are the same as above.
 ## Compiling the code
 
 ### For Haswell
+
 ```bash
 module load openmpi # if using OpenMPI otherwise skip for MPICH
 module load cmake
@@ -182,6 +208,7 @@ cmake --build build
 ```
 
 ### For KNL
+
 ```bash
 module swap craype-haswell craype-mic-knl
 module load openmpi # if using OpenMPI otherwise skip for MPICH
@@ -194,4 +221,4 @@ cmake --build build
 ## Running at NERSC
 
 There is one caveat with the conda-forge installed MPI version of the code.
-Instead of running with `srun -n <cores> ` you must use `mpirun -n <cores>`.
+Instead of running with `srun -n <cores>` you must use `mpirun -n <cores>`.

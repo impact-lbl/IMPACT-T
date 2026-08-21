@@ -13,6 +13,7 @@ endif()
 project(ImpactT LANGUAGES Fortran)
 
 option(USE_MPI "Activate MPI build" OFF)
+option(USE_FFTW "Use FFTW3 for FFTs instead of the bundled FFTPACK 5.1" OFF)
 
 list(APPEND _sources
     DataStruct/NumConst.f90
@@ -23,7 +24,6 @@ list(APPEND _sources
     Func/Transpose.f90
     Func/Fldmger.f90
     Func/Ptclmger.f90
-    Func/FFT.f90
     Appl/BPM.f90
     Appl/CCL.f90
     Appl/CCDTL.f90
@@ -83,6 +83,42 @@ else()
     configure_file(mpif_single.h ${ImpactT_BINARY_DIR}/include/mpif.h COPYONLY)
     # Add include dir above into search path
     target_include_directories(${OUTPUT_NAME} PRIVATE $<BUILD_INTERFACE:${ImpactT_BINARY_DIR}/include>)
+endif()
+
+# Select the FFT implementation. FFT.f90 (bundled FFTPACK 5.1) and
+# FFT_fftw.f90 (FFTW3) both define module FFTclass, so exactly one of
+# them is compiled.
+if(USE_FFTW)
+    list(APPEND _sources Func/FFT_fftw.f90)
+    # FFTW does not ship a FindFFTW3.cmake; try pkg-config first and
+    # fall back to a plain search of default locations.
+    find_package(PkgConfig QUIET)
+    if(PKG_CONFIG_FOUND)
+        pkg_check_modules(FFTW3 fftw3)
+    endif()
+    if(FFTW3_FOUND)
+        target_link_libraries(${OUTPUT_NAME} PUBLIC ${FFTW3_LINK_LIBRARIES})
+        target_include_directories(${OUTPUT_NAME} PRIVATE ${FFTW3_INCLUDE_DIRS})
+    else()
+        find_library(FFTW3_LIBRARY NAMES fftw3)
+        find_path(FFTW3_INCLUDE_DIR NAMES fftw3.f03)
+        if(NOT FFTW3_LIBRARY OR NOT FFTW3_INCLUDE_DIR)
+            message(FATAL_ERROR "USE_FFTW=ON but FFTW3 was not found "
+                "(need libfftw3 and fftw3.f03). Install FFTW3 or set "
+                "FFTW3_LIBRARY/FFTW3_INCLUDE_DIR.")
+        endif()
+        target_link_libraries(${OUTPUT_NAME} PUBLIC ${FFTW3_LIBRARY})
+        target_include_directories(${OUTPUT_NAME} PRIVATE ${FFTW3_INCLUDE_DIR})
+    endif()
+    # gfortran needs -I to resolve the Fortran `include 'fftw3.f03'`, but
+    # pkg-config often omits standard include dirs (e.g. /usr/include on
+    # Debian/Ubuntu). Locate the header explicitly and add it.
+    find_path(FFTW3_F03_INCLUDE_DIR NAMES fftw3.f03 HINTS ${FFTW3_INCLUDE_DIRS})
+    if(FFTW3_F03_INCLUDE_DIR)
+        target_include_directories(${OUTPUT_NAME} PRIVATE ${FFTW3_F03_INCLUDE_DIR})
+    endif()
+else()
+    list(APPEND _sources Func/FFT.f90)
 endif()
 
 # Associate source files with target
