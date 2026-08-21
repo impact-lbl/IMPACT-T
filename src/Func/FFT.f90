@@ -1073,8 +1073,8 @@ subroutine c1f3kb ( ido, l1, na, cc, in1, ch, in2, wa )
   integer ( kind = 4 ) i
   integer ( kind = 4 ) k
   integer ( kind = 4 ) na
-  real ( kind = 8 ), parameter :: taui =  0.866025403784439E+00
-  real ( kind = 8 ), parameter :: taur = -0.5E+00
+  real ( kind = 8 ), parameter :: taui =  0.8660254037844386D+00
+  real ( kind = 8 ), parameter :: taur = -0.5D+00
   real ( kind = 8 ) ti2
   real ( kind = 8 ) tr2
   real ( kind = 8 ) wa(ido,2,2)
@@ -1194,8 +1194,8 @@ subroutine c1f3kf ( ido, l1, na, cc, in1, ch, in2, wa )
   integer ( kind = 4 ) k
   integer ( kind = 4 ) na
   real ( kind = 8 ) sn
-  real ( kind = 8 ), parameter :: taui = -0.866025403784439E+00
-  real ( kind = 8 ), parameter :: taur = -0.5E+00
+  real ( kind = 8 ), parameter :: taui = -0.8660254037844386D+00
+  real ( kind = 8 ), parameter :: taur = -0.5D+00
   real ( kind = 8 ) ti2
   real ( kind = 8 ) tr2
   real ( kind = 8 ) wa(ido,2,2)
@@ -1636,14 +1636,14 @@ subroutine c1f5kb ( ido, l1, na, cc, in1, ch, in2, wa )
   real ( kind = 8 ) ti3
   real ( kind = 8 ) ti4
   real ( kind = 8 ) ti5
-  real ( kind = 8 ), parameter :: ti11 =  0.9510565162951536E+00
-  real ( kind = 8 ), parameter :: ti12 =  0.5877852522924731E+00
+  real ( kind = 8 ), parameter :: ti11 =  0.9510565162951535D+00
+  real ( kind = 8 ), parameter :: ti12 =  0.5877852522924732D+00
   real ( kind = 8 ) tr2
   real ( kind = 8 ) tr3
   real ( kind = 8 ) tr4
   real ( kind = 8 ) tr5
-  real ( kind = 8 ), parameter :: tr11 =  0.3090169943749474E+00
-  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749474E+00
+  real ( kind = 8 ), parameter :: tr11 =  0.30901699437494745D+00
+  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749473D+00
   real ( kind = 8 ) wa(ido,4,2)
 
       if ( 1 < ido .or. na == 1) go to 102
@@ -1821,14 +1821,14 @@ subroutine c1f5kf ( ido, l1, na, cc, in1, ch, in2, wa )
   real ( kind = 8 ) ti3
   real ( kind = 8 ) ti4
   real ( kind = 8 ) ti5
-  real ( kind = 8 ), parameter :: ti11 = -0.9510565162951536E+00
-  real ( kind = 8 ), parameter :: ti12 = -0.5877852522924731E+00
+  real ( kind = 8 ), parameter :: ti11 = -0.9510565162951535D+00
+  real ( kind = 8 ), parameter :: ti12 = -0.5877852522924732D+00
   real ( kind = 8 ) tr2
   real ( kind = 8 ) tr3
   real ( kind = 8 ) tr4
   real ( kind = 8 ) tr5
-  real ( kind = 8 ), parameter :: tr11 =  0.3090169943749474E+00
-  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749474E+00
+  real ( kind = 8 ), parameter :: tr11 =  0.30901699437494745D+00
+  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749473D+00
   real ( kind = 8 ) wa(ido,4,2)
 
       if ( 1 < ido ) go to 102
@@ -3134,8 +3134,8 @@ subroutine cmf3kb ( lot, ido, l1, na, cc, im1, in1, ch, im2, in2, wa )
   integer ( kind = 4 ) m2
   integer ( kind = 4 ) m2s
   integer ( kind = 4 ) na
-  real ( kind = 8 ), parameter :: taui =  0.866025403784439E+00
-  real ( kind = 8 ), parameter :: taur = -0.5E+00
+  real ( kind = 8 ), parameter :: taui =  0.8660254037844386D+00
+  real ( kind = 8 ), parameter :: taur = -0.5D+00
   real ( kind = 8 ) ti2
   real ( kind = 8 ) tr2
   real ( kind = 8 ) wa(ido,2,2)
@@ -3271,8 +3271,8 @@ subroutine cmf3kf ( lot, ido, l1, na, cc, im1, in1, ch, im2, in2, wa )
   integer ( kind = 4 ) m2s
   integer ( kind = 4 ) na
   real ( kind = 8 ) sn
-  real ( kind = 8 ), parameter :: taui = -0.866025403784439E+00
-  real ( kind = 8 ), parameter :: taur = -0.5E+00
+  real ( kind = 8 ), parameter :: taui = -0.8660254037844386D+00
+  real ( kind = 8 ), parameter :: taur = -0.5D+00
   real ( kind = 8 ) ti2
   real ( kind = 8 ) tr2
   real ( kind = 8 ) wa(ido,2,2)
@@ -3770,14 +3770,14 @@ subroutine cmf5kb ( lot, ido, l1, na, cc, im1, in1, ch, im2, in2, wa )
   real ( kind = 8 ) ti3
   real ( kind = 8 ) ti4
   real ( kind = 8 ) ti5
-  real ( kind = 8 ), parameter :: ti11 =  0.9510565162951536E+00
-  real ( kind = 8 ), parameter :: ti12 =  0.5877852522924731E+00
+  real ( kind = 8 ), parameter :: ti11 =  0.9510565162951535D+00
+  real ( kind = 8 ), parameter :: ti12 =  0.5877852522924732D+00
   real ( kind = 8 ) tr2
   real ( kind = 8 ) tr3
   real ( kind = 8 ) tr4
   real ( kind = 8 ) tr5
-  real ( kind = 8 ), parameter :: tr11 =  0.3090169943749474E+00
-  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749474E+00
+  real ( kind = 8 ), parameter :: tr11 =  0.30901699437494745D+00
+  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749473D+00
   real ( kind = 8 ) wa(ido,4,2)
 
   m1d = (lot-1)*im1+1
@@ -3971,14 +3971,14 @@ subroutine cmf5kf ( lot, ido, l1, na, cc, im1, in1, ch, im2, in2, wa )
   real ( kind = 8 ) ti3
   real ( kind = 8 ) ti4
   real ( kind = 8 ) ti5
-  real ( kind = 8 ), parameter :: ti11 = -0.9510565162951536E+00
-  real ( kind = 8 ), parameter :: ti12 = -0.5877852522924731E+00
+  real ( kind = 8 ), parameter :: ti11 = -0.9510565162951535D+00
+  real ( kind = 8 ), parameter :: ti12 = -0.5877852522924732D+00
   real ( kind = 8 ) tr2
   real ( kind = 8 ) tr3
   real ( kind = 8 ) tr4
   real ( kind = 8 ) tr5
-  real ( kind = 8 ), parameter :: tr11 =  0.3090169943749474E+00
-  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749474E+00
+  real ( kind = 8 ), parameter :: tr11 =  0.30901699437494745D+00
+  real ( kind = 8 ), parameter :: tr12 = -0.8090169943749473D+00
   real ( kind = 8 ) wa(ido,4,2)
 
   m1d = (lot-1)*im1+1
