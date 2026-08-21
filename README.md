@@ -96,7 +96,7 @@ ls build-fftw/ImpactTexe-mpi
 # inside the IMPACT-T src/ directory:
 cmake -S . -B build
 cmake --build build
-# the executable in now in build/bin/
+# the executable in now in build/
 
 # this command needs sudo if you install into system paths:
 cmake --build build --target install
@@ -204,7 +204,7 @@ module load openmpi # if using OpenMPI otherwise skip for MPICH
 module load cmake
 cmake -S . -B build -DUSE_MPI=ON
 cmake --build build
-# find the executable in build/bin/
+# find the executable in build/
 ```
 
 ### For KNL
