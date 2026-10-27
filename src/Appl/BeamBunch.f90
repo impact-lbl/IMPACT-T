@@ -1421,6 +1421,7 @@
 
         call starttime_Timer( t0 )
 
+        !print*,"kickp2p,r0:",r0
         qmcc = chge/mass
         coefLz = qmcc*Scxlt
         !//coeficients used in the calculation of E field
@@ -1543,7 +1544,7 @@
               tmp3 = rij2**3 
             else
               tmp3 = r0**3
-!              it = it+1
+              it = it+1
             endif
               ex = ex + gammaj*(rijx2-tmp2*betajx)/tmp3 
               ey = ey + gammaj*(rijy2-tmp2*betajy)/tmp3 
@@ -1587,7 +1588,7 @@
               tmp3 = rij2**3
             else
               tmp3 = r0**3
-!              it = it+1
+              it = it+1
             endif
               ex = ex + gammaj*(rijx2-tmp2*betajx)/tmp3
               ey = ey + gammaj*(rijy2-tmp2*betajy)/tmp3
@@ -1633,7 +1634,7 @@
               tmp3 = rij2**3
             else
               tmp3 = r0**3
-!              it = it+1
+              it = it+1
             endif
               ex = ex + gammaj*(rijx2-tmp2*betajx)/tmp3
               ey = ey + gammaj*(rijy2-tmp2*betajy)/tmp3
@@ -1678,7 +1679,7 @@
               tmp3 = rij2**3
             else
               tmp3 = r0**3
-!              it = it+1
+              it = it+1
             endif
               ex = ex + gammaj*(rijx2-tmp2*betajx)/tmp3
               ey = ey + gammaj*(rijy2-tmp2*betajy)/tmp3
@@ -1734,10 +1735,16 @@
           rays(4,n) = upy + coefLz*ey*0.5d0*dt
           rays(6,n) = upz + coefLz*ez*0.5d0*dt
 
+!          if(it.gt.0) then
+!            print*,"# of partcle within radius: ",it,r0
+!          endif
+
           endif
         enddo
 !        print*,"rays6: ",rays(6,1)
-        print*,"# of partcle within radius: ",it,r0
+!        if(it.gt.0) then
+!          print*,"# of partcle within radius: ",it,r0
+!        endif
 !bx,by,bz,extfld(4),&
 !                                              extfld(5),extfld(6)
 !        print*,"gambetz: ",gambetz,gamz,betz,npttot
@@ -1796,6 +1803,8 @@
 
         call starttime_Timer( t0 )
 
+        !print*,"kickp2pimage,r0:",r0
+
         qmcc = chge/mass
         coefLz = qmcc*Scxlt
         !//coeficients used in the calculation of E field
@@ -1806,7 +1815,7 @@
           sgn = -1
         endif
         coefE = 1.0d0/(4*Pi*Epsilon0*Scxlt*Scxlt)*sgn*totchrg/nptrue
-    
+
         !collect all particles from the other processors to the local processor.
         sixnpt = nptlc*9
         !sixnpttot = npttot*6

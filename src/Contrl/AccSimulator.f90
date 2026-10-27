@@ -652,7 +652,7 @@
         double precision, allocatable, dimension(:,:) :: brange
         double precision :: dGspread
         integer, dimension(Maxoverlap) :: tmpfile
-        double precision :: tmpcur,totchrg,r0
+        double precision :: tmpcur,totchrg,r0,r0tmp
         integer :: flagpt2pt,flagpos, flagcathode !//switch for point-to-point calculation and switch for space-charge with z>0
         double precision :: zz,zorgin,zorgin2,vref,gamin,gam
         double precision, dimension(6) :: ptref
@@ -1097,8 +1097,9 @@
 !!! end DWA
 
           if(bitype.eq.(-15)) then !turn on pt2pt for SC calculation
-            call getparam_BeamLineElem(Blnelem(i),3,r0)
+            call getparam_BeamLineElem(Blnelem(i),3,r0tmp)
             flagpt2pt = 1
+            r0 = r0tmp/Scxlt
           endif
 
           if(bitype.eq.(-16)) then !instant gamma beta_z heating
@@ -1481,6 +1482,8 @@
 !          print*,"gamz: ",gammaz(1)
           !get the distance of the center of all effective bunches/bins
           distance = zcent*Scxlt
+          if(distance.gt.zimage) FlagImage = 0
+
           dzz = sqrt(1.0d0-1.0d0/gammazavg**2)*Clight*dtless*Dt
           nptottmp = sum(Np)
           !exit if the beam is outside the beamline
@@ -1994,7 +1997,7 @@
 
               !// solve 3D Poisson's equation for each bunch/bin
               !turn off image space-charge after zimage due to the screen of pipe
-              if(distance.gt.zimage) FlagImage = 0
+!              if(distance.gt.zimage) FlagImage = 0
               !zshift = -(brange(5,ib)+brange(6,ib))*Scxlt
               zshift = -(range(5)+range(6))*gammaz(ib)*Scxlt
               !print*,"zshift:",i,zshift,range(5),range(6),Flagbc,flagspc
@@ -2120,10 +2123,17 @@
 
             do ib = 1, ibunch
               totchrg = Ebunch(ib)%Current/Bfreq
-              call kickpt2ptImg_BeamBunch(nplocal0,Ebunch(ib)%Pts1,t,&
-                 Ebunch(ib)%Charge,&
-                 Ebunch(ib)%Mass,dtless,Blnelem,zBlnelem,idrfile,Nblem,&
-                 ibinit,ibend,fldmp,totchrg,r0,np0,Np(ib))
+              if(FlagImage.eq.0) then
+                call kickpt2pt_BeamBunch(nplocal0,Ebunch(ib)%Pts1,t,&
+                Ebunch(ib)%Charge,&
+                Ebunch(ib)%Mass,dtless,Blnelem,zBlnelem,idrfile,Nblem,&
+                ibinit,ibend,fldmp,totchrg,r0,np0,Np(ib))
+              else
+                call kickpt2ptImg_BeamBunch(nplocal0,Ebunch(ib)%Pts1,t,&
+                Ebunch(ib)%Charge,&
+                Ebunch(ib)%Mass,dtless,Blnelem,zBlnelem,idrfile,Nblem,&
+                ibinit,ibend,fldmp,totchrg,r0,np0,Np(ib))
+              endif
             enddo
 
             endif
