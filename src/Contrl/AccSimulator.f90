@@ -482,7 +482,7 @@
             tmp13(9) = val8(i)
             tmp13(10) = val9(i)
             tmp13(11) = val10(i)
-            call setparam_EMfldCart(beamln12(iemfldcart),tmp13)
+            call setparam_EMfldCart(beamln12(iemfldcart),tmp13(1:11))
             Blnelem(i) = assign_BeamLineElem(beamln12(iemfldcart))
           else if(bitype(i).eq.112) then
             iemfldcyl = iemfldcyl + 1
@@ -499,7 +499,7 @@
             tmp13(9) = val8(i)
             tmp13(10) = val9(i)
             tmp13(11) = val10(i)
-            call setparam_EMfldCyl(beamln13(iemfldcyl),tmp13)
+            call setparam_EMfldCyl(beamln13(iemfldcyl),tmp13(1:11))
             Blnelem(i) = assign_BeamLineElem(beamln13(iemfldcyl))
           else if(bitype(i).eq.113) then
             iemfldana = iemfldana + 1
@@ -516,7 +516,7 @@
             tmp13(9) = val8(i)
             tmp13(10) = val9(i)
             tmp13(11) = val10(i)
-            call setparam_EMfldAna(beamln14(iemfldana),tmp13)
+            call setparam_EMfldAna(beamln14(iemfldana),tmp13(1:11))
             Blnelem(i) = assign_BeamLineElem(beamln14(iemfldana))
           else
           endif 
@@ -909,7 +909,8 @@
           call getparam_BeamLineElem(Blnelem(i),blength,bnseg,bmpstp,&
                                      bitype)
           idrfile(1,i) = bitype
-          call getparam_BeamLineElem(Blnelem(i),3,xquad)
+          xquad = 0.0d0
+          if(bitype.eq.1) call getparam_BeamLineElem(Blnelem(i),3,xquad)
           !get external file id for each rf beam line element.
           if(bitype.gt.100) then
             call getparam_BeamLineElem(Blnelem(i),5,rfile)
@@ -2193,7 +2194,7 @@
                 nplocalmax = Nplocal(ib)
               endif
             enddo
-            allocate(tmpptsb(6,nplocalmax,Nbunch))
+            allocate(tmpptsb(9,nplocalmax,Nbunch))
             do ib = 1, Nbunch
               do ipt = 1, Nplocal(ib)
                 tmpptsb(:,ipt,ib) = Ebunch(ib)%Pts1(:,ipt)
@@ -2211,8 +2212,10 @@
                       (zz.le.zBlnelem(2,ii)) ) then
                     call getparam_BeamLineElem(Blnelem(ii),blength,bnseg,&
                                   bmpstp,bitype)
-                    call getparam_BeamLineElem(Blnelem(ii),12,rfile)
-                         
+                    rfile = 0.0d0
+                    if(bitype.eq.105) &
+                      call getparam_BeamLineElem(Blnelem(ii),12,rfile)
+
                     if((bitype.eq.105).and.(abs(rfile).gt.0.0)) then
                       call getvecAt_SolRF(pos,tmpfld,Blnelem(ii)%pslrf,&
                       fldmp(idrfile(3,ii)))
@@ -2493,7 +2496,7 @@
                 nplocalmax = Nplocal(ib)
               endif
             enddo
-            allocate(tmpptsb(6,nplocalmax,Nbunch))
+            allocate(tmpptsb(9,nplocalmax,Nbunch))
             do ib = 1, Nbunch
               do ipt = 1, Nplocal(ib)
                 tmpptsb(:,ipt,ib) = Ebunch(ib)%Pts1(:,ipt)
@@ -2512,7 +2515,9 @@
                       (zz.le.zBlnelem(2,ii)) ) then
                     call getparam_BeamLineElem(Blnelem(ii),blength,bnseg,&
                                   bmpstp,bitype)
-                    call getparam_BeamLineElem(Blnelem(ii),12,rfile)
+                    rfile = 0.0d0
+                    if(bitype.eq.105) &
+                      call getparam_BeamLineElem(Blnelem(ii),12,rfile)
                     if((bitype.eq.105).and.(abs(rfile).gt.0.0)) then
                       call getvecAt_SolRF(pos,tmpfld,Blnelem(ii)%pslrf,&
                       fldmp(idrfile(3,ii)))
